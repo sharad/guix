@@ -26,9 +26,9 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages gnuzilla))
 
-(define-public conkeror
+(define-public myconkeror
   (package
-    (name "conkeror")
+    (name "myconkeror")
     (version "1.1.0")
     (source (origin
               (method url-fetch)
