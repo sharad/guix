@@ -423,7 +423,7 @@ features built-in privacy-protecting features.")
                 "12m6iyfnii3hmkcnhsclli9mj9nblv0xn2p5dl6mv1mp0p9ck9pv"))))
                 ;; "0jz216mjwis7f03j98s4wkcrrq2j3f41fb2y47a5qszc340zhdzv"
     (build-system gnu-build-system)
-    (inputs `(("icecat" ,myicecat)))
+    (inputs `(("myicecat" ,myicecat)))
     (arguments
      `(#:tests? #f                      ;no tests
        #:make-flags `("CC=gcc"
