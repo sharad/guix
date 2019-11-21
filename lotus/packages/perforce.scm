@@ -38,7 +38,7 @@
              (file-name "p4")
              (sha256
               (base32
-               "1mkanjw885mz54zg3lzfg9njlnsi4zafha51bhib9wqrrvvjzhl6"))))
+               "0pi3dxqy52qgpxj1z6lsc120p26hlhny9nlkqj04m4hkvx980g9d"))))
    (build-system trivial-build-system)
    ;; (inputs `(("glibc" ,myicecat)))
    (arguments
