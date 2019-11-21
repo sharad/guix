@@ -45,10 +45,15 @@
     `(#:modules ((guix build utils))
       #:builder (begin
                   (use-modules (guix build utils))
-                  (let ((bin-dir (string-append %output "/bin/"))
+                  (let ((source (assoc-ref %build-inputs "source"))
+                        (bin-dir (string-append %output "/bin/"))
                         (p4-file "p4"))
                     (mkdir-p bin-dir)
-                    (copy-file p4-file (string-append bin-dir "/" (basename p4-file)))
+                    (for-each (lambda (file)
+                                (copy-file file
+                                           (string-append bin-dir "/"
+                                                          (basename file))))
+                              (find-files source "p4"))
                     #t))))
    (synopsis "Perforce p4 cli client")
    (description "Perforce p4 cli client.")
