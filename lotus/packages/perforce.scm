@@ -50,7 +50,7 @@
     `(#:modules ((guix build utils))
       #:builder (begin
                   (use-modules (guix build utils))
-                  (let ((tarbin  (string-append (assoc-ref %build-inputs "tar") "/bin/tar"))
+                  (let ((tarbin  (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
                         (gzipbin (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
                         (tarball (assoc-ref %build-inputs "source"))
                         (bin-dir (string-append %output "/bin/"))
