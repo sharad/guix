@@ -43,7 +43,8 @@
    (build-system trivial-build-system)
    ;; (inputs `(("glibc" ,myicecat)))
    (native-inputs
-    `(("tar" ,tar)))
+    `(("tar" ,tar)
+      ("gzip" ,gzip)))
    (arguments
     `(#:modules ((guix build utils))
       #:builder (begin
