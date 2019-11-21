@@ -38,7 +38,7 @@
              (sha256
               (base32
                "1mkanjw885mz54zg3lzfg9njlnsi4zafha51bhib9wqrrvvjzhl6"))))
-   (build-system triviale-build-system)
+   (build-system trivial-build-system)
    ;; (inputs `(("glibc" ,myicecat)))
    (arguments
     `(#:modules ((guix build utils))
