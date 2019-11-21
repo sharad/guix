@@ -55,7 +55,7 @@
                         (bin-dir (string-append %output "/bin/"))
                         (p4-file "p4"))
                     (mkdir-p bin-dir)
-                    (system (string-append tarbin " xvzf " tarball))
+                    (system (string-append tarbin " xzf " tarball))
                     (for-each (lambda (file)
                                 (let ((target-file (string-append bin-dir "/" (basename file))))
                                   (chmod file #o555)
