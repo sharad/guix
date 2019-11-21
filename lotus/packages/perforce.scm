@@ -48,7 +48,7 @@
                   (let ((bin-dir (string-append %output "/bin/"))
                         (p4-file "p4"))
                     (mkdir-p bin-dir)
-                    (copy-file p4-file (string-append p4-dir "/" (basename p4-file)))
+                    (copy-file p4-file (string-append bin-dir "/" (basename p4-file)))
                     #t))))
    (synopsis "Perforce p4 cli client")
    (description "Perforce p4 cli client.")
