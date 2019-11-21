@@ -27,7 +27,7 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
-  #:use-module (gnu packages elf)
+  #:use-module (gnu packages elfe)
   #:use-module (gnu packages gnuzilla))
 
 (define-public p4
@@ -46,13 +46,15 @@
    ;; (inputs `(("glibc" ,myicecat)))
    (native-inputs
     `(("tar" ,tar)
-      ("gzip" ,gzip)))
+      ("gzip" ,gzip)
+      ("patchelf" ,patchelf)))
    (arguments
     `(#:modules ((guix build utils))
       #:builder (begin
                   (use-modules (guix build utils))
                   (let ((tarbin  (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
                         (gzipbin (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
+                        (patchelfbin (string-append (assoc-ref %build-inputs "patchelf") "/bin/patchelf"))
                         (tarball (assoc-ref %build-inputs "source"))
                         (bin-dir (string-append %output "/bin/"))
                         (p4-file "p4"))
@@ -61,6 +63,7 @@
                     (for-each (lambda (file)
                                 (let ((target-file (string-append bin-dir "/" (basename file))))
                                   (chmod file #o555)
+                                  (system (string-append patchelfbin " --set-interpreter /run/current-system/profile/lib/ld-linux-x86-64.so.2 " file))
                                   (copy-file file target-file)
                                   (chmod target-file #o555)))
                               (list p4-file))
