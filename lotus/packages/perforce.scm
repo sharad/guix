@@ -41,19 +41,22 @@
                "0pi3dxqy52qgpxj1z6lsc120p26hlhny9nlkqj04m4hkvx980g9d"))))
    (build-system trivial-build-system)
    ;; (inputs `(("glibc" ,myicecat)))
+   (native-inputs
+    `(("tar" ,tar)))
    (arguments
     `(#:modules ((guix build utils))
       #:builder (begin
                   (use-modules (guix build utils))
-                  (let ((source (assoc-ref %build-inputs "source"))
+                  (let ((tar     (string-append (assoc-ref %build-inputs "tar") "/bin/tar"))
+                        (tarball (assoc-ref %build-inputs "source"))
                         (bin-dir (string-append %output "/bin/"))
                         (p4-file "p4"))
                     (mkdir-p bin-dir)
+                    (system (string-append tar " -xvzf " tarball))
                     (for-each (lambda (file)
                                 (copy-file file
-                                           (string-append bin-dir "/"
-                                                          (basename file))))
-                              (find-files source "p4"))
+                                           (string-append bin-dir "/" (basename file))))
+                              (list p4-file))
                     #t))))
    (synopsis "Perforce p4 cli client")
    (description "Perforce p4 cli client.")
