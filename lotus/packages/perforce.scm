@@ -51,11 +51,12 @@
       #:builder (begin
                   (use-modules (guix build utils))
                   (let ((tarbin  (string-append (assoc-ref %build-inputs "tar") "/bin/tar"))
+                        (zcatbin (string-append (assoc-ref %build-inputs "gzip") "/bin/zcat"))
                         (tarball (assoc-ref %build-inputs "source"))
                         (bin-dir (string-append %output "/bin/"))
                         (p4-file "p4"))
                     (mkdir-p bin-dir)
-                    (system (string-append tarbin " xzf " tarball))
+                    (system (string-append zcatbin " " tarball " | " tarbin " xzf -"))
                     (for-each (lambda (file)
                                 (let ((target-file (string-append bin-dir "/" (basename file))))
                                   (chmod file #o555)
