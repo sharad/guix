@@ -26,6 +26,7 @@
   #:use-module (guix build-system trivial)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
+  #:use-module (gnu packages compression)
   #:use-module (gnu packages gnuzilla))
 
 (define-public p4
