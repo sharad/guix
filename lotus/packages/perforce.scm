@@ -34,7 +34,7 @@
    (source (origin
              (method url-fetch)
              (uri
-              (string-append "http://www.perforce.com/downloads/perforce/r" version "/bin.linux26x86_64/helix-core-server.tgz"))
+              (string-append "https://cdist2.perforce.com/perforce/r" version "/bin.linux26x86_64/helix-core-server.tgz"))
              (file-name "p4")
              (sha256
               (base32
