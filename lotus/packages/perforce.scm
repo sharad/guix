@@ -19,7 +19,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus packages perforce)
-  #:use-module ((guix licenses) #:prefix license:)
+  #:use-module ((guix licenses) #:hide (zlib))
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix build-system gnu)
@@ -54,4 +54,7 @@
    (description "Perforce p4 cli client.")
    (home-page "https://www.perforce.com/downloads/helix-command-line-client-p4")
    ;; Conkeror is triple licensed.
-   (license (non-copyleft "http://git.kernel.org/?p=linux/kernel/git/firmware/linux-firmware.git;a=blob_plain;f=LICENCE.radeon_firmware;hb=HEAD"))))
+   (license (list
+             ;; MPL 1.1 -- this license is not GPL compatible
+             license:gpl2
+             license:lgpl2.1))))
