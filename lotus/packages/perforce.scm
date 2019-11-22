@@ -27,7 +27,7 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
-  #:use-module (gnu packages elfe)
+  #:use-module (gnu packages elf)
   #:use-module (gnu packages gnuzilla))
 
 (define-public p4
