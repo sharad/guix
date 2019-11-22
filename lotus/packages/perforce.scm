@@ -130,8 +130,7 @@
                         (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
                         (patchelfbin (string-append (assoc-ref %build-inputs "patchelf") "/bin/patchelf"))
                         (tarball     (assoc-ref %build-inputs "source"))
-                        (ld-so (string-append (assoc-ref inputs "libc")
-                                              ,(glibc-dynamic-linker)))
+                        (ld-so       (string-append (assoc-ref %build-inputs "libc") ,(glibc-dynamic-linker)))
                         (bin-dir     (string-append %output "/bin/"))
                         (p4-file     "p4"))
                     (mkdir-p bin-dir)
@@ -154,3 +153,7 @@
              ;; MPL 1.1 -- this license is not GPL compatible
              license:gpl2
              license:lgpl2.1))))
+
+
+p4
+
