@@ -23,7 +23,7 @@
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix build-system gnu)
-  #:use-module (guix build-system trivial)
+  #:use-module (guix build-system cmake)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
@@ -53,8 +53,15 @@
              (sha256
               (base32
                "0pi3dxqy52qgpxj1z6lsc120p26hlhny9nlkqj04m4hkvx980g9d"))))
-   (build-system trivial-build-system)
-   ;; (inputs `(("glibc" ,myicecat)))
+   (build-system cmake-build-system)
+   (inputs
+    `(("pidgin" ,pidgin)
+      ("libgcrypt" ,libgcrypt)
+      ("libwebp" ,libwebp)
+      ("glib" ,glib)
+      ("gettext" ,gnu-gettext)
+      ("gtk+" ,gtk+-2)
+      ("zlib" ,zlib)))
    (native-inputs
     `(("tar" ,tar)
       ("gzip" ,gzip)
@@ -89,3 +96,7 @@
              ;; MPL 1.1 -- this license is not GPL compatible
              license:gpl2
              license:lgpl2.1))))
+
+
+skype4pidgin
+

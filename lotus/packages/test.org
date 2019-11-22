@@ -1,0 +1,78 @@
+
+* information
+check it https://guix.gnu.org/blog/2018/a-packaging-tutorial-for-guix/
+check for upack with dir for direct untar-ing here https://ambrevar.xyz/guix-packaging/
+
+patch-rpath
+https://git.pantherx.org/mirror/guix/blob/8a629613d1eadb0f3f6fb1e5ce65b484745b30a3/gnu/packages/scheme.scm
+https://git.pantherx.org/mirror/guix/blob/39d0ce93be0f396a3f5092142309cb9e3aac647d/gnu/packages/scheme.scm#L265
+https://git.pantherx.org/mirror/guix/blob/39d0ce93be0f396a3f5092142309cb9e3aac647d/guix/build/rpath.scm#L48
+augment-rpath
+https://git.pantherx.org/mirror/guix/blob/39d0ce93be0f396a3f5092142309cb9e3aac647d/gnu/packages/video.scm#L188
+https://git.pantherx.org/mirror/guix/blob/39d0ce93be0f396a3f5092142309cb9e3aac647d/gnu/packages/video.scm#L189
+https://git.pantherx.org/mirror/guix/blob/39d0ce93be0f396a3f5092142309cb9e3aac647d/guix/build/graft.scm
+check for upack with dir for direct untar-ing here https://ambrevar.xyz/guix-packaging/
+
+gnu/packages/base.scm have glibc
+glibc-2.29/lib/ld-linux-x86-64.so.2
+gnu/packages/llvm.scm +343
+
+gnu/packages/gcc.scm have  libstdc++ libgcc_s
+
+in gnu/packages/messaging.scm:275
+("glib:bin" ,glib "bin")            ;need glib-genmarshal
+Thread-safe general utility library; basis of GTK+ and GNOME
+gnu/packages/glib.scm gobject
+
+gnu/packages/haskell.scm patchelf
+
+* agument-rpath
+#+begin_src scheme
+;; https://git.pantherx.org/mirror/guix/blob/39d0ce93be0f396a3f5092142309cb9e3aac647d/gnu/packages/video.scm#L188
+
+(lambda* (#:key outputs #:allow-other-keys)
+  (let* ((out (assoc-ref outputs "out"))
+         (lib (string-append out "/lib")))
+    ;; Add LIB to the RUNPATH of all the executables and libraries.
+    (with-directory-excursion out
+      (for-each (cut augment-rpath <> lib)
+                (append (find-files "bin" ".*")
+                        (find-files "lib" "\\.so\\..*\\."))))))
+
+
+
+#+end_src
+
+* patchelf
+  #+begin_src scheme
+;; https://git.pantherx.org/mirror/guix/blob/39d0ce93be0f396a3f5092142309cb9e3aac647d/gnu/packages/scheme.scm#L265
+(alist-cons-after
+         'strip 'patch-rpath
+         (lambda* (#:key outputs #:allow-other-keys)
+           ;; Patch the RPATH of every installed library to point to $out/lib
+           ;; instead of $TMPDIR.  Note that "patchelf --set-rpath" produces
+           ;; invalid binaries when used before stripping.
+           (let ((out    (assoc-ref outputs "out"))
+                 (tmpdir (getcwd)))
+             (every (lambda (lib)
+                      (let* ((in    (open-pipe* OPEN_READ "patchelf"
+                                                "--print-rpath" lib))
+                             (rpath (read-line in)))
+                        (and (zero? (close-pipe in))
+                             (let ((rpath* (regexp-substitute/global
+                                            #f (regexp-quote tmpdir) rpath
+                                            'pre out 'post)))
+                               (or (equal? rpath rpath*)
+                                   (begin
+                                     (format #t "~a: changing RPATH from `~a' to `~a'~%"
+                                             lib rpath rpath*)
+                                     (zero?
+                                      (system* "patchelf" "--set-rpath"
+                                               rpath* lib))))))))
+                    (append (find-files (string-append out "/bin")
+                                        ".*")
+                            (find-files (string-append out "/lib")
+                                        "\\.so$")))))
+         %standard-phases)
+  
+  #+end_src
