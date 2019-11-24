@@ -33,7 +33,8 @@
   #:use-module (gnu packages elf)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages gtk)
-  #:use-module (lotus utils))
+  ;; #:use-module (lotus utils)
+  )
 
 ;; /run/current-system/profile/lib
 ;; /gnu/store/2plcy91lypnbbysb18ymnhaw3zwk8pg1-gcc-7.4.0-lib/lib
@@ -67,9 +68,11 @@
       ("bzip2" ,bzip2)
       ("patchelf" ,patchelf)))
    (arguments
-    `(#:modules ((guix build utils))
+    `(#:modules ((guix build utils)
+                 (lotus utils))
       #:builder (begin
                   (use-modules (guix build utils))
+                  (use-modules (lotus utils))
                   (let* ((tarbin      (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
                          (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
                          (bzip2bin    (string-append (assoc-ref %build-inputs "bzip2") "/bin/bzip2"))
