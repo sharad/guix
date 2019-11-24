@@ -33,9 +33,8 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages elf)
   #:use-module (gnu packages xorg)
-  #:use-module (gnu packages gtk))
-  ;; #:use-module (lotus utils)
-  
+  #:use-module (gnu packages gtk)
+  #:use-module (lotus utils))
 
 ;; /run/current-system/profile/lib
 ;; /gnu/store/2plcy91lypnbbysb18ymnhaw3zwk8pg1-gcc-7.4.0-lib/lib
