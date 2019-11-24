@@ -19,6 +19,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus packages conkeror)
+  #:use-module (ice-9 ftw)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
@@ -30,7 +31,17 @@
   #:use-module (gnu packages gcc)
   #:use-module (gnu packages compression)
   #:use-module (gnu packages elf)
-  #:use-module (gnu packages gnuzilla))
+  #:use-module (gnu packages xorg)
+  #:use-module (gnu packages gtk)
+  #:use-module (lotus utils))
+
+;; /run/current-system/profile/lib
+;; /gnu/store/2plcy91lypnbbysb18ymnhaw3zwk8pg1-gcc-7.4.0-lib/lib
+;; /gnu/store/ckjvaq7cpnpz1paidksnvf6cd1jxc333-libxcomposite-0.4.5/lib/
+;; /gnu/store/pf2xmyrigfficd51vvpy6jrbsy2j9n73-libxt-1.2.0/lib/
+;; /gnu/store/14123jvm46r4bk1nfqg4w5kgjkkzrhar-gtk+-2.24.32/lib/
+
+;; library-file?
 
 (define-public firefox
   (package
@@ -43,41 +54,62 @@
              (file-name (string-append "firefox-" version ".tar.bz2"))
              (sha256
               (base32
-               ""))))
+               "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
    (build-system trivial-build-system)
-   (inputs `(("libc" ,glibc)
-             ("gcc" ,gcc)))
+   (inputs `(("libc"          ,glibc)
+             ("gcc"           ,gcc "lib")
+             ("libxcomposite" ,libxcomposite)
+             ("libxt"         ,libxt)
+             ("gtk+"          ,gtk+)))
    (native-inputs
     `(("tar" ,tar)
       ("gzip" ,gzip)
+      ("bzip2" ,bzip2)
       ("patchelf" ,patchelf)))
    (arguments
     `(#:modules ((guix build utils))
       #:builder (begin
                   (use-modules (guix build utils))
-                  (let ((tarbin      (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
-                        (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
-                        (patchelfbin (string-append (assoc-ref %build-inputs "patchelf") "/bin/patchelf"))
-                        (tarball     (assoc-ref %build-inputs "source"))
-                        (ld-so (string-append (assoc-ref inputs "libc")
-                                              ,(glibc-dynamic-linker)))
-                        (bin-dir     (string-append %output "/bin/"))
-                        (p4-file     "p4"))
+                  (let* ((tarbin      (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
+                         (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
+                         (bzip2bin    (string-append (assoc-ref %build-inputs "bzip2") "/bin/bzip2"))
+                         (uncompress  bzip2bin)
+                         (patchelfbin (string-append (assoc-ref %build-inputs "patchelf") "/bin/patchelf"))
+                         (tarball     (assoc-ref %build-inputs "source"))
+                         (ld-so       (string-append (assoc-ref %build-inputs "libc") ,(glibc-dynamic-linker)))
+                         (firefox-dir (string-append %output     "/share/firefox"))
+                         (firefox-lib (string-append firefox-dir "/lib"))
+                         (firefox-bin (string-append firefox-dir "/bin"))
+                         (bin-dir     (string-append %output     "/bin")))
                     (mkdir-p bin-dir)
-                    (system (string-append gzipbin " -cd " tarball " | " tarbin " xf -"))
+                    (mkdir-p firefox-bin)
+                    (mkdir-p firefox-lib)
+                    ;; see if can be replaced with unpack
+                    (system (string-append uncompress " -cd " tarball " | " tarbin " xf -"))
+                    (display (directory-list-files "."))
                     (for-each (lambda (file)
-                                (let ((target-file (string-append bin-dir "/" (basename file))))
-                                  (chmod file #o777)
-                                  (system (string-append patchelfbin " --set-interpreter " ld-so " " file))
+                                (let ((target-file (string-append
+                                                    (if (library-file? file)
+                                                        firefox-lib
+                                                        firefox-bin)
+                                                    "/" (basename file))))
                                   (copy-file file target-file)
-                                  (chmod target-file #o777)
-                                  (system (string-append patchelfbin " --set-interpreter " ld-so " " target-file))
-                                  (chmod target-file #o555)))
-                              (list p4-file))
+                                  (when (or (elf-binary-file? file)
+                                            (library-file? file))
+                                    (chmod target-file #o777)
+                                    (when (elf-binary-file? file)
+                                      (system (string-append patchelfbin " --set-interpreter " ld-so " " target-file)))
+                                    (system (string-append patchelfbin " --set-rpath "
+                                                           (string-append %output "/lib" ":" %output "/share/firefox/lib")
+                                                           " " target-file))
+                                    (chmod target-file #o555))))
+                              (list))
+                              ;; (scandir directory regular?)
+                              ;; (find-files ".")
                     #t))))
-   (synopsis "Perforce p4 cli client")
-   (description "Perforce p4 cli client.")
-   (home-page "https://www.perforce.com/downloads/helix-command-line-client-p4")
+   (synopsis "Firefox")
+   (description "Firefox.")
+   (home-page "https://www.mozilla.org")
    ;; Conkeror is triple licensed.
    (license (list
              ;; MPL 1.1 -- this license is not GPL compatible
