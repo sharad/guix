@@ -23,6 +23,7 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
+  #:use-module (guix build rpath)
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system trivial)
   #:use-module (gnu packages)
@@ -32,9 +33,9 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages elf)
   #:use-module (gnu packages xorg)
-  #:use-module (gnu packages gtk)
+  #:use-module (gnu packages gtk))
   ;; #:use-module (lotus utils)
-  )
+  
 
 ;; /run/current-system/profile/lib
 ;; /gnu/store/2plcy91lypnbbysb18ymnhaw3zwk8pg1-gcc-7.4.0-lib/lib
@@ -69,6 +70,7 @@
       ("patchelf" ,patchelf)))
    (arguments
     `(#:modules ((guix build utils)
+                 (guix build rpath)
                  (lotus utils))
       #:builder (begin
                   (use-modules (guix build utils))
@@ -102,9 +104,11 @@
                                     (chmod target-file #o777)
                                     (when (elf-binary-file? file)
                                       (system (string-append patchelfbin " --set-interpreter " ld-so " " target-file)))
-                                    (system (string-append patchelfbin " --set-rpath "
-                                                           (string-append %output "/lib" ":" %output "/share/firefox/lib")
-                                                           " " target-file))
+                                    (augment-rpath target-file (string-append %output "/lib"))
+                                    (augment-rpath target-file (string-append %output "/share/firefox/lib"))
+                                    ;; (system (string-append patchelfbin " --set-rpath "
+                                    ;;                        (string-append %output "/lib" ":" %output "/share/firefox/lib")
+                                    ;;                        " " target-file))
                                     (chmod target-file #o555))))
                               (list))
                               ;; (scandir directory regular?)
