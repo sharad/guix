@@ -2,6 +2,7 @@
 (define-module (lotus utils)
   #:use-module (ice-9 ftw)
   #:use-module ((guix licenses) #:prefix license:)
+  #:use-module (guix build utils)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix build-system gnu)
@@ -18,8 +19,6 @@
             elf-binary-file?
             regular-file?
             directory-list-files))
-
-
 
 (define (library-file? file)
   (and (eq? 'regular (stat:type (stat file)))
