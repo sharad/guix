@@ -36,12 +36,6 @@
   #:use-module (gnu packages gtk)
   #:use-module (lotus utils))
 
-;; /run/current-system/profile/lib
-;; /gnu/store/2plcy91lypnbbysb18ymnhaw3zwk8pg1-gcc-7.4.0-lib/lib
-;; /gnu/store/ckjvaq7cpnpz1paidksnvf6cd1jxc333-libxcomposite-0.4.5/lib/
-;; /gnu/store/pf2xmyrigfficd51vvpy6jrbsy2j9n73-libxt-1.2.0/lib/
-;; /gnu/store/14123jvm46r4bk1nfqg4w5kgjkkzrhar-gtk+-2.24.32/lib/
-
 ;; library-file?
 
 (define-public firefox
@@ -85,18 +79,17 @@
                          (firefox-lib (string-append firefox-dir "/lib"))
                          (firefox-bin (string-append firefox-dir "/bin"))
                          (bin-dir     (string-append %output     "/bin")))
-                    (mkdir-p bin-dir)
                     (mkdir-p firefox-bin)
+                    (mkdir-p bin-dir)
                     (mkdir-p firefox-lib)
                     ;; see if can be replaced with unpack
                     (system (string-append uncompress " -cd " tarball " | " tarbin " xf -"))
                     (display (directory-list-files "."))
                     (for-each (lambda (file)
-                                (let ((target-file (string-append
-                                                    (if (library-file? file)
-                                                        firefox-lib
-                                                        firefox-bin)
-                                                    "/" (basename file))))
+                                (let ((target-file (string-append (if (library-file? file)
+                                                                      firefox-lib
+                                                                      firefox-bin)
+                                                                  "/" (basename file))))
                                   (copy-file file target-file)
                                   (when (or (elf-binary-file? file)
                                             (library-file? file))
