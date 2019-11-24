@@ -80,8 +80,10 @@
                          (firefox-bin (string-append firefox-dir "/bin"))
                          (bin-dir     (string-append %output     "/bin")))
                     (mkdir-p bin-dir)
+                    (mkdir-p bin-dir)
                     (mkdir-p firefox-bin)
                     (mkdir-p firefox-lib)
+
                     ;; see if can be replaced with unpack
                     (system (string-append uncompress " -cd " tarball " | " tarbin " xf -"))
                     (display (directory-list-files "."))
