@@ -130,4 +130,4 @@
               license:lgpl2.1))))
 
 ;; cdesktopenv
-motif
+;; motif
