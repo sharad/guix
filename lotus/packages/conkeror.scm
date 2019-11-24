@@ -54,7 +54,7 @@
    (inputs `(("libc"          ,glibc)
              ("gcc"           ,gcc "lib")
              ("libxcomposite" ,libxcomposite)
-             ("libxt"         ,libxt)
+             ;; ("libxt"         ,libxt)
              ("gtk+"          ,gtk+)))
    (native-inputs
     `(("tar" ,tar)
@@ -79,13 +79,14 @@
                          (firefox-lib (string-append firefox-dir "/lib"))
                          (firefox-bin (string-append firefox-dir "/bin"))
                          (bin-dir     (string-append %output     "/bin")))
+                    ;; (unpack tarball)
                     (mkdir-p bin-dir)
                     (mkdir-p bin-dir)
                     (mkdir-p firefox-bin)
                     (mkdir-p firefox-lib)
-
                     ;; see if can be replaced with unpack
                     (system (string-append uncompress " -cd " tarball " | " tarbin " xf -"))
+                    ;; (write (directory-list-files "."))
                     (display (directory-list-files "."))
                     (for-each (lambda (file)
                                 (let ((target-file (string-append (if (library-file? file)
@@ -174,5 +175,5 @@ YouTube.  For easier editing of form fields, it can spawn external editors.")
               license:lgpl2.1))))
 
 
-;; firefox
+firefox
 

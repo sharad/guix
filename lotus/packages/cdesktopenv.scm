@@ -76,7 +76,7 @@
     ;; Conkeror is triple licensed.
     (license (list
               ;; MPL 1.1 -- this license is not GPL compatible
-                  license:lgpl2.1))))
+              license:lgpl2.1))))
 
 (define-public cdesktopenv
   (package
