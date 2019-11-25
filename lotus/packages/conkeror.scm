@@ -40,111 +40,118 @@
 
 ;; library-file?
 
+(define-public firefox-56.0
+  (hidden-package
+   (package
+     (name "firefox")
+     (version "56.0")
+     (source (origin
+               (method url-fetch)
+               (uri
+                (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+               (file-name (string-append "firefox-" version ".tar.bz2"))
+               (sha256
+                (base32
+                 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
+     (build-system trivial-build-system)
+     (inputs `(("libc"          ,glibc)
+               ("gcc:lib"       ,gcc "lib")
+               ("libxcomposite" ,libxcomposite)
+               ("libxt"         ,libxt)
+               ("gtk+"          ,gtk+)
+               ("atk"           ,atk)
+               ("cairo"         ,cairo)
+               ("dbus-glib"     ,dbus-glib)
+               ("fontconfig"    ,fontconfig)
+               ("freetype"      ,freetype)
+               ("gdk-pixbuf"    ,gdk-pixbuf)
+               ("glib"          ,glib)
+               ("glibc"         ,glibc)
+               ("libx11"        ,libx11)
+               ("libxcb"        ,libxcb)
+               ("libxdamage"    ,libxdamage)
+               ("libxext"       ,libxext)
+               ("libxfixes"     ,libxfixes)
+               ("libxrender"    ,libxrender)
+               ("pango"         ,pango)))
+     ;; (propagated-inputs `())
+     (native-inputs
+      `(("tar"   ,tar)
+        ("gzip"  ,gzip)
+        ("bzip2" ,bzip2)
+        ("sed"   ,sed)
+        ("patchelf" ,patchelf)))
+     (arguments
+      `(#:modules ((guix build utils)
+                   (guix build rpath)
+                   (lotus utils))
+        #:builder (begin
+                    (use-modules (guix build utils))
+                    (use-modules (guix build rpath))
+                    (use-modules (lotus utils))
+                    (let* ((dep-inputs  '("gcc:lib" "atk" "cairo" "dbus-glib" "fontconfig" "freetype"
+                                          "gtk+" "gdk-pixbuf" "glib" "libx11" "libxcb" "libxdamage"
+                                          "libxext" "libxfixes" "libxrender" "pango" "libxcomposite" "libxt"))
+                           (tarbin      (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
+                           (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
+                           (bzip2bin    (string-append (assoc-ref %build-inputs "bzip2") "/bin/bzip2"))
+                           (uncompress  bzip2bin)
+                           (patchelfbin (string-append (assoc-ref %build-inputs "patchelf") "/bin/patchelf"))
+                           (tarball     (assoc-ref %build-inputs "source"))
+                           (ld-so       (string-append (assoc-ref %build-inputs "libc") ,(glibc-dynamic-linker)))
+                           (firefox-dir (string-append %output     "/share/firefox"))
+                           (firefox-lib (string-append firefox-dir "/lib"))
+                           (firefox-bin (string-append firefox-dir "/bin"))
+                           (bin-dir     (string-append %output     "/bin")))
+                      ;; (unpack tarball)
+                      (mkdir-p bin-dir)
+                      (mkdir-p bin-dir)
+                      (mkdir-p firefox-bin)
+                      (mkdir-p firefox-lib)
+                      ;; see if can be replaced with unpack
+                      (system (string-append uncompress " -cd " tarball " | " tarbin " xf -"))
+                      (display (directory-list-files "firefox"))
+                      (for-each (lambda (file)
+                                  (let* ((src-file (string-append "firefox/" file))
+                                         (target-file (string-append (if (library-file? src-file)
+                                                                         firefox-lib
+                                                                         firefox-bin)
+                                                                     "/" (basename file))))
+                                    (if (directory? src-file)
+                                        (copy-recursively src-file target-file)
+                                     (begin
+                                       (copy-file src-file target-file)
+                                       (when (or (elf-binary-file? src-file)
+                                                 (library-file? src-file))
+                                         (chmod target-file #o777)
+                                         (let ((lib-paths      (string-join (append (list firefox-lib)
+                                                                                    (map (lambda (in) (string-append (assoc-ref %build-inputs in) "/lib")) dep-inputs)
+                                                                             ":"))))
+                                           (format #t "target-file ~s lib-paths ~s~%"
+                                                   target-file
+                                                   lib-paths)
+                                           ;; (augment-rpath target-file lib-paths)
+                                           (system (string-append patchelfbin " --set-rpath " lib-paths " " target-file)))
+                                         (when (and
+                                                (not (library-file? src-file))
+                                                (elf-binary-file? src-file))
+                                           (system (string-append patchelfbin " --set-interpreter " ld-so " " target-file)))
+                                        (chmod target-file #o555))))))
+                                (directory-list-files "firefox"))
+                      (system (string-append (assoc-ref %build-inputs "sed") "/bin/sed" " -i 's@^lib@../lib/lib@g' " firefox-bin "/dependentlibs.list"))
+                      (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
+                      #t) #t)))
+     (synopsis "Firefox")
+     (description "Firefox.")
+     (home-page "https://www.mozilla.org")
+     ;; Conkeror is triple licensed.
+     (license (list
+               ;; MPL 1.1 -- this license is not GPL compatible
+               license:gpl2)
+              license:lgpl2.1))))
+
 (define-public firefox
-  (package
-   (name "firefox")
-   (version "56.0")
-   (source (origin
-             (method url-fetch)
-             (uri
-              (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
-             (file-name (string-append "firefox-" version ".tar.bz2"))
-             (sha256
-              (base32
-               "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
-   (build-system trivial-build-system)
-   (inputs `(("libc"          ,glibc)
-             ("gcc-lib"           ,gcc "lib")
-             ("libxcomposite" ,libxcomposite)
-             ("libxt"         ,libxt)
-             ("gtk+"          ,gtk+)
-             ("atk"          ,atk)
-             ("cairo"        ,cairo)
-             ("dbus-glib"    ,dbus-glib)
-             ("fontconfig"   ,fontconfig)
-             ("freetype"     ,freetype)
-             ("gdk-pixbuf"   ,gdk-pixbuf)
-             ("glib"         ,glib)
-             ("glibc"        ,glibc)
-             ("libx11"       ,libx11)
-             ("libxcb"       ,libxcb)
-             ("libxdamage"   ,libxdamage)
-             ("libxext"      ,libxext)
-             ("libxfixes"    ,libxfixes)
-             ("libxrender"   ,libxrender)
-             ("pango"        ,pango)))
-   ;; (propagated-inputs `())
-   (native-inputs
-    `(("tar"   ,tar)
-      ("gzip"  ,gzip)
-      ("bzip2" ,bzip2)
-      ("sed"   ,sed)
-      ("patchelf" ,patchelf)))
-   (arguments
-    `(#:modules ((guix build utils)
-                 (guix build rpath)
-                 (lotus utils))
-      #:builder (begin
-                  (use-modules (guix build utils))
-                  (use-modules (guix build rpath))
-                  (use-modules (lotus utils))
-                  (let* ((tarbin      (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
-                         (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
-                         (bzip2bin    (string-append (assoc-ref %build-inputs "bzip2") "/bin/bzip2"))
-                         (uncompress  bzip2bin)
-                         (patchelfbin (string-append (assoc-ref %build-inputs "patchelf") "/bin/patchelf"))
-                         (tarball     (assoc-ref %build-inputs "source"))
-                         (ld-so       (string-append (assoc-ref %build-inputs "libc") ,(glibc-dynamic-linker)))
-                         (firefox-dir (string-append %output     "/share/firefox"))
-                         (firefox-lib (string-append firefox-dir "/lib"))
-                         (firefox-bin (string-append firefox-dir "/bin"))
-                         (bin-dir     (string-append %output     "/bin")))
-                    ;; (unpack tarball)
-                    (mkdir-p bin-dir)
-                    (mkdir-p bin-dir)
-                    (mkdir-p firefox-bin)
-                    (mkdir-p firefox-lib)
-                    ;; see if can be replaced with unpack
-                    (system (string-append uncompress " -cd " tarball " | " tarbin " xf -"))
-                    (display (directory-list-files "firefox"))
-                    (for-each (lambda (file)
-                                (let* ((src-file (string-append "firefox/" file))
-                                       (target-file (string-append (if (library-file? src-file)
-                                                                       firefox-lib
-                                                                       firefox-bin)
-                                                                   "/" (basename file))))
-                                  (if (directory? src-file)
-                                      (copy-recursively src-file target-file)
-                                   (begin
-                                     (copy-file src-file target-file)
-                                     (when (or (elf-binary-file? src-file)
-                                               (library-file? src-file))
-                                       (chmod target-file #o777)
-                                       (let* ((dep-inputs     '("gcc-lib" "atk" "cairo" "dbus-glib" "fontconfig" "freetype" "gtk+" "gdk-pixbuf" "glib" "libx11" "libxcb" "libxdamage" "libxext" "libxfixes" "libxrender" "pango" "libxcomposite" "libxt"))
-                                              (dep-input-libs (map (lambda (in) (string-append (assoc-ref %build-inputs in) "/lib")) dep-inputs))
-                                              (lib-paths      (string-join (append (list firefox-lib) dep-input-libs) ":")))
-                                         (format #t "target-file ~s lib-paths ~s~%"
-                                                 target-file
-                                                 lib-paths)
-                                         ;; (augment-rpath target-file lib-paths)
-                                         (system (string-append patchelfbin " --set-rpath " lib-paths " " target-file)))
-                                       (when (and
-                                              (not (library-file? src-file))
-                                              (elf-binary-file? src-file))
-                                         (system (string-append patchelfbin " --set-interpreter " ld-so " " target-file)))
-                                      (chmod target-file #o555))))))
-                              (directory-list-files "firefox"))
-                    (system (string-append (assoc-ref %build-inputs "sed") "/bin/sed" " -i 's@^lib@../lib/lib@g' " firefox-bin "/dependentlibs.list"))
-                    (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
-                    #t) #t)))
-   (synopsis "Firefox")
-   (description "Firefox.")
-   (home-page "https://www.mozilla.org")
-   ;; Conkeror is triple licensed.
-   (license (list
-             ;; MPL 1.1 -- this license is not GPL compatible
-             license:gpl2
-             license:lgpl2.1))))
+  (package (inherit firefox-56.0)))
 
 (define-public conkeror-firefox
   (package
@@ -201,8 +208,3 @@ YouTube.  For easier editing of form fields, it can spawn external editors.")
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
-
-
-conkeror-firefox
-
-
