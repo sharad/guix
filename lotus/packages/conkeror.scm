@@ -52,9 +52,10 @@
                "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
    (build-system trivial-build-system)
    (inputs `(("libc"          ,glibc)
-             ("gcc"           ,gcc "lib")
+             ;; ("gcc"           ,gcc "lib")
+             ("gcc"           ,gcc)
              ("libxcomposite" ,libxcomposite)
-             ;; ("libxt"         ,libxt)
+             ("libxt"         ,libxt)
              ("gtk+"          ,gtk+)))
    (native-inputs
     `(("tar" ,tar)
@@ -103,13 +104,16 @@
                                      (when (or (elf-binary-file? src-file)
                                                (library-file? src-file))
                                        (chmod target-file #o777)
-                                       (when (elf-binary-file? src-file)
+                                       (let ((lib-paths (string-join
+                                                         (list
+                                                          (string-append %output "/share/firefox/lib")
+                                                          (string-append (assoc-ref %build-inputs "gcc") "/lib"))
+                                                         ":")))
+                                         (augment-rpath target-file lib-paths))
+                                       (when (and
+                                              (not (library-file? src-file))
+                                              (elf-binary-file? src-file))
                                          (system (string-append patchelfbin " --set-interpreter " ld-so " " target-file)))
-                                       (augment-rpath target-file (string-append %output "/lib"))
-                                       (augment-rpath target-file (string-append %output "/share/firefox/lib"))
-                                       ;; (system (string-append patchelfbin " --set-rpath "
-                                       ;;                        (string-append %output "/lib" ":" %output "/share/firefox/lib")
-                                       ;;                        " " target-file))
                                       (chmod target-file #o555))))))
                               (directory-list-files "firefox"))
                     (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
