@@ -35,5 +35,9 @@
   (and (not (library-file? file))
        (not (elf-binary-file? file))))
 
+(define (directory? file)
+  (let ((stat (stat file)))
+    (eq? 'directory (stat:type stat))))
+
 (define (directory-list-files dir)
   (scandir dir (negate (cut member <> '("." "..")))))
