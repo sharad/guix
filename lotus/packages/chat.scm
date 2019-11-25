@@ -60,10 +60,10 @@
               (sha256
                (base32
                 "0k21k3zzkz6z40l67fjb9p6ihimja2j11zlcxr530qd1cmcmjk50"))))
-    (build-system gnu-build-system)
+    (build-system cmake-build-system)
     (native-inputs
      `(("pkg-config" ,pkg-config)
-       ("which" ,which)))
+       ("which"      ,which)))
     (inputs
      `(("pidgin"    ,pidgin)
        ("libgcrypt" ,libgcrypt)
