@@ -59,8 +59,8 @@
               (file-name (string-append name "-" version ".tar.gz"))
               (sha256
                (base32
-                "12m6iyfnii3hmkcnhsclli9mj9nblv0xn2p5dl6mv1mp0p9ck9pv"))))
-    (build-system cmake-build-system)
+                "0k21k3zzkz6z40l67fjb9p6ihimja2j11zlcxr530qd1cmcmjk50"))))
+    (build-system gnu-build-system)
     (native-inputs
      `(("pkg-config" ,pkg-config)
        ("which" ,which)))
