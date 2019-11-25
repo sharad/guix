@@ -38,11 +38,9 @@
   #:use-module (gnu packages gtk)
   #:use-module (lotus utils))
 
-;; library-file?
-
 (define-public firefox-56.0
-  (hidden-package
-   (package
+  ;; (hidden-package)
+  (package
      (name "firefox")
      (version "56.0")
      (source (origin
@@ -147,7 +145,10 @@
      (license (list
                ;; MPL 1.1 -- this license is not GPL compatible
                license:gpl2
-               license:lgpl2.1)))))
+               license:lgpl2.1))))
+   
+
+;; (define* (custom-gcc gcc name languages))
 
 (define-public firefox
   (package (inherit firefox-56.0)))
