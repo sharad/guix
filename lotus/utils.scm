@@ -19,6 +19,7 @@
   #:export (library-file?
             elf-binary-file?
             regular-file?
+            directory?
             directory-list-files))
 
 (define (library-file? file)
