@@ -41,7 +41,7 @@
 (define-public firefox-56.0
   ;; (hidden-package)
   (package
-     (name "firefox")
+     (name "firefox-56.0")
      (version "56.0")
      (source (origin
                (method url-fetch)
@@ -151,7 +151,8 @@
 ;; (define* (custom-gcc gcc name languages))
 
 (define-public firefox
-  (package (inherit firefox-56.0)))
+  (package (inherit firefox-56.0)
+    (name "firefox-56.0")))
 
 (define-public conkeror-firefox
   (package
