@@ -24,6 +24,9 @@
   #:use-module (guix build-system gnu)
   #:use-module (guix licenses)
   #:use-module (gnu packages)
+  #:use-module (gnu packages pkg-config)
+  #:use-module (gnu packages perl)
+  #:use-module (gnu packages linux)
   #:use-module (gnu packages fribidi))
 
 
@@ -39,11 +42,14 @@
        (uri
         (string-append "https://github.com/behdad/bicon/releases/"
                        "/download/" version "/bicon-" version
-                       ".tar.bz2"))
+                       ".tar.gz"))
        (sha256
-        (base32 "1kp4b1hpx2ky20ixgy2xhj5iygfl7ps5k9kglh1z5i7mhykg4r3a"))))
+        (base32 "0n9p5pfv9l2yxgzxqlg259yqi8acw7bp91r5cqxr039w0zyqvy22"))))
     (build-system gnu-build-system)
-    (inputs `(("fribidi" ,fribidi)))
+    (native-inputs `(("pkg-config" ,pkg-config)
+                     ("perl"       ,perl)
+                     ("kbd"        ,kbd)))
+    (inputs        `(("fribidi" ,fribidi)))
     (synopsis "Implementation of the Unicode bidirectional algorithm")
     (description
      "GNU Bicon is an implementation of the Unicode Bidirectional
@@ -61,3 +67,4 @@ or right-to-left ordering as necessary.")
 
 
 
+bicon

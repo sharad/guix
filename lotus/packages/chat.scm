@@ -34,7 +34,8 @@
   #:use-module (gnu packages glib)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages gnupg)
-  #:use-module (gnu packages image))
+  #:use-module (gnu packages image)
+  #:use-module (gnu packages gnome))
 
 (define-public skype4pidgin
 
@@ -66,12 +67,20 @@
        ("which"      ,which)))
     (inputs
      `(("pidgin"    ,pidgin)
-       ("libgcrypt" ,libgcrypt)
-       ("libwebp"   ,libwebp)
+       ;; ("libgcrypt" ,libgcrypt)
+       ;; ("libwebp"   ,libwebp)
+       ;; ("gettext"   ,gnu-gettext)
+       ;; ("gtk+"      ,gtk+-2)
+       ;; ("zlib"      ,zlib)
        ("glib"      ,glib)
-       ("gettext"   ,gnu-gettext)
-       ("gtk+"      ,gtk+-2)
-       ("zlib"      ,zlib)))
+       ("json-glib" ,json-glib)))
+    (arguments
+     `(#:tests? #f                            ; Run the test suite (this is the default)
+       ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'change-dir
+           (lambda _ (chdir "skypeweb"))))))
     ;; (arguments
     ;;  `(#:modules ((guix build utils))
     ;;              #:builder (begin)))
