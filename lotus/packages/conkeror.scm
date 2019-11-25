@@ -208,6 +208,3 @@ YouTube.  For easier editing of form fields, it can spawn external editors.")
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
-
-
-firefox
