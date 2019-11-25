@@ -18,12 +18,13 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (lotus packages bicon)
+(define-module (lotus packages fribidi)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix build-system gnu)
   #:use-module (guix licenses)
-  #:use-module (gnu packages))
+  #:use-module (gnu packages)
+  #:use-module (gnu packages fribidi))
 
 
 
@@ -31,17 +32,18 @@
   (package
     (replacement bicon/fixed)
     (name "bicon")
-    (version "1.0.5")
+    (version "0.5")
     (source
      (origin
        (method url-fetch)
        (uri
-        (string-append "https://github.com/bicon/bicon/releases"
-                       "/download/v" version "/bicon-" version
+        (string-append "https://github.com/behdad/bicon/releases/"
+                       "/download/" version "/bicon-" version
                        ".tar.bz2"))
        (sha256
         (base32 "1kp4b1hpx2ky20ixgy2xhj5iygfl7ps5k9kglh1z5i7mhykg4r3a"))))
     (build-system gnu-build-system)
+    (inputs `(("fribidi" ,fribidi)))
     (synopsis "Implementation of the Unicode bidirectional algorithm")
     (description
      "GNU Bicon is an implementation of the Unicode Bidirectional
@@ -54,7 +56,8 @@ or right-to-left ordering as necessary.")
   (package
     (inherit bicon)
     (source
-     (origin (inherit (package-source bicon))
-             (patches (search-patches "bicon-CVE-2019-18397.patch"))))))
+     (origin (inherit (package-source bicon))))))
+             ;; (patches (search-patches "bicon-CVE-2019-18397.patch"))
+
 
 
