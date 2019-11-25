@@ -98,31 +98,22 @@
        ("patchelf" ,patchelf)))
     (arguments
      `(#:modules ((guix build utils))
-       #:builder (begin
-                   (use-modules (guix build utils))
-                   (let ((tarbin      (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
-                         (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
-                         (patchelfbin (string-append (assoc-ref %build-inputs "patchelf") "/bin/patchelf"))
-                         (tarball     (assoc-ref %build-inputs "source"))
-                         (ld-so (string-append (assoc-ref inputs "libc")
-                                               ,(glibc-dynamic-linker)))
-                         (bin-dir     (string-append %output "/bin/"))
-                         (p4-file     "p4"))
-                     (mkdir-p bin-dir)
-                     (system (string-append gzipbin " -cd " tarball " | " tarbin " xf -"))
-                     (for-each (lambda (file)
-                                 (let ((target-file (string-append bin-dir "/" (basename file))))
-                                   (chmod file #o777)
-                                   (system (string-append patchelfbin " --set-interpreter " ld-so " " file))
-                                   (copy-file file target-file)
-                                   (chmod target-file #o777)
-                                   (system (string-append patchelfbin " --set-interpreter " ld-so " " target-file))
-                                   (chmod target-file #o555)))
-                               (list p4-file))
-                     #t))))
-    (synopsis "Perforce p4 cli client")
-    (description "Perforce p4 cli client.")
-    (home-page "https://www.perforce.com/downloads/helix-command-line-client-p4")
+       #:builder (begin #t)))
+    (synopsis "CDE - Common Desktop Environment")
+    (description " The Common Desktop Environment, the classic UNIX desktop
+Brought to you by: flibble, jon13
+
+
+
+The Common Desktop Environment was created by a collaboration of Sun, HP, IBM, DEC, SCO, Fujitsu and Hitachi. Used on a selection of commercial UNIXs, it is now available as open-source software for the first time.
+
+For support, see: https://sourceforge.net/p/cdesktopenv/wiki/Home/
+Features
+
+    X11 Desktop Environment
+
+")
+    (home-page "https://sourceforge.net/projects/cdesktopenv/")
     ;; Conkeror is triple licensed.
     (license (list
               ;; MPL 1.1 -- this license is not GPL compatible

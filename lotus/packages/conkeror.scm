@@ -140,7 +140,7 @@
                                 (directory-list-files "firefox"))
                       (system (string-append (assoc-ref %build-inputs "sed") "/bin/sed" " -i 's@^lib@../lib/lib@g' " firefox-bin "/dependentlibs.list"))
                       (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
-                      #t) #t)))
+                      #t))))
      (synopsis "Firefox")
      (description "Firefox.")
      (home-page "https://www.mozilla.org")

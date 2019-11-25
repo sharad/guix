@@ -38,6 +38,7 @@
 
   ;; Requires devel headers/libs for libpurple and libjson-glib [libglib2.0-dev, libjson-glib-dev and libpurple-dev]
 
+  ;; https://github.com/EionRobb/skype4pidgin/archive/1.5.tar.gz
   ;; git clone git://github.com/EionRobb/skype4pidgin.git
   ;; cd skype4pidgin/skypeweb
   ;; make
@@ -47,31 +48,29 @@
     (name "skype4pidgin")
     (version "v1.2")
     (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "git://github.com/EionRobb/skype4pidgin.git")
-                    (commit version)))
+              (method url-fetch)
+              (uri
+               (string-append "https://github.com/EionRobb/skype4pidgin/archive/" version ".tar.gz"))
+              (file-name (string-append name "-" version ".tar.gz"))
               (sha256
                (base32
-                "1mqvqn4jdaj4d2iypfk59rd5629llcpzkfnb4grh4zqb00v8zrp3"))))
+                "12m6iyfnii3hmkcnhsclli9mj9nblv0xn2p5dl6mv1mp0p9ck9pv"))))
     (build-system cmake-build-system)
     (inputs
-     `(("pidgin" ,pidgin)
-       ;; ("libgcrypt" ,libgcrypt)
-       ;; ("libwebp" ,libwebp)
-       ;; ("glib" ,glib)
-       ;; ("gettext" ,gnu-gettext)
-       ;; ("gtk+" ,gtk+-2)
-       ;; ("zlib" ,zlib)
-       ))
+     `(("pidgin" ,pidgin)))
+    ;; ("libgcrypt" ,libgcrypt)
+    ;; ("libwebp" ,libwebp)
+    ;; ("glib" ,glib)
+    ;; ("gettext" ,gnu-gettext)
+    ;; ("gtk+" ,gtk+-2)
+    ;; ("zlib" ,zlib)
     (native-inputs
      `(("tar" ,tar)
        ("gzip" ,gzip)
        ("patchelf" ,patchelf)))
     (arguments
      `(#:modules ((guix build utils))
-                 #:builder (begin
-                             )))
+                 #:builder (begin)))
     (synopsis "SkypeWeb Plugin for Pidgin")
     (description "Adds a "Skype (HTTP)" protocol to the accounts list. Requires libjson-glib. GPLv3 Licenced.")
     (home-page "https://www.perforce.com/downloads/helix-command-line-client-p4")
