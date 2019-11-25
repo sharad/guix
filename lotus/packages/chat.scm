@@ -56,24 +56,23 @@
                (base32
                 "12m6iyfnii3hmkcnhsclli9mj9nblv0xn2p5dl6mv1mp0p9ck9pv"))))
     (build-system cmake-build-system)
-    (inputs
-     `(("pidgin" ,pidgin)))
-    ;; ("libgcrypt" ,libgcrypt)
-    ;; ("libwebp" ,libwebp)
-    ;; ("glib" ,glib)
-    ;; ("gettext" ,gnu-gettext)
-    ;; ("gtk+" ,gtk+-2)
-    ;; ("zlib" ,zlib)
     (native-inputs
-     `(("tar" ,tar)
-       ("gzip" ,gzip)
-       ("patchelf" ,patchelf)))
-    (arguments
-     `(#:modules ((guix build utils))
-                 #:builder (begin)))
+     `(("pkg-config" ,pkg-config)
+       ("which" ,which)))
+    (inputs
+     `(("pidgin"    ,pidgin)
+       ("libgcrypt" ,libgcrypt)
+       ("libwebp"   ,libwebp)
+       ("glib"      ,glib)
+       ("gettext"   ,gnu-gettext)
+       ("gtk+"      ,gtk+-2)
+       ("zlib"      ,zlib)))
+    ;; (arguments
+    ;;  `(#:modules ((guix build utils))
+    ;;              #:builder (begin)))
     (synopsis "SkypeWeb Plugin for Pidgin")
-    (description "Adds a "Skype (HTTP)" protocol to the accounts list. Requires libjson-glib. GPLv3 Licenced.")
-    (home-page "https://www.perforce.com/downloads/helix-command-line-client-p4")
+    (description "Adds a \"Skype (HTTP)\" protocol to the accounts list. Requires libjson-glib. GPLv3 Licenced.")
+    (home-page "https://github.com/EionRobb/skype4pidgin/tree/master/skypeweb#skypeweb-plugin-for-pidgin")
     ;; Conkeror is triple licensed.
     (license (list
               ;; MPL 1.1 -- this license is not GPL compatible
@@ -81,5 +80,5 @@
               license:lgpl2.1))))
 
 
-skype4pidgin
+
 
