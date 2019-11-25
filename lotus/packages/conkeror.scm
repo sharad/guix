@@ -67,6 +67,7 @@
                  (lotus utils))
       #:builder (begin
                   (use-modules (guix build utils))
+                  (use-modules (guix build rpath))
                   (use-modules (lotus utils))
                   (let* ((tarbin      (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
                          (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
@@ -111,8 +112,7 @@
                                        ;;                        " " target-file))
                                       (chmod target-file #o555))))))
                               (directory-list-files "firefox"))
-                              ;; (scandir directory regular?)
-                              ;; (find-files ".")
+                    (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
                     #t))))
    (synopsis "Firefox")
    (description "Firefox.")
