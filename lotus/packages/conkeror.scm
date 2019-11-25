@@ -74,7 +74,6 @@
                ("libxfixes"     ,libxfixes)
                ("libxrender"    ,libxrender)
                ("pango"         ,pango)))
-     ;; (propagated-inputs `())
      (native-inputs
       `(("tar"   ,tar)
         ("gzip"  ,gzip)
@@ -92,8 +91,8 @@
                     (let* ((dep-inputs  '("gcc:lib" "atk" "cairo" "dbus-glib" "fontconfig" "freetype"
                                           "gtk+" "gdk-pixbuf" "glib" "libx11" "libxcb" "libxdamage"
                                           "libxext" "libxfixes" "libxrender" "pango" "libxcomposite" "libxt"))
-                           (tarbin      (string-append (assoc-ref %build-inputs "tar")  "/bin/tar"))
-                           (gzipbin     (string-append (assoc-ref %build-inputs "gzip") "/bin/gzip"))
+                           (tarbin      (string-append (assoc-ref %build-inputs "tar")   "/bin/tar"))
+                           (gzipbin     (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip"))
                            (bzip2bin    (string-append (assoc-ref %build-inputs "bzip2") "/bin/bzip2"))
                            (uncompress  bzip2bin)
                            (patchelfbin (string-append (assoc-ref %build-inputs "patchelf") "/bin/patchelf"))
