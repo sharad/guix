@@ -73,10 +73,10 @@
                ("libxrender"    ,libxrender)
                ("pango"         ,pango)))
      (native-inputs
-      `(("tar"   ,tar)
-        ("gzip"  ,gzip)
-        ("bzip2" ,bzip2)
-        ("sed"   ,sed)
+      `(("tar"      ,tar)
+        ("gzip"     ,gzip)
+        ("bzip2"    ,bzip2)
+        ("sed"      ,sed)
         ("patchelf" ,patchelf)))
      (arguments
       `(#:modules ((guix build utils)
@@ -121,14 +121,14 @@
                                        (when (or (elf-binary-file? src-file)
                                                  (library-file? src-file))
                                          (chmod target-file #o777)
-                                         (let ((lib-paths      (string-join (append (list firefox-lib)
-                                                                                    (map (lambda (in) (string-append (assoc-ref %build-inputs in) "/lib")) dep-inputs)
-                                                                             ":"))))
-                                           (format #t "target-file ~s lib-paths ~s~%"
-                                                   target-file
-                                                   lib-paths)
+                                         (let* ((lib-paths (append (list firefox-lib)
+                                                                   (map (lambda (in)
+                                                                          (string-append (assoc-ref %build-inputs in) "/lib"))
+                                                                        dep-inputs)))
+                                                (rpath     (string-join lib-paths ":")))
+                                           (format #t "target-file ~s rpath ~s~%" target-file rpath)
                                            ;; (augment-rpath target-file lib-paths)
-                                           (system (string-append patchelfbin " --set-rpath " lib-paths " " target-file)))
+                                           (system (string-append patchelfbin " --set-rpath " rpath " " target-file)))
                                          (when (and
                                                 (not (library-file? src-file))
                                                 (elf-binary-file? src-file))
@@ -210,3 +210,4 @@ YouTube.  For easier editing of form fields, it can spawn external editors.")
               license:lgpl2.1))))
 
 
+firefox

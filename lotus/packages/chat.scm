@@ -74,6 +74,13 @@
        ;; ("zlib"      ,zlib)
        ("glib"      ,glib)
        ("json-glib" ,json-glib)))
+
+    ;; TODO: figure out solution 
+
+    ;; https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/messaging.scm#n1878
+
+    ;; https://github.com/EionRobb/skype4pidgin/blob/master/skypeweb/CMakeLists.txt
+
     (arguments
      `(#:tests? #f                            ; Run the test suite (this is the default)
        ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
