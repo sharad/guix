@@ -107,7 +107,7 @@
                       (mkdir-p firefox-lib)
                       ;; see if can be replaced with unpack
                       (system (string-append uncompress " -cd " tarball " | " tarbin " xf -"))
-                      (display (directory-list-files "firefox"))
+                      ;; (display (directory-list-files "firefox"))
                       (for-each (lambda (file)
                                   (let* ((src-file (string-append "firefox/" file))
                                          (target-file (string-append (if (library-file? src-file)
@@ -126,7 +126,7 @@
                                                                           (string-append (assoc-ref %build-inputs in) "/lib"))
                                                                         dep-inputs)))
                                                 (rpath     (string-join lib-paths ":")))
-                                           (format #t "target-file ~s rpath ~s~%" target-file rpath)
+                                           ;; (format #t "target-file ~s rpath ~s~%" target-file rpath)
                                            ;; (augment-rpath target-file lib-paths)
                                            (system (string-append patchelfbin " --set-rpath " rpath " " target-file)))
                                          (when (and
@@ -190,8 +190,7 @@
 exec ~a/bin/firefox --app ~a \"$@\"~%"
                           (assoc-ref inputs "bash") ;implicit input
                           (assoc-ref inputs "firefox")
-                          (string-append datadir
-                                         "/application.ini"))))
+                          (string-append datadir "/application.ini"))))
               (chmod launcher #o555)))))))
     (synopsis "Keyboard focused web browser with Emacs look and feel")
     (description "Conkeror is a highly-programmable web browser based on
