@@ -90,12 +90,15 @@
               (sha256
                (base32
                 "0268v6alylkywqhhpy8nwz2xvmf1bb07c3bzzmgqamkw8p2kakcd"))))
-    (build-system trivial-build-system)
+    (build-system gnu-build-system)
     (inputs `(("motif" ,motif)))
     (native-inputs
-     `(("tar" ,tar)
-       ("gzip" ,gzip)
-       ("patchelf" ,patchelf)))
+     `(("autoconf"   ,autoconf)
+       ("automake"   ,automake)
+       ("libtool"    ,libtool)
+       ("flex"       ,flex)
+       ("bison"      ,bison)
+       ("pkg-config" ,pkg-config)))
     (arguments
      `(#:modules ((guix build utils))
        #:builder (begin #t)))
