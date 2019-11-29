@@ -37,7 +37,23 @@
   #:use-module (gnu packages elf)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages fontutils)
+  #:use-module (gnu packages onc-rpc)
   #:use-module (gnu packages gnuzilla))
+
+
+(define-public libtirpc-gh
+  (package (inherit libtirpc)
+    (name "libtirpc-gh")
+    (version "1.1.4")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/mattbenjamin/libtirpc-lbx.git")
+                    (commit "master")))
+              (sha256
+               (base32
+                "1h0asz1fp6ldq3zll80b4h5pr0y228j778hz6yhkv8hlzf15ivla"))))
+    (build-system gnu-build-system)))
 
 (define-public motif
   (package
@@ -125,3 +141,6 @@ Features
 
 ;; cdesktopenv
 ;; motif
+
+
+libtirpc-gh
