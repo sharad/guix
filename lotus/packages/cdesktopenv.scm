@@ -37,7 +37,9 @@
   #:use-module (gnu packages elf)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages fontutils)
-  #:use-module (gnu packages onc-rpc)
+  ;; #:use-module (gnu packages onc-rpc)
+  #:use-module (gnu packages gsasl)
+  #:use-module (gnu packages kerberos)
   #:use-module (gnu packages gnuzilla))
 
 
@@ -48,11 +50,11 @@
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "https://github.com/mattbenjamin/libtirpc-lbx.git")
+                    (url "https://github.com/sharad/libtirpc.git")
                     (commit "master")))
               (sha256
                (base32
-                "1h0asz1fp6ldq3zll80b4h5pr0y228j778hz6yhkv8hlzf15ivla"))))
+                "00msa1a1s1xa1p4ijn4d27f9aj0a1p16bxq4kx6m7d49ljsfn464"))))
     (native-inputs
      `(("autoconf" ,autoconf)
        ("automake" ,automake)
@@ -60,6 +62,9 @@
        ;; ("flex"     ,flex)
        ;; ("bison"    ,bison)
        ("pkg-config" ,pkg-config)))
+    (inputs
+     `(("gss"      ,gss)
+       ("mit-krb5" ,mit-krb5)))
     (build-system gnu-build-system)))
 
 (define-public motif
@@ -150,7 +155,7 @@ Features
               license:gpl2
               license:lgpl2.1))))
 
-cdesktopenv
+;; cdesktopenv
 ;; motif
 
 
