@@ -36,6 +36,7 @@
   #:use-module (gnu packages glib)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages gtk)
+  #:use-module (gnu packages pulseaudio)
   #:use-module (lotus utils))
 
 (define-public firefox-56.0
