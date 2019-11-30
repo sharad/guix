@@ -119,14 +119,31 @@
                (base32
                 "0268v6alylkywqhhpy8nwz2xvmf1bb07c3bzzmgqamkw8p2kakcd"))))
     (build-system gnu-build-system)
-    (inputs `(("motif" ,motif)))
+    (inputs
+     `(("libtirpc-gh"   ,libtirpc-gh)
+       ("freetype"      ,freetype)
+       ("bzip2"         ,bzip2)
+       ("libjpeg"       ,libjpeg)
+       ("motif"         ,motif)                            ;pkg-config missing
+       ("libx11"        ,libx11)
+       ("libxmu"        ,libxmu)
+       ("libxext"       ,libxext)
+       ("libxft"        ,libxft)
+       ("libxinerama"   ,libxinerama)
+       ("libxscrnsaver" ,libxscrnsaver)
+       ("libxt"         ,libxt)
+       ("xbitmaps"      ,xbitmaps)))
     (native-inputs
-     `(("autoconf"   ,autoconf)
-       ("automake"   ,automake)
-       ("libtool"    ,libtool)
+     `(;; ("autoconf"   ,autoconf)
+       ;; ("automake"   ,automake)
+       ;; ("libtool"    ,libtool)
        ("flex"       ,flex)
        ("bison"      ,bison)
-       ("pkg-config" ,pkg-config)))
+       ("pkg-config" ,pkg-config)
+       ("loksh" ,loksh)
+       ("mkfontdir" ,mkfontdir)
+       ("bdftopcf" ,bdftopcf)
+       ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
      `(#:tests? #f                            ; Run the test suite (this is the default)
        ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
