@@ -54,6 +54,7 @@
      (build-system trivial-build-system)
      (inputs `(("libc"          ,glibc)
                ("gcc:lib"       ,gcc "lib")
+               ("dbus"          ,dbus)
                ("libxcomposite" ,libxcomposite)
                ("libxt"         ,libxt)
                ("gtk+"          ,gtk+)
@@ -86,8 +87,8 @@
                     (use-modules (guix build utils))
                     (use-modules (guix build rpath))
                     (use-modules (lotus utils))
-                    (let* ((dep-inputs  '("gcc:lib" "atk" "cairo" "dbus-glib" "fontconfig" "freetype"
-                                          "gtk+" "gdk-pixbuf" "glib" "libx11" "libxcb" "libxdamage"
+                    (let* ((dep-inputs  '("libc" "gcc:lib" "dbus" "atk" "cairo" "dbus-glib" "fontconfig"
+                                          "freetype" "gtk+" "gdk-pixbuf" "glib" "libx11" "libxcb" "libxdamage"
                                           "libxext" "libxfixes" "libxrender" "pango" "libxcomposite" "libxt"))
                            (tarbin      (string-append (assoc-ref %build-inputs "tar")   "/bin/tar"))
                            (gzipbin     (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip"))
