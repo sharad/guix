@@ -135,7 +135,7 @@
                                                 (elf-binary-file? src-file))
                                            (system (string-append patchelfbin " --set-interpreter " ld-so " " target-file)))
                                         (chmod target-file #o555))))))
-                                (directory-list-files "firefox"))
+                                (directory-list-files "firefox")) ;; (directory-list-files "firefox/gtk2/libmozgtk.so") - left todo
                       (system (string-append (assoc-ref %build-inputs "sed") "/bin/sed" " -i 's@^lib@../lib/lib@g' " firefox-bin "/dependentlibs.list"))
                       (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
                       #t))))
@@ -209,3 +209,7 @@ YouTube.  For easier editing of form fields, it can spawn external editors.")
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
+
+
+
+
