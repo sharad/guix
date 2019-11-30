@@ -74,7 +74,15 @@
                ("libxfixes"     ,libxfixes)
                ("libxrender"    ,libxrender)
                ("pango"         ,pango)
-               ("pulseaudio"    ,pulseaudio)))
+               ("pulseaudio"    ,pulseaudio)
+               ("libogg"        ,libogg)
+               ("libvorbis"     ,libvorbis)
+               ("libevent"      ,libevent)
+               ("libxinerama"   ,libxinerama)
+               ("libxscrnsaver" ,libxscrnsaver)
+               ("libffi"        ,libffi)
+               ("ffmpeg"        ,ffmpeg)
+               ("libvpx"        ,libvpx-1.7)))
      (native-inputs
       `(("tar"      ,tar)
         ("gzip"     ,gzip)
@@ -91,7 +99,8 @@
                     (use-modules (lotus utils))
                     (let* ((dep-inputs  '("libc" "gcc:lib" "dbus" "atk" "cairo" "dbus-glib" "fontconfig"
                                           "freetype" "gtk+" "gdk-pixbuf" "glib" "libx11" "libxcb" "libxdamage"
-                                          "libxext" "libxfixes" "libxrender" "pango" "libxcomposite" "libxt"))
+                                          "libxext" "libxfixes" "libxrender" "pango" "libxcomposite" "libxt" "pulseaudio"
+                                          "libogg" "libvorbis" "libevent" "libxinerama" "libxscrnsaver" "libffi" "ffmpeg" "libvpx"))
                            (tarbin      (string-append (assoc-ref %build-inputs "tar")   "/bin/tar"))
                            (gzipbin     (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip"))
                            (bzip2bin    (string-append (assoc-ref %build-inputs "bzip2") "/bin/bzip2"))
