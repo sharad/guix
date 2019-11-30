@@ -37,7 +37,7 @@
   #:use-module (gnu packages elf)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages fontutils)
-  ;; #:use-module (gnu packages onc-rpc)
+  #:use-module (gnu packages onc-rpc)
   #:use-module (gnu packages gsasl)
   #:use-module (gnu packages kerberos)
   #:use-module (gnu packages gnuzilla))
