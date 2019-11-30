@@ -53,6 +53,13 @@
               (sha256
                (base32
                 "1h0asz1fp6ldq3zll80b4h5pr0y228j778hz6yhkv8hlzf15ivla"))))
+    (native-inputs
+     `(("autoconf" ,autoconf)
+       ("automake" ,automake)
+       ("libtool"  ,libtool)
+       ;; ("flex"     ,flex)
+       ;; ("bison"    ,bison)
+       ("pkg-config" ,pkg-config)))
     (build-system gnu-build-system)))
 
 (define-public motif
@@ -116,8 +123,12 @@
        ("bison"      ,bison)
        ("pkg-config" ,pkg-config)))
     (arguments
-     `(#:modules ((guix build utils))
-       #:builder (begin #t)))
+     `(#:tests? #f                            ; Run the test suite (this is the default)
+       ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'change-dir
+           (lambda _ (chdir "cde"))))))
     (synopsis "CDE - Common Desktop Environment")
     (description " The Common Desktop Environment, the classic UNIX desktop
 Brought to you by: flibble, jon13
@@ -139,8 +150,8 @@ Features
               license:gpl2
               license:lgpl2.1))))
 
-;; cdesktopenv
+cdesktopenv
 ;; motif
 
 
-libtirpc-gh
+;; libtirpc-gh
