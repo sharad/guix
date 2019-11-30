@@ -37,6 +37,11 @@
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages pulseaudio)
+  #:use-module (gnu packages xiph)
+  #:use-module (gnu packages libevent)
+  #:use-module (gnu packages libffi)
+  #:use-module (gnu packages libevent)
+  #:use-module (gnu packages video)
   #:use-module (lotus utils))
 
 (define-public firefox-56.0
