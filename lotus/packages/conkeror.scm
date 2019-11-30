@@ -72,7 +72,8 @@
                ("libxext"       ,libxext)
                ("libxfixes"     ,libxfixes)
                ("libxrender"    ,libxrender)
-               ("pango"         ,pango)))
+               ("pango"         ,pango)
+               ("pulseaudio"    ,pulseaudio)))
      (native-inputs
       `(("tar"      ,tar)
         ("gzip"     ,gzip)
