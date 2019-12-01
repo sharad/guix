@@ -117,11 +117,11 @@
 (define-public cdesktopenv
   (package
     (name "cdesktopenv")
-    (version "8db8a2290683acf94f02e855af668a864d6001c2")
+    (version "build-correction-autotools-conversion")
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "git://git.code.sf.net/p/cdesktopenv/code")
+                    (url "https://github.com/sharad/cdesktopenv.git")
                     (commit version)))
               (sha256
                (base32
