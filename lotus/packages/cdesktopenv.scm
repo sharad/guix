@@ -198,5 +198,5 @@ Features
               license:gpl2
               license:lgpl2.1))))
 
-cdesktopenv
+;; cdesktopenv
 

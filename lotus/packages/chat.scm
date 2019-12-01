@@ -87,7 +87,10 @@
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-dir
-           (lambda _ (chdir "skypeweb"))))))
+           (lambda _ (chdir "skypeweb"))
+           (substitute* "CMakeLists.txt"
+             (("variable=plugindir purple 2>/dev/null")
+              ("variable=plugindir purple 2>/dev/null")))))))
     ;; (arguments
     ;;  `(#:modules ((guix build utils))
     ;;              #:builder (begin)))
