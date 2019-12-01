@@ -157,7 +157,7 @@
        ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
        #:phases
        (modify-phases %standard-phases
-         (add-after 'unpack 'change-dir
+         (add-before 'configure 'change-dir
            (lambda _ (chdir "cde"))))))
     (synopsis "CDE - Common Desktop Environment")
     (description " The Common Desktop Environment, the classic UNIX desktop
