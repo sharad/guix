@@ -43,9 +43,9 @@
   #:use-module (gnu packages image)
   #:use-module (gnu packages fontutils)
   #:use-module (gnu packages shells)
-  #:use-module (gnu packages kerberos)
-  #:use-module (gnu packages kerberos)
-  #:use-module (gnu packages kerberos)
+  #:use-module (gnu packages gawk)
+  #:use-module (gnu packages perl)
+  #:use-module (gnu packages tcl)
   #:use-module (gnu packages kerberos)
   #:use-module (gnu packages kerberos)
   #:use-module (gnu packages gnuzilla))
@@ -125,7 +125,7 @@
                     (commit version)))
               (sha256
                (base32
-                "0268v6alylkywqhhpy8nwz2xvmf1bb07c3bzzmgqamkw8p2kakcd"))))
+                "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"))))
     (build-system gnu-build-system)
     (inputs
      `(("libtirpc-gh"   ,libtirpc-gh)
@@ -142,23 +142,41 @@
        ("libxt"         ,libxt)
        ("xbitmaps"      ,xbitmaps)))
     (native-inputs
-     `(;; ("autoconf"   ,autoconf)
-       ;; ("automake"   ,automake)
-       ;; ("libtool"    ,libtool)
-       ("flex"       ,flex)
-       ("bison"      ,bison)
-       ("pkg-config" ,pkg-config)
-       ("loksh" ,loksh)
-       ("mkfontdir" ,mkfontdir)
-       ("bdftopcf" ,bdftopcf)
+     `(("coreutils"    ,coreutils)
+       ("autoconf"     ,autoconf)
+       ("automake"     ,automake)
+       ("libtool"      ,libtool)
+       ("flex"         ,flex)
+       ("bison"        ,bison)
+       ("pkg-config"   ,pkg-config)
+       ("loksh"        ,loksh)
+       ("gawk"         ,gawk)
+       ("perl"         ,perl)
+       ("tcsh"         ,tcsh)
+       ("tcl"          ,tcl)
+       ("mkfontdir"    ,mkfontdir)
+       ("bdftopcf"     ,bdftopcf)
        ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
      `(#:tests? #f                            ; Run the test suite (this is the default)
-       ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
+       #:configure-flags '("--disable-dependency-tracking") ; SHA-1 collision detection
        #:phases
        (modify-phases %standard-phases
+         (add-after 'unpack 'change-entries
+           (lambda _
+             (substitute* "cde/contrib/desktopentry/cde.desktop"
+               (("Exec=/usr/dt/bin/Xsession")
+                (string-append "Exec=" (string-append %output "/usr/dt/bin/Xsession"))))))
          (add-before 'configure 'change-dir
-           (lambda _ (chdir "cde"))))))
+           (lambda _
+             (begin (chdir "cde")
+                    (system "./autogen.sh")
+                    #t)))
+         (add-after 'install 'dektop-entry
+           (lambda _ (let ((src-file    "contrib/desktopentry/cde.desktop")
+                           (desktop-dir (string-append %output "/share/xsessions")))
+                       (mkdir-p desktop-dir)
+                       (copy-file src-file (string-append desktop-dir "/cde.desktop"))))))))
     (synopsis "CDE - Common Desktop Environment")
     (description " The Common Desktop Environment, the classic UNIX desktop
 Brought to you by: flibble, jon13
@@ -180,8 +198,5 @@ Features
               license:gpl2
               license:lgpl2.1))))
 
-;; cdesktopenv
-;; motif
+cdesktopenv
 
-
-;; libtirpc-gh
