@@ -88,12 +88,11 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-     (native-inputs
-      `(("tar"      ,tar)
-        ("gzip"     ,gzip)
-        ("bzip2"    ,bzip2)
-        ("sed"      ,sed)
-        ("patchelf" ,patchelf)))
+     (native-inputs `(("tar"      ,tar)
+                      ("gzip"     ,gzip)
+                      ("bzip2"    ,bzip2)
+                      ("sed"      ,sed)
+                      ("patchelf" ,patchelf)))
      (arguments
       `(#:modules ((guix build utils)
                    (guix build rpath)
