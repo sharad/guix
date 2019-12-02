@@ -18,7 +18,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (lotus packages chat)
+(define-module (lotus packages forti)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
@@ -37,7 +37,7 @@
   #:use-module (gnu packages image)
   #:use-module (gnu packages gnome))
 
-(define-public skype4pidgin
+(define-public forti-skype4pidgin
 
   ;; https://github.com/EionRobb/skype4pidgin/tree/master/skypeweb#windows
   ;; http://www.webupd8.org/2016/07/chat-with-your-skype-friends-from.html
