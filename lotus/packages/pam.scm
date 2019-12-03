@@ -37,6 +37,10 @@
   #:use-module (gnu packages image)
   #:use-module (gnu packages gnome))
 
+
+;; from https://cdn-aws.deb.debian.org/debian/pool/main/p/pam-tmpdir/pam-tmpdir_0.09.tar.gz
+;; 'https://cdn-aws.deb.debian.org/debian/pool/main/p/pam-tmpdir/pam-tmpdir_0.09.tar.gz'
+
 (define-public pam-skype4pidgin
 
   ;; https://github.com/EionRobb/skype4pidgin/tree/master/skypeweb#windows
@@ -106,6 +110,3 @@
 
 
 
-
-;; from https://cdn-aws.deb.debian.org/debian/pool/main/p/pam-tmpdir/pam-tmpdir_0.09.tar.gz
-;; 'https://cdn-aws.deb.debian.org/debian/pool/main/p/pam-tmpdir/pam-tmpdir_0.09.tar.gz'
