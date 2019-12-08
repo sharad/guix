@@ -42,7 +42,6 @@
 ;; 'https://cdn-aws.deb.debian.org/debian/pool/main/p/pam-tmpdir/pam-tmpdir_0.09.tar.gz'
 
 (define-public pam-skype4pidgin
-
   ;; https://github.com/EionRobb/skype4pidgin/tree/master/skypeweb#windows
   ;; http://www.webupd8.org/2016/07/chat-with-your-skype-friends-from.html
 
@@ -104,9 +103,5 @@
               license:gpl2
               license:lgpl2.1))))
 
-
-
-
-
-
-
+(define-public pam-tmpdir
+  "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/pam-tmpdir/0.09build1/pam-tmpdir_0.09build1.tar.gz")
