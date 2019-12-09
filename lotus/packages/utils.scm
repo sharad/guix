@@ -24,6 +24,7 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
+  #:use-module (gnu packages compression)
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages dbm)
   #:use-module (gnu packages onc-rpc)
@@ -46,12 +47,17 @@
     (build-system gnu-build-system)
     ;; (inputs `(("bdb" ,bdb)
     ;;           ("libnsl" ,libnsl)))
-    (native-inputs
-     `(("autoconf" ,autoconf)
-       ("automake" ,automake)
-       ("libtool" ,libtool)
-       ("perl" ,perl)
-       ("pkg-config" ,pkg-config)))
+    (inputs
+     `(("bzip2"    ,bzip2)
+       ("perl" ,perl)))
+    (arguments
+     '(#:tests? #f
+       #:make-flags (let ((out  (assoc-ref %outputs "out")))
+                      (list
+                       (string-append "PREFIX=" out)))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure))))
     (synopsis "lesspipe.sh, a preprocessor for less")
     (description "To browse files under UNIX the excellent viewer less [1] can be used. By
  setting the environment variable LESSOPEN, less can be enhanced by external
@@ -82,7 +88,14 @@
     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
     (license license:ibmpl1.0)))
 
-;; lesspipe
+
+(define-public pi-hole
+  "https://github.com/pi-hole/pi-hole/blob/master/automated%20install/basic-install.sh")
+
+
+
+
+
 
 
 
