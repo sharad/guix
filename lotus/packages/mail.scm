@@ -28,65 +28,63 @@
   #:use-module (gnu packages onc-rpc)
   #:use-module (gnu packages perl))
 
-(define %test 1)
-
 ;; https://issues.guix.gnu.org/issue/35619
 
-;; (define-public postfix
-;;   (package
-;;     (name "postfix")
-;;     (version "3.4.5")
-;;     (source (origin
-;;               (method url-fetch)
-;;               (uri
-;;                (string-append
-;;                 "ftp://ftp.porcupine.org/mirrors/project-history/postfix/official/postfix-"
-;;                 version ".tar.gz"))
-;;               (sha256
-;;                (base32
-;;                 "17riwr21i9p1h17wpagfiwkpx9bbx7dy4gpdl219a11akm7saawb"))))
-;;     (build-system gnu-build-system)
-;;     (arguments '(#:phases
-;;                  (modify-phases %standard-phases
-;;                    (add-before 'build 'patch-/bin/sh
-;;                      (lambda _
-;;                        (substitute* (find-files "." "^Makefile.in")
-;;                          (("/bin/sh") (which "sh")))
-;;                        #t))
-;;                    (add-before 'build 'auxlibs
-;;                      (lambda _
-;;                        (setenv "AUXLIBS"
-;;                                "-lnsl -lresolv") ; Required, but postfix OS
-;;                                                  ; detection in leaves these
-;;                                                  ; unset for Guix
-;;                        #t))
-;;                    (add-before 'build 'patch-/usr/include
-;;                      (lambda* (#:key inputs #:allow-other-keys)
-;;                        (substitute* '("makedefs")
-;;                          (("/usr/include") (string-append (assoc-ref
-;;                                                            inputs "bdb")
-;;                                                           "/include" #t)))))
-;;                    (add-before 'build 'configure-postfix ; Move configuration folder
-;;                      (lambda* (#:key outputs #:allow-other-keys)
-;;                        (invoke "make" "makefiles"
-;;                                (string-append "CCARGS=-DDEF_CONFIG_DIR=\\\""
-;;                                 (assoc-ref outputs "out") "/etc\\\"" #t))))
-;;                    (delete 'configure) ; no configure script
-;;                    (delete 'check)))) ; no check
-;;     (inputs `(("bdb" ,bdb)
-;;               ("libnsl" ,libnsl)))
-;;     (native-inputs
-;;      `(("autoconf" ,autoconf)
-;;        ("automake" ,automake)
-;;        ("libtool" ,libtool)
-;;        ("perl" ,perl)
-;;        ("pkg-config" ,pkg-config)))
-;;     (synopsis "Full-featured & secure sendmail replacement")
-;;     (description "Postfix attempts to be fast, easy to administer, and
-;; secure.  The outside has a definite Sendmail-ish flavor, but the inside is
-;; completely different.")
-;;     (home-page "https://www.postfix.org/")
-;;     (license license:ibmpl1.0)))
+(define-public postfix
+  (package
+    (name "postfix")
+    (version "3.4.5")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append
+                "ftp://ftp.porcupine.org/mirrors/project-history/postfix/official/postfix-"
+                version ".tar.gz"))
+              (sha256
+               (base32
+                "17riwr21i9p1h17wpagfiwkpx9bbx7dy4gpdl219a11akm7saawb"))))
+    (build-system gnu-build-system)
+    (arguments '(#:phases
+                 (modify-phases %standard-phases
+                   (add-before 'build 'patch-/bin/sh
+                     (lambda _
+                       (substitute* (find-files "." "^Makefile.in")
+                         (("/bin/sh") (which "sh")))
+                       #t))
+                   (add-before 'build 'auxlibs
+                     (lambda _
+                       (setenv "AUXLIBS"
+                               "-lnsl -lresolv") ; Required, but postfix OS
+                                                 ; detection in leaves these
+                                                 ; unset for Guix
+                       #t))
+                   (add-before 'build 'patch-/usr/include
+                     (lambda* (#:key inputs #:allow-other-keys)
+                       (substitute* '("makedefs")
+                         (("/usr/include") (string-append (assoc-ref
+                                                           inputs "bdb")
+                                                          "/include" #t)))))
+                   (add-before 'build 'configure-postfix ; Move configuration folder
+                     (lambda* (#:key outputs #:allow-other-keys)
+                       (invoke "make" "makefiles"
+                               (string-append "CCARGS=-DDEF_CONFIG_DIR=\\\""
+                                (assoc-ref outputs "out") "/etc\\\"" #t))))
+                   (delete 'configure) ; no configure script
+                   (delete 'check)))) ; no check
+    (inputs `(("bdb" ,bdb)
+              ("libnsl" ,libnsl)))
+    (native-inputs
+     `(("autoconf" ,autoconf)
+       ("automake" ,automake)
+       ("libtool" ,libtool)
+       ("perl" ,perl)
+       ("pkg-config" ,pkg-config)))
+    (synopsis "Full-featured & secure sendmail replacement")
+    (description "Postfix attempts to be fast, easy to administer, and
+secure.  The outside has a definite Sendmail-ish flavor, but the inside is
+completely different.")
+    (home-page "https://www.postfix.org/")
+    (license license:ibmpl1.0)))
 
 
 
