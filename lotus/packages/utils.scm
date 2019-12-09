@@ -89,8 +89,8 @@
     (license license:ibmpl1.0)))
 
 
-(define-public pi-hole
-  "https://github.com/pi-hole/pi-hole/blob/master/automated%20install/basic-install.sh")
+;; (define-public pi-hole
+;;   "https://github.com/pi-hole/pi-hole/blob/master/automated%20install/basic-install.sh")
 
 
 
