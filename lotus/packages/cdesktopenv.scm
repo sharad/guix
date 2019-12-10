@@ -67,8 +67,6 @@
      `(("autoconf" ,autoconf)
        ("automake" ,automake)
        ("libtool"  ,libtool)
-       ;; ("flex"     ,flex)
-       ;; ("bison"    ,bison)
        ("pkg-config" ,pkg-config)))
     (inputs
      `(("gss"      ,gss)
