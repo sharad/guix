@@ -35,7 +35,7 @@
 (define-public lesspipe
   (package
     (name "lesspipe")
-    (version "1.84")
+    (version "lesspipe")
     (source (origin
               (method git-fetch)
               (uri (git-reference
@@ -43,13 +43,13 @@
                     (commit version)))
               (sha256
                (base32
-                "124ffhzrikr88ab14rk6753n8adxijpmg7q3zx7nmqc52wpkfd8q"))))
+                "1zsqx5p2psn44xh9xkay82sqbi6qf486d1v4j3rayjnxlj4gc6yf"))))
     (build-system gnu-build-system)
     ;; (inputs `(("bdb" ,bdb)
     ;;           ("libnsl" ,libnsl)))
     (inputs
-     `(("bzip2"    ,bzip2)
-       ("perl" ,perl)))
+     `(("bzip2" ,bzip2)
+       ("perl"  ,perl)))
     (arguments
      '(#:tests? #f
        #:make-flags (let ((out  (assoc-ref %outputs "out")))
