@@ -35,15 +35,15 @@
 (define-public lesspipe
   (package
     (name "lesspipe")
-    (version "lesspipe")
+    (version "shell-cli-arg-lesspipe")
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "https://github.com/wofr06/lesspipe.git")
+                    (url "https://github.com/sharad/lesspipe.git")
                     (commit version)))
               (sha256
                (base32
-                "1zsqx5p2psn44xh9xkay82sqbi6qf486d1v4j3rayjnxlj4gc6yf"))))
+                "1987x821a0cg9s490d1r6xb7agmjihm9qs5rjaciziqa2ijinhkg"))))
     (build-system gnu-build-system)
     ;; (inputs `(("bdb" ,bdb)
     ;;           ("libnsl" ,libnsl)))
