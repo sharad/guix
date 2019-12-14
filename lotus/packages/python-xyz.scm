@@ -82,6 +82,25 @@
      "The file management automation tool")
     (license license:expat)))
 
+;; (define-public python-pdfminer
+;;   (package
+;;    (name "python-pdfminer")
+;;    (version "20191125")
+;;    (source
+;;     (origin
+;;      (method url-fetch)
+;;      (uri (pypi-uri "pdfminer" version))
+;;      (sha256
+;;       (base32
+;;        "00fwankn96xms8fyjm4f36282qr98pfw2hv3jg4da3ih673hnw4y"))))
+;;    (build-system python-build-system)
+;;    (propagated-inputs
+;;     `(("python-pycryptodome" ,python-pycryptodome)))
+;;    (home-page "http://github.com/euske/pdfminer")
+;;    (synopsis "PDF parser and analyzer")
+;;    (description "PDF parser and analyzer")
+;;    (license license:expat)))
 
-python-organize-tool
+;; python-crypto
 
+;; python-pdfminer
