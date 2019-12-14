@@ -82,26 +82,6 @@
      "The file management automation tool")
     (license license:expat)))
 
-(define-public python-xmltodict
-  (package
-   (name "python-xmltodict")
-   (version "0.12.0")
-   (source
-    (origin
-     (method url-fetch)
-     (uri (pypi-uri "xmltodict" version))
-     (sha256
-      (base32
-       "08cadlb9vsb4pmzc99lz3a2lx6qcfazyvgk10pcqijvyxlwcdn2h"))))
-   (build-system python-build-system)
-   (home-page
-    "https://github.com/martinblech/xmltodict")
-   (synopsis
-    "Makes working with XML feel like you are working with JSON")
-   (description
-    "Makes working with XML feel like you are working with JSON")
-   (license license:expat)))
-
 (define-public python-yq
   (package
    (name "python-yq")
