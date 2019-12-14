@@ -82,25 +82,50 @@
      "The file management automation tool")
     (license license:expat)))
 
-;; (define-public python-pdfminer
-;;   (package
-;;    (name "python-pdfminer")
-;;    (version "20191125")
-;;    (source
-;;     (origin
-;;      (method url-fetch)
-;;      (uri (pypi-uri "pdfminer" version))
-;;      (sha256
-;;       (base32
-;;        "00fwankn96xms8fyjm4f36282qr98pfw2hv3jg4da3ih673hnw4y"))))
-;;    (build-system python-build-system)
-;;    (propagated-inputs
-;;     `(("python-pycryptodome" ,python-pycryptodome)))
-;;    (home-page "http://github.com/euske/pdfminer")
-;;    (synopsis "PDF parser and analyzer")
-;;    (description "PDF parser and analyzer")
-;;    (license license:expat)))
+(define-public python-yq
+  (package
+   (name "python-yq")
+   (version "2.9.2")
+   (source
+    (origin
+     (method url-fetch)
+     (uri (pypi-uri "yq" version))
+     (sha256
+      (base32
+       "1p8y69p2s4030xiwpsimq6245vllmb4rla3y3qay7wmbpln9q5ls"))))
+   (build-system python-build-system)
+   (propagated-inputs
+    `(("python-pyyaml" ,python-pyyaml)
+      ("python-setuptools" ,python-setuptools)
+      ("python-xmltodict" ,python-xmltodict)))
+   (native-inputs
+    `(("python-coverage" ,python-coverage)
+      ("python-flake8" ,python-flake8)
+      ("python-wheel" ,python-wheel)))
+   (home-page "https://github.com/kislyuk/yq")
+   (synopsis
+    "Command-line YAML/XML processor - jq wrapper for YAML/XML documents")
+   (description
+    "Command-line YAML/XML processor - jq wrapper for YAML/XML documents")
+   (license #f)))
 
-;; python-crypto
+(define-public python-xq
+  (package
+    (name "python-xq")
+    (version "0.0.4")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (pypi-uri "xq" version))
+        (sha256
+          (base32
+            "0xr9v3nn4hhkldx6r2hxkyfddx0j6z2v220fmnl14h2dc5f4smr8"))))
+    (build-system python-build-system)
+    (propagated-inputs
+      `(("python-lxml" ,python-lxml)
+        ("python-pygments" ,python-pygments)))
+    (home-page "https://github.com/jeffbr13/xq")
+    (synopsis "Like jq but for XML and XPath.")
+    (description "Like jq but for XML and XPath.")
+    (license #f)))
 
-;; python-pdfminer
