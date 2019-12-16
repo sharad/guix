@@ -39,11 +39,11 @@
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "https://github.com/sharad/lesspipe.git")
+                    (url "https://github.com/wofr06/lesspipe.git")
                     (commit version)))
               (sha256
                (base32
-                "1987x821a0cg9s490d1r6xb7agmjihm9qs5rjaciziqa2ijinhkg"))))
+                "1pw9mwwfx0k7xqriavhiffh706sh44gfl991c4afh84903wabq7l"))))
     (build-system gnu-build-system)
     ;; (inputs `(("bdb" ,bdb)
     ;;           ("libnsl" ,libnsl)))
