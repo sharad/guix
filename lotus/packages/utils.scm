@@ -35,7 +35,7 @@
 (define-public lesspipe
   (package
     (name "lesspipe")
-    (version "shell-cli-arg-lesspipe")
+    (version "lesspipe")
     (source (origin
               (method git-fetch)
               (uri (git-reference
