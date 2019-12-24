@@ -43,7 +43,7 @@
   #:use-module (gnu packages libffi)
   #:use-module (gnu packages libevent)
   #:use-module (gnu packages video)
-  #:use-module (lotus utils))
+  #:use-module (lotus build utils))
 
 (define-public firefox-56.0-old
   ;; (hidden-package)
@@ -97,11 +97,11 @@
      (arguments
       `(#:modules ((guix build utils)
                    (guix build rpath)
-                   (lotus utils))
+                   (lotus build utils))
         #:builder (begin
                     (use-modules (guix build utils))
                     (use-modules (guix build rpath))
-                    (use-modules (lotus utils))
+                    (use-modules (lotus build utils))
                     (let* ((dep-inputs  '("libc" "gcc:lib" "dbus" "atk" "cairo" "dbus-glib" "fontconfig"
                                           "freetype" "gtk+" "gdk-pixbuf" "glib" "libx11" "libxcb" "libxdamage"
                                           "libxext" "libxfixes" "libxrender" "pango" "libxcomposite" "libxt" "pulseaudio"
