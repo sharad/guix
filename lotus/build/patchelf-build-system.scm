@@ -25,8 +25,8 @@
   #:use-module (guix build utils)
   #:use-module (ice-9 ftw)
   #:use-module (guix build utils)
-  ;; #:use-module (gnu packages bootstrap)
-  ;; #:use-module (lotus build utils)
+  #:use-module (gnu packages bootstrap)
+  #:use-module (lotus build utils)
   #:export (%standard-phases
             patchelf-build))
 
