@@ -26,7 +26,7 @@
   #:use-module (guix build-system)
   #:use-module (guix build-system gnu)
   #:use-module (guix packages)
-  #:use-module (gnu packages gcc)
+  #:use-module (gnu packages base)
   #:use-module (ice-9 match)
   #:export (%patchelf-build-system-modules
             patchelf-build
@@ -90,7 +90,7 @@
     (target-inputs `(,@(if target
                            (standard-cross-packages target 'target)
                            '())
-                     ,@`(("libc" ,libc))))
+                     ,@`(("libc" ,glibc))))
     (outputs outputs)
     (build (if target patchelf-cross-build patchelf-build))
     (arguments (strip-keyword-arguments private-keywords arguments))))
