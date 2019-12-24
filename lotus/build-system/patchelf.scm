@@ -89,7 +89,7 @@
     (target-inputs `(,@(if target
                            (standard-cross-packages target 'target)
                            '())
-                     ,@`(("libc" libc))))
+                     ,@`(("libc" ,libc))))
     (outputs outputs)
     (build (if target patchelf-cross-build patchelf-build))
     (arguments (strip-keyword-arguments private-keywords arguments))))
