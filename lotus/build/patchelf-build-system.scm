@@ -27,7 +27,7 @@
   #:use-module (ice-9 ftw)
   #:use-module (guix build utils)
   ;; #:use-module (gnu packages bootstrap)
-  #:use-module (lotus build utils)
+  ;; #:use-module (lotus build utils)
   ;; #:use-module (guix packages)
   ;; #:use-module (guix download)
   ;; #:use-module (guix build rpath)
@@ -40,14 +40,6 @@
 ;;
 ;; Code:
 
-;; (define* (build #:key outputs inputs #:allow-other-keys)
-;;   "Compile .el files."
-;;   (let* ((emacs (string-append (assoc-ref inputs "emacs") "/bin/emacs"))
-;;          (out (assoc-ref outputs "out"))
-;;          (site-lisp (string-append out %install-dir)))
-;;     (setenv "SHELL" "sh")
-;;     (parameterize ((%emacs emacs))
-;;       (emacs-byte-compile-directory site-lisp))))
 
 (define* (build #:key outputs inputs #:allow-other-keys)
   "Compile .el files."
