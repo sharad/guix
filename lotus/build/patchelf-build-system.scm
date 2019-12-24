@@ -57,6 +57,7 @@
     (use-modules (gnu packages bootstrap))
     (use-modules (lotus build utils))
 
+    (format "~% Test ~%~%")
     ;; (use-modules (guix build rpath))
     (let ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
       (file-system-fold (lambda (dir stat result)    ; enter?
