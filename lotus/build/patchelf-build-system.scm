@@ -22,7 +22,11 @@
 (define-module (lotus build patchelf-build-system)
   #:use-module (ice-9 match)
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
+  #:use-module (guix build utils)
   #:use-module (ice-9 ftw)
+  #:use-module (guix build utils)
+  #:use-module (gnu packages bootstrap)
+  #:use-module (lotus build utils)
   #:export (%standard-phases
             patchelf-build))
 
@@ -57,7 +61,7 @@
           #:optional (system (or (and=> (%current-target-system)
                                         gnu-triplet->nix-system)
                                  (%current-system))))
-  ;; (use-modules (gnu packages bootstrap))
+  (use-modules (gnu packages bootstrap))
   (glibc-dynamic-linker system))
 
 
