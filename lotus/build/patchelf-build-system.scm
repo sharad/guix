@@ -23,6 +23,11 @@
   #:use-module (ice-9 match)
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build utils)
+
+  #:use-module (ice-9 ftw)
+  #:use-module (guix build utils)
+  #:use-module (gnu packages bootstrap)
+  #:use-module (lotus build utils)
   ;; #:use-module (guix packages)
   ;; #:use-module (guix download)
   ;; #:use-module (guix build rpath)
@@ -50,9 +55,9 @@
     (use-modules (ice-9 ftw))
     (use-modules (guix build utils))
     (use-modules (gnu packages bootstrap))
+    (use-modules (lotus build utils))
 
     ;; (use-modules (guix build rpath))
-    (use-modules (lotus utils))
     (let ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
       (file-system-fold (lambda (dir stat result)    ; enter?
                           result)
@@ -62,7 +67,7 @@
                                       (library-file?    file))
                               (make-file-writable file)
                               (let ((rpath (string-join (map (lambda (in) (string-append in "/lib"))
-                                                             (cons* output (map cdr inputs)))
+                                                             (cons* outputs (map cdr inputs)))
                                                         ":")))
                                 ;; (format #t "file ~s rpath ~s~%" file rpath)
                                 ;; (augment-rpath file lib-paths)
