@@ -23,7 +23,7 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
-  ;; #:use-module (guix build rpath)
+  #:use-module (guix build rpath)
   #:use-module (guix build-system gnu)
   #:use-module (guix  build-system trivial)
   #:use-module (lotus build-system patchelf)
@@ -96,7 +96,7 @@
                       ("patchelf" ,patchelf)))
      (arguments
       `(#:modules ((guix build utils)
-                   ;; (guix build rpath)
+                   (guix build rpath)
                    (lotus utils))
         #:builder (begin
                     (use-modules (guix build utils))

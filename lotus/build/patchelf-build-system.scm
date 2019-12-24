@@ -25,7 +25,7 @@
   #:use-module (guix build utils)
   ;; #:use-module (guix packages)
   ;; #:use-module (guix download)
-  #:use-module (guix build rpath)
+  ;; #:use-module (guix build rpath)
   #:export (%standard-phases
             patchelf-build))
 
@@ -48,7 +48,7 @@
   "Compile .el files."
   (begin
     (use-modules (guix build utils))
-    (use-modules (guix build rpath))
+    ;; (use-modules (guix build rpath))
     (use-modules (lotus utils))
     (let ((ld-so (string-append (assoc-ref %inputs "libc") (glibc-dynamic-linker))))
       (file-system-fold (lambda (dir stat result)    ; enter?
