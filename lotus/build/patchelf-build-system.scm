@@ -26,8 +26,8 @@
 
   #:use-module (ice-9 ftw)
   #:use-module (guix build utils)
-  ;; #:use-module (gnu packages bootstrap)
-  ;; #:use-module (lotus build utils)
+  #:use-module (gnu packages bootstrap)
+  #:use-module (lotus build utils)
   ;; #:use-module (guix packages)
   ;; #:use-module (guix download)
   ;; #:use-module (guix build rpath)
@@ -59,7 +59,7 @@
 
     ;; (format (current-error-port) "~% Test ~%~%")
     (format #t "~% Test ~a ~%~%" 1)
-    ;; (use-modules (guix build rpath))
+
     (let ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
       (file-system-fold (lambda (dir stat result)    ; enter?
                           result)
