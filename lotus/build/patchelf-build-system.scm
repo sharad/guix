@@ -23,14 +23,10 @@
   #:use-module (ice-9 match)
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build utils)
-
   #:use-module (ice-9 ftw)
   #:use-module (guix build utils)
   #:use-module (gnu packages bootstrap)
   #:use-module (lotus build utils)
-  ;; #:use-module (guix packages)
-  ;; #:use-module (guix download)
-  ;; #:use-module (guix build rpath)
   #:export (%standard-phases
             patchelf-build))
 
@@ -39,7 +35,6 @@
 ;; Builder-side code of the standard patchelf build procedure.
 ;;
 ;; Code:
-
 
 (define* (build #:key outputs inputs #:allow-other-keys)
   "Compile .el files."
@@ -76,16 +71,6 @@
                         lstat)
       #t))
 
-    ;; (format (current-error-port) "~% Test ~%~%")
-
-;; (define* (check #:key (tests? #t) (parallel-tests? #t) (test-target "test")
-;;                 #:allow-other-keys)
-;;   (let ((gnu-check (assoc-ref gnu:%standard-phases 'check)))
-;;     ;; (setenv "CTEST_OUTPUT_ON_FAILURE" "1")
-;;     (gnu-check #:tests? tests? #:test-target test-target
-;;               #:parallel-tests? parallel-tests?)))
-
-
 (define* (install #:key outputs (make-flags '()) #:allow-other-keys)
   (copy-recursively "source" outputs))
 
@@ -98,7 +83,7 @@
     (delete 'configure)
     (delete 'check)
     (delete 'configure)
-    (replace 'build build)
+    (replace 'build   build)
     (replace 'install install)))
 
 (define* (patchelf-build #:key inputs (phases %standard-phases)
