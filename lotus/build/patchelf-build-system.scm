@@ -26,8 +26,8 @@
 
   #:use-module (ice-9 ftw)
   #:use-module (guix build utils)
-  ;; #:use-module (gnu packages bootstrap)
-  ;; #:use-module (lotus build utils)
+  #:use-module (gnu packages bootstrap)
+  #:use-module (lotus build utils)
   ;; #:use-module (guix packages)
   ;; #:use-module (guix download)
   ;; #:use-module (guix build rpath)
@@ -43,16 +43,8 @@
 
 (define* (build #:key outputs inputs #:allow-other-keys)
   "Compile .el files."
-  (begin
-    (use-modules (ice-9 ftw))
-    (use-modules (guix build utils))
-    (use-modules (gnu packages bootstrap))
-    (use-modules (lotus build utils))
-
-    ;; (format (current-error-port) "~% Test ~%~%")
-    (format #t "~% Test ~a ~%~%" 1)
-
-    (let ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
+  (format #t "~% Test ~a ~%~%" 1)
+  (let ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
       (file-system-fold (lambda (dir stat result)    ; enter?
                           result)
                         (lambda (file stat result)   ; leaf
@@ -82,7 +74,9 @@
                         "source"
                         ;; Don't follow symlinks.
                         lstat)
-      #t)))
+      #t))
+
+    ;; (format (current-error-port) "~% Test ~%~%")
 
 ;; (define* (check #:key (tests? #t) (parallel-tests? #t) (test-target "test")
 ;;                 #:allow-other-keys)
