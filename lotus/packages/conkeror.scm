@@ -24,8 +24,8 @@
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix build rpath)
-  #:use-module (guix build-system gnu)
-  #:use-module (guix build-system trivial)
+  ;; #:use-module (guix build-system gnu)
+  #:use-module (guix build-system patchelf)
   #:use-module (gnu packages)
   #:use-module (gnu packages bootstrap)
   #:use-module (gnu packages base)
@@ -44,10 +44,10 @@
   #:use-module (gnu packages video)
   #:use-module (lotus utils))
 
-(define-public firefox-56.0
+(define-public firefox-56.0-old
   ;; (hidden-package)
   (package
-     (name "firefox-56.0")
+     (name "firefox-56.0-old")
      (version "56.0")
      (source (origin
                (method url-fetch)
@@ -162,7 +162,59 @@
                ;; MPL 1.1 -- this license is not GPL compatible
                license:gpl2
                license:lgpl2.1))))
-   
+
+(define-public firefox-56.0
+  ;; (hidden-package)
+  (package
+     (name "firefox-56.0")
+     (version "56.0")
+     (source (origin
+               (method url-fetch)
+               (uri
+                (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+               (file-name (string-append "firefox-" version ".tar.bz2"))
+               (sha256
+                (base32
+                 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
+     (build-system patchelf-build-system)
+     (inputs `(("libc"          ,glibc)
+               ("gcc:lib"       ,gcc "lib")
+               ("dbus"          ,dbus)
+               ("libxcomposite" ,libxcomposite)
+               ("libxt"         ,libxt)
+               ("gtk+"          ,gtk+)
+               ("atk"           ,atk)
+               ("cairo"         ,cairo)
+               ("dbus-glib"     ,dbus-glib)
+               ("fontconfig"    ,fontconfig)
+               ("freetype"      ,freetype)
+               ("gdk-pixbuf"    ,gdk-pixbuf)
+               ("glib"          ,glib)
+               ("glibc"         ,glibc)
+               ("libx11"        ,libx11)
+               ("libxcb"        ,libxcb)
+               ("libxdamage"    ,libxdamage)
+               ("libxext"       ,libxext)
+               ("libxfixes"     ,libxfixes)
+               ("libxrender"    ,libxrender)
+               ("pango"         ,pango)
+               ("pulseaudio"    ,pulseaudio)
+               ("libogg"        ,libogg)
+               ("libvorbis"     ,libvorbis)
+               ("libevent"      ,libevent)
+               ("libxinerama"   ,libxinerama)
+               ("libxscrnsaver" ,libxscrnsaver)
+               ("libffi"        ,libffi)
+               ("ffmpeg"        ,ffmpeg)
+               ("libvpx"        ,libvpx-1.7)))
+     (synopsis "Firefox")
+     (description "Firefox.")
+     (home-page "https://www.mozilla.org")
+     ;; Conkeror is triple licensed.
+     (license (list
+               ;; MPL 1.1 -- this license is not GPL compatible
+               license:gpl2
+               license:lgpl2.1))))
 
 ;; (define* (custom-gcc gcc name languages))
 
