@@ -23,7 +23,7 @@
   #:use-module (ice-9 match)
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build utils)
-  #:use-module (guix packages)
+  ;; #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix build rpath)
   #:export (%standard-phases

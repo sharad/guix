@@ -25,7 +25,7 @@
   #:use-module (guix search-paths)
   #:use-module (guix build-system)
   #:use-module (guix build-system gnu)
-  #:use-module (guix packages)
+  ;; #:use-module (guix packages)
   #:use-module (gnu packages base)
   #:use-module (ice-9 match)
   #:export (%patchelf-build-system-modules
