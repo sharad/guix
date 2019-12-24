@@ -36,10 +36,39 @@
 ;;
 ;; Code:
 
+(define (library-file? file)
+  (and (eq? 'regular (stat:type (stat file)))
+       (string-suffix? ".so" file)))
+
+(define (elf-binary-file? file)
+  (and (eq? 'regular (stat:type (stat file)))
+       (not (string-suffix? ".so" file))
+       (executable-file? file)
+       (elf-file? file)))
+
+(define (regular-file? file)
+  (and (not (library-file? file))
+       (not (elf-binary-file? file))))
+
+(define (directory? file)
+  (let ((stat (stat file)))
+    (eq? 'directory (stat:type stat))))
+
+(define (directory-list-files dir)
+  (scandir dir (negate (cut member <> '("." "..")))))
+
+(define* (patchelf-dynamic-linker
+          #:optional (system (or (and=> (%current-target-system)
+                                        gnu-triplet->nix-system)
+                                 (%current-system))))
+  (use-modules (gnu packages bootstrap))
+  (glibc-dynamic-linker system))
+
+
 (define* (build #:key outputs inputs #:allow-other-keys)
   "Compile .el files."
   (format #t "~% Test ~a ~%~%" 1)
-  (let ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
+  (let ((ld-so (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker))))
       (file-system-fold (lambda (dir stat result)    ; enter?
                           result)
                         (lambda (file stat result)   ; leaf
