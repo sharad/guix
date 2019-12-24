@@ -96,7 +96,7 @@
                       ("patchelf" ,patchelf)))
      (arguments
       `(#:modules ((guix build utils)
-                   (guix build rpath)
+                   ;; (guix build rpath)
                    (lotus utils))
         #:builder (begin
                     (use-modules (guix build utils))
