@@ -47,10 +47,13 @@
 (define* (build #:key outputs inputs #:allow-other-keys)
   "Compile .el files."
   (begin
+    (use-modules (ice-9 ftw))
     (use-modules (guix build utils))
+    (use-modules (gnu packages bootstrap))
+
     ;; (use-modules (guix build rpath))
     (use-modules (lotus utils))
-    (let ((ld-so (string-append (assoc-ref %inputs "libc") (glibc-dynamic-linker))))
+    (let ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
       (file-system-fold (lambda (dir stat result)    ; enter?
                           result)
                         (lambda (file stat result)   ; leaf
@@ -59,7 +62,7 @@
                                       (library-file?    file))
                               (make-file-writable file)
                               (let ((rpath (string-join (map (lambda (in) (string-append in "/lib"))
-                                                             (cons* %output (map cdr inputs)))
+                                                             (cons* output (map cdr inputs)))
                                                         ":")))
                                 ;; (format #t "file ~s rpath ~s~%" file rpath)
                                 ;; (augment-rpath file lib-paths)
