@@ -20,9 +20,12 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus build patchelf-build-system)
+  #:use-module (ice-9 match)
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build utils)
-  #:use-module (ice-9 match)
+  #:use-module (guix packages)
+  #:use-module (guix download)
+  #:use-module (guix build rpath)
   #:export (%standard-phases
             patchelf-build))
 
@@ -47,7 +50,7 @@
     (use-modules (guix build utils))
     (use-modules (guix build rpath))
     (use-modules (lotus utils))
-    (let* ((ld-so (string-append (assoc-ref %inputs "libc") ,(glibc-dynamic-linker))))
+    (let ((ld-so (string-append (assoc-ref %inputs "libc") (glibc-dynamic-linker))))
       (file-system-fold (lambda (dir stat result)    ; enter?
                           result)
                         (lambda (file stat result)   ; leaf
