@@ -41,7 +41,7 @@
 
 (define %patchelf-build-system-modules
   ;; Build-side modules imported by default.
-  `((guix build patchelf-build-system)
+  `((lotus build patchelf-build-system)
     ,@%gnu-build-system-modules))
 
 (define (default-patchelf)
@@ -111,11 +111,11 @@
                          (strip-flags ''("--strip-debug"))
                          (strip-directories ''("lib" "lib64" "libexec"
                                                "bin" "sbin"))
-                         (phases '(@ (guix build patchelf-build-system)
+                         (phases '(@ (lotus build patchelf-build-system)
                                      %standard-phases))
                          (system (%current-system))
                          (imported-modules %patchelf-build-system-modules)
-                         (modules '((guix build patchelf-build-system)
+                         (modules '((lotus build patchelf-build-system)
                                     (guix build utils))))
   "Build SOURCE using PATCHELF, and with INPUTS. This assumes that SOURCE
 provides a 'PatchelfLists.txt' file as its build system."
@@ -191,12 +191,12 @@ provides a 'PatchelfLists.txt' file as its build system."
                                             "--enable-deterministic-archives"))
                             (strip-directories ''("lib" "lib64" "libexec"
                                                   "bin" "sbin"))
-                            (phases '(@ (guix build patchelf-build-system)
+                            (phases '(@ (lotus build patchelf-build-system)
                                         %standard-phases))
                             (system (%current-system))
                             (build (nix-system->gnu-triplet system))
                             (imported-modules %patchelf-build-system-modules)
-                            (modules '((guix build patchelf-build-system)
+                            (modules '((lotus build patchelf-build-system)
                                        (guix build utils))))
   "Cross-build NAME using PATCHELF for TARGET, where TARGET is a GNU triplet and
 with INPUTS.  This assumes that SOURCE provides a 'PatchelfLists.txt' file as its
