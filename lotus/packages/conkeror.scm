@@ -220,7 +220,7 @@
 ;; (define* (custom-gcc gcc name languages))
 
 (define-public firefox
-  (package (inherit firefox-56.0)
+  (package (inherit firefox-56.0-old)
     (name "firefox")))
 
 (define-public conkeror-firefox
