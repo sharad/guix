@@ -43,7 +43,7 @@
   ;; Build-side modules imported by default.
   `((lotus build patchelf-build-system)
     (lotus build utils)
-    (gnu packages bootstrap)
+    ;; (gnu packages bootstrap)
     (guix build utils)
     ;; (gnu packages bootstrap)
     ,@%gnu-build-system-modules))

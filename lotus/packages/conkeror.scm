@@ -28,7 +28,7 @@
   #:use-module (guix  build-system trivial)
   #:use-module (lotus build-system patchelf)
   #:use-module (gnu packages)
-  #:use-module (gnu packages bootstrap)
+  ;; #:use-module (gnu packages bootstrap)
   #:use-module (gnu packages base)
   #:use-module (gnu packages gcc)
   #:use-module (gnu packages compression)
