@@ -23,9 +23,6 @@
   #:use-module (ice-9 match)
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (ice-9 ftw)
-  ;; #:use-module (guix build utils)
-  ;; #:use-module (gnu packages bootstrap)
-  ;; #:use-module (lotus build utils)
   #:export (%standard-phases
             patchelf-build))
 
