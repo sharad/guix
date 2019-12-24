@@ -47,7 +47,7 @@
   "Return the default Patchelf package."
 
   ;; Do not use `@' to avoid introducing circular dependencies.
-  (let ((module (resolve-interface '(gnu packages patchelf))))
+  (let ((module (resolve-interface '(gnu packages elf))))
     (module-ref module 'patchelf)))
 
 (define* (lower name
