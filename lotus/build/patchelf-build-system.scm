@@ -26,7 +26,7 @@
 
   #:use-module (ice-9 ftw)
   #:use-module (guix build utils)
-  #:use-module (gnu packages bootstrap)
+  ;; #:use-module (gnu packages bootstrap)
   #:use-module (lotus build utils)
   ;; #:use-module (guix packages)
   ;; #:use-module (guix download)
@@ -98,8 +98,8 @@
 ;;               #:parallel-tests? parallel-tests?)))
 
 
-(define* (install #:key (make-flags '()) #:allow-other-keys)
-  (copy-recursively "source" %output))
+(define* (install #:key outputs (make-flags '()) #:allow-other-keys)
+  (copy-recursively "source" outputs))
 
 
 (define %standard-phaseos
