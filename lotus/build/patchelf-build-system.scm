@@ -60,7 +60,7 @@
           #:optional (system (or (and=> (%current-target-system)
                                         gnu-triplet->nix-system)
                                  (%current-system))))
-  (use-modules (gnu packages bootstrap))
+  ;; (use-modules (gnu packages bootstrap))
   (glibc-dynamic-linker system))
 
 
