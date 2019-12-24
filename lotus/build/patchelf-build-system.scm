@@ -27,7 +27,7 @@
   #:use-module (ice-9 ftw)
   #:use-module (guix build utils)
   ;; #:use-module (gnu packages bootstrap)
-  #:use-module (lotus build utils)
+  ;; #:use-module (lotus build utils)
   ;; #:use-module (guix packages)
   ;; #:use-module (guix download)
   ;; #:use-module (guix build rpath)
