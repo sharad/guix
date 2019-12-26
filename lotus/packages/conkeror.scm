@@ -276,8 +276,3 @@ YouTube.  For easier editing of form fields, it can spawn external editors.")
               license:gpl2
               license:lgpl2.1))))
 
-
-
-
-;; firefox-56.0
-
