@@ -56,13 +56,13 @@
     (module-ref patchelf-mod 'patchelf)))
 
 (define* (lower name
-                #:key source inputs native-inputs outputs system target
+                #:key source inputs native-inputs outputs system target host-inputs
                 (patchelf (default-patchelf))
                 #:allow-other-keys
                 #:rest arguments)
   "Return a bag for NAME."
   (define private-keywords
-    '(#:target #:patchelf #:inputs #:native-inputs))
+    '(#:target #:patchelf #:inputs #:native-inputs #:host-inputs))
 
   (and (not target)                               ;XXX: no cross-compilation
        (bag
@@ -91,7 +91,7 @@
          (arguments (strip-keyword-arguments private-keywords arguments)))))
 
 (define* (patchelf-build store name inputs
-                         #:key source
+                         #:key source host-inputs
                          (tests? #f)
                          (parallel-tests? #t)
                          (test-command ''("make" "check"))
@@ -127,6 +127,7 @@
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
+                       #:host-inputs inputs
                        #:inputs %build-inputs)))
 
   (define guile-for-build
@@ -140,7 +141,7 @@
 
   (build-expression->derivation store name builder
                                 #:inputs inputs
-                                ;; #:host-inputs host-inputs
+                                #:host-inputs host-inputs
                                 #:system system
                                 #:modules imported-modules
                                 #:outputs outputs
