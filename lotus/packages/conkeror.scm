@@ -254,14 +254,9 @@
                                                     (elf-directories '("share/firefox/lib" "share/firefox/lib64" "share/firefox/libexec"
                                                                        "share/firefox/bin" "share/firefox/sbin"))
                                                     outputs #:allow-other-keys)
-                                            (gnu:validate-runpath #:validate-runpath? #t
-                                                                  #:elf-directories '("share/firefox/lib"
-                                                                                      "share/firefox/lib64"
-                                                                                      "share/firefox/libexec"
-                                                                                      "share/firefox/bin"
-                                                                                      "share/firefox/sbin")
+                                            (gnu:validate-runpath #:validate-runpath? validate-runpath?
+                                                                  #:elf-directories elf-directories
                                                                   #:outputs outputs))))))
-
     (synopsis "Firefox")
     (description "Firefox.")
     (home-page "https://www.mozilla.org")
