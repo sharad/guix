@@ -31,7 +31,9 @@
   #:use-module (ice-9 regex)
   #:use-module (ice-9 match)
   #:export (%standard-phases
-            patchelf-build))
+            patchelf-build
+            library-file?
+            elf-binary-file?))
 
 ;; Commentary:
 ;;
