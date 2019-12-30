@@ -149,7 +149,7 @@
     ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
     (delete 'bootstrap)
     (delete 'configure)
-    (replace 'install build)
+    (replace 'build build)
     (delete 'check)
     (replace 'install install)))
     ;; (add-after 'install 'make-autoloads make-autoloads)
