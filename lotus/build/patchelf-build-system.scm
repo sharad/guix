@@ -73,7 +73,7 @@
                        (library-file?    file))
                (make-file-writable file)
                (let ((rpath (string-join (map (lambda (in) (string-append in "/lib"))
-                                              (cons* outputs (map cdr inputs)))
+                                              (cons* (cadr outputs) (map cadr inputs)))
                                          ":")))
                  ;; (format #t "file ~s rpath ~s~%" file rpath)
                  ;; (augment-rpath file lib-paths)
