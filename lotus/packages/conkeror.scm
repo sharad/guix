@@ -280,7 +280,7 @@
                                                                              "share/firefox/sbin"))
                                                           outputs
                                                           #:allow-other-keys)
-                                            (define gnu:validate-runpath (assoc-ref gnu:%standard-phases 'validate-runpath))
+                                            (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
                                             (gnu:validate-runpath #:validate-runpath? validate-runpath?
                                                                   #:elf-directories   elf-directories
                                                                   #:outputs           outputs))))))
