@@ -94,7 +94,7 @@
          (build patchelf-build)
          (arguments (strip-keyword-arguments private-keywords arguments)))))
 
-(define* (patchelf-build store name inputs
+(define* (patchelf-build store name inputs host-inputs
                          #:key source
                          (tests? #f)
                          (parallel-tests? #t)
