@@ -223,7 +223,7 @@
                                             (firefox-dir  (string-append source      "/share/firefox"))
                                             (firefox-lib  (string-append firefox-dir "/lib"))
                                             (firefox-bin  (string-append firefox-dir "/bin"))
-                                            (firefox-misc (string-append firefox-dir "/misic"))
+                                            (firefox-misc (string-append firefox-dir "/misc"))
                                             (bin-dir      (string-append source      "/bin")))
                                        (format #t "rearrange: outputs ~a~%" outputs)
                                        (for-each (lambda (file)
