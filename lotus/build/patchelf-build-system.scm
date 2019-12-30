@@ -65,7 +65,7 @@
          (lambda (file)
            (let ((stat (stat file)))
              (format #t "build:~%outputs ~a~%inputs~%~a~%"
-                     (langth outputs) (length inputs))
+                     (length outputs) (length inputs))
              (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
              (format #t "build `~a'~%" file)
              (when (or (elf-binary-file? file)
