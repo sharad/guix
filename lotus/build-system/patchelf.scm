@@ -18,8 +18,7 @@
 
 (define-module (lotus build-system patchelf)
   #:use-module ((lotus build patchelf-build-system))
-                ;; #:select (%default-include %default-exclude)
-                
+  ;; #:select (%default-include %default-exclude)
   #:use-module (guix store)
   #:use-module (guix utils)
   #:use-module (guix packages)
@@ -32,10 +31,8 @@
   #:export (%patchelf-build-system-modules
             patchelf-build
             patchelf-build-system))
-  ;; #:re-export (%default-include         ;for convenience
-  ;;              %default-exclude)
-  
-
+;; #:re-export (%default-include         ;for convenience
+;;              %default-exclude)
 
 ;; Commentary:
 ;;

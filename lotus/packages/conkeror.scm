@@ -167,17 +167,18 @@
 (define-public firefox-56.0
   ;; (hidden-package)
   (package
-     (name "firefox-56.0")
-     (version "56.0")
-     (source (origin
-               (method url-fetch)
-               (uri
-                (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
-               (file-name (string-append "firefox-" version ".tar.bz2"))
-               (sha256
-                (base32
-                 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
-     (inputs `(("libc"          ,glibc)
+    (name "firefox-56.0")
+    (version "56.0")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+              (file-name (string-append "firefox-" version ".tar.bz2"))
+              (sha256
+               (base32
+                "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
+    (build-system patchelf-build-system)
+    (inputs `(("libc"          ,glibc)
                ("gcc:lib"       ,gcc "lib")
                ("dbus"          ,dbus)
                ("libxcomposite" ,libxcomposite)
@@ -207,34 +208,34 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-     (build-system patchelf-build-system)
-     (argument `(#:output-libs '("/share/lib")
-                 #:phases
-                 (modify-phases %standard-phases
-                   (add-after 'build 'rearrange
-                     (lambda* (#:key inputs outputs #:allow-other-keys)
-                       ;; This overwrites the installed launcher, which execs xulrunner,
-                       ;; with one that execs 'icecat --app'
-                       (let* ((out      (assoc-ref outputs "out"))
-                              (datadir  (string-append out "/share/conkeror"))
-                              (launcher (string-append out "/bin/conkeror")))))))))
-                         ;; (call-with-output-file launcher
-;;                            (lambda (p)
-;;                              (format p "#!~a/bin/bash
-;; exec ~a/bin/firefox --app ~a \"$@\"~%"
-;;                                      (assoc-ref inputs "bash") ;implicit input
-;;                                      (assoc-ref inputs "firefox")
-;;                                      (string-append datadir "/application.ini"))))
-;;                          (chmod launcher #o555)
+    ;; (argument `(#:output-libs '("/share/lib")
+    ;;             #:phases
+    ;;             (modify-phases %standard-phases
+    ;;               (add-after 'build 'rearrange
+    ;;                 (lambda* (#:key inputs outputs #:allow-other-keys)
+    ;;                   ;; This overwrites the installed launcher, which execs xulrunner,
+    ;;                   ;; with one that execs 'icecat --app'
+    ;;                   (let* ((out      (assoc-ref outputs "out"))
+    ;;                          (datadir  (string-append out "/share/conkeror"))
+    ;;                          (launcher (string-append out "/bin/conkeror")))))))))
 
-     (synopsis "Firefox")
-     (description "Firefox.")
-     (home-page "https://www.mozilla.org")
-     ;; Conkeror is triple licensed.
-     (license (list
-               ;; MPL 1.1 -- this license is not GPL compatible
-               license:gpl2
-               license:lgpl2.1))))
+    ;; (call-with-output-file launcher
+    ;;                            (lambda (p)
+    ;;                              (format p "#!~a/bin/bash
+    ;; exec ~a/bin/firefox --app ~a \"$@\"~%"
+    ;;                                      (assoc-ref inputs "bash") ;implicit input
+    ;;                                      (assoc-ref inputs "firefox")
+    ;;                                      (string-append datadir "/application.ini"))))
+    ;;                          (chmod launcher #o555)
+
+    (synopsis "Firefox")
+    (description "Firefox.")
+    (home-page "https://www.mozilla.org")
+    ;; Conkeror is triple licensed.
+    (license (list
+              ;; MPL 1.1 -- this license is not GPL compatible
+              license:gpl2
+              license:lgpl2.1))))
 
 (define-public firefox
   (package (inherit firefox-56.0-old)
