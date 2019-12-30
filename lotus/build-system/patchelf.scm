@@ -47,7 +47,7 @@
 (define %patchelf-build-system-modules
   ;; Build-side modules imported by default.
   `((lotus build patchelf-build-system)
-    (lotus build patchelf-utils)
+    ;; (lotus build patchelf-utils)
     ;; (guix utils)
     ;; (guix config)
     ;; (guix build utils)

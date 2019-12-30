@@ -22,8 +22,8 @@
 (define-module (lotus build patchelf-build-system)
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build utils)
-  #:use-module (gnu packages bootstrap)
-  #:use-module (lotus build patchelf-utils)
+  ;; #:use-module (gnu packages bootstrap)
+  ;; #:use-module (lotus build patchelf-utils)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)
   #:use-module (srfi srfi-26)
@@ -39,10 +39,21 @@
 ;;
 ;; Code:
 
+(define (library-file? file)
+  (and (eq? 'regular (stat:type (stat file)))
+       (string-suffix? ".so" file)))
+
+(define (elf-binary-file? file)
+  (and (eq? 'regular (stat:type (stat file)))
+       (not (string-suffix? ".so" file))
+       (executable-file? file)
+       (elf-file? file)))
+
 (define* (build #:key outputs inputs #:allow-other-keys)
   "Compile .el files."
   (format #t "~% Test ~a ~%~%" 1)
-  (let ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
+  (let ((ld-so (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2")))
+    ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
     (define source (getcwd))
     (define* (install-file? file stat #:key verbose?) file)
     (let* ((out (assoc-ref outputs "out"))
