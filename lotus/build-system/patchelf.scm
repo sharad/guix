@@ -52,7 +52,7 @@
   "Return the default Patchelf package."
   ;; Lazily resolve the binding to avoid a circular dependency.
   (let ((patchelf-mod (resolve-interface '(gnu packages elf))))
-    (module-ref patchelf-mod 'patchelf-minimal)))
+    (module-ref patchelf-mod 'patchelf)))
 
 (define* (lower name
                 #:key source inputs native-inputs outputs system target
