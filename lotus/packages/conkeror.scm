@@ -220,7 +220,7 @@
                                      (define source (getcwd))
                                      (let* ((files-to-arrange (find-files source))
                                             ;; (out          (assoc-ref outputs "out"))
-                                            (firefox-dir  (string-append source      "share/firefox"))
+                                            (firefox-dir  (string-append source      "/share/firefox"))
                                             (firefox-lib  (string-append firefox-dir "/lib"))
                                             (firefox-bin  (string-append firefox-dir "/bin"))
                                             (firefox-misc (string-append firefox-dir "/misic"))
