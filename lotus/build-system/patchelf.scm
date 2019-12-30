@@ -127,7 +127,7 @@
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
-                       #:host-inputs ',inputs
+                       ;; #:host-inputs ',inputs
                        #:inputs %build-inputs)))
 
   (define guile-for-build
@@ -141,7 +141,6 @@
 
   (build-expression->derivation store name builder
                                 #:inputs inputs
-                                ;; #:host-inputs host-inputs
                                 #:system system
                                 #:modules imported-modules
                                 #:outputs outputs
