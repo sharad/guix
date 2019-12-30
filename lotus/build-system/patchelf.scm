@@ -76,7 +76,6 @@
                               `(("source" ,source))
                               '())
                         ,@inputs
-
                         ;; Keep the standard inputs of 'gnu-build-system'.
                         ,@(standard-packages)))
          (build-inputs `(("patchelf" ,patchelf)
