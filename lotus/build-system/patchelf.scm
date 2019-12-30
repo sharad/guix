@@ -122,7 +122,8 @@
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
-                       #:inputs %build-inputs)))
+                       #:inputs %inputs
+                       #:build-inputs %build-inputs)))
 
   (define guile-for-build
     (match guile

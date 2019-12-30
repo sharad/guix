@@ -49,9 +49,9 @@
        (executable-file? file)
        (elf-file? file)))
 
-(define* (build #:key outputs inputs #:allow-other-keys)
+(define* (build #:key outputs inputs build-inputs #:allow-other-keys)
   "Compile .el files."
-  (format #t "~% Test ~a ~%~%" 1)
+  ;; (format #t "~% Test ~a ~%~%" 1)
   (let ((ld-so  (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
         (inputs (filter (lambda (in)
@@ -64,11 +64,11 @@
         (for-each
          (lambda (file)
            (let ((stat (stat file)))
-             (format #t "build:~%outputs ~a~%inputs ~a~%"
-                     (length outputs)
-                     (length inputs))
-             (for-each (lambda (e) (format #t " ~a~%" e)) outputs)
-             (for-each (lambda (e) (format #t " ~a~%" e)) inputs)
+             ;; (format #t "build:~%outputs ~a~%inputs ~a~%"
+             ;;         (length outputs)
+             ;;         (length inputs))
+             ;; (for-each (lambda (e) (format #t " ~a~%" e)) outputs)
+             ;; (for-each (lambda (e) (format #t " ~a~%" e)) inputs)
              ;; (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
              (format #t "build `~a'~%" file)
              (when (or (elf-binary-file? file)
