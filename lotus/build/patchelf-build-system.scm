@@ -63,7 +63,7 @@
        ((not (null? files-to-build))
         (for-each
          (lambda (file)
-           (let ((stat  (stat file))
+           (let ((stat   (stat file))
                  (inputs (filter (lambda (in)
                                   (not (member (car in) '(source patchelf))))
                                 inputs)))
@@ -71,16 +71,15 @@
              (when (or (elf-binary-file? file)
                        (library-file?    file))
                (make-file-writable file)
-               (format #t "build:~%outputs~%~{ ~a~%~}~%inputs~%~{ ~a~%~}~%"
-                       outputs
-                       inputs)
+               ;; (format #t "build:~%outputs~%~{ ~a~%~}~%inputs~%~{ ~a~%~}~%"
+               ;;         outputs
+               ;;         inputs)
                (let ((rpath (string-join (map (lambda (in)
-                                                ;; (format #t "map lambda ~a~%" in)
                                                 (string-append in "/lib"))
                                               (map cdr (append outputs
                                                                inputs)))
                                          ":")))
-                 (format #t "file ~s rpath ~s~%" file rpath)
+                 (format #t "build: file ~s rpath ~s~%" file rpath)
                  ;; (augment-rpath file lib-paths)
                  (format #t "build: ~a is a elf binary or library file~%" file)
                  (invoke "patchelf" "--set-rpath" rpath file))
