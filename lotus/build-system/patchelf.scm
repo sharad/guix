@@ -121,7 +121,7 @@
                        #:tests? ,tests?
                        #:phases ,phases
                        #:outputs %outputs
-                       ;; #:include ,include
+                       #:output-libs ,output-libs
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
