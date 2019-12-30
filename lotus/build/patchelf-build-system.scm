@@ -71,10 +71,10 @@
                        (library-file?    file))
                (make-file-writable file)
                (format #t
-                       ;; "build:~%outputs~%~{ ~a, }~%inputs~%~{ ~a, }~%"
-                       "build:~%inputs~%~{ ~a, }~%"
-                       ;; (map car outputs)
-                       (map car inputs))
+                       "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%"
+                       ;; "build:~%inputs~%~{ ~a, }~%"
+                       outputs
+                       inputs)
                (let ((rpath (string-join (map (lambda (in)
                                                 (string-append in "/lib"))
                                               (map cdr (append outputs
