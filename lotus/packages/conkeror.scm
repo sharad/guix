@@ -211,26 +211,28 @@
     (arguments `(#:output-libs ("/share/lib")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
-                                     'build 'xrearrange
+                                     'build 'rearrange
                                    (lambda* (#:key inputs outputs #:allow-other-keys)
                                      ;; This overwrites the installed launcher, which execs xulrunner,
                                      ;; with one that execs 'icecat --app'
-                                     (let* ((out         (assoc-ref outputs "out"))
+                                     (define source (getcwd))
+                                     (let* ((files-to-arrange (find-files source))
+                                            (out         (assoc-ref outputs "out"))
                                             (firefox-dir (string-append out         "/share/firefox"))
                                             (firefox-lib (string-append firefox-dir "/lib"))
                                             (firefox-bin (string-append firefox-dir "/bin"))
                                             (bin-dir     (string-append %output     "/bin")))
+                                       (for-each (lambda (file)
+                                                    (let* ((src-file (string-append "firefox/" file))
+                                                           (target-file (string-append (if (library-file? src-file)
+                                                                                           firefox-lib
+                                                                                           firefox-bin))
+                                                                        "/" (basename file)))
+                                                        (if (directory? src-file)
+                                                           (copy-recursively src-file target-file))
+                                                        (copy-file src-file target-file)))
+                                                 files-to-arrange)
                                        #t))))))
-
-    ;; (call-with-output-file launcher
-    ;;                            (lambda (p)
-    ;;                              (format p "#!~a/bin/bash
-    ;; exec ~a/bin/firefox --app ~a \"$@\"~%"
-    ;;                                      (assoc-ref inputs "bash") ;implicit input
-    ;;                                      (assoc-ref inputs "firefox")
-    ;;                                      (string-append datadir "/application.ini"))))
-    ;;                          (chmod launcher #o555)
-
     (synopsis "Firefox")
     (description "Firefox.")
     (home-page "https://www.mozilla.org")
