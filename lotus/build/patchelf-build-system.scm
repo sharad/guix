@@ -57,7 +57,6 @@
     (define source (getcwd))
     (define* (install-file? file stat #:key verbose?) file)
     (let* ((out (assoc-ref outputs "out"))
-           ;; (files-to-build (find-files source install-file?))
            (files-to-build (find-files source)))
       (cond
        ((not (null? files-to-build))
@@ -79,7 +78,7 @@
                                               (map cdr (append outputs
                                                                inputs)))
                                          ":")))
-                 (format #t "build: file ~s rpath ~s~%" file rpath)
+                 ;; (format #t "build: file ~s rpath ~s~%" file rpath)
                  ;; (augment-rpath file lib-paths)
                  (format #t "build: ~a is a elf binary or library file~%" file)
                  (invoke "patchelf" "--set-rpath" rpath file))
