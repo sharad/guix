@@ -257,9 +257,10 @@
                                                                              "share/firefox/sbin"))
                                                           outputs
                                                           #:allow-other-keys)
-                                            (validate-runpath #:validate-runpath? validate-runpath?
-                                                              #:elf-directories   elf-directories
-                                                              #:outputs outputs))))))
+                                            (define gnu:validate-runpath (assoc-ref gnu:%standard-phases 'validate-runpath))
+                                            (gnu:validate-runpath #:validate-runpath? validate-runpath?
+                                                                  #:elf-directories   elf-directories
+                                                                  #:outputs outputs))))))
     (synopsis "Firefox")
     (description "Firefox.")
     (home-page "https://www.mozilla.org")
