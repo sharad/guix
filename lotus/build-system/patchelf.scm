@@ -56,7 +56,7 @@
     (module-ref patchelf-mod 'patchelf)))
 
 (define* (lower name
-                #:key source inputs native-inputs outputs system target host-inputs
+                #:key source inputs native-inputs outputs system target
                 (patchelf (default-patchelf))
                 #:allow-other-keys
                 #:rest arguments)
@@ -91,7 +91,7 @@
          (arguments (strip-keyword-arguments private-keywords arguments)))))
 
 (define* (patchelf-build store name inputs
-                         #:key source host-inputs
+                         #:key source
                          (tests? #f)
                          (parallel-tests? #t)
                          (test-command ''("make" "check"))
@@ -103,9 +103,9 @@
                          (guile #f)
                          (imported-modules %patchelf-build-system-modules)
                          (modules '((lotus build patchelf-build-system)
-                                    (guix build utils)
-                                    ;; (lotus build patchelf-utils)
-                                    )))
+                                    (guix build utils))))
+  ;; (lotus build patchelf-utils)
+
   "Build SOURCE using PATCHELF, and with INPUTS."
   (define builder
     `(begin
@@ -141,7 +141,7 @@
 
   (build-expression->derivation store name builder
                                 #:inputs inputs
-                                #:host-inputs host-inputs
+                                ;; #:host-inputs host-inputs
                                 #:system system
                                 #:modules imported-modules
                                 #:outputs outputs
