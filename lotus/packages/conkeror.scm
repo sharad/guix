@@ -208,21 +208,19 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-    (argument `(#:output-libs
-                ("/share/lib")
-                #:phases
-                (modify-phases %standard-phases
-                  (add-after
-                      'build 'xrearrange
-                    (lambda* (#:key inputs outputs #:allow-other-keys)
-                      ;; This overwrites the installed launcher, which execs xulrunner,
-                      ;; with one that execs 'icecat --app'
-                      (let* ((out         (assoc-ref outputs "out"))
-                             (firefox-dir (string-append out         "/share/firefox"))
-                             (firefox-lib (string-append firefox-dir "/lib"))
-                             (firefox-bin (string-append firefox-dir "/bin"))
-                             (bin-dir     (string-append %output     "/bin")))
-                        #t))))))
+    (arguments `(#:output-libs ("/share/lib")
+                 #:phases      (modify-phases %standard-phases
+                                 (add-after
+                                     'build 'xrearrange
+                                   (lambda* (#:key inputs outputs #:allow-other-keys)
+                                     ;; This overwrites the installed launcher, which execs xulrunner,
+                                     ;; with one that execs 'icecat --app'
+                                     (let* ((out         (assoc-ref outputs "out"))
+                                            (firefox-dir (string-append out         "/share/firefox"))
+                                            (firefox-lib (string-append firefox-dir "/lib"))
+                                            (firefox-bin (string-append firefox-dir "/bin"))
+                                            (bin-dir     (string-append %output     "/bin")))
+                                       #t))))))
 
     ;; (call-with-output-file launcher
     ;;                            (lambda (p)
