@@ -213,6 +213,8 @@
     (arguments `(#:output-libs '("/share/firefox/lib")
                  ;; #:elf-directories '("share/firefox/lib" "share/firefox/lib64" "share/firefox/libexec"
                  ;;                     "share/firefox/bin" "share/firefox/sbin")
+                 #:strip-directories '("lib" "lib64" "libexec"
+                                       "bin" "sbin")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
