@@ -49,7 +49,7 @@
        (executable-file? file)
        (elf-file? file)))
 
-(define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys) ; 
+(define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
   "Compile .el files."
   (define source (getcwd))
   (let* ((output-libs    output-libs)
