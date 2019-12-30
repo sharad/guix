@@ -1,5 +1,5 @@
 
-(define-module (lotus build utils)
+(define-module (lotus build patchelf-utils)
   #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-26)
   ;; #:use-module ((guix licenses) #:prefix license:)
