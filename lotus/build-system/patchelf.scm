@@ -95,6 +95,7 @@
                          (phases '(@ (lotus build patchelf-build-system)
                                      %standard-phases))
                          (outputs '("out"))
+                         (output-libs '())
                          (search-paths '())
                          (system (%current-system))
                          (guile #f)
