@@ -57,10 +57,6 @@
         (inputs (filter (lambda (in)
                           (not (memq (car in) '(source patchelf))))
                         inputs)))
-    (format #t
-            "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%"
-            outputs
-            inputs)
     (define source (getcwd))
     (let* ((files-to-build (find-files source)))
       (cond
@@ -68,6 +64,9 @@
         (for-each
          (lambda (file)
            (let ((stat (stat file)))
+             (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%"
+                     outputs
+                     inputs)
              (format #t "build `~a'~%" file)
              (when (or (elf-binary-file? file)
                        (library-file?    file))
