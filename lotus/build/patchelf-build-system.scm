@@ -141,7 +141,7 @@
                       #:allow-other-keys #:rest args)
   "Build the given Patchelf package, applying all of PHASES in order."
   (apply gnu:gnu-build
-         #:inputs inputs #:host-inputs host-inputs #:phases phases
+         #:inputs inputs #:phases phases  #:host-inputs host-inputs
          args))
 
 ;;; patchelf-build-system.scm ends here
