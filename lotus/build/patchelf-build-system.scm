@@ -54,14 +54,13 @@
     file)
 
   (let* ((out (assoc-ref outputs "out"))
-         (site-lisp out)
          (files-to-install (find-files source install-file?)))
     (cond
      ((not (null? files-to-install))
       (for-each
        (lambda (file)
          (let* ((stripped-file (string-drop file (string-length source)))
-                (target-file   stripped-file))
+                (target-file   (string-append out stripped-file)))
            (format #t "`~a' -> `~a'~%" file target-file)
            (install-file file (dirname target-file))))
        files-to-install)
