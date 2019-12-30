@@ -51,12 +51,11 @@
 
 (define* (build #:key outputs inputs host-inputs output-lib #:allow-other-keys)
   "Compile .el files."
-  ;; (format #t "~% Test ~a ~%~%" 1)
   (let ((ld-so       (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
-        (host-inputs (filter (lambda (in))
-                          (not (member (car in) '("source" "patchelf")))
-                          host-inputs))
+        (host-inputs (filter (lambda (in)
+                               (not (member (car in) '("source" "patchelf"))))
+                             host-inputs))
         (rpath (string-join (map (lambda (in)
                                    (string-append in "/lib"))
                                  (map cdr (append outputs host-inputs)))
