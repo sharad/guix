@@ -17,9 +17,9 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus build-system patchelf)
-  #:use-module ((lotus build patchelf-build-system)
+  #:use-module ((lotus build patchelf-build-system))
                 ;; #:select (%default-include %default-exclude)
-                )
+                
   #:use-module (guix store)
   #:use-module (guix utils)
   #:use-module (guix packages)
@@ -31,10 +31,10 @@
   #:use-module (srfi srfi-26)
   #:export (%patchelf-build-system-modules
             patchelf-build
-            patchelf-build-system)
+            patchelf-build-system))
   ;; #:re-export (%default-include         ;for convenience
   ;;              %default-exclude)
-  )
+  
 
 
 ;; Commentary:
@@ -49,7 +49,7 @@
   `((lotus build patchelf-build-system)
     (lotus build patchelf-utils)
     (guix utils)
-    (guix config)
+    ;; (guix config)
     (guix build utils)
     ,@%gnu-build-system-modules))
 

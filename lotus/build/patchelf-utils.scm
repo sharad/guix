@@ -3,7 +3,7 @@
   #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-26)
   ;; #:use-module ((guix licenses) #:prefix license:)
-  #:use-module (guix utils)
+  ;; #:use-module (guix utils)
   #:use-module (guix build utils)
   #:use-module (gnu packages bootstrap)
   ;; #:use-module (guix packages)
@@ -46,9 +46,9 @@
 (define (directory-list-files dir)
   (scandir dir (negate (cut member <> '("." "..")))))
 
-(define* (patchelf-dynamic-linker
-          #:optional (system (or (and=> (%current-target-system)
-                                        gnu-triplet->nix-system)
-                                 (%current-system))))
-  (use-modules (gnu packages bootstrap))
-  (glibc-dynamic-linker system))
+;; (define* (patchelf-dynamic-linker
+;;           #:optional (system (or (and=> (%current-target-system)
+;;                                         gnu-triplet->nix-system)
+;;                                  (%current-system))))
+;;   (use-modules (gnu packages bootstrap))
+;;   (glibc-dynamic-linker system))
