@@ -208,7 +208,25 @@
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
      (build-system patchelf-build-system)
-     (argument `(#:output-libs '("/share/lib")))
+     (argument `(#:output-libs '("/share/lib")
+                 #:phases
+                 (modify-phases %standard-phases
+                   (add-after 'build 'rearrange
+                     (lambda* (#:key inputs outputs #:allow-other-keys)
+                       ;; This overwrites the installed launcher, which execs xulrunner,
+                       ;; with one that execs 'icecat --app'
+                       (let* ((out      (assoc-ref outputs "out"))
+                              (datadir  (string-append out "/share/conkeror"))
+                              (launcher (string-append out "/bin/conkeror")))))))))
+                         ;; (call-with-output-file launcher
+;;                            (lambda (p)
+;;                              (format p "#!~a/bin/bash
+;; exec ~a/bin/firefox --app ~a \"$@\"~%"
+;;                                      (assoc-ref inputs "bash") ;implicit input
+;;                                      (assoc-ref inputs "firefox")
+;;                                      (string-append datadir "/application.ini"))))
+;;                          (chmod launcher #o555)
+
      (synopsis "Firefox")
      (description "Firefox.")
      (home-page "https://www.mozilla.org")

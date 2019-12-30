@@ -49,18 +49,24 @@
        (executable-file? file)
        (elf-file? file)))
 
-(define* (build #:key outputs inputs output-libs #:allow-other-keys)
+(define* (build #:key outputs inputs #:allow-other-keys) ; output-libs
   "Compile .el files."
   (define source (getcwd))
-  (let* ((ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+  (let* ((output-libs    '("/share/lib"))
+         (ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
          (host-inputs    (filter (lambda (in)
                                    (not (member (car in) '("source" "patchelf"))))
                                  inputs))
-         (rpath          (string-join (map (lambda (in)
+         (in-rpath       (string-join (map (lambda (in)
                                              (string-append in "/lib"))
                                            (map cdr (append outputs host-inputs)))
+                                   ":"))
+         (out-rpath      (string-join (map (lambda (lib)
+                                             (string-append (assoc-ref outputs "out") lib))
+                                           output-libs)
                                       ":"))
+         (rpath          (string-join (list in-rpath out-rpath) ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs ~a~%" output-libs)
     (cond
