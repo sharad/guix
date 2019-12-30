@@ -38,13 +38,85 @@
 ;;
 ;; Code:
 
+;; (define* (build #:key outputs inputs #:allow-other-keys)
+;;   "Compile .el files."
+;;   (format #t "~% Test ~a ~%~%" 1)
+;;   (let ((ld-so (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker))))
+;;       (file-system-fold (lambda (dir stat result)    ; enter?
+;;                           result)
+;;                         (lambda (file stat result)   ; leaf
+;;                           (let ((stat stat))
+;;                             (when (or (elf-binary-file? file)
+;;                                       (library-file?    file))
+;;                               (make-file-writable file)
+;;                               (let ((rpath (string-join (map (lambda (in) (string-append in "/lib"))
+;;                                                              (cons* outputs (map cdr inputs)))
+;;                                                         ":")))
+;;                                 ;; (format #t "file ~s rpath ~s~%" file rpath)
+;;                                 ;; (augment-rpath file lib-paths)
+;;                                 (invoke "patchelf" "--set-rpath" rpath file))
+;;                               (when (and (not (library-file? file))
+;;                                          (elf-binary-file? file))
+;;                                 (invoke "patchelf" "--set-interpreter" ld-so file))
+;;                               (chmod file (stat:perms stat)))))
+;;                         (const #t)                   ; down
+;;                         (lambda (dir stat result)    ; up
+;;                           result)
+;;                         (const #t)                   ; skip
+;;                         (lambda (file stat errno result)
+;;                           (format (current-error-port)
+;;                                   "warning: failed to process ~a: ~a~%"
+;;                                   file (strerror errno)))
+;;                         #t
+;;                         "source"
+;;                         ;; Don't follow symlinks.
+;;                         lstat)
+;;       #t))
+
+(define* (build #:key outputs inputs #:allow-other-keys)
+  "Compile .el files."
+  (format #t "~% Test ~a ~%~%" 1)
+  (let ((ld-so (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker))))
+    (define source (getcwd))
+    (define* (install-file? file stat #:key verbose?) file)
+    (let* ((out (assoc-ref outputs "out"))
+           ;; (files-to-build (find-files source install-file?))
+           (files-to-build (find-files source)))
+      (cond
+       ((not (null? files-to-build))
+        (for-each
+         (lambda (file)
+           ;; (let* ((stripped-file (string-drop file (string-length source)))
+           ;;        (target-file   (string-append out stripped-file)))
+           ;;   (format #t "`~a' -> `~a'~%" file target-file)
+           ;;   (install-file file (dirname target-file)))
+           (let ((stat (stat file)))
+             (format #t "build `~a'~%" file)
+             (when (or (elf-binary-file? file)
+                       (library-file?    file))
+               (make-file-writable file)
+               (let ((rpath (string-join (map (lambda (in) (string-append in "/lib"))
+                                              (cons* outputs (map cdr inputs)))
+                                         ":")))
+                 ;; (format #t "file ~s rpath ~s~%" file rpath)
+                 ;; (augment-rpath file lib-paths)
+                 (invoke "patchelf" "--set-rpath" rpath file))
+               (when (and (not (library-file? file))
+                          (elf-binary-file? file))
+                 (invoke "patchelf" "--set-interpreter" ld-so file))
+               (chmod file (stat:perms stat)))))
+         files-to-build)
+        #t)
+       (else
+        (format #t "error: No files found to install.\n")
+        (find-files source)
+        #f)))))
+
 ;;; All the packages are installed directly under site-lisp, which means that
 ;;; having that directory in the PATCHELFLOADPATH is enough to have them found by
 ;;; Patchelf.
 
 (define* (install #:key outputs
-                  ;; (include %default-include)
-                  ;; (exclude %default-exclude)
                   #:allow-other-keys)
   "Install the package contents."
 
@@ -77,7 +149,7 @@
     ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
     (delete 'bootstrap)
     (delete 'configure)
-    (delete 'build)
+    (replace 'install build)
     (delete 'check)
     (replace 'install install)))
     ;; (add-after 'install 'make-autoloads make-autoloads)
