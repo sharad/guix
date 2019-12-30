@@ -208,7 +208,7 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-    (arguments `(#:output-libs ("/share/lib")
+    (arguments `(#:output-libs '("/share/lib")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
