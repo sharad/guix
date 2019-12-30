@@ -52,15 +52,15 @@
 (define* (build #:key outputs inputs #:allow-other-keys)
   "Compile .el files."
   (define source (getcwd))
-  (let* ((ld-so       (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+  (let* ((ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
-         (host-inputs (filter (lambda (in)
-                                (not (member (car in) '("source" "patchelf"))))
-                              inputs))
-         (rpath (string-join (map (lambda (in)
-                                    (string-append in "/lib"))
-                                  (map cdr (append outputs host-inputs)))
-                             ":"))
+         (host-inputs    (filter (lambda (in)
+                                   (not (member (car in) '("source" "patchelf"))))
+                                 inputs))
+         (rpath          (string-join (map (lambda (in)
+                                             (string-append in "/lib"))
+                                           (map cdr (append outputs host-inputs)))
+                                      ":"))
          (files-to-build (find-files source)))
     (cond
        ((not (null? files-to-build))
@@ -137,11 +137,11 @@
     ;; (add-after 'patch-el-files 'build build)
     ;; (add-after 'build 'move-doc move-doc)
 
-(define* (patchelf-build #:key inputs host-inputs (phases %standard-phases)
+(define* (patchelf-build #:key inputs (phases %standard-phases)
                       #:allow-other-keys #:rest args)
   "Build the given Patchelf package, applying all of PHASES in order."
   (apply gnu:gnu-build
-         #:inputs inputs #:phases phases  #:host-inputs host-inputs
+         #:inputs inputs #:phases phases
          args))
 
 ;;; patchelf-build-system.scm ends here
