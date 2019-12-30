@@ -42,3 +42,10 @@
 
 (define (directory-list-files dir)
   (scandir dir (negate (cut member <> '("." "..")))))
+
+(define* (patchelf-dynamic-linker
+          #:optional (system (or (and=> (%current-target-system)
+                                        gnu-triplet->nix-system)
+                                 (%current-system))))
+  (use-modules (gnu packages bootstrap))
+  (glibc-dynamic-linker system))

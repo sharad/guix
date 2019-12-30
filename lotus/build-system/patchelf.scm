@@ -90,8 +90,6 @@
                          (phases '(@ (lotus build patchelf-build-system)
                                      %standard-phases))
                          (outputs '("out"))
-                         ;; (include (quote %default-include))
-                         ;; (exclude (quote %default-exclude))
                          (search-paths '())
                          (system (%current-system))
                          (guile #f)
