@@ -211,10 +211,6 @@
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
     (arguments `(#:output-libs '("/share/firefox/lib")
-                 ;; #:elf-directories '("share/firefox/lib" "share/firefox/lib64" "share/firefox/libexec"
-                 ;;                     "share/firefox/bin" "share/firefox/sbin")
-                 #:strip-directories '("lib" "lib64" "libexec"
-                                       "bin" "sbin")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
@@ -260,17 +256,16 @@
                                                                  "objcopy"))
                                             (strip-flags '("--strip-debug"
                                                            "--enable-deterministic-archives"))
-                                            (strip-directories '("lib" "lib64" "libexec"
-                                                                 "bin" "sbin"))
+                                            (strip-directories '("share/firefox/lib"
+                                                                 "share/firefox/lib64"
+                                                                 "share/firefox/libexec"
+                                                                 "share/firefox/bin"
+                                                                 "share/firefox/sbin"))
                                             #:allow-other-keys)
                                      (define gnu:strip (assoc-ref gnu:%standard-phases 'strip))
-                                     (gnu:strip #:target target
-                                                #:outputs outputs
-                                                #:strip-directories '("share/firefox/lib"
-                                                                      "share/firefox/lib64"
-                                                                      "share/firefox/libexec"
-                                                                      "share/firefox/bin"
-                                                                      "share/firefox/sbin"))))
+                                     (gnu:strip #:target            target
+                                                #:outputs           outputs
+                                                #:strip-directories strip-directories)))
                                  (replace 'validate-runpath
                                           (lambda* (#:key (validate-runpath? #t)
                                                           (elf-directories '("share/firefox/lib"
@@ -282,12 +277,8 @@
                                                           #:allow-other-keys)
                                             (define gnu:validate-runpath (assoc-ref gnu:%standard-phases 'validate-runpath))
                                             (gnu:validate-runpath #:validate-runpath? validate-runpath?
-                                                                  #:elf-directories   '("share/firefox/lib"
-                                                                                        "share/firefox/lib64"
-                                                                                        "share/firefox/libexec"
-                                                                                        "share/firefox/bin"
-                                                                                        "share/firefox/sbin")
-                                                                  #:outputs outputs))))))
+                                                                  #:elf-directories   elf-directories
+                                                                  #:outputs           outputs))))))
     (synopsis "Firefox")
     (description "Firefox.")
     (home-page "https://www.mozilla.org")
