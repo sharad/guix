@@ -49,10 +49,10 @@
        (executable-file? file)
        (elf-file? file)))
 
-(define* (build #:key outputs inputs #:allow-other-keys) ; output-libs
+(define* (build #:key outputs inputs output-libs #:allow-other-keys) ; 
   "Compile .el files."
   (define source (getcwd))
-  (let* ((output-libs    '("/share/lib"))
+  (let* ((output-libs    output-libs)
          (ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
          (host-inputs    (filter (lambda (in)

@@ -178,7 +178,7 @@
                (base32
                 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
     (build-system patchelf-build-system)
-    (inputs `(("libc"          ,glibc)
+    (inputs `(("libc"          ,glibc
                ("gcc:lib"       ,gcc "lib")
                ("dbus"          ,dbus)
                ("libxcomposite" ,libxcomposite)
@@ -207,17 +207,17 @@
                ("libxscrnsaver" ,libxscrnsaver)
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
-               ("libvpx"        ,libvpx-1.7)))
-    ;; (argument `(#:output-libs '("/share/lib")
-    ;;             #:phases
-    ;;             (modify-phases %standard-phases
-    ;;               (add-after 'build 'rearrange
-    ;;                 (lambda* (#:key inputs outputs #:allow-other-keys)
-    ;;                   ;; This overwrites the installed launcher, which execs xulrunner,
-    ;;                   ;; with one that execs 'icecat --app'
-    ;;                   (let* ((out      (assoc-ref outputs "out"))
-    ;;                          (datadir  (string-append out "/share/conkeror"))
-    ;;                          (launcher (string-append out "/bin/conkeror")))))))))
+               ("libvpx"        ,libvpx-1.7))))
+    (argument `(#:output-libs '("/share/lib")
+                #:phases
+                (modify-phases %standard-phases
+                  (add-after 'build 'rearrange
+                    (lambda* (#:key inputs outputs #:allow-other-keys)
+                      ;; This overwrites the installed launcher, which execs xulrunner,
+                      ;; with one that execs 'icecat --app'
+                      (let* ((out      (assoc-ref outputs "out"))
+                             (datadir  (string-append out "/share/conkeror"))
+                             (launcher (string-append out "/bin/conkeror")))))))))
 
     ;; (call-with-output-file launcher
     ;;                            (lambda (p)
