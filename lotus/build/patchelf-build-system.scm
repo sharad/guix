@@ -22,7 +22,7 @@
 (define-module (lotus build patchelf-build-system)
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build utils)
-  #:use-module (guix build patchelf-utils)
+  #:use-module (lotus build patchelf-utils)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)
   #:use-module (srfi srfi-26)
