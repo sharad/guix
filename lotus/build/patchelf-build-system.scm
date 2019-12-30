@@ -55,22 +55,21 @@
   (let ((ld-so (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2")))
     ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
     (define source (getcwd))
-    (define* (install-file? file stat #:key verbose?) file)
     (let* ((out (assoc-ref outputs "out"))
            (inputs (filter (lambda (in)
                              (not (memq (car in) '(source patchelf))))
                            inputs))
            (files-to-build (find-files source)))
-      (format #t
-              "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%"
-              outputs
-              inputs)
-      (cond)
+      ;; (format #t
+      ;;         "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%"
+      ;;         outputs
+      ;;         inputs)
+      (cond
        ((not (null? files-to-build))
         (for-each
          (lambda (file)
-           (let ((stat   (stat file)))
-             ;; (format #t "build `~a'~%" file)
+           (let ((stat (stat file)))
+             (format #t "build `~a'~%" file)
              (when (or (elf-binary-file? file)
                        (library-file?    file))
                (make-file-writable file)
@@ -93,7 +92,7 @@
        (else
         (format #t "error: No files found to build.\n")
         (find-files source)
-        #f))))
+        #f)))))
 
 ;;; All the packages are installed directly under site-lisp, which means that
 ;;; having that directory in the PATCHELFLOADPATH is enough to have them found by
