@@ -146,7 +146,7 @@
 
   (build-expression->derivation store name builder
                                 #:inputs inputs
-                                #:host-inputs %host-inputs
+                                #:host-inputs host-inputs
                                 #:system system
                                 #:modules imported-modules
                                 #:outputs outputs
