@@ -81,6 +81,16 @@
                         ,@(standard-packages)))
          (build-inputs `(("patchelf" ,patchelf)
                          ,@native-inputs))
+         ;; (build-inputs `(,@(if source
+         ;;                       `(("source" ,source))
+         ;;                       '())
+         ;;                 ,@native-inputs
+         ;;                 ,@(if (and target implicit-cross-inputs?)
+         ;;                       (standard-cross-packages target 'host)
+         ;;                       '())
+         ;;                 ,@(if implicit-inputs?
+         ;;                       (standard-packages)
+         ;;                       '())))
          (outputs outputs)
          (build patchelf-build)
          (arguments (strip-keyword-arguments private-keywords arguments)))))
@@ -122,7 +132,7 @@
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
-                       #:inputs %inputs
+                       #:inputs %host-inputs
                        #:build-inputs %build-inputs)))
 
   (define guile-for-build
