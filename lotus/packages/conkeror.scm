@@ -221,7 +221,7 @@
                                             (firefox-dir (string-append out         "/share/firefox"))
                                             (firefox-lib (string-append firefox-dir "/lib"))
                                             (firefox-bin (string-append firefox-dir "/bin"))
-                                            (bin-dir     (string-append %output     "/bin")))
+                                            (bin-dir     (string-append out         "/bin")))
                                        (for-each (lambda (file)
                                                     (let* ((src-file (string-append "firefox/" file))
                                                            (target-file (string-append (if (library-file? src-file)
