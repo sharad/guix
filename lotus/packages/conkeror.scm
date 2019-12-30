@@ -210,6 +210,8 @@
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
     (arguments `(#:output-libs '("/share/firefox/lib")
+                 #:elf-directories '("share/firefox/lib" "share/firefox/lib64" "share/firefox/libexec"
+                                     "share/firefox/bin" "share/firefox/sbin")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
@@ -239,13 +241,20 @@
                                                      (mkdir-p (dirname target-file))
                                                      (rename-file src-file target-file)))
                                                  files-to-arrange)
-                                       ;; (system (string-append (assoc-ref %build-inputs "sed") "/bin/sed" " -i 's@^lib@../lib/lib@g' " firefox-bin "/dependentlibs.list"))
                                        (copy-file (string-append firefox-misc "/dependentlibs.list")
                                                   (string-append firefox-bin "/dependentlibs.list"))
-                                       (invoke "sed" "-i" "s@^lib@../lib/lib@g" (string-append firefox-misc "/dependentlibs.list"))
+                                       (invoke "sed" "-i" "s@^lib@../lib/lib@g" (string-append firefox-bin "/dependentlibs.list"))
                                        (mkdir-p bin-dir)
                                        (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
-                                       #t))))))
+                                       #t)))
+                                 ;; (replace 'validate-runpath 'firefox-validate-runpath
+                                 ;;          (lambda* (#:key
+                                 ;;                    (validate-runpath? #t)
+                                 ;;                    (elf-directories '("share/firefox/lib" "share/firefox/lib64" "share/firefox/libexec"
+                                 ;;                                       "share/firefox/bin" "share/firefox/sbin"))
+                                 ;;                    outputs #:allow-other-keys)
+                                 ;;            (gnu:validate-runpath)))
+                                 )))
     (synopsis "Firefox")
     (description "Firefox.")
     (home-page "https://www.mozilla.org")
