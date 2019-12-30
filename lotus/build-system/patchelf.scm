@@ -127,7 +127,6 @@
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
-                       ;; #:host-inputs inputs
                        #:inputs %build-inputs)))
 
   (define guile-for-build

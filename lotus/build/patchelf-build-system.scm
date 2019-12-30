@@ -137,11 +137,11 @@
     ;; (add-after 'patch-el-files 'build build)
     ;; (add-after 'build 'move-doc move-doc)
 
-(define* (patchelf-build #:key inputs host-inputs (phases %standard-phases)
+(define* (patchelf-build #:key inputs (phases %standard-phases)
                       #:allow-other-keys #:rest args)
   "Build the given Patchelf package, applying all of PHASES in order."
   (apply gnu:gnu-build
-         #:inputs inputs host-inputs #:phases phases
+         #:inputs inputs #:phases phases
          args))
 
 ;;; patchelf-build-system.scm ends here
