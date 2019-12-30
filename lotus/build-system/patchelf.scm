@@ -99,7 +99,8 @@
                          (imported-modules %patchelf-build-system-modules)
                          (modules '((lotus build patchelf-build-system)
                                     (guix build utils)
-                                    (lotus build patchelf-utils))))
+                                    ;; (lotus build patchelf-utils)
+                                    )))
   "Build SOURCE using PATCHELF, and with INPUTS."
   (define builder
     `(begin
