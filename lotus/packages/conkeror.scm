@@ -250,6 +250,27 @@
                                        (mkdir-p bin-dir)
                                        (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
                                        #t)))
+                                 (replace 'strip
+                                   (lambda (#:key target outputs (strip-binaries? #t)
+                                            (strip-command (if target
+                                                               (string-append target "-strip")
+                                                               "strip"))
+                                            (objcopy-command (if target
+                                                                 (string-append target "-objcopy")
+                                                                 "objcopy"))
+                                            (strip-flags '("--strip-debug"
+                                                           "--enable-deterministic-archives"))
+                                            (strip-directories '("lib" "lib64" "libexec"
+                                                                 "bin" "sbin"))
+                                            #:allow-other-keys)
+                                     (define gnu:strip (assoc-ref gnu:%standard-phases 'strip))
+                                     (gnu:strip #:target target
+                                                #:outputs outputs
+                                                #:strip-directories '("share/firefox/lib"
+                                                                      "share/firefox/lib64"
+                                                                      "share/firefox/libexec"
+                                                                      "share/firefox/bin"
+                                                                      "share/firefox/sbin"))))
                                  (replace 'validate-runpath
                                           (lambda* (#:key (validate-runpath? #t)
                                                           (elf-directories '("share/firefox/lib"
