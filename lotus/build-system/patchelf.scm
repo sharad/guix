@@ -47,10 +47,6 @@
 (define %patchelf-build-system-modules
   ;; Build-side modules imported by default.
   `((lotus build patchelf-build-system)
-    ;; (lotus build patchelf-utils)
-    ;; (guix utils)
-    ;; (guix config)
-    ;; (guix build utils)
     ,@%gnu-build-system-modules))
 
 (define (default-patchelf)
@@ -131,7 +127,7 @@
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
-                       #:host-inputs %host-inputs
+                       #:host-inputs %inputs
                        #:inputs %build-inputs)))
 
   (define guile-for-build
