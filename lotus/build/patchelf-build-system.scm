@@ -72,7 +72,12 @@
              (when (or (elf-binary-file? file)
                        (library-file?    file))
                (make-file-writable file)
-               (let ((rpath (string-join (map (lambda (in) (string-append in "/lib"))
+               (format #t "outputs ~a~%inputs ~a~%"
+                       outputs
+                       inputs)
+               (let ((rpath (string-join (map (lambda (in)
+                                                (format #t "map lambda ~a~%" in)
+                                                (string-append in "/lib"))
                                               (map cdr (cons* outputs inputs)))
                                          ":")))
                  ;; (format #t "file ~s rpath ~s~%" file rpath)
