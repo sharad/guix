@@ -72,7 +72,7 @@
              (when (or (elf-binary-file? file)
                        (library-file?    file))
                (make-file-writable file)
-               (format #t "outputs ~a~%inputs ~a~%"
+               (format #t "build: outputs ~{ ~a~}~%inputs ~{ ~a~}~%"
                        outputs
                        inputs)
                (let ((rpath (string-join (map (lambda (in)
