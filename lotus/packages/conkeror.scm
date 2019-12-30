@@ -226,8 +226,8 @@
                                                     (let* ((src-file (string-append "firefox/" file))
                                                            (target-file (string-append (if (library-file? src-file)
                                                                                            firefox-lib
-                                                                                           firefox-bin))
-                                                                        "/" (basename file)))
+                                                                                           firefox-bin)
+                                                                                       "/" (basename file))))
                                                         (if (directory? src-file)
                                                            (copy-recursively src-file target-file)
                                                           (copy-file src-file target-file))))
