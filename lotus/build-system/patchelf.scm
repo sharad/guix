@@ -31,8 +31,9 @@
   #:export (%patchelf-build-system-modules
             patchelf-build
             patchelf-build-system)
-  #:re-export (%default-include         ;for convenience
-               %default-exclude))
+  ;; #:re-export (%default-include         ;for convenience
+  ;;              %default-exclude)
+  )
 
 
 ;; Commentary:
@@ -88,8 +89,8 @@
                          (phases '(@ (lotus build patchelf-build-system)
                                      %standard-phases))
                          (outputs '("out"))
-                         (include (quote %default-include))
-                         (exclude (quote %default-exclude))
+                         ;; (include (quote %default-include))
+                         ;; (exclude (quote %default-exclude))
                          (search-paths '())
                          (system (%current-system))
                          (guile #f)

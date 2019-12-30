@@ -30,8 +30,6 @@
   #:use-module (ice-9 regex)
   #:use-module (ice-9 match)
   #:export (%standard-phases
-            ;; %default-include
-            ;; %default-exclude
             patchelf-build))
 
 ;; Commentary:
