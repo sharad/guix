@@ -56,7 +56,7 @@
     file)
 
   (let* ((out (assoc-ref outputs "out"))
-         (site-lisp (string-append out %install-dir))
+         (site-lisp out)
          (files-to-install (find-files source install-file?)))
     (cond
      ((not (null? files-to-install))
