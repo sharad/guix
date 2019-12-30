@@ -91,7 +91,7 @@
          (arguments (strip-keyword-arguments private-keywords arguments)))))
 
 (define* (patchelf-build store name inputs
-                         #:key source
+                         #:key source host-inputs
                          (tests? #f)
                          (parallel-tests? #t)
                          (test-command ''("make" "check"))
