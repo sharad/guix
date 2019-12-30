@@ -116,8 +116,8 @@
                        #:tests? ,tests?
                        #:phases ,phases
                        #:outputs %outputs
-                       #:include ,include
-                       #:exclude ,exclude
+                       ;; #:include ,include
+                       ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
                        #:inputs %build-inputs)))
