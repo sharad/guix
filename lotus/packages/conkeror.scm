@@ -208,17 +208,18 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-    ;; (argument `(#:output-libs ("/share/lib")
-    ;;             #:phases
-    ;;             (modify-phases %standard-phases
-    ;;               (add-after 'build 'rearrange
-    ;;                 (lambda* (#:key inputs outputs #:allow-other-keys)
-    ;;                   ;; This overwrites the installed launcher, which execs xulrunner,
-    ;;                   ;; with one that execs 'icecat --app'
-    ;;                   (let* ((out      (assoc-ref outputs "out"))
-    ;;                          (datadir  (string-append out "/share/conkeror"))
-    ;;                          (launcher (string-append out "/bin/conkeror")))
-    ;;                     #t))))))
+    (argument `(#:output-libs ("/share/lib")))
+                ;; #:phases
+                ;; (modify-phases %standard-phases
+                ;;   (add-after 'build 'rearrange
+                ;;     (lambda* (#:key inputs outputs #:allow-other-keys)
+                ;;       ;; This overwrites the installed launcher, which execs xulrunner,
+                ;;       ;; with one that execs 'icecat --app'
+                ;;       (let* ((out      (assoc-ref outputs "out"))
+                ;;              (datadir  (string-append out "/share/conkeror"))
+                ;;              (launcher (string-append out "/bin/conkeror")))
+                ;;         #t))))
+
 
     ;; (call-with-output-file launcher
     ;;                            (lambda (p)
