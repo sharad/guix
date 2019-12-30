@@ -126,10 +126,10 @@
   (modify-phases gnu:%standard-phases
     ;; (replace 'unpack unpack)
     ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
-    (delete 'bootstrap)
-    (delete 'configure)
+    (delete  'bootstrap)
+    (delete  'configure)
     (replace 'build build)
-    (delete 'check)
+    (delete  'check)
     (replace 'install install)))
     ;; (add-after 'install 'make-autoloads make-autoloads)
     ;; (add-after 'make-autoloads 'patch-el-files patch-el-files)
