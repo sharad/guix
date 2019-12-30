@@ -64,9 +64,12 @@
         (for-each
          (lambda (file)
            (let ((stat (stat file)))
-             (format #t "build:~%outputs ~a~%inputs~%~a~%"
-                     (length outputs) (length inputs))
-             (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
+             (format #t "build:~%outputs ~a~%inputs ~a~%"
+                     (length outputs)
+                     (length inputs))
+             (for-each (lambda (e) (format #t " ~a~%" e)) outputs)
+             (for-each (lambda (e) (format #t " ~a~%" e)) inputs)
+             ;; (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
              (format #t "build `~a'~%" file)
              (when (or (elf-binary-file? file)
                        (library-file?    file))
