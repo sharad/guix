@@ -64,15 +64,14 @@
          (lambda (file)
            (let ((stat   (stat file))
                  (inputs (filter (lambda (in)
-                                  (not (member (car in) '(source patchelf))))
+                                   (not (memq (car in) '(source patchelf))))
                                 inputs)))
-             (format #t "build `~a'~%" file)
+             ;; (format #t "build `~a'~%" file)
              (when (or (elf-binary-file? file)
                        (library-file?    file))
                (make-file-writable file)
                (format #t
                        "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%"
-                       ;; "build:~%inputs~%~{ ~a, }~%"
                        outputs
                        inputs)
                (let ((rpath (string-join (map (lambda (in)
@@ -82,17 +81,17 @@
                                          ":")))
                  ;; (format #t "build: file ~s rpath ~s~%" file rpath)
                  ;; (augment-rpath file lib-paths)
-                 (format #t "build: ~a is a elf binary or library file~%" file)
+                 (format #t "build: `~a' is a elf binary or library file~%" file)
                  (invoke "patchelf" "--set-rpath" rpath file))
                (when (and (not (library-file? file))
                           (elf-binary-file? file))
-                 (format #t "build: ~a is a elf binary file~%" file)
+                 (format #t "build: `~a' is a elf binary file~%" file)
                  (invoke "patchelf" "--set-interpreter" ld-so file))
                (chmod file (stat:perms stat)))))
          files-to-build)
         #t)
        (else
-        (format #t "error: No files found to install.\n")
+        (format #t "error: No files found to build.\n")
         (find-files source)
         #f)))))
 
