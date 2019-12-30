@@ -259,7 +259,11 @@
                                                           #:allow-other-keys)
                                             (define gnu:validate-runpath (assoc-ref gnu:%standard-phases 'validate-runpath))
                                             (gnu:validate-runpath #:validate-runpath? validate-runpath?
-                                                                  #:elf-directories   elf-directories
+                                                                  #:elf-directories   '("share/firefox/lib"
+                                                                                        "share/firefox/lib64"
+                                                                                        "share/firefox/libexec"
+                                                                                        "share/firefox/bin"
+                                                                                        "share/firefox/sbin")
                                                                   #:outputs outputs))))))
     (synopsis "Firefox")
     (description "Firefox.")
