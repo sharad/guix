@@ -49,6 +49,8 @@
   `((lotus build patchelf-build-system)
     (lotus build patchelf-utils)
     (guix utils)
+    (guix config)
+    (guix build utils)
     ,@%gnu-build-system-modules))
 
 (define (default-patchelf)
