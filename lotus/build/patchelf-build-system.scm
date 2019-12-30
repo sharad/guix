@@ -64,17 +64,16 @@
         (for-each
          (lambda (file)
            (let ((stat (stat file)))
-             (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%"
-                     outputs
-                     inputs)
+             (format #t "build:~%outputs ~a~%inputs~%~a~%"
+                     (langth outputs) (length inputs))
+             (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
              (format #t "build `~a'~%" file)
              (when (or (elf-binary-file? file)
                        (library-file?    file))
                (make-file-writable file)
                (let ((rpath (string-join (map (lambda (in)
                                                 (string-append in "/lib"))
-                                              (map cdr (append outputs
-                                                               inputs)))
+                                              (map cdr (append outputs inputs)))
                                          ":")))
                  ;; (format #t "build: file ~s rpath ~s~%" file rpath)
                  ;; (augment-rpath file lib-paths)
