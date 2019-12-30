@@ -56,7 +56,7 @@
     (module-ref patchelf-mod 'patchelf)))
 
 (define* (lower name
-                #:key source inputs native-inputs outputs system target
+                #:key source inputs native-inputs outputs system target host-inputs
                 (patchelf (default-patchelf))
                 #:allow-other-keys
                 #:rest arguments)
@@ -127,7 +127,7 @@
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
-                       #:host-inputs %inputs
+                       #:host-inputs inputs
                        #:inputs %build-inputs)))
 
   (define guile-for-build
