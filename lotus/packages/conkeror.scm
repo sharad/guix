@@ -216,6 +216,7 @@
                                    (lambda* (#:key inputs outputs #:allow-other-keys)
                                      ;; This overwrites the installed launcher, which execs xulrunner,
                                      ;; with one that execs 'icecat --app'
+                                     ;; (chdir)
                                      (define source (getcwd))
                                      (let* ((files-to-arrange (find-files source))
                                             (out          (assoc-ref outputs "out"))
@@ -224,8 +225,9 @@
                                             (firefox-bin  (string-append firefox-dir "/bin"))
                                             (firefox-misc (string-append firefox-dir "/misic"))
                                             (bin-dir      (string-append out         "/bin")))
+                                       (format #t "rearrange: outputs ~a~%" outputs)
                                        (for-each (lambda (file)
-                                                   (let* ((src-file (string-append "firefox/" file))
+                                                   (let* ((src-file file)
                                                           (location (cond ((library-file? file)
                                                                            firefox-lib)
                                                                           ((and (not (library-file? file))
