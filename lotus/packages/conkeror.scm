@@ -177,7 +177,6 @@
                (sha256
                 (base32
                  "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
-     (build-system patchelf-build-system)
      (inputs `(("libc"          ,glibc)
                ("gcc:lib"       ,gcc "lib")
                ("dbus"          ,dbus)
@@ -208,6 +207,8 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
+     (build-system patchelf-build-system)
+     (argument `(#:output-libs '("/share/lib")))
      (synopsis "Firefox")
      (description "Firefox.")
      (home-page "https://www.mozilla.org")

@@ -49,7 +49,7 @@
        (executable-file? file)
        (elf-file? file)))
 
-(define* (build #:key outputs inputs #:allow-other-keys)
+(define* (build #:key outputs inputs output-libs #:allow-other-keys)
   "Compile .el files."
   (define source (getcwd))
   (let* ((ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
@@ -62,6 +62,7 @@
                                            (map cdr (append outputs host-inputs)))
                                       ":"))
          (files-to-build (find-files source)))
+    (format #t "output-libs ~a~%" output-libs)
     (cond
        ((not (null? files-to-build))
         (for-each
