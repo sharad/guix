@@ -30,8 +30,8 @@
   #:use-module (ice-9 regex)
   #:use-module (ice-9 match)
   #:export (%standard-phases
-            %default-include
-            %default-exclude
+            ;; %default-include
+            ;; %default-exclude
             patchelf-build))
 
 ;; Commentary:
@@ -45,8 +45,8 @@
 ;;; Patchelf.
 
 (define* (install #:key outputs
-                  (include %default-include)
-                  (exclude %default-exclude)
+                  ;; (include %default-include)
+                  ;; (exclude %default-exclude)
                   #:allow-other-keys)
   "Install the package contents."
 
