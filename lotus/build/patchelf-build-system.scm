@@ -55,7 +55,7 @@
   (let ((ld-so  (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
         (inputs (filter (lambda (in)
-                          (not (memq (car in) '(source patchelf))))
+                          (not (member (car in) '(source patchelf))))
                         inputs)))
     (define source (getcwd))
     (let* ((files-to-build (find-files source)))
