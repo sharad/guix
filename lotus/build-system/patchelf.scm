@@ -17,7 +17,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus build-system patchelf)
-  #:use-module ((guix build patchelf-build-system)
+  #:use-module ((lotus build patchelf-build-system)
                 #:select (%default-include %default-exclude))
   #:use-module (guix store)
   #:use-module (guix utils)
@@ -81,44 +81,44 @@
          (arguments (strip-keyword-arguments private-keywords arguments)))))
 
 (define* (patchelf-build store name inputs
-                      #:key source
-                      (tests? #f)
-                      (parallel-tests? #t)
-                      (test-command ''("make" "check"))
-                      (phases '(@ (guix build patchelf-build-system)
-                                  %standard-phases))
-                      (outputs '("out"))
-                      (include (quote %default-include))
-                      (exclude (quote %default-exclude))
-                      (search-paths '())
-                      (system (%current-system))
-                      (guile #f)
-                      (imported-modules %patchelf-build-system-modules)
-                      (modules '((guix build patchelf-build-system)
-                                 (guix build utils)
-                                 (guix build patchelf-utils))))
+                         #:key source
+                         (tests? #f)
+                         (parallel-tests? #t)
+                         (test-command ''("make" "check"))
+                         (phases '(@ (lotus build patchelf-build-system)
+                                     %standard-phases))
+                         (outputs '("out"))
+                         (include (quote %default-include))
+                         (exclude (quote %default-exclude))
+                         (search-paths '())
+                         (system (%current-system))
+                         (guile #f)
+                         (imported-modules %patchelf-build-system-modules)
+                         (modules '((lotus build patchelf-build-system)
+                                    (guix build utils)
+                                    (guix build patchelf-utils))))
   "Build SOURCE using PATCHELF, and with INPUTS."
   (define builder
     `(begin
        (use-modules ,@modules)
        (patchelf-build #:name ,name
-                    #:source ,(match (assoc-ref inputs "source")
-                                (((? derivation? source))
-                                 (derivation->output-path source))
-                                ((source)
-                                 source)
-                                (source
-                                 source))
-                    #:system ,system
-                    #:test-command ,test-command
-                    #:tests? ,tests?
-                    #:phases ,phases
-                    #:outputs %outputs
-                    #:include ,include
-                    #:exclude ,exclude
-                    #:search-paths ',(map search-path-specification->sexp
-                                          search-paths)
-                    #:inputs %build-inputs)))
+                       #:source ,(match (assoc-ref inputs "source")
+                                   (((? derivation? source))
+                                    (derivation->output-path source))
+                                   ((source)
+                                    source)
+                                   (source
+                                    source))
+                       #:system ,system
+                       #:test-command ,test-command
+                       #:tests? ,tests?
+                       #:phases ,phases
+                       #:outputs %outputs
+                       #:include ,include
+                       #:exclude ,exclude
+                       #:search-paths ',(map search-path-specification->sexp
+                                             search-paths)
+                       #:inputs %build-inputs)))
 
   (define guile-for-build
     (match guile
