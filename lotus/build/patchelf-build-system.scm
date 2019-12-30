@@ -38,41 +38,6 @@
 ;;
 ;; Code:
 
-;; (define* (build #:key outputs inputs #:allow-other-keys)
-;;   "Compile .el files."
-;;   (format #t "~% Test ~a ~%~%" 1)
-;;   (let ((ld-so (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker))))
-;;       (file-system-fold (lambda (dir stat result)    ; enter?
-;;                           result)
-;;                         (lambda (file stat result)   ; leaf
-;;                           (let ((stat stat))
-;;                             (when (or (elf-binary-file? file)
-;;                                       (library-file?    file))
-;;                               (make-file-writable file)
-;;                               (let ((rpath (string-join (map (lambda (in) (string-append in "/lib"))
-;;                                                              (cons* outputs (map cdr inputs)))
-;;                                                         ":")))
-;;                                 ;; (format #t "file ~s rpath ~s~%" file rpath)
-;;                                 ;; (augment-rpath file lib-paths)
-;;                                 (invoke "patchelf" "--set-rpath" rpath file))
-;;                               (when (and (not (library-file? file))
-;;                                          (elf-binary-file? file))
-;;                                 (invoke "patchelf" "--set-interpreter" ld-so file))
-;;                               (chmod file (stat:perms stat)))))
-;;                         (const #t)                   ; down
-;;                         (lambda (dir stat result)    ; up
-;;                           result)
-;;                         (const #t)                   ; skip
-;;                         (lambda (file stat errno result)
-;;                           (format (current-error-port)
-;;                                   "warning: failed to process ~a: ~a~%"
-;;                                   file (strerror errno)))
-;;                         #t
-;;                         "source"
-;;                         ;; Don't follow symlinks.
-;;                         lstat)
-;;       #t))
-
 (define* (build #:key outputs inputs #:allow-other-keys)
   "Compile .el files."
   (format #t "~% Test ~a ~%~%" 1)

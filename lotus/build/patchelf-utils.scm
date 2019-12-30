@@ -20,7 +20,8 @@
             elf-binary-file?
             regular-file?
             directory?
-            directory-list-files))
+            directory-list-files
+            patchelf-dynamic-linker))
 
 (define (library-file? file)
   (and (eq? 'regular (stat:type (stat file)))
