@@ -97,11 +97,11 @@
      (arguments
       `(#:modules ((guix build utils)
                    (guix build rpath)
-                   (lotus build patchelf-utils))
+                   (lotus build patchelf-build-system))
         #:builder (begin
                     (use-modules (guix build utils))
                     (use-modules (guix build rpath))
-                    (use-modules (lotus build patchelf-utils))
+                    (use-modules (lotus build patchelf-build-system))
                     (let* ((dep-inputs  '("libc" "gcc:lib" "dbus" "atk" "cairo" "dbus-glib" "fontconfig"
                                           "freetype" "gtk+" "gdk-pixbuf" "glib" "libx11" "libxcb" "libxdamage"
                                           "libxext" "libxfixes" "libxrender" "pango" "libxcomposite" "libxt" "pulseaudio"
