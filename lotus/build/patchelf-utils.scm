@@ -3,7 +3,7 @@
   #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-26)
   ;; #:use-module ((guix licenses) #:prefix license:)
-  ;; #:use-module (guix utils)
+  #:use-module (guix utils)
   #:use-module (guix build utils)
   #:use-module (gnu packages bootstrap)
   ;; #:use-module (guix packages)

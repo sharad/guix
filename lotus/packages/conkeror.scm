@@ -219,9 +219,10 @@
                                      ;; This overwrites the installed launcher, which execs xulrunner,
                                      ;; with one that execs 'icecat --app'
                                      ;; (chdir)
-                                     ;; (use-modules (lotus build patchelf-utils))
-                                     (define source (getcwd))
-                                     (let* ((files-to-arrange (find-files source))
+                                     (use-modules (lotus build patchelf-utils))
+                                     ;; (define source (getcwd))
+                                     (let* ((source           (getcwd))
+                                            (files-to-arrange (find-files source))
                                             (firefox-dir      (string-append source      "/share/firefox"))
                                             (firefox-lib      (string-append firefox-dir "/lib"))
                                             (firefox-bin      (string-append firefox-dir "/bin"))
