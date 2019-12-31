@@ -143,7 +143,7 @@
                                                                                                                             "/share/firefox/"))))
                                                           (rfile    (string-append "../" rel-misc "/" file)))
                                                      (format #t "file: ~a~%" rfile)
-                                                     (if (required-link? rfile)
+                                                     (if (required-link? file)
                                                          (format #t "symlink ~a ~a~%" rfile firefox-bin))))
                                                  (directory-list-files firefox-misc))
                                        #t)))
