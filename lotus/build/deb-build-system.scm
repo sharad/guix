@@ -20,7 +20,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus build deb-build-system)
-  #:use-module ((guix build gnu-build-system)      #:prefix gnu:)
+  #:use-module ((guix build gnu-build-system)       #:prefix gnu:)
   #:use-module ((lotus build patchelf-build-system) #:prefix patchelf:)
   #:use-module (guix build utils)
   ;; #:use-module (gnu packages bootstrap)
@@ -41,6 +41,8 @@
 ;; Builder-side code of the build procedure for ELPA Deb packages.
 ;;
 ;; Code:
+
+(define gnu:unpack (assoc-ref gnu:%standard-phases 'unpack))
 
 (define* (unpack #:key source #:allow-other-keys)
   "Unpack SOURCE into the build directory.  SOURCE may be a compressed
