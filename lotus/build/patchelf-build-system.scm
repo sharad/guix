@@ -123,7 +123,7 @@
                 (stripped-file (string-drop file (string-length source)))
                 (target-file   (string-append out stripped-file)))
            (format #t "`~a' -> `~a' ~a ~a ~%" file target-file (stat:type st) (eq? (stat:type stat) 'symlink))
-           (if (eq? (stat:type stat) 'symlink)
+           (if (eq? (stat:type st) 'symlink)
                (copy-recursively file target-file)
                (install-file file (dirname target-file)))))
        files-to-install)
