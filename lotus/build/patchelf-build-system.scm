@@ -51,6 +51,10 @@
        (executable-file? file)
        (elf-file? file)))
 
+(define (directory-list-files dir)
+  (scandir dir (negate (cut member <> '("." "..")))))
+
+
 (define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
   "Compile .el files."
   (define source (getcwd))
