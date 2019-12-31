@@ -20,6 +20,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus build deb-build-system)
+  #:use-module ((gnu   build gnu-build-system)      #:prefix gnu:)
   #:use-module ((lotus build patchelf-build-system) #:prefix patchelf:)
   #:use-module (guix build utils)
   ;; #:use-module (gnu packages bootstrap)
@@ -54,6 +55,7 @@ archive, a directory, or an Emacs Lisp file."
       (chdir "source")
       (for-each (lambda (file)
                   (when (string-prefix? "control" file)
+                    (format #t "unpacking ~a~%" file)
                     (gnu:unpack #:source file)))
                 files))))
 
