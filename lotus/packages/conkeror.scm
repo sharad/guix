@@ -48,10 +48,10 @@
 ;; (define (directory-list-files dir)
 ;;   (scandir dir (negate (cut member <> '("." "..")))))
 
-(define-public firefox-56.0
+(define-public firefox
   ;; (hidden-package)
   (package
-    (name "firefox-56.0")
+    (name "firefox")
     (version "56.0")
     (source (origin
               (method url-fetch)
@@ -141,11 +141,12 @@
                                                    (format #t "misc: ~a~%" file)
                                                    (let* ((rel-misc (string-drop firefox-misc (string-length (string-append source
                                                                                                                             "/share/firefox/"))))
-                                                          (rfile    (string-append "../" rel-misc "/" file)))
+                                                          (rfile    (string-append "../" rel-misc "/" file))
+                                                          (target   (string-append firefox-bin "/" (basename rfile))))
                                                      (format #t "file: ~a ~a~%" rfile (string-append firefox-misc "/" file))
                                                      (when (required-link? (string-append firefox-misc "/" file))
-                                                       (format #t "symlink ~a ~a~%" rfile firefox-bin)
-                                                       (symlink rfile firefox-bin))))
+                                                       (format #t "symlink ~a ~a~%" rfile target)
+                                                       (symlink rfile target))))
                                                  (directory-list-files firefox-misc))
                                        #t)))
                                  ;; (delete 'strip)
