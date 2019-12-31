@@ -22,9 +22,8 @@
             ;; elf-binary-file?
             ;; regular-file?
             ;; directory?
-            directory-list-files
+            directory-list-files))
             ;; patchelf-dynamic-linker
-            ))
 
 (define (directory-list-files dir)
   (scandir dir (negate (cut member <> '("." "..")))))

@@ -213,7 +213,9 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-    (arguments `(#:output-libs '("/share/firefox/lib")
+    (arguments `(#:modules ((ice-9 ftw)
+                            (lotus build patchelf-utils))
+                 #:output-libs '("/share/firefox/lib")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
@@ -246,12 +248,13 @@
                                                  files-to-arrange)
                                        (copy-file (string-append firefox-misc "/dependentlibs.list")
                                                   (string-append firefox-bin "/dependentlibs.list"))
-                                       (invoke "sed" "-i" "s@^lib@../lib/lib@g" (string-append firefox-bin "/dependentlibs.list"))
+                                       (invoke "sed" "-i" "s@^lib@../lib/lib@g"
+                                               (string-append firefox-bin "/dependentlibs.list"))
                                        (mkdir-p bin-dir)
-                                       (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
+                                       (symlink "../share/firefox/bin/firefox"  (string-append bin-dir "/firefox"))
                                        (for-each (lambda (file)
                                                    (format #t "misc: ~a~%" file))
-                                                 (scandir firefox-misc (negate (cut member <> '("." "..")))))
+                                                 (directory-list-files firefox-misc))
                                        #t)))
                                  ;; (delete 'strip)
                                  ;; (replace 'strip
@@ -291,7 +294,6 @@
                                             (gnu:validate-runpath #:validate-runpath? validate-runpath?
                                                                   #:elf-directories   elf-directories
                                                                   #:outputs           outputs))))))
-                                 
     (synopsis "Firefox")
     (description "Firefox.")
     (home-page "https://www.mozilla.org")
