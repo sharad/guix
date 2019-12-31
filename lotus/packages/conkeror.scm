@@ -221,7 +221,7 @@
                                    (lambda* (#:key inputs outputs #:allow-other-keys)
                                      ;; This overwrites the installed launcher, which execs xulrunner,
                                      ;; with one that execs 'icecat --app'
-                                     ;; (use-modules (lotus build patchelf-utils))
+                                     (use-modules (lotus build patchelf-utils))
                                      ;; (define source (getcwd))
                                      (let* ((source           (getcwd))
                                             (files-to-arrange (find-files source))
