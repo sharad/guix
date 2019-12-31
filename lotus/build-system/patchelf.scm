@@ -44,7 +44,7 @@
 (define %patchelf-build-system-modules
   ;; Build-side modules imported by default.
   `((lotus build patchelf-build-system)
-    ;; (lotus build patchelf-utils)
+    (lotus build patchelf-utils)
     ,@%gnu-build-system-modules))
 
 (define (default-patchelf)
@@ -101,7 +101,8 @@
                          (system (%current-system))
                          (guile #f)
                          (imported-modules %patchelf-build-system-modules)
-                         (modules '((lotus build patchelf-build-system)
+                         (modules '((lotus build patchelf-utils)
+                                    (lotus build patchelf-build-system)
                                     (guix build utils))))
   "Build SOURCE using PATCHELF, and with INPUTS."
   (define builder
