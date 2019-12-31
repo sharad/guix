@@ -26,7 +26,9 @@
   #:use-module (guix derivations)
   #:use-module (guix search-paths)
   #:use-module (guix build-system)
-  #:use-module (guix build-system gnu)
+  #:use-module (guix build-system)
+  #:use-module ((guix build-system gnu) #:prefix gnu:)
+  #:use-module ((guix build-system patchelf) #:prefix patchelf:)
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-26)
   #:export (%deb-build-system-modules
@@ -45,7 +47,7 @@
 (define %deb-build-system-modules
   ;; Build-side modules imported by default.
   `((lotus build deb-build-system)
-    ,@%gnu-build-system-modules))
+    ,@patchelf:%patchelf-build-system-modules))
 
 (define (default-deb)
   "Return the default Deb package."
