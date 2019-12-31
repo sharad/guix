@@ -126,7 +126,7 @@
       #f))))
 
 (define %standard-phases
-  (modify-phases gnu:%standard-phases
+  (modify-phases patchelf:%standard-phases
     ;; (replace 'unpack unpack)
     ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
     (delete  'bootstrap)

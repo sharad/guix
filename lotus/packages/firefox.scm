@@ -205,3 +205,8 @@
   (package (inherit firefox-56.0)
            (name "firefox")))
 
+;; https://linoxide.com/linux-how-to/install-adobe-flash-player-linux-terminal/
+;; https://packages.ubuntu.com/xenial/web/browser-plugin-freshplayer-pepperflash
+;; https://pkgs.org/download/adobe-flashplugin
+;; https://ubuntu.pkgs.org/19.10/canonical-partner-amd64/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb.html
+;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
