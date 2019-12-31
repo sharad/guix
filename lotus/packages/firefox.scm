@@ -51,7 +51,7 @@
 (define-public firefox-56.0
   ;; (hidden-package)
   (package
-    (name "firefox")
+    (name "firefox-56.0")
     (version "56.0")
     (source (origin
               (method url-fetch)

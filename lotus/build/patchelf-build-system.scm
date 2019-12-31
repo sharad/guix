@@ -34,30 +34,12 @@
   #:export (%standard-phases
             patchelf-build))
 
-            ;; library-file?
-            ;; elf-binary-file?
-            ;; directory-list-files
-
 
 ;; Commentary:
 ;;
 ;; Builder-side code of the build procedure for ELPA Patchelf packages.
 ;;
 ;; Code:
-
-;; (define (library-file? file)
-;;   (and (eq? 'regular (stat:type (stat file)))
-;;        (string-suffix? ".so" file)))
-
-;; (define (elf-binary-file? file)
-;;   (and (eq? 'regular (stat:type (stat file)))
-;;        (not (string-suffix? ".so" file))
-;;        (executable-file? file)
-;;        (elf-file? file)))
-
-;; (define (directory-list-files dir)
-;;   (scandir dir (negate (cut member <> '("." "..")))))
-
 
 (define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
   "Compile .el files."
