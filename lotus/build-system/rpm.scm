@@ -48,15 +48,16 @@
   `((lotus build rpm-build-system)
     ,@patchelf:%patchelf-build-system-modules))
 
-(define (default-rpm)
-  "Return the default Rpm package."
+
+(define (default-patchelf)
+  "Return the default Patchelf package."
   ;; Lazily resolve the binding to avoid a circular dependency.
-  (let ((rpm-mod (resolve-interface '(gnu packages elf))))
-    (module-ref rpm-mod 'rpm)))
+  (let ((patchelf-mod (resolve-interface '(gnu packages elf))))
+    (module-ref patchelf-mod 'patchelf)))
 
 (define* (lower name
                 #:key source inputs native-inputs outputs system target ;; host-inputs
-                (rpm (default-rpm))
+                (patchelf (default-patchelf))
                 #:allow-other-keys
                 #:rest arguments)
   "Return a bag for NAME."
@@ -74,6 +75,7 @@
                         ;; Keep the standard inputs of 'gnu-build-system'.
                         ,@(gnu:standard-packages)))
          (build-inputs `(("rpm" ,rpm)
+                         ("patchelf" ,patchelf)
                          ,@native-inputs))
          ;; (build-inputs `(,@(if source
          ;;                       `(("source" ,source))
