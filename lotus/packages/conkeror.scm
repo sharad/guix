@@ -247,7 +247,12 @@
                                        (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
                                        (system* "ls" "-l" bin-dir)
                                        #t)))
+                                 (add-before
+                                     'install 'print (lambda* (#:key inputs outputs #:allow-other-keys)
+                                                           (format #t "print: ~a~%" (getwd))
+                                                           (system* "ls" "-l" "bin")))
                                  (delete 'strip)
+                                 (delete 'validate-runpath))))
                                  ;; (replace 'strip
                                  ;;   (lambda (#:key target outputs (strip-binaries? #t)
                                  ;;            (strip-command (if target
@@ -272,19 +277,20 @@
                                  ;;                #:objcopy-command   objcopy-command
                                  ;;                #:strip-flags       strip-flags
                                  ;;                #:strip-directories strip-directories)))
-                                 (replace 'validate-runpath
-                                          (lambda* (#:key (validate-runpath? #t)
-                                                          (elf-directories '("share/firefox/lib"
-                                                                             "share/firefox/lib64"
-                                                                             "share/firefox/libexec"
-                                                                             "share/firefox/bin"
-                                                                             "share/firefox/sbin"))
-                                                          outputs
-                                                          #:allow-other-keys)
-                                            (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
-                                            (gnu:validate-runpath #:validate-runpath? validate-runpath?
-                                                                  #:elf-directories   elf-directories
-                                                                  #:outputs           outputs))))))
+                                 ;; (replace 'validate-runpath
+                                 ;;          (lambda* (#:key (validate-runpath? #t)
+                                 ;;                          (elf-directories '("share/firefox/lib"
+                                 ;;                                             "share/firefox/lib64"
+                                 ;;                                             "share/firefox/libexec"
+                                 ;;                                             "share/firefox/bin"
+                                 ;;                                             "share/firefox/sbin"))
+                                 ;;                          outputs
+                                 ;;                          #:allow-other-keys)
+                                 ;;            (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
+                                 ;;            (gnu:validate-runpath #:validate-runpath? validate-runpath?
+                                 ;;                                  #:elf-directories   elf-directories
+                                 ;;                                  #:outputs           outputs)))
+                                 
     (synopsis "Firefox")
     (description "Firefox.")
     (home-page "https://www.mozilla.org")
