@@ -250,7 +250,8 @@
                                  (add-before
                                      'install 'print (lambda* (#:key inputs outputs #:allow-other-keys)
                                                            (format #t "print: ~a~%" (getcwd))
-                                                           (system* "ls" "-l" "bin")))
+                                                           (system* "ls" "-l" "bin")
+                                                           #t))
                                  (delete 'strip)
                                  (delete 'validate-runpath))))
                                  ;; (replace 'strip

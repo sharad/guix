@@ -119,10 +119,10 @@
      ((not (null? files-to-install))
       (for-each
        (lambda (file)
-         (let* ((stat          (stat file))
+         (let* ((st            (lstat file))
                 (stripped-file (string-drop file (string-length source)))
                 (target-file   (string-append out stripped-file)))
-           (format #t "`~a' -> `~a' ~a ~a ~%" file target-file (stat:type stat) (eq? (stat:type stat) 'symlink))
+           (format #t "`~a' -> `~a' ~a ~a ~%" file target-file (stat:type st) (eq? (stat:type stat) 'symlink))
            (if (eq? (stat:type stat) 'symlink)
                (copy-recursively file target-file)
                (install-file file (dirname target-file)))))
