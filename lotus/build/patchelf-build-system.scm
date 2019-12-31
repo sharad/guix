@@ -32,8 +32,9 @@
   #:use-module (ice-9 match)
   #:export (%standard-phases
             patchelf-build
-            library-file?
-            elf-binary-file?))
+            ;; library-file?
+            ;; elf-binary-file?
+            ))
 
 ;; Commentary:
 ;;
