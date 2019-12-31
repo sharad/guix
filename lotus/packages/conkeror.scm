@@ -44,8 +44,7 @@
   #:use-module (gnu packages libevent)
   #:use-module (gnu packages libffi)
   #:use-module (gnu packages libevent)
-  #:use-module (gnu packages video)
-  #:use-module (lotus build patchelf-utils))
+  #:use-module (gnu packages video))
 
 (define-public firefox-56.0-old
   ;; (hidden-package)
