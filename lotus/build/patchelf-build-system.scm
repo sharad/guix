@@ -24,6 +24,7 @@
   #:use-module (guix build utils)
   ;; #:use-module (gnu packages bootstrap)
   ;; #:use-module (lotus build patchelf-utils)
+  #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)
   #:use-module (srfi srfi-26)
