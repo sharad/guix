@@ -72,7 +72,7 @@
                               '())
                         ,@inputs
                         ;; Keep the standard inputs of 'gnu-build-system'.
-                        ,@(standard-packages)))
+                        ,@(gnu:standard-packages)))
          (build-inputs `(("rpm" ,rpm)
                          ,@native-inputs))
          ;; (build-inputs `(,@(if source
