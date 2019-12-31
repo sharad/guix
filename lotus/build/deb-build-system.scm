@@ -41,99 +41,117 @@
 ;;
 ;; Code:
 
-(define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
-  "Compile .el files."
-  (define source (getcwd))
-  (let* ((output-libs    output-libs)
-         (ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
-        ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
-         (host-inputs    (filter (lambda (in)
-                                   (not (member (car in) '("source" "deb"))))
-                                 inputs))
-         (in-rpath       (string-join (map (lambda (in)
-                                             (string-append in "/lib"))
-                                           (map cdr (append outputs host-inputs)))
-                                   ":"))
-         (out-rpath      (string-join (map (lambda (lib)
-                                             (string-append (assoc-ref outputs "out") lib))
-                                           output-libs)
-                                      ":"))
-         (rpath          (string-join (list in-rpath out-rpath) ":"))
-         (files-to-build (find-files source)))
-    (format #t "output-libs ~a~%" output-libs)
-    (cond
-       ((not (null? files-to-build))
-        (for-each
-         (lambda (file)
-           (let ((stat (stat file)))
-             ;; (format #t "build:~%outputs ~a~%inputs ~a~%"
-             ;;         (length outputs)
-             ;;         (length inputs))
-             ;; (for-each (lambda (e) (format #t " ~a~%" e)) outputs)
-             ;; (for-each (lambda (e) (format #t " ~a~%" e)) inputs)
-             ;; (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
-             (format #t "build `~a'~%" file)
-             (when (or (elf-binary-file? file)
-                       (library-file?    file))
-               (make-file-writable file)
-               (format #t "build: `~a' is a elf binary or library file~%" file)
-               (invoke "deb" "--set-rpath" rpath file)
-               (when (and (not (library-file? file))
-                          (elf-binary-file? file))
-                 (format #t "build: `~a' is a elf binary file~%" file)
-                 (invoke "deb" "--set-interpreter" ld-so file))
-               (chmod file (stat:perms stat)))))
-         files-to-build)
-        #t)
-       (else
-        (format #t "error: No files found to build.\n")
-        (find-files source)
-        #f))))
+(define* (unpack #:key source #:allow-other-keys)
+  "Unpack SOURCE into the build directory.  SOURCE may be a compressed
+archive, a directory, or an Emacs Lisp file."
+  (let ((cwd (getcwd)))
+    (mkdir "data")
+    (chdir "data")
+    (invoke "ar" "xv" source)
+    (chdir cwd)
+    (mkdir "source")
+    (chdir "source")
+    (let* ((files (find-files "data")))
+      (for-each (lambda (file)
+                  (when (string-prefix? "control" file)
+                    (gnu:unpack #:source file)))
+                files))))
+
+;; (define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
+;;   "Compile .el files."
+;;   (define source (getcwd))
+;;   (let* ((output-libs    output-libs)
+;;          (ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+;;         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
+;;          (host-inputs    (filter (lambda (in)
+;;                                    (not (member (car in) '("source" "deb"))))
+;;                                  inputs))
+;;          (in-rpath       (string-join (map (lambda (in)
+;;                                              (string-append in "/lib"))
+;;                                            (map cdr (append outputs host-inputs)))
+;;                                    ":"))
+;;          (out-rpath      (string-join (map (lambda (lib)
+;;                                              (string-append (assoc-ref outputs "out") lib))
+;;                                            output-libs)
+;;                                       ":"))
+;;          (rpath          (string-join (list in-rpath out-rpath) ":"))
+;;          (files-to-build (find-files source)))
+;;     (format #t "output-libs ~a~%" output-libs)
+;;     (cond
+;;        ((not (null? files-to-build))
+;;         (for-each
+;;          (lambda (file)
+;;            (let ((stat (stat file)))
+;;              ;; (format #t "build:~%outputs ~a~%inputs ~a~%"
+;;              ;;         (length outputs)
+;;              ;;         (length inputs))
+;;              ;; (for-each (lambda (e) (format #t " ~a~%" e)) outputs)
+;;              ;; (for-each (lambda (e) (format #t " ~a~%" e)) inputs)
+;;              ;; (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
+;;              (format #t "build `~a'~%" file)
+;;              (when (or (elf-binary-file? file)
+;;                        (library-file?    file))
+;;                (make-file-writable file)
+;;                (format #t "build: `~a' is a elf binary or library file~%" file)
+;;                (invoke "deb" "--set-rpath" rpath file)
+;;                (when (and (not (library-file? file))
+;;                           (elf-binary-file? file))
+;;                  (format #t "build: `~a' is a elf binary file~%" file)
+;;                  (invoke "deb" "--set-interpreter" ld-so file))
+;;                (chmod file (stat:perms stat)))))
+;;          files-to-build)
+;;         #t)
+;;        (else
+;;         (format #t "error: No files found to build.\n")
+;;         (find-files source)
+;;         #f))))
 
 ;;; All the packages are installed directly under site-lisp, which means that
 ;;; having that directory in the DEBLOADPATH is enough to have them found by
 ;;; Deb.
 
-(define* (install #:key outputs
-                  #:allow-other-keys)
-  "Install the package contents."
-
-  (define source (getcwd))
-
-  (define* (install-file? file stat #:key verbose?)
-    file)
-
-  (let* ((out (assoc-ref outputs "out"))
-         (files-to-install (find-files source install-file?)))
-    (cond
-     ((not (null? files-to-install))
-      (for-each
-       (lambda (file)
-         (let* ((type          (stat:type (lstat file)))
-                (stripped-file (string-drop file (string-length source)))
-                (target-file   (string-append out stripped-file)))
-           (if (eq? type 'symlink)
-               (begin
-                 (mkdir-p (dirname target-file))
-                 (system* "cp" "-a" file target-file))
-               (install-file file (dirname target-file)))))
-       files-to-install)
-      #t)
-     (else
-      (format #t "error: No files found to install.\n")
-      (find-files source (lambda (file stat)
-                           (install-file? file stat #:verbose? #t)))
-      #f))))
+;; (define* (install #:key outputs
+;;                   #:allow-other-keys)
+;;   "Install the package contents."
+;;
+;;   (define source (getcwd))
+;;
+;;   (define* (install-file? file stat #:key verbose?)
+;;     file)
+;;
+;;   (let* ((out (assoc-ref outputs "out"))
+;;          (files-to-install (find-files source install-file?)))
+;;     (cond
+;;      ((not (null? files-to-install))
+;;       (for-each
+;;        (lambda (file)
+;;          (let* ((type          (stat:type (lstat file)))
+;;                 (stripped-file (string-drop file (string-length source)))
+;;                 (target-file   (string-append out stripped-file)))
+;;            (if (eq? type 'symlink)
+;;                (begin
+;;                  (mkdir-p (dirname target-file))
+;;                  (system* "cp" "-a" file target-file))
+;;                (install-file file (dirname target-file)))))
+;;        files-to-install)
+;;       #t)
+;;      (else
+;;       (format #t "error: No files found to install.\n")
+;;       (find-files source (lambda (file stat)
+;;                            (install-file? file stat #:verbose? #t)))
+;;       #f))))
 
 (define %standard-phases
   (modify-phases patchelf:%standard-phases
     ;; (replace 'unpack unpack)
     ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
+    (replace 'unpack unpack)
     (delete  'bootstrap)
     (delete  'configure)
-    (replace 'build build)
-    (delete  'check)
-    (replace 'install install)))
+    ;; (replace 'build build)
+    (delete  'check)))
+    ;; (replace 'install install)
+
     ;; (add-after 'install 'make-autoloads make-autoloads)
     ;; (add-after 'make-autoloads 'patch-el-files patch-el-files)
     ;; ;; The .el files are byte compiled directly in the store.

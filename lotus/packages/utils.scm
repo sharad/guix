@@ -21,6 +21,7 @@
   #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix build-system gnu)
+  #:use-module (guix build-system deb)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
@@ -95,7 +96,33 @@
 
 
 
+(define-public adobe-flashplugin
+  ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
+  (package
+    (name "adobe-flashplugin")
+    (version "20191210")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append "http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_" version ".1-0ubuntu0.19.10.2_amd64.deb"))
+              (file-name (string-append "adobe-flashplugin-" version ".deb"))
+              (sha256
+               (base32
+                "0651ky7gdnvxckzp6bir79k2426krgqak1gd2dqwh521s3sk66gn"))))
+    (build-system deb-build-system)
+    ;; (inputs `(("bdb" ,bdb)
+    ;;           ("libnsl" ,libnsl)))
+    ;; (inputs
+    ;;  `(("bzip2" ,bzip2)
+    ;;    ("perl"  ,perl)))
+    (synopsis "")
+    (description "")
+    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
+    (license license:ibmpl1.0)))
 
 
 
 
+
+
+adobe-flashplugin
