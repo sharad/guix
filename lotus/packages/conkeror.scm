@@ -25,7 +25,7 @@
   #:use-module (guix download)
   #:use-module (guix build rpath)
   #:use-module (guix build-system gnu)
-  #:use-module (guix build gnu-build-system)
+  #:use-module (guix build gnu-build-system #:prefix gnu:)
   #:use-module (guix build-system trivial)
   #:use-module (lotus build-system patchelf)
   #:use-module (lotus build patchelf-build-system)
@@ -218,7 +218,6 @@
                                    (lambda* (#:key inputs outputs #:allow-other-keys)
                                      ;; This overwrites the installed launcher, which execs xulrunner,
                                      ;; with one that execs 'icecat --app'
-                                     ;; (chdir)
                                      (use-modules (lotus build patchelf-utils))
                                      ;; (define source (getcwd))
                                      (let* ((source           (getcwd))

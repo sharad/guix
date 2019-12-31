@@ -23,32 +23,15 @@
             ;; regular-file?
             ;; directory?
             directory-list-files
-            patchelf-dynamic-linker))
-
-;; (define (library-file? file)
-;;   (and (eq? 'regular (stat:type (stat file)))
-;;        (string-suffix? ".so" file)))
-
-;; (define (elf-binary-file? file)
-;;   (and (eq? 'regular (stat:type (stat file)))
-;;        (not (string-suffix? ".so" file))
-;;        (executable-file? file)
-;;        (elf-file? file)))
-
-;; (define (regular-file? file)
-;;   (and (not (library-file? file))
-;;        (not (elf-binary-file? file))))
-
-;; (define (directory? file)
-;;   (let ((stat (stat file)))
-;;     (eq? 'directory (stat:type stat))))
+            ;; patchelf-dynamic-linker
+            ))
 
 (define (directory-list-files dir)
   (scandir dir (negate (cut member <> '("." "..")))))
 
-(define* (patchelf-dynamic-linker
-          #:optional (system (or (and=> (%current-target-system)
-                                        gnu-triplet->nix-system)
-                                 (%current-system))))
-  (use-modules (gnu packages bootstrap))
-  (glibc-dynamic-linker system))
+;; (define* (patchelf-dynamic-linker
+;;           #:optional (system (or (and=> (%current-target-system)
+;;                                         gnu-triplet->nix-system)
+;;                                  (%current-system))))
+;;   (use-modules (gnu packages bootstrap))
+;;   (glibc-dynamic-linker system))
