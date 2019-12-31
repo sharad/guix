@@ -49,15 +49,15 @@
   `((lotus build deb-build-system)
     ,@patchelf:%patchelf-build-system-modules))
 
-;; (define (default-deb)
-;;   "Return the default Deb package."
-;;   ;; Lazily resolve the binding to avoid a circular dependency.
-;;   (let ((deb-mod (resolve-interface '(gnu packages elf))))
-;;     (module-ref deb-mod 'deb)))
+(define (default-patchelf)
+  "Return the default Patchelf package."
+  ;; Lazily resolve the binding to avoid a circular dependency.
+  (let ((patchelf-mod (resolve-interface '(gnu packages elf))))
+    (module-ref patchelf-mod 'patchelf)))
 
 (define* (lower name
                 #:key source inputs native-inputs outputs system target ;; host-inputs
-                ;; (deb (default-deb))
+                (patchelf (default-patchelf))
                 #:allow-other-keys
                 #:rest arguments)
   "Return a bag for NAME."
