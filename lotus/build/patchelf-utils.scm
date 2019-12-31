@@ -18,12 +18,23 @@
   ;; #:use-module (gnu packages elf)
   ;; #:use-module (gnu packages xorg)
   ;; #:use-module (gnu packages gtk)
-  #:export (;; library-file?
-            ;; elf-binary-file?
+  #:export (library-file?
+            elf-binary-file?
             ;; regular-file?
             ;; directory?
             directory-list-files))
             ;; patchelf-dynamic-linker
+
+
+(define (library-file? file)
+  (and (eq? 'regular (stat:type (stat file)))
+       (string-suffix? ".so" file)))
+
+(define (elf-binary-file? file)
+  (and (eq? 'regular (stat:type (stat file)))
+       (not (string-suffix? ".so" file))
+       (executable-file? file)
+       (elf-file? file)))
 
 (define (directory-list-files dir)
   (scandir dir (negate (cut member <> '("." "..")))))
