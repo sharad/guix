@@ -23,7 +23,7 @@
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build utils)
   ;; #:use-module (gnu packages bootstrap)
-  ;; #:use-module (lotus build patchelf-utils)
+  #:use-module (lotus build patchelf-utils)
   #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)
@@ -31,11 +31,12 @@
   #:use-module (ice-9 rdelim)
   #:use-module (ice-9 regex)
   #:use-module (ice-9 match)
-  #:export (%standard-phases
-            patchelf-build
-            library-file?
-            elf-binary-file?
-            directory-list-files))
+  #:export (%standard-phases))
+            ;; patchelf-build
+            ;; library-file?
+            ;; elf-binary-file?
+            ;; directory-list-files
+
 
 ;; Commentary:
 ;;
@@ -43,18 +44,18 @@
 ;;
 ;; Code:
 
-(define (library-file? file)
-  (and (eq? 'regular (stat:type (stat file)))
-       (string-suffix? ".so" file)))
+;; (define (library-file? file)
+;;   (and (eq? 'regular (stat:type (stat file)))
+;;        (string-suffix? ".so" file)))
 
-(define (elf-binary-file? file)
-  (and (eq? 'regular (stat:type (stat file)))
-       (not (string-suffix? ".so" file))
-       (executable-file? file)
-       (elf-file? file)))
+;; (define (elf-binary-file? file)
+;;   (and (eq? 'regular (stat:type (stat file)))
+;;        (not (string-suffix? ".so" file))
+;;        (executable-file? file)
+;;        (elf-file? file)))
 
-(define (directory-list-files dir)
-  (scandir dir (negate (cut member <> '("." "..")))))
+;; (define (directory-list-files dir)
+;;   (scandir dir (negate (cut member <> '("." "..")))))
 
 
 (define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
