@@ -201,3 +201,7 @@
 ;;     (name "firefox")))
 
 
+(define-public firefox
+  (package (inherit firefox-56.0)
+           (name "firefox")))
+

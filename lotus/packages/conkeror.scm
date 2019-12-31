@@ -165,10 +165,6 @@
                license:gpl2
                license:lgpl2.1))))
 
-(define-public firefox
-  (package (inherit firefox-56.0)
-    (name "firefox")))
-
 (define-public conkeror-firefox
   (package
     (name "conkeror-firefox")
