@@ -29,7 +29,7 @@
   #:use-module (guix build-system gnu)
   ;; #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build-system trivial)
-  ;; #:use-module (lotus build-system patchelf)
+  #:use-module (lotus build-system patchelf)
   #:use-module (lotus build patchelf-build-system)
   #:use-module (gnu packages)
   #:use-module (gnu packages bootstrap)
