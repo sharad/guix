@@ -166,8 +166,8 @@
                license:gpl2
                license:lgpl2.1))))
 
-(define (directory-list-files dir)
-  (scandir dir (negate (cut member <> '("." "..")))))
+;; (define (directory-list-files dir)
+;;   (scandir dir (negate (cut member <> '("." "..")))))
 
 (define-public firefox-56.0
   ;; (hidden-package)
@@ -213,7 +213,7 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-    (arguments `(;; #:modules ((lotus build patchelf-utils))
+    (arguments `(#:modules ((lotus build patchelf-utils))
                  #:output-libs '("/share/firefox/lib")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
