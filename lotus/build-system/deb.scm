@@ -75,6 +75,7 @@
                         ;; Keep the standard inputs of 'gnu-build-system'.
                         ,@(gnu:standard-packages)))
          (build-inputs `(("binutils" ,binutils)
+                         ("patchelf" ,patchelf)
                          ,@native-inputs))
          ;; (build-inputs `(,@(if source
          ;;                       `(("source" ,source))
