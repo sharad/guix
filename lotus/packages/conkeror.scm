@@ -213,9 +213,7 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-    (arguments `(#:modules ((ice-9 ftw)
-                            ;; (srfi srfi-26)
-                            (lotus build patchelf-utils))
+    (arguments `(#:modules ((lotus build patchelf-utils))
                  #:output-libs '("/share/firefox/lib")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
