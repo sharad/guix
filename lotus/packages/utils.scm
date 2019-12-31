@@ -20,8 +20,8 @@
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix git-download)
-  #:use-module (guix build-system gnu)
-  #:use-module (guix build-system deb)
+  #:use-module ((guix build-system gnu) #:prefix gnu:)
+  #:use-module ((lotus build-system deb) #:prefix deb:)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
@@ -45,7 +45,7 @@
               (sha256
                (base32
                 "1pw9mwwfx0k7xqriavhiffh706sh44gfl991c4afh84903wabq7l"))))
-    (build-system gnu-build-system)
+    (build-system gnu:gnu-build-system)
     ;; (inputs `(("bdb" ,bdb)
     ;;           ("libnsl" ,libnsl)))
     (inputs
@@ -57,7 +57,7 @@
                       (list
                        (string-append "PREFIX=" out)))
        #:phases
-       (modify-phases %standard-phases
+       (modify-phases gnu:%standard-phases
          (delete 'configure))))
     (synopsis "lesspipe.sh, a preprocessor for less")
     (description "To browse files under UNIX the excellent viewer less [1] can be used. By
@@ -109,7 +109,7 @@
               (sha256
                (base32
                 "0651ky7gdnvxckzp6bir79k2426krgqak1gd2dqwh521s3sk66gn"))))
-    (build-system deb-build-system)
+    (build-system deb:deb-build-system)
     ;; (inputs `(("bdb" ,bdb)
     ;;           ("libnsl" ,libnsl)))
     ;; (inputs
