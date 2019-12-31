@@ -31,8 +31,8 @@
   #:use-module (ice-9 rdelim)
   #:use-module (ice-9 regex)
   #:use-module (ice-9 match)
-  #:export (%standard-phases))
-            ;; patchelf-build
+  #:export (%standard-phases
+            patchelf-build))
             ;; library-file?
             ;; elf-binary-file?
             ;; directory-list-files
