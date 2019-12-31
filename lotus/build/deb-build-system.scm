@@ -54,10 +54,12 @@ archive, a directory, or an Emacs Lisp file."
     (let* ((files (find-files "data")))
       (chdir "source")
       (for-each (lambda (file)
+                  (format #t "checking ~a~%" file)
                   (when (string-prefix? "control" file)
-                    (format #t "unpacking ~a~%" file)
+                    (format #t "matched unpacking ~a~%" file)
                     (gnu:unpack #:source file)))
-                files))))
+                files)
+      #t)))
 
 ;; (define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
 ;;   "Compile .el files."
