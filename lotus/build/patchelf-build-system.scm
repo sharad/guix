@@ -122,10 +122,10 @@
          (let* ((type          (stat:type (lstat file)))
                 (stripped-file (string-drop file (string-length source)))
                 (target-file   (string-append out stripped-file)))
-           ;; (system* "ls" "-l" file)
-           ;; (format #t "`~a' -> `~a' ~a ~a ~%" file target-file type (eq? type 'symlink))
            (if (eq? type 'symlink)
-               (system* "cp" "-a" file target-file)
+               (begin
+                 (mkdir-p (dirname target-file))
+                 (system* "cp" "-a" file target-file))
                (install-file file (dirname target-file)))))
        files-to-install)
       #t)
