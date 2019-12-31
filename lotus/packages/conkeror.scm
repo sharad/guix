@@ -19,7 +19,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus packages conkeror)
-  #:use-module (ice-9 ftw)
+  ;; #:use-module (ice-9 ftw)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
@@ -222,6 +222,7 @@
                                      ;; This overwrites the installed launcher, which execs xulrunner,
                                      ;; with one that execs 'icecat --app'
                                      ;; (define source (getcwd))
+                                     (use-modules (lotus build patchelf-utils))
                                      (let* ((source           (getcwd))
                                             (files-to-arrange (find-files source))
                                             (firefox-dir      (string-append source      "/share/firefox"))
