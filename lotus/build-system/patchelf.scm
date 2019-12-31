@@ -18,6 +18,7 @@
 
 (define-module (lotus build-system patchelf)
   #:use-module ((lotus build patchelf-build-system))
+  #:use-module ((lotus build patchelf-utils))
   ;; #:select (%default-include %default-exclude)
   #:use-module (guix store)
   #:use-module (guix utils)
@@ -44,7 +45,7 @@
 (define %patchelf-build-system-modules
   ;; Build-side modules imported by default.
   `((lotus build patchelf-build-system)
-    (lotus build patchelf-utils)
+    ;; (lotus build patchelf-utils)
     ,@%gnu-build-system-modules))
 
 (define (default-patchelf)
@@ -101,7 +102,7 @@
                          (system (%current-system))
                          (guile #f)
                          (imported-modules %patchelf-build-system-modules)
-                         (modules '((lotus build patchelf-utils)
+                         (modules '(;; (lotus build patchelf-utils)
                                     (lotus build patchelf-build-system)
                                     (guix build utils))))
   "Build SOURCE using PATCHELF, and with INPUTS."
