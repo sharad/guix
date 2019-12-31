@@ -20,8 +20,8 @@
   ;; #:use-module (gnu packages gtk)
   #:export (library-file?
             elf-binary-file?
-            ;; regular-file?
-            ;; directory?
+            regular-file?
+            directory?
             directory-list-files))
             ;; patchelf-dynamic-linker
 
@@ -35,6 +35,14 @@
        (not (string-suffix? ".so" file))
        (executable-file? file)
        (elf-file? file)))
+
+(define (regular-file? file)
+  (and (not (library-file? file))
+       (not (elf-binary-file? file))))
+
+(define (directory? file)
+  (let ((stat (stat file)))
+    (eq? 'directory (stat:type stat))))
 
 (define (directory-list-files dir)
   (scandir dir (negate (cut member <> '("." "..")))))

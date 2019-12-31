@@ -43,7 +43,8 @@
 
 (define %patchelf-build-system-modules
   ;; Build-side modules imported by default.
-  `((lotus build patchelf-build-system)
+  `((lotus build patchelf-utils)
+    (lotus build patchelf-build-system)
     ,@%gnu-build-system-modules))
 
 (define (default-patchelf)
