@@ -143,7 +143,7 @@
 (define* (rpm-build #:key inputs (phases %standard-phases)
                       #:allow-other-keys #:rest args)
   "Build the given Rpm package, applying all of PHASES in order."
-  (apply gnu:gnu-build
+  (apply patchelf:patchelf-build
          #:inputs inputs #:phases phases
          args))
 
