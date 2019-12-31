@@ -213,15 +213,13 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-    (arguments `(#:modules ((lotus build patchelf-utils))
-                 #:output-libs '("/share/firefox/lib")
+    (arguments `(#:output-libs '("/share/firefox/lib")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
                                    (lambda* (#:key inputs outputs #:allow-other-keys)
                                      ;; This overwrites the installed launcher, which execs xulrunner,
                                      ;; with one that execs 'icecat --app'
-                                     (use-modules (lotus build patchelf-utils))
                                      ;; (define source (getcwd))
                                      (let* ((source           (getcwd))
                                             (files-to-arrange (find-files source))
@@ -253,7 +251,7 @@
                                        (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
                                        (for-each (lambda (file)
                                                    (format #t "misc: ~a~%" file))
-                                                 (directory-list-files firefox-misc))
+                                                 (scandir firefox-misc (negate (cut member <> '("." "..")))))
                                        #t)))
                                  ;; (delete 'strip)
                                  ;; (replace 'strip
