@@ -122,7 +122,10 @@
          (let* ((stripped-file (string-drop file (string-length source)))
                 (target-file   (string-append out stripped-file)))
            (format #t "`~a' -> `~a'~%" file target-file)
-           (install-file file (dirname target-file))))
+           (let ((stat (stat file)))
+             (if (eq? 'symlink (stat:type stat))
+                 (copy-recursively file target-file)
+                 (install-file file (dirname target-file))))))
        files-to-install)
       #t)
      (else
