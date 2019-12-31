@@ -254,30 +254,30 @@
                                                            #t))
                                  (delete 'strip)
                                  ;; (delete 'validate-runpath)
-                                 (replace 'strip
-                                   (lambda (#:key target outputs (strip-binaries? #t)
-                                            (strip-command (if target
-                                                               (string-append target "-strip")
-                                                               "strip"))
-                                            (objcopy-command (if target
-                                                                 (string-append target "-objcopy")
-                                                                 "objcopy"))
-                                            (strip-flags '("--strip-debug"
-                                                           "--enable-deterministic-archives"))
-                                            (strip-directories '("share/firefox/lib"
-                                                                 "share/firefox/lib64"
-                                                                 "share/firefox/libexec"
-                                                                 "share/firefox/bin"
-                                                                 "share/firefox/sbin"))
-                                            #:allow-other-keys)
-                                     (define gnu:strip (assoc-ref gnu:%standard-phases 'strip))
-                                     (gnu:strip #:target            target
-                                                #:outputs           outputs
-                                                #:strip-binaries?   strip-binaries?
-                                                #:strip-command     strip-command
-                                                #:objcopy-command   objcopy-command
-                                                #:strip-flags       strip-flags
-                                                #:strip-directories strip-directories)))
+                                 ;; (replace 'strip
+                                 ;;   (lambda (#:key target outputs (strip-binaries? #t)
+                                 ;;            (strip-command (if target
+                                 ;;                               (string-append target "-strip")
+                                 ;;                               "strip"))
+                                 ;;            (objcopy-command (if target
+                                 ;;                                 (string-append target "-objcopy")
+                                 ;;                                 "objcopy"))
+                                 ;;            (strip-flags '("--strip-debug"
+                                 ;;                           "--enable-deterministic-archives"))
+                                 ;;            (strip-directories '("share/firefox/lib"
+                                 ;;                                 "share/firefox/lib64"
+                                 ;;                                 "share/firefox/libexec"
+                                 ;;                                 "share/firefox/bin"
+                                 ;;                                 "share/firefox/sbin"))
+                                 ;;            #:allow-other-keys)
+                                 ;;     (define gnu:strip (assoc-ref gnu:%standard-phases 'strip))
+                                 ;;     (gnu:strip #:target            target
+                                 ;;                #:outputs           outputs
+                                 ;;                #:strip-binaries?   strip-binaries?
+                                 ;;                #:strip-command     strip-command
+                                 ;;                #:objcopy-command   objcopy-command
+                                 ;;                #:strip-flags       strip-flags
+                                 ;;                #:strip-directories strip-directories)))
                                  (replace 'validate-runpath
                                           (lambda* (#:key (validate-runpath? #t)
                                                           (elf-directories '("share/firefox/lib"
