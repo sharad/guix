@@ -57,7 +57,7 @@ archive, a directory, or an Emacs Lisp file."
       (chdir "debdata")
       (for-each (lambda (file)
                   (format #t "checking ~a~%" file)
-                  (when (string-prefix? "data/control" file)
+                  (when (string-prefix? "data/data" file)
                     (format #t "matched unpacking ~a~%" file)
                     (gnu:unpack #:source (string-append cwd "/" file))))
                 files)
