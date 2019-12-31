@@ -210,7 +210,8 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)))
-    (arguments `(#:output-libs '("/share/firefox/lib")
+    (arguments `(#:modules ((lotus build patchelf-utils))
+                 #:output-libs '("/share/firefox/lib")
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
@@ -233,7 +234,9 @@
                                                                                ((and (not (library-file? file))
                                                                                      (elf-binary-file? file))
                                                                                 firefox-bin)
-                                                                               (#t (string-append firefox-misc (dirname stripped-file)))))
+                                                                               (#t (if (string=? (dirname stripped-file) "/")
+                                                                                       firefox-misc
+                                                                                       (string-append firefox-misc (dirname stripped-file))))))
                                                           (target-file   (string-append location "/" (basename file))))
                                                      (format #t "rearrange: src ~a -> target ~a~%" file target-file)
                                                      (mkdir-p (dirname target-file))
