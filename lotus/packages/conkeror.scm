@@ -29,6 +29,7 @@
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system trivial)
   #:use-module (gnu packages)
+  #:use-module (lotus packages firefox)
   #:use-module (gnu packages bootstrap)
   #:use-module (gnu packages base)
   #:use-module (gnu packages gcc)
