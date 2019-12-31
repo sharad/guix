@@ -245,6 +245,7 @@
                                        (invoke "sed" "-i" "s@^lib@../lib/lib@g" (string-append firefox-bin "/dependentlibs.list"))
                                        (mkdir-p bin-dir)
                                        (symlink "../share/firefox/bin/firefox" (string-append bin-dir "/firefox"))
+                                       (system* "ls" "-l" bin-dir)
                                        #t)))
                                  (delete 'strip)
                                  ;; (replace 'strip
