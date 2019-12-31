@@ -248,7 +248,7 @@
                                                    (format #t "misc: ~a~%" file))
                                                  (directory-list-files firefox-misc))
                                        #t)))
-                                 (delete 'strip)
+                                 ;; (delete 'strip)
                                  ;; (replace 'strip
                                  ;;   (lambda (#:key target outputs (strip-binaries? #t)
                                  ;;            (strip-command (if target
