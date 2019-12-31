@@ -142,8 +142,8 @@
                                                    (let* ((rel-misc (string-drop firefox-misc (string-length (string-append source
                                                                                                                             "/share/firefox/"))))
                                                           (rfile    (string-append "../" rel-misc "/" file)))
-                                                     (format #t "file: ~a~%" rfile)
-                                                     (if (required-link? file)
+                                                     (format #t "file: ~a ~a~%" rfile (string-append firefox-misc "/" file))
+                                                     (if (required-link? (string-append firefox-misc "/" file))
                                                          (format #t "symlink ~a ~a~%" rfile firefox-bin))))
                                                  (directory-list-files firefox-misc))
                                        #t)))
