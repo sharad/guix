@@ -45,7 +45,8 @@
   #:use-module (gnu packages libevent)
   #:use-module (gnu packages libffi)
   #:use-module (gnu packages libevent)
-  #:use-module (gnu packages video))
+  #:use-module (gnu packages video)
+  #:use-module (gnu packages nss))
 
 ;; https://issues.guix.gnu.org/issue/35619
 
@@ -157,7 +158,9 @@
               ("libxscrnsaver" ,libxscrnsaver)
               ("libffi"        ,libffi)
               ("ffmpeg"        ,ffmpeg)
-              ("libvpx"        ,libvpx-1.7)))
+              ("libvpx"        ,libvpx-1.7)
+              ("gtk+"          ,gtk+)
+              ("nspr"          ,nspr)))
     (synopsis "")
     (description "")
     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
