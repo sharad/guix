@@ -5,7 +5,7 @@
   ;; #:use-module ((guix licenses) #:prefix license:)
   ;; #:use-module (guix utils)
   #:use-module (guix build utils)
-  #:use-module (gnu packages bootstrap)
+  ;; #:use-module (gnu packages bootstrap)
   ;; #:use-module (guix packages)
   ;; #:use-module (guix download)
   ;; #:use-module (guix build-system gnu)
