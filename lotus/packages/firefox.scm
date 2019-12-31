@@ -18,7 +18,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (lotus packages conkeror)
+(define-module (lotus packages firefox)
   #:use-module (ice-9 ftw)
   #:use-module (guix build gnu-build-system)
   #:use-module (lotus build patchelf-utils)
