@@ -18,7 +18,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (lotus packages firefox)
+(define-module (lotus packages conkeror)
   #:use-module (ice-9 ftw)
   #:use-module (guix build gnu-build-system)
   #:use-module (lotus build patchelf-utils)
@@ -165,7 +165,7 @@
                license:lgpl2.1))))
 
 (define-public firefox
-  (package (inherit firefox-56.0-old)
+  (package (inherit firefox-56.0)
     (name "firefox")))
 
 (define-public conkeror-firefox

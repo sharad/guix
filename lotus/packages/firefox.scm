@@ -18,7 +18,7 @@
 ;;; You should have received a copy of the GNU General Public License
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
-(define-module (lotus packages conkeror)
+(define-module (lotus packages firefox)
   #:use-module (ice-9 ftw)
   #:use-module (lotus build patchelf-utils)
   #:use-module ((guix licenses) #:prefix license:)
@@ -48,7 +48,7 @@
 ;; (define (directory-list-files dir)
 ;;   (scandir dir (negate (cut member <> '("." "..")))))
 
-(define-public firefox
+(define-public firefox-56.0
   ;; (hidden-package)
   (package
     (name "firefox")
