@@ -20,7 +20,7 @@
 ;;; along with GNU Guix.  If not, see <http://www.gnu.org/licenses/>.
 
 (define-module (lotus build rpm-build-system)
-  #:use-module ((guix build patchelf-build-system) #:prefix patchelf:)
+  #:use-module ((lotus build patchelf-build-system) #:prefix patchelf:)
   #:use-module (guix build utils)
   ;; #:use-module (gnu packages bootstrap)
   ;; #:use-module (lotus build rpm-utils)
