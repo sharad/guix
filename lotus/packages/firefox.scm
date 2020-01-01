@@ -96,7 +96,8 @@
                ("adobe-flashplugin" ,adobe-flashplugin)))
     (arguments `(;; #:modules ((lotus build patchelf-utils))
                  ;; #:output-libs       '("/share/firefox/lib")
-                 #:input-lib-mapping '(("out" "share/firefox/lib"))
+                 #:input-lib-mapping '(("out" "share/firefox/lib")
+                                       ("adobe-flashplugin" "lib/adobe-flashplugin/"))
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
@@ -213,3 +214,4 @@
 ;; https://pkgs.org/download/adobe-flashplugin
 ;; https://ubuntu.pkgs.org/19.10/canonical-partner-amd64/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb.html
 ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
+;; https://fpdownload.adobe.com/get/flashplayer/pdc/32.0.0.303/flash_player_npapi_linux.x86_64.tar.gz

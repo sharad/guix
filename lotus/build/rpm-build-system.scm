@@ -51,6 +51,8 @@
 
 (define gnu:unpack (assoc-ref gnu:%standard-phases 'unpack))
 
+;; https://blog.packagecloud.io/eng/2015/10/13/inspect-extract-contents-rpm-packages/
+;; rpm2cpio ./packagecloud-test-1.1-1.x86_64.rpm | cpio -idmv
 (define* (unpack #:key source #:allow-other-keys)
   "Unpack SOURCE into the build directory.  SOURCE may be a compressed
 archive, a directory, or an Emacs Lisp file."
