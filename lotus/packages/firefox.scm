@@ -44,7 +44,7 @@
   #:use-module (gnu packages libffi)
   #:use-module (gnu packages libevent)
   #:use-module (gnu packages video)
-  #:use-module (guix packages utils))
+  #:use-module (lotus packages utils))
 
 ;; (define (directory-list-files dir)
 ;;   (scandir dir (negate (cut member <> '("." "..")))))
