@@ -52,18 +52,10 @@
 
 (define %standard-phases
   (modify-phases patchelf:%standard-phases
-    ;; (replace 'unpack unpack)
-    ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
+    (replace 'unpack unpack)
     (delete  'bootstrap)
     (delete  'configure)
-    (replace 'build build)
-    (delete  'check)
-    (replace 'install install)))
-    ;; (add-after 'install 'make-autoloads make-autoloads)
-    ;; (add-after 'make-autoloads 'patch-el-files patch-el-files)
-    ;; ;; The .el files are byte compiled directly in the store.
-    ;; (add-after 'patch-el-files 'build build)
-    ;; (add-after 'build 'move-doc move-doc)
+    (delete  'check)))
 
 (define* (rpm-build #:key inputs (phases %standard-phases)
                       #:allow-other-keys #:rest args)
