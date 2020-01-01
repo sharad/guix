@@ -71,7 +71,7 @@
           (string-tokenize l %not-colon))))
 
   (define (find-lib input map)
-    (let ((mappedlibs (or (assoc-ref (car input) map) '("lib")))
+    (let ((mappedlibs (or (assoc-ref map (car input)) '("lib")))
           (pkg-libs   (pkg-config-libs input)))
       (format #t "input ~a~%" input)
       (format #t "map ~a~%" map)
