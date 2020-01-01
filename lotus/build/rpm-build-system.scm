@@ -59,7 +59,7 @@ archive, a directory, or an Emacs Lisp file."
   (let ((cwd (getcwd)))
     (mkdir "data")
     (chdir "data")
-    (invoke "ar" "xv" source)
+    (invoke "rpm2cpio" source "|" "cpio" "-idmv")
     (chdir cwd)
     (mkdir "debdata")
     (let* ((files (find-files "data")))
