@@ -62,7 +62,12 @@ archive, a directory, or an Emacs Lisp file."
                     (gnu:unpack #:source (string-append cwd "/" file))))
                 files)
       (chdir cwd)
-      (copy-recursively "debdata/usr" "source")
+      (if (access? "debdata/usr" F_OK)
+          (copy-recursively "debdata/usr" "source")
+          (format #t "debdata/usr not exists."))
+      (if (access? "debdata/opt" F_OK)
+          (copy-recursively "debdata/opt" "source")
+          (format #t "debdata/opt not exists."))
       (chdir "source")
       #t)))
 
