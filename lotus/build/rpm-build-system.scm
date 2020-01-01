@@ -52,7 +52,7 @@
 
 (define %standard-phases
   (modify-phases patchelf:%standard-phases
-    (replace 'unpack unpack)
+    ;; (replace 'unpack unpack)
     (delete  'bootstrap)
     (delete  'configure)
     (delete  'check)))
