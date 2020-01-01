@@ -54,14 +54,21 @@
   (let ((patchelf-mod (resolve-interface '(gnu packages elf))))
     (module-ref patchelf-mod 'patchelf)))
 
+(define (default-pkg-config)
+  "Return the default Pkg-Config package."
+  ;; Lazily resolve the binding to avoid a circular dependency.
+  (let ((pkg-config-mod (resolve-interface '(gnu packages elf))))
+    (module-ref pkg-config-mod 'pkg-config)))
+
 (define* (lower name
                 #:key source inputs native-inputs outputs system target ;; host-inputs
                 (patchelf (default-patchelf))
+                (pkg-config (default-pkg-config))
                 #:allow-other-keys
                 #:rest arguments)
   "Return a bag for NAME."
   (define private-keywords
-    '(#:target #:patchelf #:inputs #:native-inputs)) ;#:host-inputs
+    '(#:target #:patchelf #:pkg-config #:inputs #:native-inputs)) ;#:host-inputs
 
   (and (not target)                               ;XXX: no cross-compilation
        (bag
@@ -74,6 +81,7 @@
                         ;; Keep the standard inputs of 'gnu-build-system'.
                         ,@(standard-packages)))
          (build-inputs `(("patchelf" ,patchelf)
+                         ("pkg-config" ,pkg-config)
                          ,@native-inputs))
          ;; (build-inputs `(,@(if source
          ;;                       `(("source" ,source))
