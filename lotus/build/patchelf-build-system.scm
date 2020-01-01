@@ -57,6 +57,7 @@
   (define (pkg-config-libs input)
     (let* ((p (open-pipe* OPEN_READ "pkg-config" "--libs-only-L" (cdr input)))
            (l (read-line p)))
+      (format #t "pkg-config-libs: ~a~%" l)
       (and (zero? (close-pipe p))
            (string-tokenize l %not-colon))))
 

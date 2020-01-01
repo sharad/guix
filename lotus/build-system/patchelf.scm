@@ -57,7 +57,7 @@
 (define (default-pkg-config)
   "Return the default Pkg-Config package."
   ;; Lazily resolve the binding to avoid a circular dependency.
-  (let ((pkg-config-mod (resolve-interface '(gnu packages elf))))
+  (let ((pkg-config-mod (resolve-interface '(gnu packages pkg-config))))
     (module-ref pkg-config-mod 'pkg-config)))
 
 (define* (lower name
