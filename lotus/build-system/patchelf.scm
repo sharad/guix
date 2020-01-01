@@ -58,7 +58,7 @@
   "Return the default Pkg-Config package."
   ;; Lazily resolve the binding to avoid a circular dependency.
   (let ((pkg-config-mod (resolve-interface '(gnu packages pkg-config))))
-    (module-ref pkg-config-mod 'pkg-config)))
+    (module-ref pkg-config-mod '%pkg-config)))
 
 (define* (lower name
                 #:key source inputs native-inputs outputs system target ;; host-inputs
@@ -80,7 +80,7 @@
                         ,@inputs
                         ;; Keep the standard inputs of 'gnu-build-system'.
                         ,@(standard-packages)))
-         (build-inputs `(("patchelf" ,patchelf)
+         (build-inputs `(("patchelf"   ,patchelf)
                          ("pkg-config" ,pkg-config)
                          ,@native-inputs))
          ;; (build-inputs `(,@(if source
