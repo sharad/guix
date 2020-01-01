@@ -63,8 +63,6 @@
                (base32
                 "1pw9mwwfx0k7xqriavhiffh706sh44gfl991c4afh84903wabq7l"))))
     (build-system gnu:gnu-build-system)
-    ;; (inputs `(("bdb" ,bdb)
-    ;;           ("libnsl" ,libnsl)))
     (inputs
      `(("bzip2" ,bzip2)
        ("perl"  ,perl)))
@@ -74,7 +72,7 @@
                       (list
                        (string-append "PREFIX=" out)))
        #:phases
-       (modify-phases gnu:%standard-phases
+       (modify-phases %standard-phases
          (delete 'configure))))
     (synopsis "lesspipe.sh, a preprocessor for less")
     (description "To browse files under UNIX the excellent viewer less [1] can be used. By
