@@ -67,7 +67,8 @@
      `(("bzip2" ,bzip2)
        ("perl"  ,perl)))
     (arguments
-     '(#:tests? #f
+     '(#:modules ((guix build-system gnu) #:prefix gnu:)
+       #:tests? #f
        #:make-flags (let ((out  (assoc-ref %outputs "out")))
                       (list
                        (string-append "PREFIX=" out)))
