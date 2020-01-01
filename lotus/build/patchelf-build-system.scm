@@ -41,24 +41,30 @@
 ;;
 ;; Code:
 
-(define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
+(define* (build #:key
+                outputs
+                inputs
+                (input-lib-mapping '())
+                #:allow-other-keys)
   "Compile .el files."
   (define source (getcwd))
-  (let* ((output-libs    output-libs)
-         (ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+  (define pkg-config-libs (input)
+    (invoke "pkg-config" "--libs-only-L" (cdr input)))
+  (define (find-lib input map)
+    (let ((mappedlibs (or (assoc-ref (car input) map) '("lib")))
+          (pkg-libs   (pkg-config-libs input)))
+      (append pkg-libs mappedlibs)))
+  (let* ((ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
-         (host-inputs    (filter (lambda (in)
-                                   (not (member (car in) '("source" "patchelf"))))
+         (host-inputs    (filter (lambda (input)
+                                   (not (member (car input) '("source" "patchelf"))))
                                  inputs))
-         (in-rpath       (string-join (map (lambda (in)
-                                             (string-append in "/lib"))
-                                           (map cdr (append outputs host-inputs)))
-                                   ":"))
-         (out-rpath      (string-join (map (lambda (lib)
-                                             (string-append (assoc-ref outputs "out") lib))
-                                           output-libs)
-                                      ":"))
-         (rpath          (string-join (list in-rpath out-rpath) ":"))
+         (rpath-libs     (map (lambda (input)
+                                (let ((libs (map (lambda (lib) (string-append (cdr input) "/" lib))
+                                                 (find-lib input input-lib-mapping))))
+                                  (string-join libs ":")))
+                              (append outputs host-inputs)))
+         (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs ~a~%" output-libs)
     (cond
@@ -127,18 +133,11 @@
 
 (define %standard-phases
   (modify-phases gnu:%standard-phases
-    ;; (replace 'unpack unpack)
-    ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
     (delete  'bootstrap)
     (delete  'configure)
     (replace 'build build)
     (delete  'check)
     (replace 'install install)))
-    ;; (add-after 'install 'make-autoloads make-autoloads)
-    ;; (add-after 'make-autoloads 'patch-el-files patch-el-files)
-    ;; ;; The .el files are byte compiled directly in the store.
-    ;; (add-after 'patch-el-files 'build build)
-    ;; (add-after 'build 'move-doc move-doc)
 
 (define* (patchelf-build #:key inputs (phases %standard-phases)
                       #:allow-other-keys #:rest args)

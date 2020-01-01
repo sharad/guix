@@ -127,8 +127,6 @@
                (base32
                 "0651ky7gdnvxckzp6bir79k2426krgqak1gd2dqwh521s3sk66gn"))))
     (build-system deb:deb-build-system)
-    ;; (inputs `(("bdb" ,bdb)
-    ;;           ("libnsl" ,libnsl)))
     (inputs `(("libc"          ,glibc)
               ("gcc:lib"       ,gcc "lib")
               ("dbus"          ,dbus)
@@ -166,9 +164,3 @@
     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
     (license license:ibmpl1.0)))
 
-
-
-
-
-
-adobe-flashplugin
