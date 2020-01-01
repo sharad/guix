@@ -21,7 +21,7 @@
   #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module ((guix build-system gnu) #:prefix gnu:)
-  ;; #:use-module ((lotus build-system deb) #:prefix deb:)
+  #:use-module ((lotus build-system deb) #:prefix deb:)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
