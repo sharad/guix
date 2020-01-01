@@ -48,6 +48,7 @@
                 (input-lib-mapping '())
                 #:allow-other-keys)
   "Compile .el files."
+
   (define source (getcwd))
 
   ;; (define %not-colon
@@ -132,7 +133,7 @@
                           (mkdir-p (dirname target-file))
                           (system* "cp" "-a" file target-file))
                         (install-file file (dirname target-file)))))
-                (find-files source))
+                files-to-install)
       #t)
      (else
       (format #t "error: No files found to install.\n")
