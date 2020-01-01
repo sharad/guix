@@ -86,7 +86,7 @@
          ;;                       (standard-packages)
          ;;                       '())))
          (outputs outputs)
-         (xbuild patchelf-build)
+         (build   patchelf-build)
          (arguments (strip-keyword-arguments private-keywords arguments)))))
 
 (define* (patchelf-build store name inputs
