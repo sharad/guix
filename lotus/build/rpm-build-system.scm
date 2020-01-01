@@ -49,10 +49,33 @@
 ;;; Rpm.
 
 
+(define gnu:unpack (assoc-ref gnu:%standard-phases 'unpack))
+
+(define* (unpack #:key source #:allow-other-keys)
+  "Unpack SOURCE into the build directory.  SOURCE may be a compressed
+archive, a directory, or an Emacs Lisp file."
+  (let ((cwd (getcwd)))
+    (mkdir "data")
+    (chdir "data")
+    (invoke "ar" "xv" source)
+    (chdir cwd)
+    (mkdir "debdata")
+    (let* ((files (find-files "data")))
+      (chdir "debdata")
+      (for-each (lambda (file)
+                  (format #t "checking ~a~%" file)
+                  (when (string-prefix? "data/data" file)
+                    (format #t "matched unpacking ~a~%" file)
+                    (gnu:unpack #:source (string-append cwd "/" file))))
+                files)
+      (chdir cwd)
+      (copy-recursively "debdata/usr" "source")
+      (chdir "source")
+      #t)))
 
 (define %standard-phases
   (modify-phases patchelf:%standard-phases
-    ;; (replace 'unpack unpack)
+    (replace 'unpack unpack)
     (delete  'bootstrap)
     (delete  'configure)
     (delete  'check)))
