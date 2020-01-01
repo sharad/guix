@@ -63,7 +63,7 @@
     (format #t "pkg-config" "--libs-only-L ~a~%" (car input))
     (let* ((p (open-pipe* OPEN_READ (%pkg-config) "--libs-only-L" (car input)))
            (l (read-line p)))
-      (format #t "pkg-config-libs: ~a~%" l)
+      ;; (format #t "pkg-config-libs: ~a~%" l)
       (if (or (not (zero? (close-pipe p)))
               (eof-object? l))
           '()
