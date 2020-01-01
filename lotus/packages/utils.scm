@@ -72,7 +72,7 @@
                       (list
                        (string-append "PREFIX=" out)))
        #:phases
-       (modify-phases %standard-phases
+       (modify-phases gnu:%standard-phases
          (delete 'configure))))
     (synopsis "lesspipe.sh, a preprocessor for less")
     (description "To browse files under UNIX the excellent viewer less [1] can be used. By
