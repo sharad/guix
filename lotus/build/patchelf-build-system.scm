@@ -51,13 +51,17 @@
 
   (define source (getcwd))
 
+  (define %pkg-config
+    ;; The `pkg-config' command.
+    (make-parameter "pkg-config"))
+
   (define %not-colon
     (char-set-complement (char-set #\Space)))
 
   (define (pkg-config-libs input)
-    (format #t "pkg-config-libs: ~a~%" (car input))
+    ;; (format #t "pkg-config-libs: ~a~%" (car input))
     (format #t "pkg-config" "--libs-only-L ~a~%" (car input))
-    (let* ((p (open-pipe* OPEN_READ "pkg-config" "--libs-only-L" (car input)))
+    (let* ((p (open-pipe* OPEN_READ (%pkg-config) "--libs-only-L" (car input)))
            (l (read-line p)))
       (format #t "pkg-config-libs: ~a~%" l)
       (if (or (not (zero? (close-pipe p)))

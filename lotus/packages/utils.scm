@@ -155,6 +155,8 @@
               ("libvpx"        ,libvpx-1.7)
               ("gtk+"          ,gtk+)
               ("nspr"          ,nspr)))
+    (arguments `(#:input-lib-mapping '(("out" "lib")
+                                       ("nss" "lib/nss"))))
     (synopsis "")
     (description "")
     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
