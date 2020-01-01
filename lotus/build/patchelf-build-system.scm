@@ -65,8 +65,8 @@
           (pkg-libs   (pkg-config-libs input)))
       (append pkg-libs mappedlibs)))
 
-  ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
   (let* ((ld-so       (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
          (host-inputs (filter (lambda (input)
                                 (not (member (car input) '("source" "patchelf"))))
                               inputs))

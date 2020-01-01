@@ -30,6 +30,7 @@
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-26)
+  #:use-module (gnu packages package-management)
   #:export (%rpm-build-system-modules
             rpm-build
             rpm-build-system))

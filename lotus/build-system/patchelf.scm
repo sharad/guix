@@ -54,9 +54,16 @@
   (let ((patchelf-mod (resolve-interface '(gnu packages elf))))
     (module-ref patchelf-mod 'patchelf)))
 
+(define (default-pkg-config)
+  "Return the default Pkg-Config package."
+  ;; Lazily resolve the binding to avoid a circular dependency.
+  (let ((pkg-config-mod (resolve-interface '(gnu packages pkg-config))))
+    (module-ref pkg-config-mod 'pkg-config)))
+
 (define* (lower name
                 #:key source inputs native-inputs outputs system target ;; host-inputs
                 (patchelf (default-patchelf))
+                (pkg-config (default-pkg-config))
                 #:allow-other-keys
                 #:rest arguments)
   "Return a bag for NAME."
@@ -73,7 +80,8 @@
                         ,@inputs
                         ;; Keep the standard inputs of 'gnu-build-system'.
                         ,@(standard-packages)))
-         (build-inputs `(("patchelf" ,patchelf)
+         (build-inputs `(("patchelf"   ,patchelf)
+                         ("pkg-config" ,pkg-config)
                          ,@native-inputs))
          ;; (build-inputs `(,@(if source
          ;;                       `(("source" ,source))
@@ -86,44 +94,7 @@
          ;;                       (standard-packages)
          ;;                       '())))
          (outputs outputs)
-         (build   patchelf-build)
-         (arguments (strip-keyword-arguments private-keywords arguments)))))
-
-(define* (patchelf-build store name inputs
-                         #:key source ;; host-inputs
-                         (tests? #f)
-                         (parallel-tests? #t)
-                         (test-command ''("make" "check"))
-                         (phases '(@ (lotus build patchelf-build-system)
-                                     %standard-phases))
-                         (outputs '("out"))
-                         (input-lib-mapping ''())
-                         (search-paths '())
-                         (system (%current-system))
-                         (guile #f)
-                         (imported-modules %patchelf-build-system-modules)
-                         (modules '((lotus build patchelf-build-system)
-                                    (guix build utils)
-                                    (lotus build patchelf-utils))))
-  "Build SOURCE using PATCHELF, and with INPUTS."
-  (define builder
-    `(begin
-       (use-modules ,@modules)
-       (patchelf-build #:name ,name
-                       #:source ,(match (assoc-ref inputs "source")
-                                   (((? derivation? source))
-                                    (derivation->output-path source))
-                                   ((source)
-                                    source)
-                                   (source
-                                    source))
-                       #:system ,system
-                       #:test-command ,test-command
-                       #:tests? ,tests?
-                       #:phases ,phases
-                       #:outputs %outputs
-                       ;; #:output-libs ,output-libs
-                       #:input-lib-mapping ,input-lib-mapping
+         (build 
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
