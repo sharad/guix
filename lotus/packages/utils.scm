@@ -109,57 +109,54 @@
 (define-public pi-hole
   "https://github.com/pi-hole/pi-hole/blob/master/automated%20install/basic-install.sh")
 
-
-
-
-;; (define-public adobe-flashplugin
-;;   ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
-;;   (package
-;;     (name "adobe-flashplugin")
-;;     (version "20191210")
-;;     (source (origin
-;;               (method url-fetch)
-;;               (uri
-;;                (string-append "http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_" version ".1-0ubuntu0.19.10.2_amd64.deb"))
-;;               (file-name (string-append "adobe-flashplugin-" version ".deb"))
-;;               (sha256
-;;                (base32
-;;                 "0651ky7gdnvxckzp6bir79k2426krgqak1gd2dqwh521s3sk66gn"))))
-;;     (build-system deb:deb-build-system)
-;;     (inputs `(("libc"          ,glibc)
-;;               ("gcc:lib"       ,gcc "lib")
-;;               ("dbus"          ,dbus)
-;;               ("libxcomposite" ,libxcomposite)
-;;               ("libxt"         ,libxt)
-;;               ("gtk+"          ,gtk+)
-;;               ("atk"           ,atk)
-;;               ("cairo"         ,cairo)
-;;               ("dbus-glib"     ,dbus-glib)
-;;               ("fontconfig"    ,fontconfig)
-;;               ("freetype"      ,freetype)
-;;               ("gdk-pixbuf"    ,gdk-pixbuf)
-;;               ("glib"          ,glib)
-;;               ("glibc"         ,glibc)
-;;               ("libx11"        ,libx11)
-;;               ("libxcb"        ,libxcb)
-;;               ("libxdamage"    ,libxdamage)
-;;               ("libxext"       ,libxext)
-;;               ("libxfixes"     ,libxfixes)
-;;               ("libxrender"    ,libxrender)
-;;               ("pango"         ,pango)
-;;               ("pulseaudio"    ,pulseaudio)
-;;               ("libogg"        ,libogg)
-;;               ("libvorbis"     ,libvorbis)
-;;               ("libevent"      ,libevent)
-;;               ("libxinerama"   ,libxinerama)
-;;               ("libxscrnsaver" ,libxscrnsaver)
-;;               ("libffi"        ,libffi)
-;;               ("ffmpeg"        ,ffmpeg)
-;;               ("libvpx"        ,libvpx-1.7)
-;;               ("gtk+"          ,gtk+)
-;;               ("nspr"          ,nspr)))
-;;     (synopsis "")
-;;     (description "")
-;;     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
-;;     (license license:ibmpl1.0)))
+(define-public adobe-flashplugin
+  ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
+  (package
+    (name "adobe-flashplugin")
+    (version "20191210")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append "http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_" version ".1-0ubuntu0.19.10.2_amd64.deb"))
+              (file-name (string-append "adobe-flashplugin-" version ".deb"))
+              (sha256
+               (base32
+                "0651ky7gdnvxckzp6bir79k2426krgqak1gd2dqwh521s3sk66gn"))))
+    (build-system deb:deb-build-system)
+    (inputs `(("libc"          ,glibc)
+              ("gcc:lib"       ,gcc "lib")
+              ("dbus"          ,dbus)
+              ("libxcomposite" ,libxcomposite)
+              ("libxt"         ,libxt)
+              ("gtk+"          ,gtk+)
+              ("atk"           ,atk)
+              ("cairo"         ,cairo)
+              ("dbus-glib"     ,dbus-glib)
+              ("fontconfig"    ,fontconfig)
+              ("freetype"      ,freetype)
+              ("gdk-pixbuf"    ,gdk-pixbuf)
+              ("glib"          ,glib)
+              ("glibc"         ,glibc)
+              ("libx11"        ,libx11)
+              ("libxcb"        ,libxcb)
+              ("libxdamage"    ,libxdamage)
+              ("libxext"       ,libxext)
+              ("libxfixes"     ,libxfixes)
+              ("libxrender"    ,libxrender)
+              ("pango"         ,pango)
+              ("pulseaudio"    ,pulseaudio)
+              ("libogg"        ,libogg)
+              ("libvorbis"     ,libvorbis)
+              ("libevent"      ,libevent)
+              ("libxinerama"   ,libxinerama)
+              ("libxscrnsaver" ,libxscrnsaver)
+              ("libffi"        ,libffi)
+              ("ffmpeg"        ,ffmpeg)
+              ("libvpx"        ,libvpx-1.7)
+              ("gtk+"          ,gtk+)
+              ("nspr"          ,nspr)))
+    (synopsis "")
+    (description "")
+    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
+    (license license:ibmpl1.0)))
 

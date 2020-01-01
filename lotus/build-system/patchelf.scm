@@ -86,7 +86,7 @@
          ;;                       (standard-packages)
          ;;                       '())))
          (outputs outputs)
-         (build patchelf-build)
+         (build   patchelf-build)
          (arguments (strip-keyword-arguments private-keywords arguments)))))
 
 (define* (patchelf-build store name inputs
@@ -97,7 +97,7 @@
                          (phases '(@ (lotus build patchelf-build-system)
                                      %standard-phases))
                          (outputs '("out"))
-                         (output-libs ''("/lib"))
+                         (input-lib-mapping ''())
                          (search-paths '())
                          (system (%current-system))
                          (guile #f)
@@ -122,7 +122,8 @@
                        #:tests? ,tests?
                        #:phases ,phases
                        #:outputs %outputs
-                       #:output-libs ,output-libs
+                       ;; #:output-libs ,output-libs
+                       #:input-lib-mapping ,input-lib-mapping
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)
