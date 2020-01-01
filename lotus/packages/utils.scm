@@ -50,60 +50,60 @@
 
 ;; https://issues.guix.gnu.org/issue/35619
 
-;; (define-public lesspipe
-;;   (package
-;;     (name "lesspipe")
-;;     (version "lesspipe")
-;;     (source (origin
-;;               (method git-fetch)
-;;               (uri (git-reference
-;;                     (url "https://github.com/wofr06/lesspipe.git")
-;;                     (commit version)))
-;;               (sha256
-;;                (base32
-;;                 "1pw9mwwfx0k7xqriavhiffh706sh44gfl991c4afh84903wabq7l"))))
-;;     (build-system gnu:gnu-build-system)
-;;     (inputs
-;;      `(("bzip2" ,bzip2)
-;;        ("perl"  ,perl)))
-;;     (arguments
-;;      '(#:modules ((guix build-system gnu) #:prefix gnu:)
-;;        #:tests? #f
-;;        #:make-flags (let ((out  (assoc-ref %outputs "out")))
-;;                       (list
-;;                        (string-append "PREFIX=" out)))
-;;        #:phases
-;;        (modify-phases gnu:%standard-phases
-;;          (delete 'configure))))
-;;     (synopsis "lesspipe.sh, a preprocessor for less")
-;;     (description "To browse files under UNIX the excellent viewer less [1] can be used. By
-;;  setting the environment variable LESSOPEN, less can be enhanced by external
-;;  filters to become even more powerful. Most Linux distributions come already
-;;  with a \"lesspipe.sh\" that covers the most common situations.
+(define-public lesspipe
+  (package
+    (name "lesspipe")
+    (version "lesspipe")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/wofr06/lesspipe.git")
+                    (commit version)))
+              (sha256
+               (base32
+                "1pw9mwwfx0k7xqriavhiffh706sh44gfl991c4afh84903wabq7l"))))
+    (build-system gnu:gnu-build-system)
+    (inputs
+     `(("bzip2" ,bzip2)
+       ("perl"  ,perl)))
+    (arguments
+     '(#:modules ((guix build-system gnu) #:prefix gnu:)
+       #:tests? #f
+       #:make-flags (let ((out  (assoc-ref %outputs "out")))
+                      (list
+                       (string-append "PREFIX=" out)))
+       #:phases
+       (modify-phases gnu:%standard-phases
+         (delete 'configure))))
+    (synopsis "lesspipe.sh, a preprocessor for less")
+    (description "To browse files under UNIX the excellent viewer less [1] can be used. By
+ setting the environment variable LESSOPEN, less can be enhanced by external
+ filters to become even more powerful. Most Linux distributions come already
+ with a \"lesspipe.sh\" that covers the most common situations.
 
-;;  The input filter for less described here is called \"lesspipe.sh\". It is able
-;;  to process a wide variety of file formats. It enables users to deeply inspect
-;;  archives and to display the contents of files in archives without having to
-;;  unpack them before. That means file contents can be properly interpreted even
-;;  if the files are compressed and contained in a hierarchy of archives (often
-;;  found in RPM or DEB archives containing source tarballs). The filter is easily
-;;  extensible for new formats.
+ The input filter for less described here is called \"lesspipe.sh\". It is able
+ to process a wide variety of file formats. It enables users to deeply inspect
+ archives and to display the contents of files in archives without having to
+ unpack them before. That means file contents can be properly interpreted even
+ if the files are compressed and contained in a hierarchy of archives (often
+ found in RPM or DEB archives containing source tarballs). The filter is easily
+ extensible for new formats.
 
-;;  The input filter which is also called \"lesspipe.sh\" is written in a ksh
-;;  compatible language (ksh, bash, zsh) as one of these is nearly always installed
-;;  on UNIX systems and uses comparably few resources. Otherwise an implementation
-;;  in perl for example would have been somewhat simpler to code. The code looks
-;;  less clean than it could as it was tried to make the script compatible with
-;;  a number of old shells and applications especially found on non Linux systems.
+ The input filter which is also called \"lesspipe.sh\" is written in a ksh
+ compatible language (ksh, bash, zsh) as one of these is nearly always installed
+ on UNIX systems and uses comparably few resources. Otherwise an implementation
+ in perl for example would have been somewhat simpler to code. The code looks
+ less clean than it could as it was tried to make the script compatible with
+ a number of old shells and applications especially found on non Linux systems.
 
-;;  The filter does different things depending on the file format. In most cases
-;;  it is determined on the output of the \"file\" command [2], [6], that recognizes
-;;  lots of formats. Only in a few cases the file suffix is used to determine what
-;;  to display. Up to date file descriptions are included in the \"file\" package.
-;;  Maintaining a list of file formats is therefore only a matter of keeping that
-;;  package up to date.")
-;;     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
-;;     (license license:ibmpl1.0)))
+ The filter does different things depending on the file format. In most cases
+ it is determined on the output of the \"file\" command [2], [6], that recognizes
+ lots of formats. Only in a few cases the file suffix is used to determine what
+ to display. Up to date file descriptions are included in the \"file\" package.
+ Maintaining a list of file formats is therefore only a matter of keeping that
+ package up to date.")
+    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
+    (license license:ibmpl1.0)))
 
 
 (define-public pi-hole
@@ -112,54 +112,54 @@
 
 
 
-(define-public adobe-flashplugin
-  ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
-  (package
-    (name "adobe-flashplugin")
-    (version "20191210")
-    (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_" version ".1-0ubuntu0.19.10.2_amd64.deb"))
-              (file-name (string-append "adobe-flashplugin-" version ".deb"))
-              (sha256
-               (base32
-                "0651ky7gdnvxckzp6bir79k2426krgqak1gd2dqwh521s3sk66gn"))))
-    (build-system deb:deb-build-system)
-    (inputs `(("libc"          ,glibc)
-              ("gcc:lib"       ,gcc "lib")
-              ("dbus"          ,dbus)
-              ("libxcomposite" ,libxcomposite)
-              ("libxt"         ,libxt)
-              ("gtk+"          ,gtk+)
-              ("atk"           ,atk)
-              ("cairo"         ,cairo)
-              ("dbus-glib"     ,dbus-glib)
-              ("fontconfig"    ,fontconfig)
-              ("freetype"      ,freetype)
-              ("gdk-pixbuf"    ,gdk-pixbuf)
-              ("glib"          ,glib)
-              ("glibc"         ,glibc)
-              ("libx11"        ,libx11)
-              ("libxcb"        ,libxcb)
-              ("libxdamage"    ,libxdamage)
-              ("libxext"       ,libxext)
-              ("libxfixes"     ,libxfixes)
-              ("libxrender"    ,libxrender)
-              ("pango"         ,pango)
-              ("pulseaudio"    ,pulseaudio)
-              ("libogg"        ,libogg)
-              ("libvorbis"     ,libvorbis)
-              ("libevent"      ,libevent)
-              ("libxinerama"   ,libxinerama)
-              ("libxscrnsaver" ,libxscrnsaver)
-              ("libffi"        ,libffi)
-              ("ffmpeg"        ,ffmpeg)
-              ("libvpx"        ,libvpx-1.7)
-              ("gtk+"          ,gtk+)
-              ("nspr"          ,nspr)))
-    (synopsis "")
-    (description "")
-    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
-    (license license:ibmpl1.0)))
+;; (define-public adobe-flashplugin
+;;   ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
+;;   (package
+;;     (name "adobe-flashplugin")
+;;     (version "20191210")
+;;     (source (origin
+;;               (method url-fetch)
+;;               (uri
+;;                (string-append "http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_" version ".1-0ubuntu0.19.10.2_amd64.deb"))
+;;               (file-name (string-append "adobe-flashplugin-" version ".deb"))
+;;               (sha256
+;;                (base32
+;;                 "0651ky7gdnvxckzp6bir79k2426krgqak1gd2dqwh521s3sk66gn"))))
+;;     (build-system deb:deb-build-system)
+;;     (inputs `(("libc"          ,glibc)
+;;               ("gcc:lib"       ,gcc "lib")
+;;               ("dbus"          ,dbus)
+;;               ("libxcomposite" ,libxcomposite)
+;;               ("libxt"         ,libxt)
+;;               ("gtk+"          ,gtk+)
+;;               ("atk"           ,atk)
+;;               ("cairo"         ,cairo)
+;;               ("dbus-glib"     ,dbus-glib)
+;;               ("fontconfig"    ,fontconfig)
+;;               ("freetype"      ,freetype)
+;;               ("gdk-pixbuf"    ,gdk-pixbuf)
+;;               ("glib"          ,glib)
+;;               ("glibc"         ,glibc)
+;;               ("libx11"        ,libx11)
+;;               ("libxcb"        ,libxcb)
+;;               ("libxdamage"    ,libxdamage)
+;;               ("libxext"       ,libxext)
+;;               ("libxfixes"     ,libxfixes)
+;;               ("libxrender"    ,libxrender)
+;;               ("pango"         ,pango)
+;;               ("pulseaudio"    ,pulseaudio)
+;;               ("libogg"        ,libogg)
+;;               ("libvorbis"     ,libvorbis)
+;;               ("libevent"      ,libevent)
+;;               ("libxinerama"   ,libxinerama)
+;;               ("libxscrnsaver" ,libxscrnsaver)
+;;               ("libffi"        ,libffi)
+;;               ("ffmpeg"        ,ffmpeg)
+;;               ("libvpx"        ,libvpx-1.7)
+;;               ("gtk+"          ,gtk+)
+;;               ("nspr"          ,nspr)))
+;;     (synopsis "")
+;;     (description "")
+;;     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
+;;     (license license:ibmpl1.0)))
 
