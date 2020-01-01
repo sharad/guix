@@ -55,6 +55,7 @@
     (char-set-complement (char-set #\Space)))
 
   (define (pkg-config-libs input)
+    (format #t "pkg-config-libs: ~a~%" (cdr input))
     (let* ((p (open-pipe* OPEN_READ "pkg-config" "--libs-only-L" (cdr input)))
            (l (read-line p)))
       (format #t "pkg-config-libs: ~a~%" l)
