@@ -153,7 +153,7 @@
               ("libffi"        ,libffi)
               ("ffmpeg"        ,ffmpeg)
               ("libvpx"        ,libvpx-1.7)
-              ("gtk+"          ,gtk+)
+              ("gtk+"          ,gtk+-2)
               ("nspr"          ,nspr)
               ("nss"          ,nss)))
     (arguments `(#:input-lib-mapping '(("out" "lib")
