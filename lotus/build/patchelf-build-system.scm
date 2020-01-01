@@ -60,7 +60,9 @@
            (l (read-line p)))
       (format #t "pkg-config-libs: ~a~%" l)
       (and (zero? (close-pipe p))
-           (string-tokenize l %not-colon))))
+           (if (eof-object? l)
+               '()
+               (string-tokenize l %not-colon)))))
 
   (define (find-lib input map)
     (let ((mappedlibs (or (assoc-ref (car input) map) '("lib")))
