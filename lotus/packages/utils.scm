@@ -155,7 +155,7 @@
               ("libvpx"        ,libvpx-1.7)
               ("gtk+"          ,gtk+-2)
               ("nspr"          ,nspr)
-              ("nss"          ,nss)))
+              ("nss"           ,nss)))
     (arguments `(#:input-lib-mapping '(("out" "lib")
                                        ("nss" "lib/nss"))))
     (synopsis "")
