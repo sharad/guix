@@ -28,7 +28,6 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)
   #:use-module (srfi srfi-26)
-  #:use-module (ice-9 popen)
   #:use-module (ice-9 rdelim)
   #:use-module (ice-9 regex)
   #:use-module (ice-9 match)
@@ -38,69 +37,53 @@
 
 ;; Commentary:
 ;;
-;; Builder-side code of the build procedure for ELF binaries packages.
+;; Builder-side code of the build procedure for ELPA Patchelf packages.
 ;;
 ;; Code:
 
-(define* (build #:key
-                outputs
-                inputs
-                (input-lib-mapping '())
-                #:allow-other-keys)
+(define* (build #:key outputs inputs (output-libs '()) #:allow-other-keys)
   "Compile .el files."
-
   (define source (getcwd))
-
-  ;; (define %not-colon
-  ;;   (char-set-complement (char-set #\Space)))
-
-  ;; (define (pkg-config-libs input)
-  ;;   (let* ((p (open-pipe* OPEN_READ "pkg-config" "--libs-only-L" (cdr input)))
-  ;;          (l (read-line p)))
-  ;;     (and (zero? (close-pipe p))
-  ;;          (string-tokenize l %not-colon))))
-
-  ;; (define (find-lib input map)
-  ;;   (let ((mappedlibs (or (assoc-ref (car input) map) '("lib")))
-  ;;         (pkg-libs   (pkg-config-libs input)))
-  ;;     (append pkg-libs mappedlibs)))
-
-  ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
-  (let* ((ld-so       (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
-         ;; (host-inputs (filter (lambda (input)
-         ;;                        (not (member (car input) '("source" "patchelf"))))
-         ;;                      inputs))
-         ;; (rpath-libs  (map (lambda (input)
-         ;;                     (let ((libs (map (lambda (lib) (string-append (cdr input) "/" lib))
-         ;;                                      (find-lib input input-lib-mapping))))
-         ;;                       (string-join libs ":")))
-         ;;                   (append outputs host-inputs)))
-         ;; (rpath       (string-join rpath-libs ":"))
-         (rpath "")
+  (let* ((output-libs    output-libs)
+         (ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+        ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
+         (host-inputs    (filter (lambda (in)
+                                   (not (member (car in) '("source" "patchelf"))))
+                                 inputs))
+         (in-rpath       (string-join (map (lambda (in)
+                                             (string-append in "/lib"))
+                                           (map cdr (append outputs host-inputs)))
+                                   ":"))
+         (out-rpath      (string-join (map (lambda (lib)
+                                             (string-append (assoc-ref outputs "out") lib))
+                                           output-libs)
+                                      ":"))
+         (rpath          (string-join (list in-rpath out-rpath) ":"))
          (files-to-build (find-files source)))
-    (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
+    (format #t "output-libs ~a~%" output-libs)
     (cond
        ((not (null? files-to-build))
-        (for-each (lambda (file)
-                    (let ((stat (stat file)))
-                      ;; (format #t "build:~%outputs ~a~%inputs ~a~%"
-                      ;;         (length outputs)
-                      ;;         (length inputs))
-                      ;; (for-each (lambda (e) (format #t " ~a~%" e)) outputs)
-                      ;; (for-each (lambda (e) (format #t " ~a~%" e)) inputs)
-                      ;; (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
-                      (format #t "build `~a'~%" file)
-                      (when (or (elf-binary-file? file)
-                                (library-file?    file))
-                        (make-file-writable file)
-                        (format #t "build: `~a' is a elf binary or library file~%" file)
-                        (invoke "patchelf" "--set-rpath" rpath file)
-                        (when (and (not (library-file? file))
-                                   (elf-binary-file? file))
-                          (format #t "build: `~a' is a elf binary file~%" file)
-                          (invoke "patchelf" "--set-interpreter" ld-so file))
-                        (chmod file (stat:perms stat)))))
-                  files-to-build)
+        (for-each
+         (lambda (file)
+           (let ((stat (stat file)))
+             ;; (format #t "build:~%outputs ~a~%inputs ~a~%"
+             ;;         (length outputs)
+             ;;         (length inputs))
+             ;; (for-each (lambda (e) (format #t " ~a~%" e)) outputs)
+             ;; (for-each (lambda (e) (format #t " ~a~%" e)) inputs)
+             ;; (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
+             (format #t "build `~a'~%" file)
+             (when (or (elf-binary-file? file)
+                       (library-file?    file))
+               (make-file-writable file)
+               (format #t "build: `~a' is a elf binary or library file~%" file)
+               (invoke "patchelf" "--set-rpath" rpath file)
+               (when (and (not (library-file? file))
+                          (elf-binary-file? file))
+                 (format #t "build: `~a' is a elf binary file~%" file)
+                 (invoke "patchelf" "--set-interpreter" ld-so file))
+               (chmod file (stat:perms stat)))))
+         files-to-build)
         #t)
        (else
         (format #t "error: No files found to build.\n")
@@ -124,16 +107,17 @@
          (files-to-install (find-files source install-file?)))
     (cond
      ((not (null? files-to-install))
-      (for-each (lambda (file)
-                  (let* ((type          (stat:type (lstat file)))
-                         (stripped-file (string-drop file (string-length source)))
-                         (target-file   (string-append out stripped-file)))
-                    (if (eq? type 'symlink)
-                        (begin
-                          (mkdir-p (dirname target-file))
-                          (system* "cp" "-a" file target-file))
-                        (install-file file (dirname target-file)))))
-                files-to-install)
+      (for-each
+       (lambda (file)
+         (let* ((type          (stat:type (lstat file)))
+                (stripped-file (string-drop file (string-length source)))
+                (target-file   (string-append out stripped-file)))
+           (if (eq? type 'symlink)
+               (begin
+                 (mkdir-p (dirname target-file))
+                 (system* "cp" "-a" file target-file))
+               (install-file file (dirname target-file)))))
+       files-to-install)
       #t)
      (else
       (format #t "error: No files found to install.\n")
@@ -143,11 +127,18 @@
 
 (define %standard-phases
   (modify-phases gnu:%standard-phases
+    ;; (replace 'unpack unpack)
+    ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
     (delete  'bootstrap)
     (delete  'configure)
     (replace 'build build)
     (delete  'check)
     (replace 'install install)))
+    ;; (add-after 'install 'make-autoloads make-autoloads)
+    ;; (add-after 'make-autoloads 'patch-el-files patch-el-files)
+    ;; ;; The .el files are byte compiled directly in the store.
+    ;; (add-after 'patch-el-files 'build build)
+    ;; (add-after 'build 'move-doc move-doc)
 
 (define* (patchelf-build #:key inputs (phases %standard-phases)
                       #:allow-other-keys #:rest args)
