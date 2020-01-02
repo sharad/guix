@@ -71,7 +71,7 @@
      `(("bzip2" ,bzip2)
        ("perl"  ,perl)))
     (arguments
-     '(#:modules ((guix build-system gnu) #:prefix gnu:)
+     '(#:modules (((guix build-system gnu) #:prefix gnu:))
        #:tests? #f
        #:make-flags (let ((out  (assoc-ref %outputs "out")))
                       (list
@@ -161,7 +161,7 @@
               ("gtk+"          ,gtk+-2)
               ("nspr"          ,nspr)
               ("nss"           ,nss)))
-    (arguments `(#:modules ((lotus build deb-build-system) #:prefix dbx:)
+    (arguments `(#:modules (((lotus build deb-build-system) #:prefix dbx:))
                  #:input-lib-mapping '(("out" "lib")
                                        ("nss" "lib/nss"))
                  #:phases
