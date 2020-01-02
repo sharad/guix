@@ -22,6 +22,7 @@
   #:use-module (guix git-download)
   #:use-module ((guix build-system gnu) #:prefix gnu:)
   #:use-module ((lotus build-system deb) #:prefix deb:)
+  ;; #:use-module (lotus build patchelf-utils)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
@@ -159,7 +160,8 @@
               ("gtk+"          ,gtk+-2)
               ("nspr"          ,nspr)
               ("nss"           ,nss)))
-    (arguments `(#:input-lib-mapping '(("out" "lib")
+    (arguments `(#:modules ((guix build-system deb) #:prefix deb:)
+                 #:input-lib-mapping '(("out" "lib")
                                        ("nss" "lib/nss"))
                  #:phases
                  (modify-phases deb:%standard-phases
