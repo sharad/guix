@@ -163,8 +163,10 @@
                                        ;; (symlink "../../../lib/libflashplayer.so"    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
                                        ;; (symlink "../../../lib/libpepflashplayer.so" (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
 
-                                       (copy-file (string-append firefox-lib "/libflashplayer.so")    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
-                                       (copy-file (string-append firefox-lib "/libpepflashplayer.so") (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
+                                       (system* "ls" (assoc-ref inputs "deb-adobe-flashplugin"))
+
+                                       ;; (copy-file (string-append firefox-lib "/libflashplayer.so")    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
+                                       ;; (copy-file (string-append firefox-lib "/libpepflashplayer.so") (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
 
                                        #t)))
                                  ;; (delete 'strip)
