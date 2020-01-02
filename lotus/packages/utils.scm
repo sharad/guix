@@ -161,11 +161,11 @@
               ("gtk+"          ,gtk+-2)
               ("nspr"          ,nspr)
               ("nss"           ,nss)))
-    (arguments `(#:modules (((lotus build deb-build-system) #:prefix dbx:))
+    (arguments `(#:modules ((lotus build deb-build-system))
                  #:input-lib-mapping '(("out" "lib")
                                        ("nss" "lib/nss"))
                  #:phases
-                 (modify-phases dbx:%standard-phases
+                 (modify-phases %standard-phases
                    (add-after
                        'build 'correct-permission
                      (lambda* (#:key inputs outputs #:allow-other-keys)
