@@ -159,8 +159,13 @@
                                                        (format #t "symlink ~a ~a~%" rfile target)
                                                        (symlink rfile target))))
                                                  (directory-list-files firefox-misc))
-                                       (symlink "../../../lib/libflashplayer.so"  (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
-                                       (symlink "../../../lib/libpepflashplayer.so"  (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
+
+                                       ;; (symlink "../../../lib/libflashplayer.so"    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
+                                       ;; (symlink "../../../lib/libpepflashplayer.so" (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
+
+                                       (copy-file (string-append firefox-lib "/libflashplayer.so")    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
+                                       (copy-file (string-append firefox-lib "/libpepflashplayer.so") (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
+
                                        #t)))
                                  ;; (delete 'strip)
                                  ;; (replace 'strip
