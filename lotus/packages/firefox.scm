@@ -100,9 +100,7 @@
                ("nss"           ,nss)
 
                ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)))
-    (arguments `(;; #:modules ((lotus build patchelf-utils))
-                 ;; #:output-libs       '("/share/firefox/lib")
-                 #:input-lib-mapping '(("out" "share/firefox/lib")
+    (arguments `(#:input-lib-mapping '(("out" "share/firefox/lib")
                                        ("nss" "lib/nss")
                                        ("adobe-flashplugin" "lib/adobe-flashplugin/"))
                  #:phases      (modify-phases %standard-phases
