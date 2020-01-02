@@ -160,18 +160,24 @@
                                                        (symlink rfile target))))
                                                  (directory-list-files firefox-misc))
 
-                                       (format #t "deb-adobe-flashplugin ~a~%" (assoc-ref inputs "deb-adobe-flashplugin"))
-                                       (system* "ls" "-ld" (assoc-ref inputs "deb-adobe-flashplugin"))
-                                       (system* "ls" "-l" (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libflashplayer.so"))
-                                       (system* "ls" "-l" (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libpepflashplayer.so"))
+                                       (begin
+                                        (mkdir-p "lib")
+                                        (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
-                                       ;; (symlink "../../../lib/libflashplayer.so"    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
-                                       ;; (symlink "../../../lib/libpepflashplayer.so" (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
-                                       ;; (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libflashplayer.so")    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
-                                       ;; (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libpepflashplayer.so") (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
-                                       (mkdir-p "lib")
-                                       (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so")
-                                       (symlink (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin") (string-append firefox-bin "/browser/plugins"))
+                                       (if #f
+                                           (symlink (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin")
+                                                    (string-append firefox-bin "/browser/plugins"))
+                                           (begin
+                                             (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
+                                                        (string-append firefox-bin "/browser/plugins/" "libflashplayer.so"))
+                                             (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/" "libpepflashplayer.so")
+                                                        (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so"))
+                                             (let* ((file (string-append "lib/adobe-flashplugin/" "libflashplayer.so"))
+                                                    (stat (lstat file)))                      ;XXX: symlinks
+                                               (chmod file (logior #o111 (stat:perms stat))))
+                                             (let* ((file (string-append "lib/adobe-flashplugin/" "libpepflashplayer.so"))
+                                                    (stat (lstat file)))                      ;XXX: symlinks
+                                               (chmod file (logior #o111 (stat:perms stat))))))
 
                                        #t)))
                                  ;; (delete 'strip)
