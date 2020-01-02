@@ -160,7 +160,7 @@
                                                        (symlink rfile target))))
                                                  (directory-list-files firefox-misc))
 
-                                       (format #t "deb-adobe-flashplugin ~a" (assoc-ref inputs "deb-adobe-flashplugin"))
+                                       (format #t "deb-adobe-flashplugin ~a~%" (assoc-ref inputs "deb-adobe-flashplugin"))
                                        (system* "ls" "-ld" (assoc-ref inputs "deb-adobe-flashplugin"))
                                        (system* "ls" "-l" (assoc-ref inputs "deb-adobe-flashplugin"))
 
