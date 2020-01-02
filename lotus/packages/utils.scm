@@ -160,7 +160,7 @@
               ("gtk+"          ,gtk+-2)
               ("nspr"          ,nspr)
               ("nss"           ,nss)))
-    (arguments `(#:modules ((lotus build-system deb) #:prefix deb:)
+    (arguments `(;; #:modules ((lotus build-system deb) #:prefix deb:)
                  #:input-lib-mapping '(("out" "lib")
                                        ("nss" "lib/nss"))
                  #:phases
