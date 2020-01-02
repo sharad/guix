@@ -162,7 +162,7 @@
     (arguments `(#:input-lib-mapping '(("out" "lib")
                                        ("nss" "lib/nss"))
                  #:phases
-                 (modify-phases gnu:%standard-phases
+                 (modify-phases deb:%standard-phases
                    (add-after
                        'build 'correct-permission
                      (lambda* (#:key inputs outputs #:allow-other-keys)
