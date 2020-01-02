@@ -160,10 +160,16 @@
                                                        (symlink rfile target))))
                                                  (directory-list-files firefox-misc))
 
+                                       (system* "ls" "-ld" (assoc-ref inputs "deb-adobe-flashplugin"))
+                                       (system* "ls" "-l" (assoc-ref inputs "deb-adobe-flashplugin"))
+
                                        ;; (symlink "../../../lib/libflashplayer.so"    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
                                        ;; (symlink "../../../lib/libpepflashplayer.so" (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
-                                       (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libflashplayer.so")    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
-                                       (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libpepflashplayer.so") (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
+                                       ;; (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libflashplayer.so")    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
+                                       ;; (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libpepflashplayer.so") (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
+
+                                       (symlink (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libflashplayer.so")    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
+                                       (symlink (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libpepflashplayer.so") (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
 
                                        #t)))
                                  ;; (delete 'strip)
