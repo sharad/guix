@@ -170,7 +170,7 @@
                                        ;; (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libflashplayer.so")    (string-append firefox-bin "/browser/plugins/libflashplayer.so"))
                                        ;; (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/libpepflashplayer.so") (string-append firefox-bin "/browser/plugins/libpepflashplayer.so"))
                                        (mkdir-p "lib")
-                                       (copy-file (sring-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so")
+                                       (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so")
                                        (symlink (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin") (string-append firefox-bin "/browser/plugins"))
 
                                        #t)))
