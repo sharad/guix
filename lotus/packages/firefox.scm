@@ -162,7 +162,7 @@
                                         (mkdir-p "lib")
                                         (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
-                                       (if #f
+                                       (if #t
                                            (symlink (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin")
                                                     (string-append firefox-bin "/browser/plugins"))
                                            (begin

@@ -168,10 +168,10 @@
                                            'build 'correct-permission
                                          (lambda* (#:key inputs outputs #:allow-other-keys)
                                            (let* ((file (string-append "lib/adobe-flashplugin/" "libflashplayer.so"))
-                                                  (stat (lstat file)))                      ;XXX: symlinks
+                                                  (stat (lstat file)))
                                              (chmod file (logior #o111 (stat:perms stat))))
                                            (let* ((file (string-append "lib/adobe-flashplugin/" "libpepflashplayer.so"))
-                                                  (stat (lstat file)))                      ;XXX: symlinks
+                                                  (stat (lstat file)))
                                              (chmod file (logior #o111 (stat:perms stat)))))))))
     (synopsis "")
     (description "")
