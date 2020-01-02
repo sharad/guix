@@ -23,8 +23,6 @@
   #:use-module ((guix build gnu-build-system)       #:prefix gnu:)
   #:use-module ((lotus build patchelf-build-system) #:prefix patchelf:)
   #:use-module (guix build utils)
-  ;; #:use-module (gnu packages bootstrap)
-  ;; #:use-module (lotus build deb-utils)
   #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)
@@ -38,7 +36,7 @@
 
 ;; Commentary:
 ;;
-;; Builder-side code of the build procedure for ELPA Deb packages.
+;; Builder-side code of the build procedure for Deb packages.
 ;;
 ;; Code:
 
@@ -74,20 +72,10 @@ archive, a directory, or an Emacs Lisp file."
 
 (define %standard-phases
   (modify-phases patchelf:%standard-phases
-    ;; (replace 'unpack unpack)
-    ;; (add-after 'unpack 'add-source-to-load-path add-source-to-load-path)
     (replace 'unpack unpack)
     (delete  'bootstrap)
     (delete  'configure)
-    ;; (replace 'build build)
     (delete  'check)))
-    ;; (replace 'install install)
-
-    ;; (add-after 'install 'make-autoloads make-autoloads)
-    ;; (add-after 'make-autoloads 'patch-el-files patch-el-files)
-    ;; ;; The .el files are byte compiled directly in the store.
-    ;; (add-after 'patch-el-files 'build build)
-    ;; (add-after 'build 'move-doc move-doc)
 
 (define* (deb-build #:key inputs (phases %standard-phases)
                       #:allow-other-keys #:rest args)

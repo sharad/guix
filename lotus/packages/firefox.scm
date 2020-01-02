@@ -93,10 +93,16 @@
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
                ("libvpx"        ,libvpx-1.7)
-               ("adobe-flashplugin" ,adobe-flashplugin)))
+
+               ("gtk+"          ,gtk+-2)
+               ("nspr"          ,nspr)
+               ("nss"           ,nss)
+
+               ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)))
     (arguments `(;; #:modules ((lotus build patchelf-utils))
                  ;; #:output-libs       '("/share/firefox/lib")
                  #:input-lib-mapping '(("out" "share/firefox/lib")
+                                       ("nss" "lib/nss")
                                        ("adobe-flashplugin" "lib/adobe-flashplugin/"))
                  #:phases      (modify-phases %standard-phases
                                  (add-after

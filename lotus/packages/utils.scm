@@ -111,10 +111,10 @@
 (define-public pi-hole
   "https://github.com/pi-hole/pi-hole/blob/master/automated%20install/basic-install.sh")
 
-(define-public adobe-flashplugin
+(define-public deb-adobe-flashplugin
   ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
   (package
-    (name "adobe-flashplugin")
+    (name "deb-adobe-flashplugin")
     (version "20191210.1-0ubuntu0.19.10.2_amd64")
     (source (origin
               (method url-fetch)
@@ -165,10 +165,10 @@
     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
     (license license:ibmpl1.0)))
 
-(define-public browser-plugin-freshplayer-pepperflash
+(define-public deb-browser-plugin-freshplayer-pepperflash
   ;; http://mirrors.kernel.org/ubuntu/pool/multiverse/f/freshplayerplugin/browser-plugin-freshplayer-pepperflash_0.3.4-3_amd64.deb
   (package
-    (name "browser-plugin-freshplayer-pepperflash")
+    (name "deb-browser-plugin-freshplayer-pepperflash")
     (version "0.3.4-3")
     (source (origin
               (method url-fetch)
@@ -222,3 +222,30 @@
     (description "")
     (home-page "https://wiki.debian.org/PepperFlashPlayer")
     (license license:ibmpl1.0)))
+
+
+;; https://www.forticlient.com/repoinfo
+;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64.deb
+;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64_u18.deb
+
+(define-public deb-forticlient
+  (package
+    (name "deb-forticlient")
+    (version "6.0.8.0140_amd64")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_u18.deb"))
+              (file-name (string-append "browser-plugin-freshplayer-pepperflash-" version ".deb"))
+              (sha256
+               (base32
+                "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
+    (build-system deb:deb-build-system)
+    (arguments `(#:input-lib-mapping '(("out" "lib"))))
+    (synopsis "")
+    (description "")
+    (home-page "https://www.forticlient.com/repoinfo")
+    (license license:ibmpl1.0)))
+
+deb-forticlient
+
