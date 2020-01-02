@@ -77,6 +77,7 @@
        #:phases
        (modify-phases gnu:%standard-phases
          (delete 'configure))))
+
     (synopsis "lesspipe.sh, a preprocessor for less")
     (description "To browse files under UNIX the excellent viewer less [1] can be used. By
  setting the environment variable LESSOPEN, less can be enhanced by external
@@ -159,7 +160,18 @@
               ("nspr"          ,nspr)
               ("nss"           ,nss)))
     (arguments `(#:input-lib-mapping '(("out" "lib")
-                                       ("nss" "lib/nss"))))
+                                       ("nss" "lib/nss"))
+                 #:phases
+                 (modify-phases gnu:%standard-phases
+                   (add-after
+                       'build 'correct-permission
+                     (lambda* (#:key inputs outputs #:allow-other-keys)
+                       (let* ((file (string-append "lib/adobe-flashplugin/" "libflashplayer.so"))
+                              (stat (lstat file)))                      ;XXX: symlinks
+                         (chmod file (logior #o111 (stat:perms stat))))
+                       (let* ((file (string-append "lib/adobe-flashplugin/" "libpepflashplayer.so"))
+                              (stat (lstat file)))                      ;XXX: symlinks
+                         (chmod file (logior #o111 (stat:perms stat)))))))))
     (synopsis "")
     (description "")
     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")

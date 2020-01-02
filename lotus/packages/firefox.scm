@@ -168,14 +168,15 @@
                                            (symlink (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin")
                                                     (string-append firefox-bin "/browser/plugins"))
                                            (begin
+                                             (mkdir-p (string-append firefox-bin "/browser/plugins"))
                                              (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
                                                         (string-append firefox-bin "/browser/plugins/" "libflashplayer.so"))
                                              (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/" "libpepflashplayer.so")
                                                         (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so"))
-                                             (let* ((file (string-append "lib/adobe-flashplugin/" "libflashplayer.so"))
+                                             (let* ((file (string-append firefox-bin "/browser/plugins/" "libflashplayer.so"))
                                                     (stat (lstat file)))                      ;XXX: symlinks
                                                (chmod file (logior #o111 (stat:perms stat))))
-                                             (let* ((file (string-append "lib/adobe-flashplugin/" "libpepflashplayer.so"))
+                                             (let* ((file (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so"))
                                                     (stat (lstat file)))                      ;XXX: symlinks
                                                (chmod file (logior #o111 (stat:perms stat))))))
 
