@@ -322,7 +322,7 @@
                                                 (copy-file (string-append cwd "/unpack/" "readme.txt")  (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
                                                 (copy-file (string-append cwd "/unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
                                                 (mkdir-p   (string-append cwd "/source/lib"))
-                                                (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/liblibflashplayer.so"))
+                                                (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/libflashplayer.so"))
                                                 (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))
                                               (begin
                                                 (for-each (lambda (path)
