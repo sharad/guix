@@ -47,9 +47,6 @@
   #:use-module (gnu packages nss)
   #:use-module (lotus packages utils))
 
-;; (define (directory-list-files dir)
-;;   (scandir dir (negate (cut member <> '("." "..")))))
-
 (define-public firefox-56.0
   ;; (hidden-package)
   (package
@@ -99,7 +96,8 @@
                ("nspr"          ,nspr)
                ("nss"           ,nss)
 
-               ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)))
+               ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
+               ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
     (arguments `(#:input-lib-mapping '(("out" "share/firefox/lib")
                                        ("nss" "lib/nss")
                                        ("adobe-flashplugin" "lib/adobe-flashplugin/"))

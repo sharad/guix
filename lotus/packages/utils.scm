@@ -237,6 +237,84 @@
     (license license:ibmpl1.0)))
 
 
+(define-public patchelf-adobe-flashplugin
+  ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
+  (package
+   (name "patchelf-adobe-flashplugin"
+         (version "32.0.0.303")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append "https://fpdownload.adobe.com/get/flashplayer/pdc/" version "/flash_player_npapi_linux.x86_64.tar.gz"))
+              (file-name (string-append "flash_player_npapi_linux.x86_64.tar.gz"))
+              (sha256
+               (base32
+                "0x0mabgswly2v8z13832pkbjsv404aq61pback6sgmp2lyycdg6w"))))
+    (build-system deb:deb-build-system)
+    (inputs `(("libc"          ,glibc)
+              ("gcc:lib"       ,gcc "lib")
+              ("dbus"          ,dbus)
+              ("libxcomposite" ,libxcomposite)
+              ("libxt"         ,libxt)
+              ("gtk+"          ,gtk+)
+              ("atk"           ,atk)
+              ("cairo"         ,cairo)
+              ("dbus-glib"     ,dbus-glib)
+              ("fontconfig"    ,fontconfig)
+              ("freetype"      ,freetype)
+              ("gdk-pixbuf"    ,gdk-pixbuf)
+              ("glib"          ,glib)
+              ("glibc"         ,glibc)
+              ("libx11"        ,libx11)
+              ("libxcb"        ,libxcb)
+              ("libxdamage"    ,libxdamage)
+              ("libxext"       ,libxext)
+              ("libxfixes"     ,libxfixes)
+              ("libxrender"    ,libxrender)
+              ("pango"         ,pango)
+              ("pulseaudio"    ,pulseaudio)
+              ("libogg"        ,libogg)
+              ("libvorbis"     ,libvorbis)
+              ("libevent"      ,libevent)
+              ("libxinerama"   ,libxinerama)
+              ("libxscrnsaver" ,libxscrnsaver)
+              ("libffi"        ,libffi)
+              ("ffmpeg"        ,ffmpeg)
+              ("libvpx"        ,libvpx-1.7)
+              ("gtk+"          ,gtk+-2)
+              ("nspr"          ,nspr)
+              ("nss"           ,nss)))
+    (arguments `(#:input-lib-mapping '(("out" "lib")
+                                       ("nss" "lib/nss"))
+                 #:phases            (modify-phases %standard-phases
+                                       (add-after
+                                           'build 'correct-permission
+                                           (lambda* (#:key inputs outputs #:allow-other-keys)
+
+                                             (begin
+                                               (let ((cwd (getcwd)))
+                                                 (format #t "correct-permission: ~a~%" cwd)
+                                                 (begin
+                                                   (if (access? "usr" F_OK)
+                                                       (copy-recursively "usr" "source")
+                                                       (format #t "usr not exists."))
+                                                   (if (access? "opt" F_OK)
+                                                       (copy-recursively "opt" "source")
+                                                       (format #t "opt not exists."))
+                                                   (chdir "source")
+                                                   #t)))
+
+                                             (let* ((file (string-append "lib/adobe-flashplugin/" "libflashplayer.so"))
+                                                    (stat (lstat file)))
+                                               (chmod file (logior #o111 (stat:perms stat))))
+                                             (let* ((file (string-append "lib/adobe-flashplugin/" "libpepflashplayer.so"))
+                                                    (stat (lstat file)))
+                                               (chmod file (logior #o111 (stat:perms stat)))))))))
+    (synopsis "")
+    (description "")
+    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
+    (license license:ibmpl1.0))))
+
 ;; https://www.forticlient.com/repoinfo
 ;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64.deb
 ;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64_u18.deb
