@@ -84,8 +84,7 @@
       (format #t "input ~a~%" input)
       (format #t "map ~a~%" map)
       (format #t "mappedlibs ~a~%" mappedlibs)
-      (format #t "pkg-libs ~a~%" pkg-libs)
-      (append pkg-libs mappedlibs)))
+      mappedlibs))
 
   (let* ((ld-so       (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
          ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
