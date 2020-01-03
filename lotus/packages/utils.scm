@@ -299,9 +299,13 @@
                                                             (rename-file src trg)))
                                                         files))
                                             (begin
+                                              (system* "ls" "-ltr" cwd)
+                                              (system* "ls" "-ltr" (string-append cwd "/unpack"))
+                                              (system* "ls" "-ltr" (string-append cwd "/unpack/" "usr/lib/kde4"))
                                               (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
                                               (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
-                                                       (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))))))
+                                                       (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so")))
+                                            #t)))
 
 
                                       (add-after
