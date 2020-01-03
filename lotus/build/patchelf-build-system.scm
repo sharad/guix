@@ -102,17 +102,14 @@
          (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
+    (system* "ls" "-ltr")
+    (formet #t "build: cwd ~a~%" source)
+    (system* "pwd")
     (cond
        ((not (null? files-to-build))
         (for-each (lambda (file)
                     (let ((stat (stat file)))
-                      ;; (format #t "build:~%outputs ~a~%inputs ~a~%"
-                      ;;         (length outputs)
-                      ;;         (length inputs))
-                      ;; (for-each (lambda (e) (format #t " ~a~%" e)) outputs)
-                      ;; (for-each (lambda (e) (format #t " ~a~%" e)) inputs)
-                      ;; (format #t "build:~%outputs~%~{ ~a~%}~%inputs~%~{ ~a~%}~%" outputs inputs)
-                      (format #t "build `~a'~%" file)
+                      (format #t "build: patching `~a'~%" file)
                       (when (or (elf-binary-file? file)
                                 (library-file?    file))
                         (make-file-writable file)
@@ -127,7 +124,7 @@
         #t)
        (else
         (format #t "error: No files found to build.\n")
-        (find-files source)
+        files-to-build
         #f))))
 
 ;;; All the packages are installed directly under site-lisp, which means that
