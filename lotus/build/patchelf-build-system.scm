@@ -67,7 +67,7 @@
       (format #t "pkg-config-libs: ~a~%" l)
       (if (or (not (zero? (close-pipe p)))
               (eof-object? l))
-          '()
+          #f
           (begin
             (let* ((slist (string-tokenize l %not-space))
                    (libs (map (lambda (lib)
