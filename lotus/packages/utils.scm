@@ -299,22 +299,10 @@
                                                             (rename-file src trg)))
                                                         files))
                                             (begin
-                                              (system* "ls" "-ltr" cwd)
-                                              (system* "ls" "-ltr" (string-append cwd "/unpack"))
-                                              (system* "ls" "-ltr" (string-append cwd "/unpack/" "usr/lib/kde4"))
                                               (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
                                               (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
-                                                       (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
-                                              (system* "ls" "-ltr" (string-append cwd "/unpack/" "usr/lib/kde4")))
-                                            #t)))
-
-
-                                      (add-after
-                                          'build 'correct-permission
-                                        (lambda* (#:key inputs outputs #:allow-other-keys)
-                                          (begin
-                                            (let ((cwd (getcwd)))
-                                              (format #t "correct-permission: ~a~%" cwd)
+                                                       (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so")))
+                                            (begin
                                               (for-each (lambda (path)
                                                           (if (access? (string-append cwd "/unpack/" path) F_OK)
                                                               (copy-recursively (string-append cwd "/unpack/" path) (string-append cwd "/source/" path))
@@ -325,12 +313,22 @@
                                                               "lib"))
                                               (begin (mkdir-p (string-append cwd "/source/share/patchelf-adobe-flashplugin"))
                                                      (mkdir-p (string-append cwd "/source/lib/adobe-flashplugin"))
-                                                     (copy-recursively (string-append cwd "/unpack/" "LGPL") (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
-                                                     (copy-recursively (string-append cwd "/unpack/" "readme.txt") (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
+                                                     (copy-recursively (string-append cwd "/unpack/" "LGPL")        (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
+                                                     (copy-recursively (string-append cwd "/unpack/" "readme.txt")  (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
                                                      (copy-recursively (string-append cwd "/unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
-                                                     (mkdir-p (string-append cwd "/source/lib"))
+                                                     (mkdir-p          (string-append cwd "/source/lib"))
                                                      (copy-recursively (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/liblibflashplayer.so"))
-                                                     (copy-recursively (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))
+                                                     (copy-recursively (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so"))))
+                                            (chdir (string-append cwd "/source"))
+                                            #t)))
+
+
+                                      (add-after
+                                          'build 'correct-permission
+                                        (lambda* (#:key inputs outputs #:allow-other-keys)
+                                          (begin
+                                            (let ((cwd (getcwd)))
+                                              ;; (format #t "correct-permission: ~a~%" cwd)
                                               (for-each (lambda (path)
                                                           (let* ((stat (lstat path)))
                                                             (chmod path (logior #o111 (stat:perms stat)))))
