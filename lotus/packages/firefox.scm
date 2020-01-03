@@ -161,21 +161,19 @@
                                         (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
                                        (if #t
-                                           (symlink (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin")
+                                           (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
                                                     (string-append firefox-bin "/browser/plugins"))
                                            (begin
                                              (mkdir-p (string-append firefox-bin "/browser/plugins"))
-                                             (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
+                                             (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
                                                         (string-append firefox-bin "/browser/plugins/" "libflashplayer.so"))
-                                             (copy-file (string-append (assoc-ref inputs "deb-adobe-flashplugin") "/lib/adobe-flashplugin/" "libpepflashplayer.so")
+                                             (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libpepflashplayer.so")
                                                         (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so"))
-                                             (let* ((file (string-append firefox-bin "/browser/plugins/" "libflashplayer.so"))
-                                                    (stat (lstat file)))                      ;XXX: symlinks
-                                               (chmod file (logior #o111 (stat:perms stat))))
-                                             (let* ((file (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so"))
-                                                    (stat (lstat file)))                      ;XXX: symlinks
-                                               (chmod file (logior #o111 (stat:perms stat))))))
-
+                                             (for-each (lambda (path)
+                                                         (let* ((stat (lstat path)))
+                                                           (chmod path (logior #o111 (stat:perms stat)))))
+                                                       (list (string-append firefox-bin "/browser/plugins/" "libflashplayer.so")
+                                                             (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so")))))
                                        #t)))
                                  ;; (delete 'strip)
                                  ;; (replace 'strip
