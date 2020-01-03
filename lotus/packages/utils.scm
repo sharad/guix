@@ -235,7 +235,7 @@
     (license license:ibmpl1.0)))
 
 (define-public patchelf-adobe-flashplugin
-  ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
+  ;; 
   (package
    (name "patchelf-adobe-flashplugin")
    (version "32.0.0.303")
@@ -343,6 +343,76 @@
 ;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64.deb
 ;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64_u18.deb
 
+
+;; https://github.com/lightspark/lightspark/tree/lightspark-0.8.1
+(define-public lightspark
+
+  ;; https://github.com/EionRobb/lightspark/tree/master/skypeweb#windows
+  ;; http://www.webupd8.org/2016/07/chat-with-your-skype-friends-from.html
+
+  ;; Requires devel headers/libs for libpurple and libjson-glib [libglib2.0-dev, libjson-glib-dev and libpurple-dev]
+
+  ;; https://github.com/EionRobb/lightspark/archive/1.5.tar.gz
+  ;; git clone git://github.com/EionRobb/lightspark.git
+  ;; cd lightspark/skypeweb
+  ;; make
+  ;; sudo make install
+
+  (package
+    (name "lightspark")
+    (version "0.8.1")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append "https://github.com/lightspark/lightspark/archive/lightspark-" version ".tar.gz"))
+              (file-name (string-append name "-" version ".tar.gz"))
+              (sha256
+               (base32
+                "1pi896syzbpfdr1lisrb6v2y1sc5bvk98cf63s1ls4xniq61byy7"))))
+    (build-system cmake-build-system)
+    ;; (native-inputs
+    ;;  `(("pkg-config" ,pkg-config)
+    ;;    ("which"      ,which)))
+    ;; (inputs
+    ;;  `(("pidgin"    ,pidgin)
+    ;;    ;; ("libgcrypt" ,libgcrypt)
+    ;;    ;; ("libwebp"   ,libwebp)
+    ;;    ;; ("gettext"   ,gnu-gettext)
+    ;;    ;; ("gtk+"      ,gtk+-2)
+    ;;    ;; ("zlib"      ,zlib)
+    ;;    ("glib"      ,glib)
+    ;;    ("json-glib" ,json-glib)))
+
+    ;; TODO: figure out solution 
+
+    ;; https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/messaging.scm#n1878
+
+    ;; https://github.com/EionRobb/lightspark/blob/master/skypeweb/CMakeLists.txt
+
+    ;; (arguments
+    ;;  `(#:tests? #f                            ; Run the test suite (this is the default)
+    ;;    ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
+    ;;    #:phases
+    ;;    (modify-phases %standard-phases
+    ;;      (add-after 'unpack 'change-dir
+    ;;        (lambda _ (chdir "skypeweb"))
+    ;;        (substitute* "CMakeLists.txt"
+    ;;          (("variable=plugindir purple 2>/dev/null")
+    ;;           ("variable=plugindir purple 2>/dev/null")))))))
+    ;; (arguments
+    ;;  `(#:modules ((guix build utils))
+    ;;              #:builder (begin)))
+    (synopsis "Lightspark is an open source Flash player implementation for playing files in SWF format")
+    (description "Lightspark is an open source Flash player implementation for playing files in SWF format. Lightspark can run as a web browser plugin or as a standalone application.
+
+Lightspark supports SWF files written on all versions of the ActionScript language.")
+    (home-page "http://lightspark.github.io/")
+    ;; Conkeror is triple licensed.
+    (license (list
+              ;; MPL 1.1 -- this license is not GPL compatible
+              license:gpl2
+              license:lgpl2.1))))
+
 (define-public deb-forticlient
   (package
     (name "deb-forticlient")
@@ -356,11 +426,13 @@
                (base32
                 "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
     (build-system deb:deb-build-system)
-    (arguments `(#:input-lib-mapping '(("out" "lib"))))
+    (arguments `(#:input-lib-mapping '(("out" "lib"))
+                 #:phases            (modify-phases %standard-phases
+                                       (delete 'validate-runpath))))
     (synopsis "")
     (description "")
     (home-page "https://www.forticlient.com/repoinfo")
     (license license:ibmpl1.0)))
 
-deb-forticlient
+
 
