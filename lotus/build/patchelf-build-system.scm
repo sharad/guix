@@ -103,7 +103,7 @@
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
     (system* "ls" "-ltr")
-    (formet #t "build: cwd ~a~%" source)
+    (format #t "build: cwd ~a~%" source)
     (system* "pwd")
     (cond
        ((not (null? files-to-build))
