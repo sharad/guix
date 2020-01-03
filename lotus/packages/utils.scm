@@ -307,6 +307,8 @@
                                                (delete-file (string-append cwd "/unpack/" "usr/lib64/kde4/kcm_adobe_flash_player.so"))))
                                             (begin
                                               (begin
+                                                (delete-file (string-append cwd "/unpack/" "usr/bin/flash-player-properties"))
+                                                (delete-file (string-append cwd "/unpack/" "usr/bin"))
                                                 (for-each (lambda (path)
                                                             (if (access? (string-append cwd "/unpack/usr/" path) F_OK)
                                                                 (copy-recursively (string-append cwd "/unpack/usr/" path) (string-append cwd "/source/" path))
