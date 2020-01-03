@@ -360,7 +360,11 @@
     (synopsis "GNU Gnash is the GNU Flash movie player")
     (description "GNU Gnash
 
-GNU Gnash is the GNU Flash movie player — Flash is an animation file format pioneered by Macromedia which continues to be supported by their successor company, Adobe. Flash has been extended to include audio and video content, and programs written in ActionScript, an ECMAScript-compatible language. Gnash is based on GameSWF, and supports most SWF v7 features and some SWF v8 and v9.
+GNU Gnash is the GNU Flash movie player — Flash is an animation file format
+pioneered by Macromedia which continues to be supported by their successor
+company, Adobe. Flash has been extended to include audio and video content, and
+programs written in ActionScript, an ECMAScript-compatible language. Gnash is
+based on GameSWF, and supports most SWF v7 features and some SWF v8 and v9.
 
 SWF v10 is not supported by GNU Gnash")
     (home-page "https://www.gnu.org/software/gnash/")
@@ -408,7 +412,9 @@ SWF v10 is not supported by GNU Gnash")
     ;;  `(#:modules ((guix build utils))
     ;;              #:builder (begin)))
     (synopsis "Lightspark is an open source Flash player implementation for playing files in SWF format")
-    (description "Lightspark is an open source Flash player implementation for playing files in SWF format. Lightspark can run as a web browser plugin or as a standalone application.
+    (description "Lightspark is an open source Flash player implementation for
+playing files in SWF format. Lightspark can run as a web browser plugin or as a
+standalone application.
 
 Lightspark supports SWF files written on all versions of the ActionScript language.")
     (home-page "http://lightspark.github.io/")
