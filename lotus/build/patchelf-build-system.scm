@@ -67,7 +67,7 @@
       (format #t "pkg-config-libs: ~a~%" l)
       (if (or (not (zero? (close-pipe p)))
               (eof-object? l))
-          #f
+          '()
           (begin
             (let* ((slist (string-tokenize l %not-space))
                    (libs (map (lambda (lib)
@@ -78,25 +78,28 @@
               (format #t "pkg-config-libs: ~a~%" libs)
               libs)))))
 
-  (define (find-lib input map)
+  (define (find-lib input mapping)
     (let* ((mappedlibs (map (lambda (lib) (string-append (cdr input) "/" lib))
-                            (or (assoc-ref map (car input)) '("lib")))))
+                            (or (assoc-ref mapping (car input)) '("lib")))))
       (format #t "input ~a~%" input)
-      (format #t "map ~a~%" map)
+      ;; (format #t "map ~a~%"  map)
       (format #t "mappedlibs ~a~%" mappedlibs)
       mappedlibs))
 
-  (let* ((ld-so       (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
          ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
-         (host-inputs (filter (lambda (input)
-                                (not (member (car input) '("source" "patchelf"))))
-                              inputs))
-         (rpath-libs  (apply append
-                             (map (lambda (input)
-                                    (or (pkg-config-libs input)
-                                        (find-lib input input-lib-mapping)))
-                                  (append outputs host-inputs))))
-         (rpath       (string-join rpath-libs ":"))
+  (let* ((ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+         (host-inputs    (filter (lambda (input)
+                                   (not (member (car input) '("source" "patchelf"))))
+                                 inputs))
+         (rpath-libs     (apply append
+                                (map (lambda (input)
+                                       (let ((plibs (pkg-config-libs input)))
+                                         (if (> (length plibs) 0)
+                                             plibs
+                                             (find-lib input input-lib-mapping))))
+                                     (append outputs
+                                             host-inputs))))
+         (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
     (cond
