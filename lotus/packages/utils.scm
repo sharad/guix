@@ -355,7 +355,7 @@
               (file-name (string-append name "-" version ".tar.gz"))
               (sha256
                (base32
-                "1pi896syzbpfdr1lisrb6v2y1sc5bvk98cf63s1ls4xniq61byy7"))))
+                "090j5lly5r6jzbnvlc3mhay6dsrd9sfrkjcgqaibm4nz8lp0f9cn"))))
     (build-system gnu:gnu-build-system)
     (synopsis "GNU Gnash is the GNU Flash movie player")
     (description "GNU Gnash
