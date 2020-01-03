@@ -303,25 +303,26 @@
                                           (begin
                                             (let ((cwd (getcwd)))
                                               (format #t "correct-permission: ~a~%" cwd)
-                                              (delete-file (string-append cwd "unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
-                                              (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
-                                                       (string-append cwd "unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
+                                              (begin
+                                                (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
+                                                (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
+                                                         (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so")))
                                               (for-each (lambda (path)
-                                                          (if (access? (string-append cwd "unpack/" path) F_OK)
-                                                              (copy-recursively (string-append cwd "unpack/" path) (string-append cwd "/source/" path))
-                                                              (format #t "~a not exists.~%" (string-append cwd "unpack/" path))))
+                                                          (if (access? (string-append cwd "/unpack/" path) F_OK)
+                                                              (copy-recursively (string-append cwd "/unpack/" path) (string-append cwd "/source/" path))
+                                                              (format #t "~a not exists.~%" (string-append cwd "/unpack/" path))))
                                                         (list "lib64"
                                                               "share"
                                                               "bin"
                                                               "lib"))
-                                              (mkdir-p (string-append cwd "/source/share/patchelf-adobe-flashplugin"))
-                                              (mkdir-p (string-append cwd "/source/lib/adobe-flashplugin"))
-                                              (copy-recursively (string-append cwd "unpack/" "LGPL") (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
-                                              (copy-recursively (string-append cwd "unpack/" "readme.txt") (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
-                                              (copy-recursively (string-append cwd "unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
-                                              (mkdir-p (string-append cwd "/source/lib"))
-                                              (copy-recursively (string-append cwd "unpack/" "libflashplayer.so") (string-append cwd "/source/liblibflashplayer.so"))
-                                              (copy-recursively (string-append cwd "unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so"))
+                                              (begin (mkdir-p (string-append cwd "/source/share/patchelf-adobe-flashplugin"))
+                                                     (mkdir-p (string-append cwd "/source/lib/adobe-flashplugin"))
+                                                     (copy-recursively (string-append cwd "unpack/" "LGPL") (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
+                                                     (copy-recursively (string-append cwd "unpack/" "readme.txt") (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
+                                                     (copy-recursively (string-append cwd "unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
+                                                     (mkdir-p (string-append cwd "/source/lib"))
+                                                     (copy-recursively (string-append cwd "unpack/" "libflashplayer.so") (string-append cwd "/source/liblibflashplayer.so"))
+                                                     (copy-recursively (string-append cwd "unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))
                                               (for-each (lambda (path)
                                                           (let* ((stat (lstat path)))
                                                             (chmod path (logior #o111 (stat:perms stat)))))
