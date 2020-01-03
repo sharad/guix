@@ -351,8 +351,7 @@
     (version "0.8.10")
     (source (origin
               (method url-fetch)
-              (uri (string-append "mirror://gnu/emacs/gnash-"
-                                  version ".tar.xz"))
+              (uri (string-append "https://ftp.gnu.org/gnu/gnash/" version "/gnash-" version ".tar.bz2"))
               (file-name (string-append name "-" version ".tar.gz"))
               (sha256
                (base32
