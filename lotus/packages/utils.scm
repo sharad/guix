@@ -345,7 +345,31 @@
 ;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64_u18.deb
 
 
-;; https://github.com/lightspark/lightspark/tree/lightspark-0.8.1
+(define-public gnash
+  (package
+    (name "gnash")
+    (version "0.8.10")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "mirror://gnu/emacs/gnash-"
+                                  version ".tar.xz"))
+              (file-name (string-append name "-" version ".tar.gz"))
+              (sha256
+               (base32
+                "1pi896syzbpfdr1lisrb6v2y1sc5bvk98cf63s1ls4xniq61byy7"))))
+    (build-system gnu:gnu-build-system)
+    (synopsis "GNU Gnash is the GNU Flash movie player")
+    (description "GNU Gnash
+
+GNU Gnash is the GNU Flash movie player — Flash is an animation file format pioneered by Macromedia which continues to be supported by their successor company, Adobe. Flash has been extended to include audio and video content, and programs written in ActionScript, an ECMAScript-compatible language. Gnash is based on GameSWF, and supports most SWF v7 features and some SWF v8 and v9.
+
+SWF v10 is not supported by GNU Gnash")
+    (home-page "https://www.gnu.org/software/gnash/")
+    (license (list
+              ;; MPL 1.1 -- this license is not GPL compatible
+              license:gpl2
+              license:lgpl2.1))))
+
 (define-public lightspark
   (package
     (name "lightspark")
@@ -362,15 +386,8 @@
     ;; (native-inputs
     ;;  `(("pkg-config" ,pkg-config)
     ;;    ("which"      ,which)))
-    ;; (inputs
-    ;;  `(("pidgin"    ,pidgin)
-    ;;    ;; ("libgcrypt" ,libgcrypt)
-    ;;    ;; ("libwebp"   ,libwebp)
-    ;;    ;; ("gettext"   ,gnu-gettext)
-    ;;    ;; ("gtk+"      ,gtk+-2)
-    ;;    ;; ("zlib"      ,zlib)
-    ;;    ("glib"      ,glib)
-    ;;    ("json-glib" ,json-glib)))
+    (inputs
+     `(("gnash"    ,gnash)))
 
     ;; TODO: figure out solution 
 
