@@ -301,14 +301,16 @@
                                                           files)))
                                             (begin
                                               (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
-                                              (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
-                                                       (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so")))
+                                              (if #f
+                                               (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
+                                                        (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
+                                               (delete-file (string-append cwd "/unpack/" "usr/lib64/kde4/kcm_adobe_flash_player.so"))))
                                             (begin
                                               (begin
                                                 (for-each (lambda (path)
                                                             (if (access? (string-append cwd "/unpack/usr/" path) F_OK)
                                                                 (copy-recursively (string-append cwd "/unpack/usr/" path) (string-append cwd "/source/" path))
-                                                                (format #t "~a not exists.~%" (string-append cwd "/unpack/" path))))
+                                                                (format #t "~a not exists.~%" (string-append cwd "/unpack/usr/" path))))
                                                           (list "lib64"
                                                                 "share"
                                                                 "bin"
@@ -317,11 +319,11 @@
                                                 (mkdir-p (string-append cwd "/source/share/patchelf-adobe-flashplugin"))
                                                 (mkdir-p (string-append cwd "/source/lib/adobe-flashplugin"))
                                                 (copy-recursively (string-append cwd "/unpack/" "LGPL")        (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
-                                                (copy-recursively (string-append cwd "/unpack/" "readme.txt")  (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
-                                                (copy-recursively (string-append cwd "/unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
-                                                (mkdir-p          (string-append cwd "/source/lib"))
-                                                (copy-recursively (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/liblibflashplayer.so"))
-                                                (copy-recursively (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))
+                                                (copy-file (string-append cwd "/unpack/" "readme.txt")  (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
+                                                (copy-file (string-append cwd "/unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
+                                                (mkdir-p   (string-append cwd "/source/lib"))
+                                                (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/liblibflashplayer.so"))
+                                                (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))
                                               (begin
                                                 (for-each (lambda (path)
                                                             (let* ((stat (lstat path)))
