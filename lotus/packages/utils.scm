@@ -22,6 +22,7 @@
   #:use-module (guix git-download)
   #:use-module ((guix build-system gnu) #:prefix gnu:)
   #:use-module ((lotus build-system deb) #:prefix deb:)
+  #:use-module ((lotus build-system cmake) #:prefix cmake:)
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
@@ -346,18 +347,6 @@
 
 ;; https://github.com/lightspark/lightspark/tree/lightspark-0.8.1
 (define-public lightspark
-
-  ;; https://github.com/EionRobb/lightspark/tree/master/skypeweb#windows
-  ;; http://www.webupd8.org/2016/07/chat-with-your-skype-friends-from.html
-
-  ;; Requires devel headers/libs for libpurple and libjson-glib [libglib2.0-dev, libjson-glib-dev and libpurple-dev]
-
-  ;; https://github.com/EionRobb/lightspark/archive/1.5.tar.gz
-  ;; git clone git://github.com/EionRobb/lightspark.git
-  ;; cd lightspark/skypeweb
-  ;; make
-  ;; sudo make install
-
   (package
     (name "lightspark")
     (version "0.8.1")
@@ -369,7 +358,7 @@
               (sha256
                (base32
                 "1pi896syzbpfdr1lisrb6v2y1sc5bvk98cf63s1ls4xniq61byy7"))))
-    (build-system cmake-build-system)
+    (build-system cmake:cmake-build-system)
     ;; (native-inputs
     ;;  `(("pkg-config" ,pkg-config)
     ;;    ("which"      ,which)))
@@ -407,7 +396,6 @@
 
 Lightspark supports SWF files written on all versions of the ActionScript language.")
     (home-page "http://lightspark.github.io/")
-    ;; Conkeror is triple licensed.
     (license (list
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
