@@ -296,17 +296,18 @@
                                                               (trg (string-append source "/" entry)))
                                                           (mkdir-p (dirname trg))
                                                           (rename-file src trg)))
-                                                      files))))
+                                                      files))
+                                          (begin
+                                            (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
+                                            (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
+                                                     (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so")))))
+
                                       (add-after
                                           'build 'correct-permission
                                         (lambda* (#:key inputs outputs #:allow-other-keys)
                                           (begin
                                             (let ((cwd (getcwd)))
                                               (format #t "correct-permission: ~a~%" cwd)
-                                              (begin
-                                                (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
-                                                (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
-                                                         (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so")))
                                               (for-each (lambda (path)
                                                           (if (access? (string-append cwd "/unpack/" path) F_OK)
                                                               (copy-recursively (string-append cwd "/unpack/" path) (string-append cwd "/source/" path))
