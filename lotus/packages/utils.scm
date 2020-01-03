@@ -287,8 +287,8 @@
                                       (add-after
                                           'unpack 'changedir
                                         (lambda* (#:key inputs outputs #:allow-other-keys)
+                                          (chdir "..")
                                           (let ((cwd (getcwd)))
-                                            (chdir "..")
                                             (let* ((parent (getcwd))
                                                    (source (string-append (getcwd) "/unpack"))
                                                    (files (directory-list-files parent)))
