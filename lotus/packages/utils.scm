@@ -318,7 +318,7 @@
                                               (begin
                                                 (mkdir-p (string-append cwd "/source/share/patchelf-adobe-flashplugin"))
                                                 (mkdir-p (string-append cwd "/source/lib/adobe-flashplugin"))
-                                                (copy-recursively (string-append cwd "/unpack/" "LGPL")        (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
+                                                (copy-recursively (string-append cwd "/unpack/" "LGPL") (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
                                                 (copy-file (string-append cwd "/unpack/" "readme.txt")  (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
                                                 (copy-file (string-append cwd "/unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
                                                 (mkdir-p   (string-append cwd "/source/lib"))
@@ -328,7 +328,7 @@
                                                 (for-each (lambda (path)
                                                             (let* ((stat (lstat path)))
                                                               (chmod path (logior #o111 (stat:perms stat)))))
-                                                          (list (string-append cwd "/source/liblibflashplayer.so")
+                                                          (list (string-append cwd "/source/lib/libflashplayer.so")
                                                                 (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))))
                                             (chdir (string-append cwd "/source"))
                                             #t))))))
