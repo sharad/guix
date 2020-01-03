@@ -318,23 +318,15 @@
                                                      (copy-recursively (string-append cwd "/unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
                                                      (mkdir-p          (string-append cwd "/source/lib"))
                                                      (copy-recursively (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/liblibflashplayer.so"))
-                                                     (copy-recursively (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so"))))
+                                                     (copy-recursively (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so"))())
+                                              (begin
+                                                (for-each (lambda (path)
+                                                            (let* ((stat (lstat path)))
+                                                              (chmod path (logior #o111 (stat:perms stat)))))
+                                                          (list (string-append cwd "/source/liblibflashplayer.so")
+                                                                (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))))
                                             (chdir (string-append cwd "/source"))
-                                            #t)))
-
-
-                                      (add-after
-                                          'build 'correct-permission
-                                        (lambda* (#:key inputs outputs #:allow-other-keys)
-                                          (begin
-                                            (let ((cwd (getcwd)))
-                                              ;; (format #t "correct-permission: ~a~%" cwd)
-                                              (for-each (lambda (path)
-                                                          (let* ((stat (lstat path)))
-                                                            (chmod path (logior #o111 (stat:perms stat)))))
-                                                        (list (string-append cwd "/source/liblibflashplayer.so")
-                                                              (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))
-                                              #t)))))))
+                                            #t))))))
    (synopsis "")
    (description "")
    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
