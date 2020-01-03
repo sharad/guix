@@ -69,12 +69,12 @@
               (eof-object? l))
           '()
           (begin
-            (let ((slist (string-tokenize l %not-space))
-                  (libs (map (lambda (lib)
-                               (if (string-prefix? "-L" lib)
-                                   (string-drop lib (string-length "-L"))
-                                   lib))
-                             slist)))
+            (let* ((slist (string-tokenize l %not-space))
+                   (libs (map (lambda (lib)
+                                (if (string-prefix? "-L" lib)
+                                    (string-drop lib (string-length "-L"))
+                                    lib))
+                              slist)))
               (format #t "pkg-config-libs: ~a~%" libs)
               libs)))))
 
