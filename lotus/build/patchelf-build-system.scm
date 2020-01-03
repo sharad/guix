@@ -69,7 +69,7 @@
               (eof-object? l))
           '()
           (begin
-            (let ((sli (string-tokenize l %not-colon)))
+            (let ((sli (string-tokenize l %not-space)))
               (format #t "pkg-config-libs: ~a~%" sli)
               sli)))))
 
