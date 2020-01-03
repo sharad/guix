@@ -65,11 +65,11 @@
           '()
           (begin
             (let* ((slist (string-tokenize l %not-space)))
-              (libs (map (lambda (lib)
-                           (if (string-prefix? "-L" lib)
-                               (string-drop lib (string-length "-L"))
-                               lib))
-                         slist)))))))
+              (map (lambda (lib)
+                     (if (string-prefix? "-L" lib)
+                         (string-drop lib (string-length "-L"))
+                         lib))
+                   slist))))))
 
   (define (find-lib input mapping)
     (map (lambda (lib) (string-append (cdr input) "/" lib))
