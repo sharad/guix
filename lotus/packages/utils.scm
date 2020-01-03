@@ -109,7 +109,6 @@
     (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
     (license license:ibmpl1.0)))
 
-
 (define-public pi-hole
   "https://github.com/pi-hole/pi-hole/blob/master/automated%20install/basic-install.sh")
 
@@ -235,7 +234,6 @@
     (home-page "https://wiki.debian.org/PepperFlashPlayer")
     (license license:ibmpl1.0)))
 
-
 (define-public patchelf-adobe-flashplugin
   ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
   (package
@@ -292,6 +290,7 @@
                                                       (begin
                                                         (let ((cwd (getcwd)))
                                                           (format #t "correct-permission: ~a~%" cwd)
+                                                          (system* "ls" "-ltr")
                                                           (begin
                                                             (if (access? "usr" F_OK)
                                                                 (copy-recursively "usr" "source")
