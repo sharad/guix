@@ -308,14 +308,14 @@
                                             (begin
                                               (begin
                                                 (delete-file (string-append cwd "/unpack/" "usr/bin/flash-player-properties"))
-                                                (delete-file (string-append cwd "/unpack/" "usr/bin"))
+                                                ;; (delete-file (string-append cwd "/unpack/" "usr/bin"))
                                                 (for-each (lambda (path)
                                                             (if (access? (string-append cwd "/unpack/usr/" path) F_OK)
                                                                 (copy-recursively (string-append cwd "/unpack/usr/" path) (string-append cwd "/source/" path))
                                                                 (format #t "~a not exists.~%" (string-append cwd "/unpack/usr/" path))))
                                                           (list "lib64"
                                                                 "share"
-                                                                "bin"
+                                                                ;; "bin"
                                                                 "lib")))
                                               (begin
                                                 (mkdir-p (string-append cwd "/source/share/patchelf-adobe-flashplugin"))
