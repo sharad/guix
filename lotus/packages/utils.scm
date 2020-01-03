@@ -287,20 +287,22 @@
                                       (add-after
                                           'unpack 'changedir
                                         (lambda* (#:key inputs outputs #:allow-other-keys)
-                                          (chdir "..")
-                                          (let* ((parent (getcwd))
-                                                 (source (string-append (getcwd) "/unpack"))
-                                                 (files (directory-list-files parent)))
-                                            (for-each (lambda (entry)
-                                                        (let ((src (string-append parent "/" entry))
-                                                              (trg (string-append source "/" entry)))
-                                                          (mkdir-p (dirname trg))
-                                                          (rename-file src trg)))
-                                                      files))
-                                          (begin
-                                            (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
-                                            (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
-                                                     (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so")))))
+                                          (let ((cwd (getcwd)))
+                                            (chdir "..")
+                                            (let* ((parent (getcwd))
+                                                   (source (string-append (getcwd) "/unpack"))
+                                                   (files (directory-list-files parent)))
+                                              (for-each (lambda (entry)
+                                                          (let ((src (string-append parent "/" entry))
+                                                                (trg (string-append source "/" entry)))
+                                                            (mkdir-p (dirname trg))
+                                                            (rename-file src trg)))
+                                                        files))
+                                            (begin
+                                              (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
+                                              (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
+                                                       (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))))))
+
 
                                       (add-after
                                           'build 'correct-permission
