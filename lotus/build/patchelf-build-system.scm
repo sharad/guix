@@ -55,7 +55,7 @@
     ;; The `pkg-config' command.
     (make-parameter "pkg-config"))
 
-  (define %not-colon
+  (define %not-space
     (char-set-complement (char-set #\Space)))
 
   (define (pkg-config-libs input)
@@ -68,7 +68,10 @@
       (if (or (not (zero? (close-pipe p)))
               (eof-object? l))
           '()
-          (string-tokenize l %not-colon))))
+          (begin
+            (let ((sli (string-tokenize l %not-colon)))
+              (format #t "pkg-config-libs: ~a~%" sli)
+              sli)))))
 
   (define (find-lib input map)
     (let ((mappedlibs (or (assoc-ref map (car input)) '("lib")))
