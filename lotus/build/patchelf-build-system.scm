@@ -52,39 +52,28 @@
   (define source (getcwd))
 
   (define %pkg-config
-    ;; The `pkg-config' command.
     (make-parameter "pkg-config"))
 
   (define %not-space
     (char-set-complement (char-set #\Space)))
 
   (define (pkg-config-libs input)
-    ;; (format #t "pkg-config-libs: ~a~%" (car input))
-    ;; (format #t "pkg-config --libs-only-L ~a~%" (car input))
     (let* ((p (open-pipe* OPEN_READ (%pkg-config) "--libs-only-L" (car input)))
            (l (read-line p)))
-      ;; (format #t "pkg-config --libs-only-L ~a  , ~a~%" (car input) l)
-      ;; (format #t "pkg-config-libs: ~a~%" l)
       (if (or (not (zero? (close-pipe p)))
               (eof-object? l))
           '()
           (begin
-            (let* ((slist (string-tokenize l %not-space))
-                   (libs (map (lambda (lib)
-                                (if (string-prefix? "-L" lib)
-                                    (string-drop lib (string-length "-L"))
-                                    lib))
-                              slist)))
-              ;; (format #t "pkg-config-libs: ~a~%" libs)
-              libs)))))
+            (let* ((slist (string-tokenize l %not-space)))
+              (libs (map (lambda (lib)
+                           (if (string-prefix? "-L" lib)
+                               (string-drop lib (string-length "-L"))
+                               lib))
+                         slist)))))))
 
   (define (find-lib input mapping)
-    (let* ((mappedlibs (map (lambda (lib) (string-append (cdr input) "/" lib))
-                            (or (assoc-ref mapping (car input)) '("lib")))))
-      ;; (format #t "input ~a~%" input)
-      ;; (format #t "mapping ~a~%"  mapping)
-      ;; (format #t "mappedlibs ~a~%" mappedlibs)
-      mappedlibs))
+    (map (lambda (lib) (string-append (cdr input) "/" lib))
+         (or (assoc-ref mapping (car input)) '("lib"))))
 
          ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
   (let* ((ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))

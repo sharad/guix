@@ -284,28 +284,32 @@
    (arguments `(#:input-lib-mapping '(("out" "lib")
                                       ("nss" "lib/nss"))
                 #:phases            (modify-phases %standard-phases
-                                                   (add-after
-                                                    'build 'correct-permission
-                                                    (lambda* (#:key inputs outputs #:allow-other-keys)
-                                                      (begin
-                                                        (let ((cwd (getcwd)))
-                                                          (format #t "correct-permission: ~a~%" cwd)
-                                                          (system* "ls" "-ltr")
-                                                          (begin
-                                                            (if (access? "usr" F_OK)
-                                                                (copy-recursively "usr" "source")
-                                                                (format #t "usr not exists."))
-                                                            (if (access? "opt" F_OK)
-                                                                (copy-recursively "opt" "source")
-                                                                (format #t "opt not exists."))
-                                                            (chdir "source")
-                                                            #t)))
-                                                      (let* ((file (string-append "lib/adobe-flashplugin/" "libflashplayer.so"))
-                                                             (stat (lstat file)))
-                                                        (chmod file (logior #o111 (stat:perms stat))))
-                                                      (let* ((file (string-append "lib/adobe-flashplugin/" "libpepflashplayer.so"))
-                                                             (stat (lstat file)))
-                                                        (chmod file (logior #o111 (stat:perms stat)))))))))
+                                      (add-after
+                                          'unpack 'pwdtest
+                                        (lambda* (#:key inputs outputs #:allow-other-keys)
+                                          (format #t "pwdtest: ~a~%" (getcwd))))
+                                      (add-after
+                                          'build 'correct-permission
+                                        (lambda* (#:key inputs outputs #:allow-other-keys)
+                                          (begin
+                                            (let ((cwd (getcwd)))
+                                              (format #t "correct-permission: ~a~%" cwd)
+                                              (system* "ls" "-ltr")
+                                              (begin
+                                                (if (access? "usr" F_OK)
+                                                    (copy-recursively "usr" "source")
+                                                    (format #t "usr not exists."))
+                                                (if (access? "opt" F_OK)
+                                                    (copy-recursively "opt" "source")
+                                                    (format #t "opt not exists."))
+                                                (chdir "source")
+                                                #t)))
+                                          (let* ((file (string-append "lib/adobe-flashplugin/" "libflashplayer.so"))
+                                                 (stat (lstat file)))
+                                            (chmod file (logior #o111 (stat:perms stat))))
+                                          (let* ((file (string-append "lib/adobe-flashplugin/" "libpepflashplayer.so"))
+                                                 (stat (lstat file)))
+                                            (chmod file (logior #o111 (stat:perms stat)))))))))
    (synopsis "")
    (description "")
    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
