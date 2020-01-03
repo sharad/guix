@@ -79,10 +79,10 @@
               slist)))))
 
   (define (find-lib input map)
-    (let ((pkg-libs   (pkg-config-libs input))
-          (mappedlibs (or pkg-libs
-                          (map (lambda (lib) (string-append (cdr input) "/" lib))
-                               (or (assoc-ref map (car input)) '("lib"))))))
+    (let* ((pkg-libs   (pkg-config-libs input))
+           (mappedlibs (or pkg-libs
+                           (map (lambda (lib) (string-append (cdr input) "/" lib))
+                                (or (assoc-ref map (car input)) '("lib"))))))
       (format #t "input ~a~%" input)
       (format #t "map ~a~%" map)
       (format #t "mappedlibs ~a~%" mappedlibs)
