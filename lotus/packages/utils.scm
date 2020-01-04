@@ -393,14 +393,11 @@ SWF v10 is not supported by GNU Gnash")
     ;;  `(("pkg-config" ,pkg-config)
     ;;    ("which"      ,which)))
     (inputs
-     `(("gnash"    ,gnash)))))
+     `(("gnash"    ,gnash)))
 
     ;; TODO: figure out solution 
-
     ;; https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/messaging.scm#n1878
-o
     ;; https://github.com/EionRobb/lightspark/blob/master/skypeweb/CMakeLists.txt
-
     ;; (arguments
     ;;  `(#:tests? #f                            ; Run the test suite (this is the default)
     ;;    ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
@@ -424,7 +421,7 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
     (license (list
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
-              license:lgpl2.1))
+              license:lgpl2.1))))
 
 (define-public deb-forticlient
   (package
