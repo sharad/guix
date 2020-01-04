@@ -314,9 +314,9 @@
                                        ;;            (string-append firefox-bin "/dependentlibs.list"))
                                        ;; (invoke "sed" "-i" "s@^lib@../lib/lib@g"
                                        ;;         (string-append firefox-bin "/dependentlibs.list"))
-                                       (begin
-                                        (mkdir-p "lib")
-                                        (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
+                                       ;; (begin
+                                       ;;  (mkdir-p "lib")
+                                       ;;  (copy-file (string-append firefox-sir "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
                                        (if #t
                                            (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
