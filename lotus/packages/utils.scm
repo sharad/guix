@@ -50,7 +50,8 @@
   #:use-module (gnu packages libevent)
   #:use-module (gnu packages tls)
   #:use-module (gnu packages video)
-  #:use-module (gnu packages nss))
+  #:use-module (gnu packages nss)
+  #:use-module (gnu packages gnome))
 
 ;; https://issues.guix.gnu.org/issue/35619
 
@@ -358,7 +359,7 @@
                 "090j5lly5r6jzbnvlc3mhay6dsrd9sfrkjcgqaibm4nz8lp0f9cn"))))
     (build-system gnu:gnu-build-system)
     (inputs    `(("gconf" ,gconf)))
-    (arguments `(#:configure-flags '("--without-gconf")))
+    (arguments '(#:configure-flags '("--without-gconf")))
     (synopsis "GNU Gnash is the GNU Flash movie player")
     (description "GNU Gnash
 
@@ -392,12 +393,12 @@ SWF v10 is not supported by GNU Gnash")
     ;;  `(("pkg-config" ,pkg-config)
     ;;    ("which"      ,which)))
     (inputs
-     `(("gnash"    ,gnash)))
+     `(("gnash"    ,gnash)))))
 
     ;; TODO: figure out solution 
 
     ;; https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/messaging.scm#n1878
-
+o
     ;; https://github.com/EionRobb/lightspark/blob/master/skypeweb/CMakeLists.txt
 
     ;; (arguments
@@ -423,7 +424,7 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
     (license (list
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
-              license:lgpl2.1))))
+              license:lgpl2.1))
 
 (define-public deb-forticlient
   (package
