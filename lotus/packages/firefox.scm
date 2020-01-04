@@ -310,13 +310,6 @@
                                                      (mkdir-p (dirname target-file))
                                                      (rename-file file target-file)))
                                                  files-to-arrange)
-                                       ;; (copy-file (string-append firefox-misc "/dependentlibs.list")
-                                       ;;            (string-append firefox-bin "/dependentlibs.list"))
-                                       ;; (invoke "sed" "-i" "s@^lib@../lib/lib@g"
-                                       ;;         (string-append firefox-bin "/dependentlibs.list"))
-                                       ;; (begin
-                                       ;;  (mkdir-p "lib")
-                                       ;;  (copy-file (string-append firefox-sir "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
                                        (if #t
                                            (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
