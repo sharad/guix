@@ -377,7 +377,7 @@
                ("openh264"      ,openh264)
                ("libsmpeg"      ,libsmpeg)
                ("libmpeg2"      ,libmpeg2)
-               ("libmad"        ,libmad)
+               ;; ("libmad"        ,libmad)
 
                ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
                ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
