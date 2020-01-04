@@ -51,7 +51,11 @@
   #:use-module (gnu packages tls)
   #:use-module (gnu packages video)
   #:use-module (gnu packages nss)
-  #:use-module (gnu packages gnome))
+  #:use-module (gnu packages gnome)
+  #:use-module (gnu packages image)
+  #:use-module (gnu packages sdl)
+  #:use-module (gnu packages graphics)
+  #:use-module (gnu packages gstreamer))
 
 ;; https://issues.guix.gnu.org/issue/35619
 
