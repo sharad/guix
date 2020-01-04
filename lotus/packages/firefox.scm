@@ -311,20 +311,20 @@
                                                      (rename-file file target-file)))
                                                  files-to-arrange)
 
-                                       (if #t
-                                           (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
-                                                    (string-append firefox-dir "/browser/plugins"))
-                                           (begin
-                                             (mkdir-p (string-append firefox-dir "/browser/plugins"))
-                                             (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
-                                                        (string-append firefox-dir "/browser/plugins/" "libflashplayer.so"))
-                                             (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libpepflashplayer.so")
-                                                        (string-append firefox-dir "/browser/plugins/" "libpepflashplayer.so"))
-                                             (for-each (lambda (path)
-                                                         (let* ((stat (lstat path)))
-                                                           (chmod path (logior #o111 (stat:perms stat)))))
-                                                       (list (string-append firefox-dir "/browser/plugins/" "libflashplayer.so")
-                                                             (string-append firefox-dir "/browser/plugins/" "libpepflashplayer.so")))))
+                                       ;; (if #t
+                                       ;;     (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
+                                       ;;              (string-append firefox-dir "/browser/plugins"))
+                                       ;;     (begin
+                                       ;;       (mkdir-p (string-append firefox-dir "/browser/plugins"))
+                                       ;;       (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
+                                       ;;                  (string-append firefox-dir "/browser/plugins/" "libflashplayer.so"))
+                                       ;;       (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libpepflashplayer.so")
+                                       ;;                  (string-append firefox-dir "/browser/plugins/" "libpepflashplayer.so"))
+                                       ;;       (for-each (lambda (path)
+                                       ;;                   (let* ((stat (lstat path)))
+                                       ;;                     (chmod path (logior #o111 (stat:perms stat)))))
+                                       ;;                 (list (string-append firefox-dir "/browser/plugins/" "libflashplayer.so")
+                                       ;;                       (string-append firefox-dir "/browser/plugins/" "libpepflashplayer.so")))))
                                        #t)))
                                  ;; (replace 'strip
                                  ;;   (lambda (#:key target outputs (strip-binaries? #t)
