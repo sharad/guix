@@ -358,7 +358,11 @@
                (base32
                 "090j5lly5r6jzbnvlc3mhay6dsrd9sfrkjcgqaibm4nz8lp0f9cn"))))
     (build-system gnu:gnu-build-system)
-    (inputs    `(("gconf" ,gconf)))
+    (inputs    `(("gconf"     ,gconf)
+                 ("libungif"  ,libungif)
+                 ("sdl"       ,sdl)
+                 ("agg"       ,agg)
+                 ("gstreamer" ,gstreamer)))
     (arguments '(#:configure-flags '("--without-gconf")))
     (synopsis "GNU Gnash is the GNU Flash movie player")
     (description "GNU Gnash
