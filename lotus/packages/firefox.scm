@@ -44,6 +44,7 @@
   #:use-module (gnu packages libffi)
   #:use-module (gnu packages libevent)
   #:use-module (gnu packages video)
+  #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages nss)
   #:use-module (lotus packages utils))
 
