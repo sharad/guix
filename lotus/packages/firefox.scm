@@ -304,7 +304,9 @@
                                        (format #t "rearrange: outputs ~a~%" outputs)
                                        (for-each (lambda (file)
                                                    (let* ((stripped-file (string-drop file (string-length source)))
-                                                          (location      firefox-dir)
+                                                          (location      (if (string=? (dirname stripped-file) "/")
+                                                                             firefox-dir
+                                                                             (string-append firefox-dir (dirname stripped-file))))
                                                           (target-file   (string-append location "/" (basename file))))
                                                      (format #t "rearrange: src ~a -> target ~a~%" file target-file)
                                                      (mkdir-p (dirname target-file))
