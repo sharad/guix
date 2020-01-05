@@ -133,22 +133,22 @@
     (description "Like jq but for XML and XPath.")
     (license #f)))
 
-(define-public python-camelot-py
-  (package
-    (name "python-camelot-py")
-    (version "0.7.3")
-    (source
-     (origin
-       (method url-fetch)
-       (uri
-        (string-append "https://files.pythonhosted.org/packages/70/d6/a47894242a6fba58a2332489358afedc6209da43942ab7f850b932019101/camelot_py-" version "-py3-none-any.whl"))
-       (sha256
-        (base32
-         "11jd3m11k2vppgvrs6x55c6p2k57jrdxkyzwl6c209s8i74jisj9"))))
-    (build-system python-build-system)
-    (home-page "https://pypi.org/project/camelot-py/#files")
-    (synopsis
-     "Read Exif metadata from tiff and jpeg files.")
-    (description
-     "Read Exif metadata from tiff and jpeg files.")
-    (license license:bsd-3)))
+;; (define-public python-camelot-py
+;;   (package
+;;     (name "python-camelot-py")
+;;     (version "0.7.3")
+;;     (source
+;;      (origin
+;;        (method url-fetch)
+;;        (uri
+;;         (string-append "https://files.pythonhosted.org/packages/70/d6/a47894242a6fba58a2332489358afedc6209da43942ab7f850b932019101/camelot_py-" version "-py3-none-any.whl"))
+;;        (sha256
+;;         (base32
+;;          "11jd3m11k2vppgvrs6x55c6p2k57jrdxkyzwl6c209s8i74jisj9"))))
+;;     (build-system python-build-system)
+;;     (home-page "https://pypi.org/project/camelot-py/#files")
+;;     (synopsis
+;;      "Read Exif metadata from tiff and jpeg files.")
+;;     (description
+;;      "Read Exif metadata from tiff and jpeg files.")
+;;     (license license:bsd-3)))
