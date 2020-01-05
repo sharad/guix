@@ -21,6 +21,10 @@
                (base32
                 "189n8hpijy14jfan4ha9f5n06mnl33cxz7ay92wjqgkr639s0vg9"))))))
 
+;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot-py-0.7.3.tar.gz
+;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot_py-0.7.3-py3-none-any.whl
+;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot_py-0.7.3.whl
+;; https://files.pythonhosted.org/packages/source/P/PyYAML/PyYAML-5.2.tar.gz
 (define-public python-pyyaml-52
   (package (inherit python-pyyaml)
            (name "python-pyyaml")
@@ -129,3 +133,21 @@
     (description "Like jq but for XML and XPath.")
     (license #f)))
 
+(define-public python-camelot-py
+  (package
+    (name "python-camelot-py")
+    (version "0.7.3")
+    (source
+     (origin
+       (method url-fetch)
+       (uri "https://files.pythonhosted.org/packages/70/d6/a47894242a6fba58a2332489358afedc6209da43942ab7f850b932019101/camelot_py-" version "-py3-none-any.whl")
+       (sha256
+        (base32
+         "1b90jf6m9vxh9nanhpyvqdq7hmfx5iggw1l8kq10jrs6xgr49qkr"))))
+    (build-system python-build-system)
+    (home-page "https://pypi.org/project/camelot-py/#files")
+    (synopsis
+     "Read Exif metadata from tiff and jpeg files.")
+    (description
+     "Read Exif metadata from tiff and jpeg files.")
+    (license license:bsd-3)))
