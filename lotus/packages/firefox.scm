@@ -501,3 +501,14 @@
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
+
+
+
+(define-public firefox-1
+  (package (inherit firefox-56.0)
+           (name "firefox-1")))
+
+(define-public firefox-2
+  (package (inherit firefox-56.0-new)
+           (name "firefox-2")))
+
