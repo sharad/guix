@@ -174,6 +174,7 @@
                ("zip" ,zip)
                ("zlib" ,zlib)
 
+               ("vlc"  ,vlc)
                ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
                ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
     (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
@@ -415,6 +416,7 @@
                ("libmpeg2"      ,libmpeg2)
                ;; ("libmad"        ,libmad)
 
+               ("vlc"  ,vlc)
                ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
                ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
     (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
