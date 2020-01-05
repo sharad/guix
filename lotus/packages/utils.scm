@@ -76,13 +76,13 @@
      `(("bzip2" ,bzip2)
        ("perl"  ,perl)))
     (arguments
-     '(#:modules (((guix build-system gnu) #:prefix gnu:))
+     '(;; #:modules (((guix build-system gnu) #:prefix gnu:))
        #:tests? #f
        #:make-flags (let ((out  (assoc-ref %outputs "out")))
                       (list
                        (string-append "PREFIX=" out)))
        #:phases
-       (modify-phases gnu:%standard-phases
+       (modify-phases %standard-phases
          (delete 'configure))))
 
     (synopsis "lesspipe.sh, a preprocessor for less")

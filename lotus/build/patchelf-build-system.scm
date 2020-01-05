@@ -91,9 +91,6 @@
          (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
-    (system* "ls" "-ltr")
-    (format #t "build: cwd ~a~%" source)
-    (system* "pwd")
     (cond
        ((not (null? files-to-build))
         (for-each (lambda (file)
