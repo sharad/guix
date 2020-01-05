@@ -86,8 +86,8 @@
                                          (if (> (length plibs) 0)
                                              plibs
                                              (find-lib input input-lib-mapping))))
-                                     (append outputs
-                                             host-inputs))))
+                                     (append host-inputs
+                                             outputs))))
          (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)

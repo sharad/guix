@@ -140,9 +140,9 @@
 
                ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
                ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
-    (arguments `(#:input-lib-mapping '(("out" "share/firefox/lib")
-                                       ("nss" "lib/nss")
-                                       ("adobe-flashplugin" "lib/adobe-flashplugin/"))
+    (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
+                                       ("adobe-flashplugin" "lib/adobe-flashplugin/")
+                                       ("out" "share/firefox/lib"))
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
@@ -381,9 +381,9 @@
 
                ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
                ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
-    (arguments `(#:input-lib-mapping '(("out" "share/firefox/lib")
-                                       ("nss" "lib/nss")
-                                       ("adobe-flashplugin" "lib/adobe-flashplugin/"))
+    (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
+                                       ("adobe-flashplugin" "lib/adobe-flashplugin/")
+                                       ("out" "share/firefox/lib"))
                  #:phases      (modify-phases %standard-phases
                                  (add-after
                                      'build 'rearrange
