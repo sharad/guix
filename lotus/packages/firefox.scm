@@ -132,6 +132,8 @@
                ("libxscrnsaver" ,libxscrnsaver)
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
+               ("libva"         ,libva)
+               ("libvdpau"      ,libvdpau)
                ("libvpx"        ,libvpx-1.7)
 
 
@@ -362,6 +364,8 @@
                ("libxscrnsaver" ,libxscrnsaver)
                ("libffi"        ,libffi)
                ("ffmpeg"        ,ffmpeg)
+               ("libva"         ,libva)
+               ("libvdpau"      ,libvdpau)
                ("libvpx"        ,libvpx-1.7)
 
 
