@@ -176,6 +176,18 @@
                ("zip" ,zip)
                ("zlib" ,zlib)
 
+               ("gst-libav"        ,gst-libav)
+               ("gst-plugins-base" ,gst-plugins-base)
+               ("gst-plugins-good" ,gst-plugins-good)
+               ("gst-plugins-bad"  ,gst-plugins-bad)
+               ("gst-plugins-ugly" ,gst-plugins-ugly)
+               ("gst123"           ,gst123)
+               ("gstreamer"     ,gstreamer)
+               ("openh264"      ,openh264)
+               ("libsmpeg"      ,libsmpeg)
+               ("libmpeg2"      ,libmpeg2)
+               ;; ("libmad"        ,libmad)
+
                ("vlc"  ,vlc)
                ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
                ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
@@ -408,11 +420,11 @@
                ("zlib" ,zlib)
 
 
+               ("gst-libav"        ,gst-libav)
                ("gst-plugins-base" ,gst-plugins-base)
                ("gst-plugins-good" ,gst-plugins-good)
                ("gst-plugins-bad"  ,gst-plugins-bad)
                ("gst-plugins-ugly" ,gst-plugins-ugly)
-               ("gst-libav"        ,gst-libav)
                ("gst123"           ,gst123)
                ("gstreamer"     ,gstreamer)
                ("openh264"      ,openh264)
