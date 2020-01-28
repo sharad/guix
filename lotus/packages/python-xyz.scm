@@ -7,7 +7,8 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages check)
   #:use-module (gnu packages xml)
-  #:use-module (gnu packages python-xyz))
+  #:use-module (gnu packages python-xyz)
+  #:use-module (gnu packages python-crypto))
 
 
 (define-public python-colorama-043
@@ -89,7 +90,7 @@
 (define-public python-yq
   (package
    (name "python-yq")
-   (version "2.9.2")
+   (version "2.10.0")
    (source
     (origin
      (method url-fetch)
@@ -132,6 +133,25 @@
     (synopsis "Like jq but for XML and XPath.")
     (description "Like jq but for XML and XPath.")
     (license #f)))
+
+(define-public python-pdfminer
+  (package
+    (name "python-pdfminer")
+    (version "20191125")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (pypi-uri "pdfminer" version))
+        (sha256
+          (base32
+            "00fwankn96xms8fyjm4f36282qr98pfw2hv3jg4da3ih673hnw4y"))))
+    (build-system python-build-system)
+    (propagated-inputs
+      `(("python-pycryptodome" ,python-pycryptodome)))
+    (home-page "http://github.com/euske/pdfminer")
+    (synopsis "PDF parser and analyzer")
+    (description "PDF parser and analyzer")
+    (license license:expat)))
 
 ;; (define-public python-camelot-py
 ;;   (package
