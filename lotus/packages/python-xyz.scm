@@ -87,17 +87,12 @@
      "The file management automation tool")
     (license license:expat)))
 
-(define-public python-yq
+(define-public python-yq-generic
   (package
-   (name "python-yq")
-   (version "2.10.0")
-   (source
-    (origin
-     (method url-fetch)
-     (uri (pypi-uri "yq" version))
-     (sha256
-      (base32
-       "0ims5q3kfykbyxdfwc3lsrhbcnpgdl56p5rfhpp8vhzi503jrbxb"))))
+   (name "python-yq-generic")
+   (version "generic")
+   (source (origin (method url-fetch)
+                   (uri (pypi-uri "yq" version))))
    (build-system python-build-system)
    (propagated-inputs
     `(("python-pyyaml" ,python-pyyaml)
@@ -114,17 +109,34 @@
     "Command-line YAML/XML processor - jq wrapper for YAML/XML documents")
    (license #f)))
 
+(define-public python-yq-2.9.2
+  (package (inherit python-yq-generic)
+   (name "python-yq-2.9.2")
+   (version "2.9.2")
+   (source (origin (method url-fetch)
+                   (uri (pypi-uri "yq" version))
+                   (sha256 (base32 "1b90jf6m9vxh9nanhpyvqdq7hmfx5iggw1l8kq10jrs6xgr49qkr"))))))
+
+(define-public python-yq-2.10.0
+  (package (inherit python-yq-generic)
+   (name "python-yq-2.10.0")
+   (version "2.10.0")
+   (source
+    (origin (method url-fetch)
+            (uri (pypi-uri "yq" version))
+            (sha256 (base32 "0ims5q3kfykbyxdfwc3lsrhbcnpgdl56p5rfhpp8vhzi503jrbxb"))))))
+
+(define-public python-yq
+  (package (inherit python-yq-2.9.2)
+    (name "python-yq")))
+
 (define-public python-xq
   (package
     (name "python-xq")
     (version "0.0.4")
-    (source
-      (origin
-        (method url-fetch)
-        (uri (pypi-uri "xq" version))
-        (sha256
-          (base32
-            "0xr9v3nn4hhkldx6r2hxkyfddx0j6z2v220fmnl14h2dc5f4smr8"))))
+    (source (origin (method url-fetch)
+                    (uri (pypi-uri "xq" version))
+                    (sha256 (base32 "0xr9v3nn4hhkldx6r2hxkyfddx0j6z2v220fmnl14h2dc5f4smr8"))))
     (build-system python-build-system)
     (propagated-inputs
       `(("python-lxml" ,python-lxml)
