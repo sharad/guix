@@ -92,7 +92,8 @@
    (name "python-yq-generic")
    (version "generic")
    (source (origin (method url-fetch)
-                   (uri (pypi-uri "yq" version))))
+                   (uri (pypi-uri "yq" version))
+                   (sha256 (base32 "1b90jf6m9vxh9nanhpyvqdq7hmfx5iggw1l8kq10jrs6xgr49qkr"))))
    (build-system python-build-system)
    (propagated-inputs
     `(("python-pyyaml" ,python-pyyaml)
@@ -115,7 +116,7 @@
    (version "2.9.2")
    (source (origin (method url-fetch)
                    (uri (pypi-uri "yq" version))
-                   (sha256 (base32 "1b90jf6m9vxh9nanhpyvqdq7hmfx5iggw1l8kq10jrs6xgr49qkr"))))))
+                   (sha256 (base32 "1p8y69p2s4030xiwpsimq6245vllmb4rla3y3qay7wmbpln9q5ls"))))))
 
 (define-public python-yq-2.10.0
   (package (inherit python-yq-generic)
