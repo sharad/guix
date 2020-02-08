@@ -60,7 +60,7 @@
                (base32
                 "12m6iyfnii3hmkcnhsclli9mj9nblv0xn2p5dl6mv1mp0p9ck9pv"))))
     (build-system gnu-build-system)
-    (inputs `(("firefox" ,firefox)))
+    (inputs `(("patchelf-firefox" ,patchelf-firefox)))
     (arguments
      `(#:tests? #f                      ;no tests
        #:make-flags `("CC=gcc"
@@ -81,7 +81,7 @@
                   (format p "#!~a/bin/bash
 exec ~a/bin/firefox --app ~a \"$@\"~%"
                           (assoc-ref inputs "bash") ;implicit input
-                          (assoc-ref inputs "firefox")
+                          (assoc-ref inputs "patchelf-firefox")
                           (string-append datadir "/application.ini"))))
               (chmod launcher #o555)))))))
     (synopsis "Keyboard focused web browser with Emacs look and feel")

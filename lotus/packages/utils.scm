@@ -244,7 +244,7 @@
   ;; 
   (package
    (name "patchelf-adobe-flashplugin")
-   (version "32.0.0.303")
+   (version "32.0.0.314")
    (source (origin
             (method url-fetch)
             (uri
@@ -252,7 +252,7 @@
             (file-name (string-append "flash_player_npapi_linux.x86_64.tar.gz"))
             (sha256
              (base32
-              "0x0mabgswly2v8z13832pkbjsv404aq61pback6sgmp2lyycdg6w"))))
+              "0a3hvp0qmqlann8k875ajf0i70cv0an1a3mr8kbgji46dxqvwjxz"))))
    (build-system patchelf:patchelf-build-system)
    (inputs `(("libc"          ,glibc)
              ("gcc:lib"       ,gcc "lib")

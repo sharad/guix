@@ -89,19 +89,19 @@
 
   #:use-module (lotus packages utils))
 
-(define-public firefox-56.0
+(define-public patchelf-firefox-56.0
   ;; (hidden-package)
   (package
-    (name "firefox-56.0")
-    (version "56.0")
-    (source (origin
+   (name "patchelf-firefox-56.0")
+   (version "56.0")
+   (source (origin
               (method url-fetch)
               (uri
                (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
               (file-name (string-append "firefox-" version ".tar.bz2"))
               (sha256
                (base32
-                "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
+                "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb")))
     (build-system patchelf-build-system)
     (inputs  `(("libc"          ,glibc)
                ("gcc:lib"       ,gcc "lib")
@@ -310,16 +310,16 @@
     (license (list
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
-              license:lgpl2.1))))
+              license:lgpl2.1)))))
 
 ;; (define-public firefox
 ;;   (package (inherit firefox-56.0-old)
 ;;     (name "firefox")))
 
 
-(define-public firefox
-  (package (inherit firefox-56.0)
-           (name "firefox")))
+(define-public patchelf-firefox
+  (package (inherit patchelf-firefox-56.0)
+           (name "patchelf-firefox")))
 
 ;; https://linoxide.com/linux-how-to/install-adobe-flash-player-linux-terminal/
 ;; https://packages.ubuntu.com/xenial/web/browser-plugin-freshplayer-pepperflash
@@ -331,105 +331,105 @@
 
 
 
-(define-public firefox-56.0-new
+(define-public patchelf-firefox-56.0-new
   ;; (hidden-package)
   (package
-    (name "firefox-56.0-new")
-    (version "56.0")
-    (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
-              (file-name (string-append "firefox-" version ".tar.bz2"))
-              (sha256
-               (base32
-                "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
-    (build-system patchelf-build-system)
-    (inputs  `(("libc"          ,glibc)
-               ("gcc:lib"       ,gcc "lib")
-               ("dbus"          ,dbus)
-               ("libxcomposite" ,libxcomposite)
-               ("libxt"         ,libxt)
-               ("gtk+"          ,gtk+)
-               ("atk"           ,atk)
-               ("cairo"         ,cairo)
-               ("dbus-glib"     ,dbus-glib)
-               ("fontconfig"    ,fontconfig)
-               ("freetype"      ,freetype)
-               ("gdk-pixbuf"    ,gdk-pixbuf)
-               ("glib"          ,glib)
-               ("glibc"         ,glibc)
-               ("libx11"        ,libx11)
-               ("libxcb"        ,libxcb)
-               ("libxdamage"    ,libxdamage)
-               ("libxext"       ,libxext)
-               ("libxfixes"     ,libxfixes)
-               ("libxrender"    ,libxrender)
-               ("pango"         ,pango)
-               ("pulseaudio"    ,pulseaudio)
-               ("libogg"        ,libogg)
-               ("libvorbis"     ,libvorbis)
-               ("libevent"      ,libevent)
-               ("libxinerama"   ,libxinerama)
-               ("libxscrnsaver" ,libxscrnsaver)
-               ("libffi"        ,libffi)
-               ("ffmpeg"        ,ffmpeg)
-               ("libvpx"        ,libvpx-1.7)
+   (name "patchelf-firefox-56.0-new")
+   (version "56.0")
+   (source (origin
+             (method url-fetch)
+             (uri
+              (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+             (file-name (string-append "firefox-" version ".tar.bz2"))
+             (sha256
+              (base32
+               "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
+   (build-system patchelf-build-system)
+   (inputs  `(("libc"          ,glibc)
+              ("gcc:lib"       ,gcc "lib")
+              ("dbus"          ,dbus)
+              ("libxcomposite" ,libxcomposite)
+              ("libxt"         ,libxt)
+              ("gtk+"          ,gtk+)
+              ("atk"           ,atk)
+              ("cairo"         ,cairo)
+              ("dbus-glib"     ,dbus-glib)
+              ("fontconfig"    ,fontconfig)
+              ("freetype"      ,freetype)
+              ("gdk-pixbuf"    ,gdk-pixbuf)
+              ("glib"          ,glib)
+              ("glibc"         ,glibc)
+              ("libx11"        ,libx11)
+              ("libxcb"        ,libxcb)
+              ("libxdamage"    ,libxdamage)
+              ("libxext"       ,libxext)
+              ("libxfixes"     ,libxfixes)
+              ("libxrender"    ,libxrender)
+              ("pango"         ,pango)
+              ("pulseaudio"    ,pulseaudio)
+              ("libogg"        ,libogg)
+              ("libvorbis"     ,libvorbis)
+              ("libevent"      ,libevent)
+              ("libxinerama"   ,libxinerama)
+              ("libxscrnsaver" ,libxscrnsaver)
+              ("libffi"        ,libffi)
+              ("ffmpeg"        ,ffmpeg)
+              ("libvpx"        ,libvpx-1.7)
 
-               ("gst-libav"        ,gst-libav)
-               ("gst-plugins-base" ,gst-plugins-base)
-               ("gst-plugins-good" ,gst-plugins-good)
-               ("gst-plugins-bad"  ,gst-plugins-bad)
-               ("gst-plugins-ugly" ,gst-plugins-ugly)
-               ("gst123"           ,gst123)
-               ("gstreamer"     ,gstreamer)
-               ("openh264"      ,openh264)
-               ("libsmpeg"      ,libsmpeg)
-               ("libmpeg2"      ,libmpeg2)
-               ;; ("libmad"        ,libmad)
-               ("vlc"  ,vlc)
+              ("gst-libav"        ,gst-libav)
+              ("gst-plugins-base" ,gst-plugins-base)
+              ("gst-plugins-good" ,gst-plugins-good)
+              ("gst-plugins-bad"  ,gst-plugins-bad)
+              ("gst-plugins-ugly" ,gst-plugins-ugly)
+              ("gst123"           ,gst123)
+              ("gstreamer"     ,gstreamer)
+              ("openh264"      ,openh264)
+              ("libsmpeg"      ,libsmpeg)
+              ("libmpeg2"      ,libmpeg2)
+              ;; ("libmad"        ,libmad)
+              ("vlc"  ,vlc)
 
-               ("alsa-lib" ,alsa-lib)
-               ("bzip2" ,bzip2)
-               ("cups" ,cups)
-               ("dbus-glib" ,dbus-glib)
-               ("gdk-pixbuf" ,gdk-pixbuf)
-               ("glib" ,glib)
-               ("gtk+" ,gtk+)
-               ("gtk+-2" ,gtk+-2)
-               ("graphite2" ,graphite2)
-               ("pango" ,pango)
-               ("freetype" ,freetype)
-               ("harfbuzz" ,harfbuzz)
-               ("libcanberra" ,libcanberra)
-               ("libgnome" ,libgnome)
-               ("libjpeg-turbo" ,libjpeg-turbo)
-               ("libogg" ,libogg)
-               ;; ("libtheora" ,libtheora) ; wants theora-1.2, not yet released
-               ("libvorbis" ,libvorbis)
-               ("libxft" ,libxft)
-               ("libevent" ,libevent)
-               ("libxinerama" ,libxinerama)
-               ("libxscrnsaver" ,libxscrnsaver)
-               ("libxcomposite" ,libxcomposite)
-               ("libxt" ,libxt)
-               ("libffi" ,libffi)
-               ("ffmpeg" ,ffmpeg)
-               ("libvpx" ,libvpx-1.7)
-               ("icu4c" ,icu4c)
-               ("pixman" ,pixman)
-               ("pulseaudio" ,pulseaudio)
-               ("mesa" ,mesa)
-               ("mit-krb5" ,mit-krb5)
-               ("sqlite" ,sqlite)
-               ("startup-notification" ,startup-notification)
-               ("unzip" ,unzip)
-               ("zip" ,zip)
-               ("zlib" ,zlib)
+              ("alsa-lib" ,alsa-lib)
+              ("bzip2" ,bzip2)
+              ("cups" ,cups)
+              ("dbus-glib" ,dbus-glib)
+              ("gdk-pixbuf" ,gdk-pixbuf)
+              ("glib" ,glib)
+              ("gtk+" ,gtk+)
+              ("gtk+-2" ,gtk+-2)
+              ("graphite2" ,graphite2)
+              ("pango" ,pango)
+              ("freetype" ,freetype)
+              ("harfbuzz" ,harfbuzz)
+              ("libcanberra" ,libcanberra)
+              ("libgnome" ,libgnome)
+              ("libjpeg-turbo" ,libjpeg-turbo)
+              ("libogg" ,libogg)
+              ;; ("libtheora" ,libtheora) ; wants theora-1.2, not yet released
+              ("libvorbis" ,libvorbis)
+              ("libxft" ,libxft)
+              ("libevent" ,libevent)
+              ("libxinerama" ,libxinerama)
+              ("libxscrnsaver" ,libxscrnsaver)
+              ("libxcomposite" ,libxcomposite)
+              ("libxt" ,libxt)
+              ("libffi" ,libffi)
+              ("ffmpeg" ,ffmpeg)
+              ("libvpx" ,libvpx-1.7)
+              ("icu4c" ,icu4c)
+              ("pixman" ,pixman)
+              ("pulseaudio" ,pulseaudio)
+              ("mesa" ,mesa)
+              ("mit-krb5" ,mit-krb5)
+              ("sqlite" ,sqlite)
+              ("startup-notification" ,startup-notification)
+              ("unzip" ,unzip)
+              ("zip" ,zip)
+              ("zlib" ,zlib)
 
 
-               ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
-               ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
+              ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
+              ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))
     (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
                                        ("adobe-flashplugin" "lib/adobe-flashplugin/")
                                        ("out" "share/firefox/lib"))
@@ -511,15 +511,15 @@
     (license (list
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
-              license:lgpl2.1))))
+              license:lgpl2.1)))))
 
 
 
-(define-public firefox-1
-  (package (inherit firefox-56.0)
-           (name "firefox-1")))
+(define-public patchelf-firefox-1
+  (package (inherit patchelf-firefox-56.0)
+           (name "patchelf-firefox-1")))
 
-(define-public firefox-2
-  (package (inherit firefox-56.0-new)
-           (name "firefox-2")))
+(define-public patchelf-firefox-2
+  (package (inherit patchelf-firefox-56.0-new)
+           (name "patchelf-firefox-2")))
 
