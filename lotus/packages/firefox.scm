@@ -429,7 +429,7 @@
 
 
               ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
-              ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))
+              ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
    (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
                                       ("adobe-flashplugin" "lib/adobe-flashplugin/")
                                       ("out" "share/firefox/lib"))
@@ -511,7 +511,7 @@
    (license (list
              ;; MPL 1.1 -- this license is not GPL compatible
              license:gpl2
-             license:lgpl2.1)))))
+             license:lgpl2.1))))
 
 
 
