@@ -133,6 +133,8 @@
               ("libffi"        ,libffi)
               ("ffmpeg"        ,ffmpeg)
               ("libvpx"        ,libvpx-1.7)
+              ("xvid"          ,xvid)
+              ("libxv"         ,libxvid)
 
 
 
@@ -321,6 +323,7 @@
   (package (inherit patchelf-firefox-56.0)
            (name "patchelf-firefox")))
 
+;; https://packages.ubuntu.com/xenial/ubuntu-restricted-extras
 ;; https://linoxide.com/linux-how-to/install-adobe-flash-player-linux-terminal/
 ;; https://packages.ubuntu.com/xenial/web/browser-plugin-freshplayer-pepperflash
 ;; https://pkgs.org/download/adobe-flashplugin
@@ -375,6 +378,8 @@
               ("libffi"        ,libffi)
               ("ffmpeg"        ,ffmpeg)
               ("libvpx"        ,libvpx-1.7)
+              ("xvid"          ,xvid)
+              ("libxv"         ,libxvid)
 
               ("gst-libav"        ,gst-libav)
               ("gst-plugins-base" ,gst-plugins-base)
