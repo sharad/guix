@@ -81,7 +81,3 @@
              ;; MPL 1.1 -- this license is not GPL compatible
              license:gpl2
              license:lgpl2.1))))
-
-
-p4
-
