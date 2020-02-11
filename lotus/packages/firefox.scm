@@ -89,6 +89,11 @@
 
   #:use-module (lotus packages utils))
 
+;; https://packages.ubuntu.com/search?keywords=ubuntu-restricted-extras
+;; https://packages.ubuntu.com/xenial/ubuntu-restricted-extras
+;; https://packages.ubuntu.com/xenial/libavcodec-ffmpeg-extra56
+
+
 (define-public patchelf-firefox-56.0
   ;; (hidden-package)
   (package
@@ -135,10 +140,11 @@
               ("libvpx"        ,libvpx-1.7)
               ("libfdk"        ,libfdk)
               ("libtheora"     ,libtheora)
+              ("speex"         ,speex)
               ("opus"          ,opus)
               ("x265"          ,x265)
               ("xvid"          ,xvid)
-              ("libxv"         ,libxvid)
+              ("libxv"         ,libxv)
 
 
 
@@ -327,8 +333,6 @@
   (package (inherit patchelf-firefox-56.0)
            (name "patchelf-firefox")))
 
-;; https://packages.ubuntu.com/xenial/ubuntu-restricted-extras
-;; https://packages.ubuntu.com/xenial/libavcodec-ffmpeg-extra56
 
 
 ;; https://linoxide.com/linux-how-to/install-adobe-flash-player-linux-terminal/
@@ -387,10 +391,11 @@
               ("libvpx"        ,libvpx-1.7)
               ("libfdk"        ,libfdk)
               ("libtheora"     ,libtheora)
+              ("speex"         ,speex)
               ("opus"          ,opus)
               ("x265"          ,x265)
               ("xvid"          ,xvid)
-              ("libxv"         ,libxvid)
+              ("libxv"         ,libxv)
 
               ("gst-libav"        ,gst-libav)
               ("gst-plugins-base" ,gst-plugins-base)
