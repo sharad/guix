@@ -2,22 +2,7 @@
 (define-module (lotus build patchelf-utils)
   #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-26)
-  ;; #:use-module ((guix licenses) #:prefix license:)
-  ;; #:use-module (guix utils)
   #:use-module (guix build utils)
-  ;;#:use-module (gnu packages bootstrap)
-  ;; #:use-module (guix packages)
-  ;; #:use-module (guix download)
-  ;; #:use-module (guix build-system gnu)
-  ;; #:use-module (guix build-system trivial)
-  ;; #:use-module (gnu packages)
-  ;; #:use-module (gnu packages bootstrap)
-  ;; #:use-module (gnu packages base)
-  ;; #:use-module (gnu packages gcc)
-  ;; #:use-module (gnu packages compression)
-  ;; #:use-module (gnu packages elf)
-  ;; #:use-module (gnu packages xorg)
-  ;; #:use-module (gnu packages gtk)
   #:use-module (srfi srfi-1)
   #:use-module (rnrs bytevectors)
   #:use-module (rnrs io ports)
@@ -44,9 +29,19 @@
 ;; https://stackoverflow.com/questions/38189169/elf-pie-aslr-and-everything-in-between-specifically-within-linux
 
 (define (elf-pie-file? file)
+  (define (get-header)
+    (call-with-input-file file
+      (lambda (port)
+        (get-bytevector-n port len))
+      #:binary #t #:guess-encoding #f))
   (= 3 (last (bytevector->u8-list (get-header file 17)))))
 
 (define (elf-aslr-file? file)
+  (define (get-header)
+    (call-with-input-file file
+      (lambda (port)
+        (get-bytevector-n port len))
+      #:binary #t #:guess-encoding #f))
   (= 2 (last (bytevector->u8-list (get-header file 17)))))
 
 (define (regular-file? file)
