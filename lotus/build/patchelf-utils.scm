@@ -22,6 +22,8 @@
   #:use-module (rnrs io ports)
   #:export (library-file?
             elf-binary-file?
+            elf-pie-file?
+            elf-aslr-file?
             regular-file?
             directory?
             directory-list-files))
@@ -38,10 +40,6 @@
        (executable-file? file)
        (elf-file? file)))
 
-(define (regular-file? file)
-  (and (not (library-file? file))
-       (not (elf-binary-file? file))))
-
 ;; https://stackoverflow.com/questions/38189169/elf-pie-aslr-and-everything-in-between-specifically-within-linux
 
 (define (elf-pie-file? file)
@@ -49,6 +47,10 @@
 
 (define (elf-aslr-file? file)
   (= 2 (last (bytevector->u8-list (get-header file 17)))))
+
+(define (regular-file? file)
+  (and (not (library-file? file))
+       (not (elf-binary-file? file))))
 
 (define (directory? file)
   (let ((stat (stat file)))
