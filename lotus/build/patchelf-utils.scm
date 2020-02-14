@@ -18,6 +18,7 @@
   ;; #:use-module (gnu packages elf)
   ;; #:use-module (gnu packages xorg)
   ;; #:use-module (gnu packages gtk)
+  #:use-module (srfi srfi-1)
   #:use-module (rnrs bytevectors)
   #:use-module (rnrs io ports)
   #:export (library-file?
