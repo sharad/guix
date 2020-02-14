@@ -191,7 +191,7 @@
               (method url-fetch)
               (uri
                (string-append "http://mirrors.kernel.org/ubuntu/pool/multiverse/f/freshplayerplugin/browser-plugin-freshplayer-pepperflash_" version "_amd64.deb"))
-              (file-name (string-append "browser-plugin-freshplayer-pepperflash-" version ".deb"))
+              (file-name (string-append name "-" version ".deb"))
               (sha256
                (base32
                 "0hwwx1962kky8hw3bdf8rrjhhjalf635y3v391i83wgmk3zzfcjm"))))
@@ -439,7 +439,7 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
               (method url-fetch)
               (uri
                (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_u18.deb"))
-              (file-name (string-append "browser-plugin-freshplayer-pepperflash-" version ".deb"))
+              (file-name (string-append name "-" version ".deb"))
               (sha256
                (base32
                 "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
@@ -453,4 +453,29 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
     (license license:ibmpl1.0)))
 
 
+(define-public deb-forticlient-sslvpn
+  (package
+    (name "deb-forticlient-sslvpn")
+    (version "4.4.2333-1")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append "https://hadler.me/files/forticlient-sslvpn_" version "_amd64.deb"))
+              (file-name (string-append name "-" version ".deb"))
+              (sha256 (base32 "0xpq8imbsglsisvfyxj75a9lg3jwxb6n4rnd3zp9mbzk5liad4xg"))))
+    (build-system deb:deb-build-system)
+    (inputs
+     `(("gtk+-2"    ,gtk+-2)
+       ("libsm"     ,libsm)))
+    (arguments `(#:input-lib-mapping '(("out" "lib"))
+                 #:phases            (modify-phases %standard-phases
+                                       (delete 'validate-runpath))))
+    (synopsis "")
+    (description "")
+    (home-page "https://www.forticlient.com/repoinfo")
+    (license license:ibmpl1.0)))
 
+
+
+
+deb-forticlient-sslvpn
