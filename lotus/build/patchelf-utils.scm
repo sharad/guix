@@ -18,6 +18,8 @@
   ;; #:use-module (gnu packages elf)
   ;; #:use-module (gnu packages xorg)
   ;; #:use-module (gnu packages gtk)
+  #:use-module (rnrs bytevectors)
+  #:use-module (rnrs io ports)
   #:export (library-file?
             elf-binary-file?
             regular-file?
@@ -39,6 +41,14 @@
 (define (regular-file? file)
   (and (not (library-file? file))
        (not (elf-binary-file? file))))
+
+;; https://stackoverflow.com/questions/38189169/elf-pie-aslr-and-everything-in-between-specifically-within-linux
+
+(define (elf-pie-file? file)
+  (= 3 (last (bytevector->u8-list (get-header file 17)))))
+
+(define (elf-aslr-file? file)
+  (= 2 (last (bytevector->u8-list (get-header file 17)))))
 
 (define (directory? file)
   (let ((stat (stat file)))
