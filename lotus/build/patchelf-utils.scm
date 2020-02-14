@@ -27,12 +27,34 @@
        (elf-file? file)))
 
 ;; https://stackoverflow.com/questions/38189169/elf-pie-aslr-and-everything-in-between-specifically-within-linux
+;; TODO
+;; (define (file-header-loc-match loc num)
+;;   "Return a procedure that returns true when its argument is a file starting
+;; with the bytes in HEADER, a bytevector."
+;;   (define len
+;;     (bytevector-length header))
+;;
+;;   (lambda (file)
+;;     "Return true if FILE starts with the right magic bytes."
+;;     (define (get-header)
+;;       (call-with-input-file file
+;;         (lambda (port)
+;;           (get-bytevector-n port len))
+;;         #:binary #t #:guess-encoding #f))
+;;
+;;     (catch 'system-error
+;;       (lambda ()
+;;         (equal? (get-header) header))
+;;       (lambda args
+;;         (if (= EISDIR (system-error-errno args))
+;;             #f                                    ;FILE is a directory
+;;             (apply throw args))))))
 
 (define (elf-pie-file? file)
   (define (get-header)
     (call-with-input-file file
       (lambda (port)
-        (get-bytevector-n port len))
+        (get-bytevector-n port 17))
       #:binary #t #:guess-encoding #f))
   (= 3 (last (bytevector->u8-list (get-header file 17)))))
 
@@ -40,7 +62,7 @@
   (define (get-header)
     (call-with-input-file file
       (lambda (port)
-        (get-bytevector-n port len))
+        (get-bytevector-n port 17))
       #:binary #t #:guess-encoding #f))
   (= 2 (last (bytevector->u8-list (get-header file 17)))))
 
