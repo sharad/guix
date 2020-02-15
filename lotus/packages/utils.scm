@@ -484,9 +484,9 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
                                                            (mkdir-p (dirname trg))
                                                            (rename-file src trg)))
                                                        (find-files "forticlient-sslvpn"))
-                                             (mkdir-p (string-append source "bin"))
+                                             (mkdir-p (string-append source "/bin"))
                                              (symlink "../share/forticlient-sslvpn/64bit/forticlientsslvpn_cli"
-                                                      (string-append source "bin/forticlientsslvpn_cli"))
+                                                      (string-append source "/bin/forticlientsslvpn_cli"))
                                              #t))))))
     (synopsis "")
     (description "")
