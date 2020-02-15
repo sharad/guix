@@ -465,11 +465,32 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
               (sha256 (base32 "0xpq8imbsglsisvfyxj75a9lg3jwxb6n4rnd3zp9mbzk5liad4xg"))))
     (build-system deb:deb-build-system)
     (inputs
-     `(("gtk+-2"    ,gtk+-2)
-       ("libsm"     ,libsm)))
+     `(("libc"    ,glibc)
+       ("gcc:lib" ,gcc "lib")
+       ("gtk+-2"  ,gtk+-2)
+       ("libsm"   ,libsm)))
     (arguments `(#:input-lib-mapping '(("out" "lib"))
                  #:phases            (modify-phases %standard-phases
-                                       (delete 'validate-runpath))))
+                                       (delete 'validate-runpath)
+                                       (add-after
+                                          'unpack 'changedir
+                                        (lambda* (#:key inputs outputs #:allow-other-keys)
+                                          ;; (chdir "..")
+                                          (let ((cwd (getcwd)))
+                                            (begin
+                                              (let* ((source (string-append (getcwd))) ;; "/unpack"
+                                                     (share  (string-append source "/share")))
+                                                (mkdir-p share)
+                                                (for-each (lambda (file)
+                                                            (let ((src (string-append source "/" file))
+                                                                  (trg (string-append source "/share/" file)))
+                                                              (mkdir-p (dirname trg))
+                                                              (rename-file src trg)))
+                                                          (find-files "forticlient-sslvpn"))
+                                                (mkdir-p (string-append source "bin"))
+                                                (symlink "../share/forticlient-sslvpn/64bit/forticlientsslvpn_cli"
+                                                         (string-append source "bin/forticlientsslvpn_cli"))))
+                                            #t))))))
     (synopsis "")
     (description "")
     (home-page "https://www.forticlient.com/repoinfo")
