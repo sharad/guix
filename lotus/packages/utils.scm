@@ -475,11 +475,8 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
                                        (add-after
                                           'unpack 'changedir
                                         (lambda* (#:key inputs outputs #:allow-other-keys)
-                                          ;; (chdir "..")
-                                          (let ((cwd (getcwd)))
-                                            (begin
-                                              (let* ((source (string-append (getcwd))) ;; "/unpack"
-                                                     (share  (string-append source "/share")))
+                                          (let* ((source (string-append (getcwd)) ;; "/unpack"
+                                                     (share  (string-append source "/share"))))
                                                 (mkdir-p share)
                                                 (for-each (lambda (file)
                                                             (let ((src (string-append source "/" file))
@@ -489,7 +486,7 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
                                                           (find-files "forticlient-sslvpn"))
                                                 (mkdir-p (string-append source "bin"))
                                                 (symlink "../share/forticlient-sslvpn/64bit/forticlientsslvpn_cli"
-                                                         (string-append source "bin/forticlientsslvpn_cli"))))
+                                                         (string-append source "bin/forticlientsslvpn_cli"))
                                             #t))))))
     (synopsis "")
     (description "")
