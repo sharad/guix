@@ -70,7 +70,7 @@
                     (commit version)))
               (sha256
                (base32
-                "1pw9mwwfx0k7xqriavhiffh706sh44gfl991c4afh84903wabq7l"))))
+                "1kd5n55rc3cwzggxka15qrpscnajmckkqdpkdf3x6z2hirl98ghm"))))
     (build-system gnu:gnu-build-system)
     (inputs
      `(("bzip2" ,bzip2)
@@ -244,7 +244,7 @@
   ;; 
   (package
    (name "patchelf-adobe-flashplugin")
-   (version "32.0.0.314")
+   (version "32.0.0.330")
    (source (origin
             (method url-fetch)
             (uri
@@ -252,7 +252,7 @@
             (file-name (string-append "flash_player_npapi_linux.x86_64.tar.gz"))
             (sha256
              (base32
-              "0a3hvp0qmqlann8k875ajf0i70cv0an1a3mr8kbgji46dxqvwjxz"))))
+              "1pf3k1x8c2kbkc9pf9y5n4jilp3g41v8v0q5ng77sbnl92s35zsj"))))
    (build-system patchelf:patchelf-build-system)
    (inputs `(("libc"          ,glibc)
              ("gcc:lib"       ,gcc "lib")
