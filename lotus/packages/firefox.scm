@@ -198,8 +198,9 @@
                          ("zip" ,zip)
                          ("zlib" ,zlib)
 
-                         (when ,firefox-include-adobe-flash
-                           ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))))
+                         ,@(if firefox-include-adobe-flash
+                               (list `("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))
+                               `())))
 
 (define firefox-phases `(modify-phases %standard-phases
                                 (add-after
