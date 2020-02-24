@@ -241,7 +241,6 @@
     (license license:ibmpl1.0)))
 
 (define-public patchelf-adobe-flashplugin
-  ;; 
   (package
    (name "patchelf-adobe-flashplugin")
    (version "32.0.0.330")
@@ -452,7 +451,6 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
     (home-page "https://www.forticlient.com/repoinfo")
     (license license:ibmpl1.0)))
 
-
 (define-public deb-forticlient-sslvpn
   (package
     (name "deb-forticlient-sslvpn")
@@ -493,7 +491,3 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
     (home-page "https://www.forticlient.com/repoinfo")
     (license license:ibmpl1.0)))
 
-
-
-
-deb-forticlient-sslvpn

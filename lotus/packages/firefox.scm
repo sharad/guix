@@ -101,123 +101,107 @@
 ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
 ;; https://fpdownload.adobe.com/get/flashplayer/pdc/32.0.0.303/flash_player_npapi_linux.x86_64.tar.gz
 
+(define firefox-include-adobe-flash #t)
 
-(define-public firefox-56.0
-  ;; (hidden-package)
-  (package
-   (name "firefox-56.0")
-   (version "56.0")
-   (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
-              (file-name (string-append "firefox-" version ".tar.bz2"))
-              (sha256
-               (base32
-                "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
-   (build-system patchelf-build-system)
-   (inputs  `(("libc"          ,glibc)
-              ("gcc:lib"       ,gcc "lib")
-              ("dbus"          ,dbus)
-              ("libxcomposite" ,libxcomposite)
-              ("libxt"         ,libxt)
-              ("gtk+"          ,gtk+)
-              ("atk"           ,atk)
-              ("cairo"         ,cairo)
-              ("dbus-glib"     ,dbus-glib)
-              ("fontconfig"    ,fontconfig)
-              ("freetype"      ,freetype)
-              ("gdk-pixbuf"    ,gdk-pixbuf)
-              ("glib"          ,glib)
-              ("glibc"         ,glibc)
-              ("libx11"        ,libx11)
-              ("libxcb"        ,libxcb)
-              ("libxdamage"    ,libxdamage)
-              ("libxext"       ,libxext)
-              ("libxfixes"     ,libxfixes)
-              ("libxrender"    ,libxrender)
-              ("pango"         ,pango)
-              ("pulseaudio"    ,pulseaudio)
-              ("libogg"        ,libogg)
-              ("libvorbis"     ,libvorbis)
-              ("libevent"      ,libevent)
-              ("libxinerama"   ,libxinerama)
-              ("libxscrnsaver" ,libxscrnsaver)
-              ("libffi"        ,libffi)
-              ("ffmpeg"        ,ffmpeg)
-              ("libvpx"        ,libvpx-1.7)
+(define firefox-inputs `(("libc"          ,glibc)
+                         ("gcc:lib"       ,gcc "lib")
+                         ("dbus"          ,dbus)
+                         ("libxcomposite" ,libxcomposite)
+                         ("libxt"         ,libxt)
+                         ("gtk+"          ,gtk+)
+                         ("atk"           ,atk)
+                         ("cairo"         ,cairo)
+                         ("dbus-glib"     ,dbus-glib)
+                         ("fontconfig"    ,fontconfig)
+                         ("freetype"      ,freetype)
+                         ("gdk-pixbuf"    ,gdk-pixbuf)
+                         ("glib"          ,glib)
+                         ("glibc"         ,glibc)
+                         ("libx11"        ,libx11)
+                         ("libxcb"        ,libxcb)
+                         ("libxdamage"    ,libxdamage)
+                         ("libxext"       ,libxext)
+                         ("libxfixes"     ,libxfixes)
+                         ("libxrender"    ,libxrender)
+                         ("pango"         ,pango)
+                         ("pulseaudio"    ,pulseaudio)
+                         ("libogg"        ,libogg)
+                         ("libvorbis"     ,libvorbis)
+                         ("libevent"      ,libevent)
+                         ("libxinerama"   ,libxinerama)
+                         ("libxscrnsaver" ,libxscrnsaver)
+                         ("libffi"        ,libffi)
+                         ("ffmpeg"        ,ffmpeg)
+                         ("libvpx"        ,libvpx-1.7)
 
-              ;; machine hang
-
-              ;; ("libfdk"        ,libfdk)
-              ;; ("libtheora"     ,libtheora)
-              ;; ("wavpack"       ,wavpack)
-              ;; ("libwebp"       ,libwebp)
-              ;; ("speex"         ,speex)
-              ;; ("opus"          ,opus)
-              ;; ("x265"          ,x265)
-              ;; ("xvid"          ,xvid)
-              ;; ("libxv"         ,libxv)
+                         ;; machine hang
+                         ;; ("libfdk"        ,libfdk)
+                         ;; ("libtheora"     ,libtheora)
+                         ;; ("wavpack"       ,wavpack)
+                         ;; ("libwebp"       ,libwebp)
+                         ;; ("speex"         ,speex)
+                         ;; ("opus"          ,opus)
+                         ;; ("x265"          ,x265)
+                         ;; ("xvid"          ,xvid)
+                         ;; ("libxv"         ,libxv)
 
 
 
-              ("gst-libav"        ,gst-libav)
-              ("gst-plugins-base" ,gst-plugins-base)
-              ("gst-plugins-good" ,gst-plugins-good)
-              ("gst-plugins-bad"  ,gst-plugins-bad)
-              ("gst-plugins-ugly" ,gst-plugins-ugly)
-              ("gst123"           ,gst123)
-              ("gstreamer"     ,gstreamer)
-              ("openh264"      ,openh264)
-              ("libsmpeg"      ,libsmpeg)
-              ("libmpeg2"      ,libmpeg2)
-              ;; ("libmad"        ,libmad)
+                         ("gst-libav"        ,gst-libav)
+                         ("gst-plugins-base" ,gst-plugins-base)
+                         ("gst-plugins-good" ,gst-plugins-good)
+                         ("gst-plugins-bad"  ,gst-plugins-bad)
+                         ("gst-plugins-ugly" ,gst-plugins-ugly)
+                         ("gst123"           ,gst123)
+                         ("gstreamer"     ,gstreamer)
+                         ("openh264"      ,openh264)
+                         ("libsmpeg"      ,libsmpeg)
+                         ("libmpeg2"      ,libmpeg2)
+                         ;; ("libmad"        ,libmad)
 
-              ("vlc"  ,vlc)
-              ("alsa-lib" ,alsa-lib)
-              ("bzip2" ,bzip2)
-              ("cups" ,cups)
-              ("dbus-glib" ,dbus-glib)
-              ("gdk-pixbuf" ,gdk-pixbuf)
-              ("glib" ,glib)
-              ("gtk+" ,gtk+)
-              ("gtk+-2" ,gtk+-2)
-              ("graphite2" ,graphite2)
-              ("pango" ,pango)
-              ("freetype" ,freetype)
-              ("harfbuzz" ,harfbuzz)
-              ("libcanberra" ,libcanberra)
-              ("libgnome" ,libgnome)
-              ("libjpeg-turbo" ,libjpeg-turbo)
-              ("libogg" ,libogg)
-              ;; ("libtheora" ,libtheora) ; wants theora-1.2, not yet released
-              ("libvorbis" ,libvorbis)
-              ("libxft" ,libxft)
-              ("libevent" ,libevent)
-              ("libxinerama" ,libxinerama)
-              ("libxscrnsaver" ,libxscrnsaver)
-              ("libxcomposite" ,libxcomposite)
-              ("libxt" ,libxt)
-              ("libffi" ,libffi)
-              ("ffmpeg" ,ffmpeg)
-              ("libvpx" ,libvpx-1.7)
-              ("icu4c" ,icu4c)
-              ("pixman" ,pixman)
-              ("pulseaudio" ,pulseaudio)
-              ("mesa" ,mesa)
-              ("mit-krb5" ,mit-krb5)
-              ("sqlite" ,sqlite)
-              ("startup-notification" ,startup-notification)
-              ("unzip" ,unzip)
-              ("zip" ,zip)
-              ("zlib" ,zlib)
+                         ("vlc"  ,vlc)
+                         ("alsa-lib" ,alsa-lib)
+                         ("bzip2" ,bzip2)
+                         ("cups" ,cups)
+                         ("dbus-glib" ,dbus-glib)
+                         ("gdk-pixbuf" ,gdk-pixbuf)
+                         ("glib" ,glib)
+                         ("gtk+" ,gtk+)
+                         ("gtk+-2" ,gtk+-2)
+                         ("graphite2" ,graphite2)
+                         ("pango" ,pango)
+                         ("freetype" ,freetype)
+                         ("harfbuzz" ,harfbuzz)
+                         ("libcanberra" ,libcanberra)
+                         ("libgnome" ,libgnome)
+                         ("libjpeg-turbo" ,libjpeg-turbo)
+                         ("libogg" ,libogg)
+                         ;; ("libtheora" ,libtheora) ; wants theora-1.2, not yet released
+                         ("libvorbis" ,libvorbis)
+                         ("libxft" ,libxft)
+                         ("libevent" ,libevent)
+                         ("libxinerama" ,libxinerama)
+                         ("libxscrnsaver" ,libxscrnsaver)
+                         ("libxcomposite" ,libxcomposite)
+                         ("libxt" ,libxt)
+                         ("libffi" ,libffi)
+                         ("ffmpeg" ,ffmpeg)
+                         ("libvpx" ,libvpx-1.7)
+                         ("icu4c" ,icu4c)
+                         ("pixman" ,pixman)
+                         ("pulseaudio" ,pulseaudio)
+                         ("mesa" ,mesa)
+                         ("mit-krb5" ,mit-krb5)
+                         ("sqlite" ,sqlite)
+                         ("startup-notification" ,startup-notification)
+                         ("unzip" ,unzip)
+                         ("zip" ,zip)
+                         ("zlib" ,zlib)
 
-              ;; ("deb-adobe-flashplugin" ,deb-adobe-flashplugin)
-              ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin)))
-   (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
-                                      ("adobe-flashplugin" "lib/adobe-flashplugin/")
-                                      ("out" "share/firefox/lib"))
-                #:phases      (modify-phases %standard-phases
+                         (when ,firefox-include-adobe-flash
+                           ("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))))
+
+(define firefox-phases `(modify-phases %standard-phases
                                 (add-after
                                     'build 'rearrange
                                   (lambda* (#:key inputs outputs #:allow-other-keys)
@@ -276,7 +260,7 @@
                                        (mkdir-p "lib")
                                        (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
-                                      (if #t
+                                      (if ,firefox-include-adobe-flash
                                           (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
                                                    (string-append firefox-bin "/browser/plugins"))
                                           (begin
@@ -291,30 +275,6 @@
                                                       (list (string-append firefox-bin "/browser/plugins/" "libflashplayer.so")
                                                             (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so")))))
                                       #t)))
-                                ;; (replace 'strip
-                                ;;   (lambda (#:key target outputs (strip-binaries? #t)
-                                ;;            (strip-command (if target
-                                ;;                               (string-append target "-strip")
-                                ;;                               "strip"))
-                                ;;            (objcopy-command (if target
-                                ;;                                 (string-append target "-objcopy")
-                                ;;                                 "objcopy"))
-                                ;;            (strip-flags '("--strip-debug"
-                                ;;                           "--enable-deterministic-archives"))
-                                ;;            (strip-directories '("share/firefox/lib"
-                                ;;                                 "share/firefox/lib64"
-                                ;;                                 "share/firefox/libexec"
-                                ;;                                 "share/firefox/bin"
-                                ;;                                 "share/firefox/sbin"))
-                                ;;            #:allow-other-keys)
-                                ;;     (define gnu:strip (assoc-ref gnu:%standard-phases 'strip))
-                                ;;     (gnu:strip #:target            target
-                                ;;                #:outputs           outputs
-                                ;;                #:strip-binaries?   strip-binaries?
-                                ;;                #:strip-command     strip-command
-                                ;;                #:objcopy-command   objcopy-command
-                                ;;                #:strip-flags       strip-flags
-                                ;;                #:strip-directories strip-directories)))
                                 (replace 'validate-runpath
                                          (lambda* (#:key (validate-runpath? #t)
                                                          (elf-directories '("share/firefox/lib"
@@ -327,7 +287,23 @@
                                            (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
                                            (gnu:validate-runpath #:validate-runpath? validate-runpath?
                                                                  #:elf-directories   elf-directories
-                                                                 #:outputs           outputs))))))
+                                                                 #:outputs           outputs)))))
+
+(define-public firefox-56.0
+  ;; (hidden-package)
+  (package
+   (name "firefox-56.0")
+   (version "56.0")
+   (source (origin (method    url-fetch)
+                   (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+                   (file-name (string-append "firefox-" version ".tar.bz2"))
+                   (sha256    (base32 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
+   (build-system patchelf-build-system)
+   (inputs  firefox-inputs)
+   (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
+                                      ("adobe-flashplugin" "lib/adobe-flashplugin/")
+                                      ("out" "share/firefox/lib"))
+                #:phases      ,firefox-phases))
    (synopsis "Firefox")
    (description "Firefox.")
    (home-page "https://www.mozilla.org")
