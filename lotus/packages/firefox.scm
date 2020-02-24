@@ -203,92 +203,92 @@
                                `())))
 
 (define firefox-phases `(modify-phases %standard-phases
-                                (add-after
-                                    'build 'rearrange
-                                  (lambda* (#:key inputs outputs #:allow-other-keys)
-                                    ;; This overwrites the installed launcher, which execs xulrunner,
-                                    ;; with one that execs 'icecat --app'
-                                    ;; (define source (getcwd))
-                                    ;; (use-modules (lotus build patchelf-utils))
-                                    (define (required-link? file)
-                                      (or (directory? file)
-                                          (string-suffix? ".sh"  file)
-                                          (string-suffix? ".dat" file)
-                                          (string-suffix? ".xml" file)
-                                          (string-suffix? ".ja"  file)))
-                                    (let* ((source           (getcwd))
-                                           (files-to-arrange (find-files source))
-                                           (firefox-dir      (string-append source      "/share/firefox"))
-                                           (firefox-lib      (string-append firefox-dir "/lib"))
-                                           (firefox-bin      (string-append firefox-dir "/bin"))
-                                           (firefox-misc     (string-append firefox-dir "/misc"))
-                                           (bin-dir          (string-append source      "/bin")))
-                                      (format #t "rearrange: outputs ~a~%" outputs)
-                                      (for-each (lambda (file)
-                                                  (let* ((stripped-file (string-drop file (string-length source)))
-                                                         (location      (cond ((library-file? file)
-                                                                               firefox-lib)
-                                                                              ((and (not (library-file? file))
-                                                                                    (elf-binary-file? file))
-                                                                               firefox-bin)
-                                                                              (#t (if (string=? (dirname stripped-file) "/")
-                                                                                      firefox-misc
-                                                                                      (string-append firefox-misc (dirname stripped-file))))))
-                                                         (target-file   (string-append location "/" (basename file))))
-                                                    (format #t "rearrange: src ~a -> target ~a~%" file target-file)
-                                                    (mkdir-p (dirname target-file))
-                                                    (rename-file file target-file)))
-                                                files-to-arrange)
-                                      (copy-file (string-append firefox-misc "/dependentlibs.list")
-                                                 (string-append firefox-bin "/dependentlibs.list"))
-                                      (invoke "sed" "-i" "s@^lib@../lib/lib@g"
-                                              (string-append firefox-bin "/dependentlibs.list"))
-                                      (mkdir-p bin-dir)
-                                      (symlink "../share/firefox/bin/firefox"  (string-append bin-dir "/firefox"))
-                                      (for-each (lambda (file)
-                                                  (format #t "misc: ~a~%" file)
-                                                  (let* ((rel-misc (string-drop firefox-misc (string-length (string-append source
-                                                                                                                           "/share/firefox/"))))
-                                                         (rfile    (string-append "../" rel-misc "/" file))
-                                                         (target   (string-append firefox-bin "/" (basename rfile))))
-                                                    (format #t "file: ~a ~a~%" rfile (string-append firefox-misc "/" file))
-                                                    (when (required-link? (string-append firefox-misc "/" file))
-                                                      (format #t "symlink ~a ~a~%" rfile target)
-                                                      (symlink rfile target))))
-                                                (directory-list-files firefox-misc))
+                                       (add-after
+                                        'build 'rearrange
+                                        (lambda* (#:key inputs outputs #:allow-other-keys)
+                                          ;; This overwrites the installed launcher, which execs xulrunner,
+                                          ;; with one that execs 'icecat --app'
+                                          ;; (define source (getcwd))
+                                          ;; (use-modules (lotus build patchelf-utils))
+                                          (define (required-link? file)
+                                            (or (directory? file)
+                                                (string-suffix? ".sh"  file)
+                                                (string-suffix? ".dat" file)
+                                                (string-suffix? ".xml" file)
+                                                (string-suffix? ".ja"  file)))
+                                          (let* ((source           (getcwd))
+                                                 (files-to-arrange (find-files source))
+                                                 (firefox-dir      (string-append source      "/share/firefox"))
+                                                 (firefox-lib      (string-append firefox-dir "/lib"))
+                                                 (firefox-bin      (string-append firefox-dir "/bin"))
+                                                 (firefox-misc     (string-append firefox-dir "/misc"))
+                                                 (bin-dir          (string-append source      "/bin")))
+                                            (format #t "rearrange: outputs ~a~%" outputs)
+                                            (for-each (lambda (file)
+                                                        (let* ((stripped-file (string-drop file (string-length source)))
+                                                               (location      (cond ((library-file? file)
+                                                                                     firefox-lib)
+                                                                                    ((and (not (library-file? file))
+                                                                                          (elf-binary-file? file))
+                                                                                     firefox-bin)
+                                                                                    (#t (if (string=? (dirname stripped-file) "/")
+                                                                                            firefox-misc
+                                                                                            (string-append firefox-misc (dirname stripped-file))))))
+                                                               (target-file   (string-append location "/" (basename file))))
+                                                          (format #t "rearrange: src ~a -> target ~a~%" file target-file)
+                                                          (mkdir-p (dirname target-file))
+                                                          (rename-file file target-file)))
+                                                      files-to-arrange)
+                                            (copy-file (string-append firefox-misc "/dependentlibs.list")
+                                                       (string-append firefox-bin "/dependentlibs.list"))
+                                            (invoke "sed" "-i" "s@^lib@../lib/lib@g"
+                                                    (string-append firefox-bin "/dependentlibs.list"))
+                                            (mkdir-p bin-dir)
+                                            (symlink "../share/firefox/bin/firefox"  (string-append bin-dir "/firefox"))
+                                            (for-each (lambda (file)
+                                                        (format #t "misc: ~a~%" file)
+                                                        (let* ((rel-misc (string-drop firefox-misc (string-length (string-append source
+                                                                                                                                 "/share/firefox/"))))
+                                                               (rfile    (string-append "../" rel-misc "/" file))
+                                                               (target   (string-append firefox-bin "/" (basename rfile))))
+                                                          (format #t "file: ~a ~a~%" rfile (string-append firefox-misc "/" file))
+                                                          (when (required-link? (string-append firefox-misc "/" file))
+                                                            (format #t "symlink ~a ~a~%" rfile target)
+                                                            (symlink rfile target))))
+                                                      (directory-list-files firefox-misc))
 
-                                      (begin
-                                       (mkdir-p "lib")
-                                       (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
+                                            (begin
+                                              (mkdir-p "lib")
+                                              (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
-                                      (if ,firefox-include-adobe-flash
-                                          (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
-                                                   (string-append firefox-bin "/browser/plugins"))
-                                          (begin
-                                            (mkdir-p (string-append firefox-bin "/browser/plugins"))
-                                            (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
-                                                       (string-append firefox-bin "/browser/plugins/" "libflashplayer.so"))
-                                            (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libpepflashplayer.so")
-                                                       (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so"))
-                                            (for-each (lambda (path)
-                                                        (let* ((stat (lstat path)))
-                                                          (chmod path (logior #o111 (stat:perms stat)))))
-                                                      (list (string-append firefox-bin "/browser/plugins/" "libflashplayer.so")
-                                                            (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so")))))
-                                      #t)))
-                                (replace 'validate-runpath
-                                         (lambda* (#:key (validate-runpath? #t)
-                                                         (elf-directories '("share/firefox/lib"
-                                                                            "share/firefox/lib64"
-                                                                            "share/firefox/libexec"
-                                                                            "share/firefox/bin"
-                                                                            "share/firefox/sbin"))
-                                                         outputs
-                                                         #:allow-other-keys)
-                                           (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
-                                           (gnu:validate-runpath #:validate-runpath? validate-runpath?
-                                                                 #:elf-directories   elf-directories
-                                                                 #:outputs           outputs)))))
+                                            (if ,firefox-include-adobe-flash
+                                                (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
+                                                         (string-append firefox-bin "/browser/plugins"))
+                                                (begin
+                                                  (mkdir-p (string-append firefox-bin "/browser/plugins"))
+                                                  (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
+                                                             (string-append firefox-bin "/browser/plugins/" "libflashplayer.so"))
+                                                  (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libpepflashplayer.so")
+                                                             (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so"))
+                                                  (for-each (lambda (path)
+                                                              (let* ((stat (lstat path)))
+                                                                (chmod path (logior #o111 (stat:perms stat)))))
+                                                            (list (string-append firefox-bin "/browser/plugins/" "libflashplayer.so")
+                                                                  (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so")))))
+                                            #t)))
+                                       (replace 'validate-runpath
+                                                (lambda* (#:key (validate-runpath? #t)
+                                                          (elf-directories '("share/firefox/lib"
+                                                                             "share/firefox/lib64"
+                                                                             "share/firefox/libexec"
+                                                                             "share/firefox/bin"
+                                                                             "share/firefox/sbin"))
+                                                          outputs
+                                                          #:allow-other-keys)
+                                                  (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
+                                                  (gnu:validate-runpath #:validate-runpath? validate-runpath?
+                                                                        #:elf-directories   elf-directories
+                                                                        #:outputs           outputs)))))
 
 (define-public firefox-56.0
   ;; (hidden-package)
