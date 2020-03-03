@@ -101,7 +101,7 @@
 ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
 ;; https://fpdownload.adobe.com/get/flashplayer/pdc/32.0.0.303/flash_player_npapi_linux.x86_64.tar.gz
 
-(define firefox-include-adobe-flash #t)
+(define firefox-include-adobe-flash #f)
 
 (define firefox-inputs `(("libc"          ,glibc)
                          ("gcc:lib"       ,gcc "lib")
@@ -135,15 +135,15 @@
                          ("libvpx"        ,libvpx-1.7)
 
                          ;; machine hang
-                         ;; ("libfdk"        ,libfdk)
-                         ;; ("libtheora"     ,libtheora)
-                         ;; ("wavpack"       ,wavpack)
-                         ;; ("libwebp"       ,libwebp)
-                         ;; ("speex"         ,speex)
-                         ;; ("opus"          ,opus)
-                         ;; ("x265"          ,x265)
-                         ;; ("xvid"          ,xvid)
-                         ;; ("libxv"         ,libxv)
+                         ("libfdk"        ,libfdk)
+                         ("libtheora"     ,libtheora)
+                         ("wavpack"       ,wavpack)
+                         ("libwebp"       ,libwebp)
+                         ("speex"         ,speex)
+                         ("opus"          ,opus)
+                         ("x265"          ,x265)
+                         ("xvid"          ,xvid)
+                         ("libxv"         ,libxv)
 
 
 
