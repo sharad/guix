@@ -125,9 +125,9 @@
     (propagated-inputs
       `(("python-lxml" ,python-lxml)
         ("python-pygments" ,python-pygments)))
-    #:phases
-    (modify-phases %standard-phases
-                   (delete 'check))
+    (arguments '(#:phases
+                 (modify-phases %standard-phases
+                                (delete 'check))))
     (home-page "https://github.com/jeffbr13/xq")
     (synopsis "Like jq but for XML and XPath.")
     (description "Like jq but for XML and XPath.")
