@@ -149,6 +149,47 @@
     (description "PDF parser and analyzer")
     (license license:expat)))
 
+(define-public python-ordereddict
+  (package
+    (name "python-ordereddict")
+    (version "1.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (pypi-uri "ordereddict" version))
+        (sha256
+          (base32
+            "07qvy11nvgxpzarrni3wrww3vpc9yafgi2bch4j2vvvc42nb8d8w"))))
+    (build-system python-build-system)
+    (home-page "UNKNOWN")
+    (synopsis
+      "A drop-in substitute for Py2.7's new collections.OrderedDict that works in Python 2.4-2.6.")
+    (description
+      "A drop-in substitute for Py2.7's new collections.OrderedDict that works in Python 2.4-2.6.")
+    (license #f)))
+
+(define-public python-xmlplain
+  (package
+    (name "python-xmlplain")
+    (version "1.6.0")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (pypi-uri "xmlplain" version))
+        (sha256
+          (base32
+            "1qyqfpbsl961p30zri6kp8jpdbmp04jk2n04b2qg2kbfnf5gmk59"))))
+    (build-system python-build-system)
+    (propagated-inputs
+      `(("python-ordereddict" ,python-ordereddict)
+        ("python-pyyaml" ,python-pyyaml)))
+    (home-page "https://github.com/guillon/xmlplain")
+    (synopsis "XML as plain object module")
+    (description "XML as plain object module")
+    (license #f)))
+
+
+
 ;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot-py-0.7.3.tar.gz
 ;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot_py-0.7.3-py3-none-any.whl
 ;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot_py-0.7.3.whl

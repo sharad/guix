@@ -240,7 +240,7 @@
                                                           (rename-file file target-file)))
                                                       files-to-arrange)
                                             (copy-file (string-append firefox-misc "/dependentlibs.list")
-                                                       (string-append firefox-bin "/dependentlibs.list"))
+                                                       (string-append firefox-bin  "/dependentlibs.list"))
                                             (invoke "sed" "-i" "s@^lib@../lib/lib@g"
                                                     (string-append firefox-bin "/dependentlibs.list"))
                                             (mkdir-p bin-dir)
@@ -262,8 +262,8 @@
                                               (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
                                             (when ,firefox-include-adobe-flash
-                                              (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin")
-                                                         (string-append firefox-bin "/browser/plugins"))
+                                              (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin"
+                                                         (string-append firefox-bin "/browser/plugins")))
                                               (begin
                                                 (mkdir-p (string-append firefox-bin "/browser/plugins"))
                                                 (copy-file (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin/" "libflashplayer.so")
