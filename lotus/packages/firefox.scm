@@ -202,7 +202,7 @@
                                        (list `("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))
                                        `())))
 
-(define firefox-inputs '(("libc"          ,glibc)
+(define firefox-inputs `(("libc"          ,glibc)
                          ("gcc:lib"       ,gcc "lib")
                          ("dbus"          ,dbus)
                          ("libxcomposite" ,libxcomposite)
@@ -215,7 +215,7 @@
                          ("freetype"      ,freetype)
                          ("gdk-pixbuf"    ,gdk-pixbuf)
                          ("glib"          ,glib)
-                         ("glibc"         ,glibc)
+                         ;; ("glibc"         ,glibc)
                          ("libx11"        ,libx11)
                          ("libxcb"        ,libxcb)
                          ("libxdamage"    ,libxdamage)
