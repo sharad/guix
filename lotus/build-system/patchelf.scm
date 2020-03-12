@@ -106,6 +106,7 @@
                                      %standard-phases))
                          (outputs '("out"))
                          (input-lib-mapping ''())
+                         (readonly-binaries ''())
                          (search-paths '())
                          (system (%current-system))
                          (guile #f)
@@ -131,6 +132,7 @@
                        #:phases ,phases
                        #:outputs %outputs
                        #:input-lib-mapping ,input-lib-mapping
+                       #:readonly-binaries ,readonly-binaries
                        ;; #:exclude ,exclude
                        #:search-paths ',(map search-path-specification->sexp
                                              search-paths)

@@ -46,6 +46,7 @@
                 outputs
                 inputs
                 (input-lib-mapping '())
+                (readonly-binaries '())
                 #:allow-other-keys)
   "Compile .el files."
 
@@ -88,6 +89,7 @@
                                              (find-lib input input-lib-mapping))))
                                      (append host-inputs
                                              outputs))))
+         (readonly-binaries readonly-binaries)
          (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
