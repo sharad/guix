@@ -49,12 +49,9 @@
     (version "6.0.8.0140_amd64")
     (source (origin
               (method url-fetch)
-              (uri
-               (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_u18.deb"))
+              (uri (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_u18.deb"))
               (file-name (string-append name "-" version ".deb"))
-              (sha256
-               (base32
-                "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
+              (sha256 (base32 "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
     (build-system deb:deb-build-system)
     (arguments `(#:input-lib-mapping '(("out" "lib"))
                  #:phases            (modify-phases %standard-phases
@@ -70,8 +67,7 @@
     (version "4.4.2333-1")
     (source (origin
               (method url-fetch)
-              (uri
-               (string-append "https://hadler.me/files/forticlient-sslvpn_" version "_amd64.deb"))
+              (uri (string-append "https://hadler.me/files/forticlient-sslvpn_" version "_amd64.deb"))
               (file-name (string-append name "-" version ".deb"))
               (sha256 (base32 "0xpq8imbsglsisvfyxj75a9lg3jwxb6n4rnd3zp9mbzk5liad4xg"))))
     (build-system deb:deb-build-system)
