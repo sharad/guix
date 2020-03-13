@@ -344,10 +344,6 @@
    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
    (license license:ibmpl1.0)))
 
-;; https://www.forticlient.com/repoinfo
-;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64.deb
-;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64_u18.deb
-
 
 (define-public gnash
   (package
@@ -429,65 +425,3 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
-
-(define-public deb-forticlient
-  (package
-    (name "deb-forticlient")
-    (version "6.0.8.0140_amd64")
-    (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_u18.deb"))
-              (file-name (string-append name "-" version ".deb"))
-              (sha256
-               (base32
-                "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
-    (build-system deb:deb-build-system)
-    (arguments `(#:input-lib-mapping '(("out" "lib"))
-                 #:phases            (modify-phases %standard-phases
-                                       (delete 'validate-runpath))))
-    (synopsis "")
-    (description "")
-    (home-page "https://www.forticlient.com/repoinfo")
-    (license license:ibmpl1.0)))
-
-(define-public deb-forticlient-sslvpn
-  (package
-    (name "deb-forticlient-sslvpn")
-    (version "4.4.2333-1")
-    (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "https://hadler.me/files/forticlient-sslvpn_" version "_amd64.deb"))
-              (file-name (string-append name "-" version ".deb"))
-              (sha256 (base32 "0xpq8imbsglsisvfyxj75a9lg3jwxb6n4rnd3zp9mbzk5liad4xg"))))
-    (build-system deb:deb-build-system)
-    (inputs
-     `(("libc"    ,glibc)
-       ("gcc:lib" ,gcc "lib")
-       ("gtk+-2"  ,gtk+-2)
-       ("libsm"   ,libsm)))
-    (arguments `(#:input-lib-mapping '(("out" "lib"))
-                 #:phases            (modify-phases %standard-phases
-                                       (delete 'validate-runpath)
-                                       (add-after
-                                          'unpack 'changedir
-                                         (lambda* (#:key inputs outputs #:allow-other-keys)
-                                           (let* ((source (string-append (getcwd)))
-                                                  (share  (string-append source "/share")))
-                                             (mkdir-p share)
-                                             (for-each (lambda (file)
-                                                         (let ((src (string-append source "/" file))
-                                                               (trg (string-append source "/share/" file)))
-                                                           (mkdir-p (dirname trg))
-                                                           (rename-file src trg)))
-                                                       (find-files "forticlient-sslvpn"))
-                                             (mkdir-p (string-append source "/bin"))
-                                             (symlink "../share/forticlient-sslvpn/64bit/forticlientsslvpn_cli"
-                                                      (string-append source "/bin/forticlientsslvpn_cli"))
-                                             #t))))))
-    (synopsis "")
-    (description "")
-    (home-page "https://www.forticlient.com/repoinfo")
-    (license license:ibmpl1.0)))
-

@@ -22,8 +22,10 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
-  #:use-module (guix build-system gnu)
-  #:use-module (guix build-system cmake)
+  #:use-module ((guix build-system gnu) #:prefix gnu:)
+  #:use-module ((guix build-system cmake) #:prefix cmake:)
+  #:use-module ((lotus build-system deb) #:prefix deb:)
+  #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
@@ -37,72 +39,68 @@
   #:use-module (gnu packages image)
   #:use-module (gnu packages gnome))
 
-(define-public forti-skype4pidgin
+;; https://www.forticlient.com/repoinfo
+;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64.deb
+;; https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_6.0.8.0140_amd64_u18.deb
 
-  ;; https://github.com/EionRobb/skype4pidgin/tree/master/skypeweb#windows
-  ;; http://www.webupd8.org/2016/07/chat-with-your-skype-friends-from.html
-
-  ;; Requires devel headers/libs for libpurple and libjson-glib [libglib2.0-dev, libjson-glib-dev and libpurple-dev]
-
-  ;; https://github.com/EionRobb/skype4pidgin/archive/1.5.tar.gz
-  ;; git clone git://github.com/EionRobb/skype4pidgin.git
-  ;; cd skype4pidgin/skypeweb
-  ;; make
-  ;; sudo make install
-
+(define-public deb-forticlient
   (package
-    (name "skype4pidgin")
-    (version "v1.2")
+    (name "deb-forticlient")
+    (version "6.0.8.0140_amd64")
     (source (origin
               (method url-fetch)
               (uri
-               (string-append "https://github.com/EionRobb/skype4pidgin/archive/" version ".tar.gz"))
-              (file-name (string-append name "-" version ".tar.gz"))
+               (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_u18.deb"))
+              (file-name (string-append name "-" version ".deb"))
               (sha256
                (base32
-                "0k21k3zzkz6z40l67fjb9p6ihimja2j11zlcxr530qd1cmcmjk50"))))
-    (build-system cmake-build-system)
-    (native-inputs
-     `(("pkg-config" ,pkg-config)
-       ("which"      ,which)))
+                "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
+    (build-system deb:deb-build-system)
+    (arguments `(#:input-lib-mapping '(("out" "lib"))
+                 #:phases            (modify-phases %standard-phases
+                                       (delete 'validate-runpath))))
+    (synopsis "")
+    (description "")
+    (home-page "https://www.forticlient.com/repoinfo")
+    (license license:ibmpl1.0)))
+
+(define-public deb-forticlient-sslvpn
+  (package
+    (name "deb-forticlient-sslvpn")
+    (version "4.4.2333-1")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append "https://hadler.me/files/forticlient-sslvpn_" version "_amd64.deb"))
+              (file-name (string-append name "-" version ".deb"))
+              (sha256 (base32 "0xpq8imbsglsisvfyxj75a9lg3jwxb6n4rnd3zp9mbzk5liad4xg"))))
+    (build-system deb:deb-build-system)
     (inputs
-     `(("pidgin"    ,pidgin)
-       ;; ("libgcrypt" ,libgcrypt)
-       ;; ("libwebp"   ,libwebp)
-       ;; ("gettext"   ,gnu-gettext)
-       ;; ("gtk+"      ,gtk+-2)
-       ;; ("zlib"      ,zlib)
-       ("glib"      ,glib)
-       ("json-glib" ,json-glib)))
-
-    ;; TODO: figure out solution 
-
-    ;; https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/messaging.scm#n1878
-
-    ;; https://github.com/EionRobb/skype4pidgin/blob/master/skypeweb/CMakeLists.txt
-
-    (arguments
-     `(#:tests? #f                            ; Run the test suite (this is the default)
-       ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
-       #:phases
-       (modify-phases %standard-phases
-         (add-after 'unpack 'change-dir
-           (lambda _ (chdir "skypeweb"))))))
-    ;; (arguments
-    ;;  `(#:modules ((guix build utils))
-    ;;              #:builder (begin)))
-    (synopsis "SkypeWeb Plugin for Pidgin")
-    (description "Adds a \"Skype (HTTP)\" protocol to the accounts list. Requires libjson-glib. GPLv3 Licenced.")
-    (home-page "https://github.com/EionRobb/skype4pidgin/tree/master/skypeweb#skypeweb-plugin-for-pidgin")
-    ;; Conkeror is triple licensed.
-    (license (list
-              ;; MPL 1.1 -- this license is not GPL compatible
-              license:gpl2
-              license:lgpl2.1))))
-
-
-
-
-
-
+     `(("libc"    ,glibc)
+       ("gcc:lib" ,gcc "lib")
+       ("gtk+-2"  ,gtk+-2)
+       ("libsm"   ,libsm)))
+    (arguments `(#:input-lib-mapping '(("out" "lib"))
+                 #:phases            (modify-phases %standard-phases
+                                       (delete 'validate-runpath)
+                                       (add-after
+                                          'unpack 'changedir
+                                         (lambda* (#:key inputs outputs #:allow-other-keys)
+                                           (let* ((source (string-append (getcwd)))
+                                                  (share  (string-append source "/share")))
+                                             (mkdir-p share)
+                                             (for-each (lambda (file)
+                                                         (let ((src (string-append source "/" file))
+                                                               (trg (string-append source "/share/" file)))
+                                                           (mkdir-p (dirname trg))
+                                                           (rename-file src trg)))
+                                                       (find-files "forticlient-sslvpn"))
+                                             (mkdir-p (string-append source "/bin"))
+                                             (symlink "../share/forticlient-sslvpn/64bit/forticlientsslvpn_cli"
+                                                      (string-append source "/bin/forticlientsslvpn_cli"))
+                                             #t))))))
+    (synopsis "")
+    (description "")
+    (home-page "https://www.forticlient.com/repoinfo")
+    (license license:ibmpl1.0)))
 
