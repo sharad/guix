@@ -50,21 +50,18 @@
 ;;             #f                                    ;FILE is a directory
 ;;             (apply throw args))))))
 
+(define (patchelf-get-header file len)
+  "Return true if FILE starts with the right magic bytes."
+  (call-with-input-file file
+    (lambda (port)
+      (get-bytevector-n port len))
+    #:binary #t #:guess-encoding #f))
+
 (define (elf-pie-file? file)
-  (define (get-header)
-    (call-with-input-file file
-      (lambda (port)
-        (get-bytevector-n port 17))
-      #:binary #t #:guess-encoding #f))
-  (= 3 (last (bytevector->u8-list (get-header file 17)))))
+  (= 3 (last (bytevector->u8-list (patchelf-get-header file 17)))))
 
 (define (elf-aslr-file? file)
-  (define (get-header)
-    (call-with-input-file file
-      (lambda (port)
-        (get-bytevector-n port 17))
-      #:binary #t #:guess-encoding #f))
-  (= 2 (last (bytevector->u8-list (get-header file 17)))))
+  (= 2 (last (bytevector->u8-list (patchelf-get-header file 17)))))
 
 (define (regular-file? file)
   (and (not (library-file? file))
