@@ -28,6 +28,7 @@
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
+  #:use-module (gnu packages gcc)
   #:use-module (gnu packages compression)
   #:use-module (gnu packages messaging)
   #:use-module (gnu packages elf)
