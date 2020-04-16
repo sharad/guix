@@ -132,7 +132,7 @@
                                  ("libxscrnsaver" ,libxscrnsaver)
                                  ("libffi"        ,libffi)
                                  ("ffmpeg"        ,ffmpeg)
-                                 ("libvpx"        ,libvpx-1.7)
+                                 ("libvpx"        ,libvpx)
 
                                  ;; machine hang
                                  ("libfdk"        ,libfdk)
@@ -186,7 +186,7 @@
                                  ("libxt" ,libxt)
                                  ("libffi" ,libffi)
                                  ("ffmpeg" ,ffmpeg)
-                                 ("libvpx" ,libvpx-1.7)
+                                 ("libvpx" ,libvpx)
                                  ("icu4c" ,icu4c)
                                  ("pixman" ,pixman)
                                  ("pulseaudio" ,pulseaudio)
@@ -231,7 +231,7 @@
                          ("libxscrnsaver" ,libxscrnsaver)
                          ("libffi"        ,libffi)
                          ("ffmpeg"        ,ffmpeg)
-                         ("libvpx"        ,libvpx-1.7)))
+                         ("libvpx"        ,libvpx)))
 
 (define firefox-phases `(modify-phases %standard-phases
                                        (add-after
