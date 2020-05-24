@@ -43,7 +43,7 @@
              (file-name "p4")
              (sha256
               (base32
-               "10bn2h5ncyk7pck5ris2ri8rhx0jjzn67xm8sn8c2a3dz3wbap0n"))))
+               "0ksk05vajkgbm4c4siprdjw4bpvg7dwy1niwdf7w2wkwx6r9zgz3"))))
    (build-system trivial-build-system)
    (inputs `(("libc" ,glibc)))
    (native-inputs
