@@ -86,11 +86,10 @@
     (version "20151014")
     (source (origin
               (method url-fetch)
-              (uri (string-append "http://www.jpl.org/elips/develock.el.gz"))
+              (uri (string-append "http://deb.debian.org/debian/pool/main/d/develock-el/develock-el_0.47.orig.tar.gz"))
               (sha256
                (base32
-                "0p5mhg2f632alc6mpc4ryz84af30vmc8r21jgg83ng3a1ac3h131"))))
-    (native-inputs `(("gzip"     ,gzip)))
+                "1zrkvg33cfwcqx7kd2x94pacmnxyinfx61rjlrmlbb8lpjwxvsn4"))))
     (build-system emacs-build-system)
     (arguments
      '(#:tests? #f ; no check target
@@ -98,11 +97,13 @@
        (modify-phases %standard-phases
          (replace 'unpack
            (lambda _
-             (let ((gzipbin (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip")))
-               (mkdir-p "/tmp/develock")
-               (chdir "/tmp/develock")
-               (system (string-append gzipbin " -dc " (assoc-ref %build-inputs "source") " > " "/tmp/develock/develock.el"))
-               #t))))))
+             ;; (let ((gzipbin (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip")))
+             ;;   (mkdir-p "/tmp/develock")
+             ;;   (chdir "/tmp/develock")
+             ;;   (system (string-append gzipbin " -dc " (assoc-ref %build-inputs "source") " > " "/tmp/develock/develock.el"))
+             ;;   #t)
+             (system (string-append gzipbin " -dc " (assoc-ref %build-inputs "source") " > " "/tmp/develock/develock.el"))
+             #t)))))
     (home-page "http://www.jpl.org/elips/")
     (synopsis "Emacs minor mode for to make font-lock highlight leading and trailing whitespace")
     (description
