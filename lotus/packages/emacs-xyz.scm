@@ -87,18 +87,22 @@
     (source (origin (method url-fetch)
                     (uri (string-append "http://deb.debian.org/debian/pool/main/d/develock-el/develock-el_" version ".orig.tar.gz"))
                     (sha256 (base32 "1zrkvg33cfwcqx7kd2x94pacmnxyinfx61rjlrmlbb8lpjwxvsn4"))))
+    (native-inputs
+     `(("gzip" ,gzip)
+       ("tar"  ,tar)))
     (build-system emacs-build-system)
     (arguments
-     '(#:tests? #f)) ; no check target
-       ;; #:phases
-       ;; (modify-phases %standard-phases
-       ;;   (replace 'unpack
-       ;;     (lambda _
-       ;;       (let ((gzipbin (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip")))
-       ;;         (mkdir-p "/tmp/develock")
-       ;;         (chdir "/tmp/develock")
-       ;;         (system (string-append gzipbin " -dc " (assoc-ref %build-inputs "source") " > " "/tmp/develock/develock.el"))
-       ;;         #t))))
+     '(#:tests? #f ; no check target
+       #:phases
+       (modify-phases %standard-phases
+         (replace 'unpack
+           (lambda _
+             (let ((gzipbin (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip"))
+                   (tarbin  (string-append (assoc-ref %build-inputs "tar")   "/bin/tar")))
+               (mkdir-p "/tmp/develock")
+               (chdir "/tmp/develock")
+               (system (string-append tarbin " -xf " (assoc-ref %build-inputs "source") " -C " "/tmp/develock/"))
+               #t))))))
     (home-page "http://www.jpl.org/elips/")
     (synopsis "Emacs minor mode for to make font-lock highlight leading and trailing whitespace")
     (description
@@ -109,5 +113,6 @@ Jde-mode , CPerl mode, Perl mode, HTML modes, some Mail modes, Tcl mode and Ruby
 mode. Here is an example of how to set up your startup file (possibly .emacs) to
 use.")
     (license license:gpl3+)))
+
 
 
