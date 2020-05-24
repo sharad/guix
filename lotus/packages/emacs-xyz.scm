@@ -83,16 +83,13 @@
 (define-public emacs-develock
   (package
     (name "emacs-develock")
-    (version "20151014")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append "http://deb.debian.org/debian/pool/main/d/develock-el/develock-el_0.47.orig.tar.gz"))
-              (sha256
-               (base32
-                "1zrkvg33cfwcqx7kd2x94pacmnxyinfx61rjlrmlbb8lpjwxvsn4"))))
+    (version "0.47")
+    (source (origin (method url-fetch)
+                    (uri (string-append "http://deb.debian.org/debian/pool/main/d/develock-el/develock-el_" version ".orig.tar.gz"))
+                    (sha256 (base32 "1zrkvg33cfwcqx7kd2x94pacmnxyinfx61rjlrmlbb8lpjwxvsn4"))))
     (build-system emacs-build-system)
     (arguments
-     '(#:tests? #f ; no check target
+     '(#:tests? #f)) ; no check target
        ;; #:phases
        ;; (modify-phases %standard-phases
        ;;   (replace 'unpack
@@ -102,7 +99,6 @@
        ;;         (chdir "/tmp/develock")
        ;;         (system (string-append gzipbin " -dc " (assoc-ref %build-inputs "source") " > " "/tmp/develock/develock.el"))
        ;;         #t))))
-       ))
     (home-page "http://www.jpl.org/elips/")
     (synopsis "Emacs minor mode for to make font-lock highlight leading and trailing whitespace")
     (description
