@@ -93,17 +93,16 @@
     (build-system emacs-build-system)
     (arguments
      '(#:tests? #f ; no check target
-       #:phases
-       (modify-phases %standard-phases
-         (replace 'unpack
-           (lambda _
-             ;; (let ((gzipbin (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip")))
-             ;;   (mkdir-p "/tmp/develock")
-             ;;   (chdir "/tmp/develock")
-             ;;   (system (string-append gzipbin " -dc " (assoc-ref %build-inputs "source") " > " "/tmp/develock/develock.el"))
-             ;;   #t)
-             (system (string-append gzipbin " -dc " (assoc-ref %build-inputs "source") " > " "/tmp/develock/develock.el"))
-             #t)))))
+       ;; #:phases
+       ;; (modify-phases %standard-phases
+       ;;   (replace 'unpack
+       ;;     (lambda _
+       ;;       (let ((gzipbin (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip")))
+       ;;         (mkdir-p "/tmp/develock")
+       ;;         (chdir "/tmp/develock")
+       ;;         (system (string-append gzipbin " -dc " (assoc-ref %build-inputs "source") " > " "/tmp/develock/develock.el"))
+       ;;         #t))))
+       ))
     (home-page "http://www.jpl.org/elips/")
     (synopsis "Emacs minor mode for to make font-lock highlight leading and trailing whitespace")
     (description
