@@ -120,17 +120,13 @@
                (base32
                 "1jjh9fjbp42ral20qinrb0hpdf8cg834mq8h4n7nyv5ar9pgqqmw"))))
     (build-system gnu:gnu-build-system)
-    (inputs `(
-              ("ppp"        ,ppp)
-              ("openssl" ,openssl)))
+    (inputs `(("openssl" ,openssl)))
     (native-inputs
-     `(
-       ("autoconf"   ,autoconf)
+     `(("autoconf"   ,autoconf)
        ("automake"   ,automake)
        ("libtool"    ,libtool)
-       ("ppp"        ,ppp)
        ("pkg-config" ,pkg-config)
-       ))
+       ("ppp"        ,ppp)))
     (synopsis "openfortivpn is a client for PPP+SSL VPN tunnel services.")
     (description "openfortivpn is a client for PPP+SSL VPN tunnel services. It
 spawns a pppd process and operates the communication between the gateway and
@@ -141,5 +137,4 @@ It is compatible with Fortinet VPNs.")
     (license license:gpl3+)))
 
 
-openfortivpn
 
