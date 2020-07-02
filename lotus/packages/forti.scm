@@ -28,6 +28,8 @@
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
+  #:use-module (gnu packages autotools)
+  #:use-module (gnu packages tls)
   #:use-module (gnu packages gcc)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages compression)
@@ -36,6 +38,7 @@
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages gettext)
   #:use-module (gnu packages glib)
+  #:use-module (gnu packages samba)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages gnupg)
   #:use-module (gnu packages image)
@@ -112,23 +115,31 @@
               (method url-fetch)
               (uri
                (string-append
-                "https://github.com/adrienverge/openfortivpn/archive/v" version ".zip"))
+                  "https://github.com/adrienverge/openfortivpn/archive/v" version ".tar.gz"))
               (sha256
                (base32
-                "17riwr21i9p1h17wpagfiwkpx9bbx7dy4gpdl219a11akm7saawb"))))
+                "1jjh9fjbp42ral20qinrb0hpdf8cg834mq8h4n7nyv5ar9pgqqmw"))))
     (build-system gnu:gnu-build-system)
-    (inputs `(("bdb" ,bdb)
-              ("libnsl" ,libnsl)))
+    (inputs `(
+              ("ppp"        ,ppp)
+              ("openssl" ,openssl)))
     (native-inputs
-     `(("autoconf"   ,autoconf)
+     `(
+       ("autoconf"   ,autoconf)
        ("automake"   ,automake)
        ("libtool"    ,libtool)
-       ("pppd"       ,pppd)
-       ("pkg-config" ,pkg-config)))
-    (synopsis "openfortivpn is a client for PPP+SSL VPN tunnel services. It
+       ("ppp"        ,ppp)
+       ("pkg-config" ,pkg-config)
+       ))
+    (synopsis "openfortivpn is a client for PPP+SSL VPN tunnel services.")
+    (description "openfortivpn is a client for PPP+SSL VPN tunnel services. It
 spawns a pppd process and operates the communication between the gateway and
 this process.
 
 It is compatible with Fortinet VPNs.")
     (home-page "https://github.com/adrienverge/openfortivpn/wiki")
-    (license license:gpl)))
+    (license license:gpl3+)))
+
+
+openfortivpn
+
