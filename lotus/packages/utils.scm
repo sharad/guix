@@ -437,7 +437,7 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
               (uri (git-reference
                     (url "https://github.com/sharad/nm-dnsmasq-ns.git")
                     (commit version)))
-              (sha256 (base32 "17r472z0d6yms5jri65v66fcwkdba4qfgl2nb0v4nfghg4qx2r98"))))
+              (sha256 (base32 "04d6pcll4wqzblqhzj89xmipzxdrwdsfrlzngacq7p9cmbykb44j"))))
 
     (build-system copy:copy-build-system)
                                           ; no idea how to chmod, or 
