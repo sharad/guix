@@ -102,3 +102,33 @@
     (home-page "https://www.forticlient.com/repoinfo")
     (license license:ibmpl1.0)))
 
+
+
+(define-public openfortivpn
+  (package
+    (name "openfortivpn")
+    (version "1.14.1")
+    (source (origin
+              (method url-fetch)
+              (uri
+               (string-append
+                "https://github.com/adrienverge/openfortivpn/archive/v" version ".zip"))
+              (sha256
+               (base32
+                "17riwr21i9p1h17wpagfiwkpx9bbx7dy4gpdl219a11akm7saawb"))))
+    (build-system gnu:gnu-build-system)
+    (inputs `(("bdb" ,bdb)
+              ("libnsl" ,libnsl)))
+    (native-inputs
+     `(("autoconf"   ,autoconf)
+       ("automake"   ,automake)
+       ("libtool"    ,libtool)
+       ("pppd"       ,pppd)
+       ("pkg-config" ,pkg-config)))
+    (synopsis "openfortivpn is a client for PPP+SSL VPN tunnel services. It
+spawns a pppd process and operates the communication between the gateway and
+this process.
+
+It is compatible with Fortinet VPNs.")
+    (home-page "https://github.com/adrienverge/openfortivpn/wiki")
+    (license license:gpl)))
