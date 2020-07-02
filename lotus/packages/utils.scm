@@ -24,6 +24,7 @@
   #:use-module ((guix build-system cmake) #:prefix cmake:)
   #:use-module ((lotus build-system deb) #:prefix deb:)
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
+  #:use-module ((guix  build-system copy) #:prefix copy:)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
@@ -425,3 +426,26 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
+
+
+(define-public nm-dnsmasq-ns
+  (package
+    (name "nm-dnsmasq-ns")
+    (version "master")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/sharad/nm-dnsmasq-ns.git")
+                    (commit version)))
+              (sha256 (base32 "01l9wnhlckz7m3vhykfx40ai0s896hy21hg4m2aj17c4znd3qs93"))))
+
+    (build-system copy:copy-build-system)
+                                          ; no idea how to chmod, or 
+    (synopsis "nm-dnsmasq-ns")
+    (description "nm-dnsmasq-ns")
+    (home-page "https://github.com/sharad/nm-dnsmasq-ns")
+    (license license:gpl3+)))
+
+
+
+
