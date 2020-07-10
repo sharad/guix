@@ -109,7 +109,7 @@
 
 (define openfortivpn-internal
   (package
-    (name "openfortivpn")
+    (name "openfortivpn-internal")
     (version "1.14.1")
     (source (origin
               (method url-fetch)
@@ -139,10 +139,12 @@ It is compatible with Fortinet VPNs.")
 
 (define-public openfortivpn-1.14.1
   (package (inherit openfortivpn-internal)
+           (name "openfortivpn")
            (version "1.14.1")))
 
 (define-public openfortivpn-master
   (package (inherit openfortivpn-internal)
+           (name "openfortivpn")
            (version "master")))
 
 (define-public openfortivpn openfortivpn-1.14.1)
