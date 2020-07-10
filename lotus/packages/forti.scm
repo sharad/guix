@@ -107,7 +107,7 @@
 
 
 
-(define-public openfortivpn
+(define openfortivpn-internal
   (package
     (name "openfortivpn")
     (version "1.14.1")
@@ -137,4 +137,13 @@ It is compatible with Fortinet VPNs.")
     (license license:gpl3+)))
 
 
+(define-public openfortivpn-1.14.1
+  (package (inherit openfortivpn-internal)
+           (version "1.14.1")))
+
+(define-public openfortivpn-master
+  (package (inherit openfortivpn-internal)
+           (version "master")))
+
+(define-public openfortivpn openfortivpn-master)
 
