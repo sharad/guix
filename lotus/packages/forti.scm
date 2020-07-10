@@ -145,5 +145,5 @@ It is compatible with Fortinet VPNs.")
   (package (inherit openfortivpn-internal)
            (version "master")))
 
-(define-public openfortivpn openfortivpn-master)
+(define-public openfortivpn openfortivpn-1.14.1)
 
