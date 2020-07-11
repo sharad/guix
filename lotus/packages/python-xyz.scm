@@ -7,7 +7,7 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages check)
   #:use-module (gnu packages xml)
-  #:use-module (gnu packages tmix)
+  #:use-module (gnu packages tmux)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-crypto))
 
