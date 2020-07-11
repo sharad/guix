@@ -192,6 +192,74 @@
     (license #f)))
 
 
+(define-public python-i3ipc
+  (package
+    (name "python-i3ipc")
+    (version "2.2.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (pypi-uri "i3ipc" version))
+        (sha256
+          (base32
+            "1s6crkdn7q8wmzl5d0pb6rdkhhbvp444yxilrgaylnbr2kbxg078"))))
+    (build-system python-build-system)
+    (propagated-inputs
+      `(("python-xlib" ,python-xlib)))
+    (home-page
+      "https://github.com/altdesktop/i3ipc-python")
+    (synopsis
+      "An improved Python library to control i3wm and sway")
+    (description
+      "An improved Python library to control i3wm and sway")
+    (license license:bsd-3)))
+
+(define-public python-rofi
+  (package
+    (name "python-rofi")
+    (version "1.0.1")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (pypi-uri "python-rofi" version))
+        (sha256
+          (base32
+            "0qbsg7x7qcqrm2b771z8r6f86v3zkafk49yg35xq1lgwl73vimpj"))))
+    (build-system python-build-system)
+    (home-page
+      "https://github.com/bcbnz/python-rofi")
+    (synopsis
+      "Create simple GUIs using the Rofi application")
+    (description
+      "Create simple GUIs using the Rofi application")
+    (license license:expat)))
+
+(define-public python-rofi-tmux
+  (package
+    (name "python-rofi-tmux")
+    (version "0.3")
+    (source
+      (origin
+        (method url-fetch)
+        (uri (pypi-uri "rofi-tmux" version))
+        (sha256
+          (base32
+            "19k8dhnzyvdb6maqyb6bx611kf6h8q2n25zjyr59sgnmi7v8y423"))))
+    (build-system python-build-system)
+    (propagated-inputs
+      `(("python-click" ,python-click)
+        ("python-i3ipc" ,python-i3ipc)
+        ("python-libtmux" ,python-libtmux)
+        ("python-rofi" ,python-rofi)))
+    (home-page
+      "http://github.com/viniarck/rofi-tmux")
+    (synopsis
+      "Quickly manages tmux sessions, windows and tmuxinator projects on Rofi")
+    (description
+      "Quickly manages tmux sessions, windows and tmuxinator projects on Rofi")
+    (license license:expat)))
+
+
 
 ;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot-py-0.7.3.tar.gz
 ;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot_py-0.7.3-py3-none-any.whl
