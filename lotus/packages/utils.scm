@@ -446,6 +446,8 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
     (home-page "https://github.com/sharad/nm-dnsmasq-ns")
     (license license:gpl3+)))
 
-
+(define-public rofi-master
+  (package (inherit rofi)
+           (version "master")))
 
 
