@@ -427,25 +427,6 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
               license:gpl2
               license:lgpl2.1))))
 
-
-(define-public nm-dnsmasq-ns
-  (package
-    (name "nm-dnsmasq-ns")
-    (version "master")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/sharad/nm-dnsmasq-ns.git")
-                    (commit version)))
-              (sha256 (base32 "04d6pcll4wqzblqhzj89xmipzxdrwdsfrlzngacq7p9cmbykb44j"))))
-
-    (build-system copy:copy-build-system)
-                                          ; no idea how to chmod, or 
-    (synopsis "nm-dnsmasq-ns")
-    (description "nm-dnsmasq-ns")
-    (home-page "https://github.com/sharad/nm-dnsmasq-ns")
-    (license license:gpl3+)))
-
 (define-public rofi-master
   (package (inherit rofi)
            (version "master")))
