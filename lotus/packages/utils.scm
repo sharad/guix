@@ -431,6 +431,14 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
 (define-public rofi-master
   (package (inherit rofi)
            (name "rofi-master")
-           (version "master")))
+           (version "master")
+           (source (origin
+                     (method git-fetch)
+                     (uri (git-reference
+                           (url "https://github.com/DaveDavenport/rofi.git")
+                           (commit version)))
+                     (sha256
+                      (base32
+                       "1gkxscx2knpj08nra6yjj2naa4q9s00zhs2k3qcvgqayg7gnlpr5"))))))
 
 
