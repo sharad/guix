@@ -54,6 +54,7 @@
   #:use-module (gnu packages nss)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages image)
+  #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages sdl)
   #:use-module (gnu packages graphics)
   #:use-module (gnu packages gstreamer))
