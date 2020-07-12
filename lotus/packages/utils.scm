@@ -439,6 +439,6 @@ Lightspark supports SWF files written on all versions of the ActionScript langua
                            (commit version)))
                      (sha256
                       (base32
-                       "1gkxscx2knpj08nra6yjj2naa4q9s00zhs2k3qcvgqayg7gnlpr5"))))))
+                       "0yf3iaqq4vgy9pickdd0zkniksczwjx7zripmsa0f54na9pny6lz"))))))
 
 
