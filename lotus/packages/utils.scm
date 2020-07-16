@@ -54,6 +54,7 @@
   #:use-module (gnu packages nss)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages image)
+  #:use-module (gnu packages xorg)
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages sdl)
   #:use-module (gnu packages graphics)
@@ -120,325 +121,95 @@
 (define-public pi-hole
   "https://github.com/pi-hole/pi-hole/blob/master/automated%20install/basic-install.sh")
 
-(define-public deb-adobe-flashplugin
-  ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
+(define-public libwm
   (package
-    (name "deb-adobe-flashplugin")
-    (version "20191210.1-0ubuntu0.19.10.2_amd64")
+    (name "libwm")
+    (version "1.0")
     (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_" version ".deb"))
-              (file-name (string-append "adobe-flashplugin-" version ".deb"))
-              (sha256
-               (base32
-                "0651ky7gdnvxckzp6bir79k2426krgqak1gd2dqwh521s3sk66gn"))))
-    (build-system deb:deb-build-system)
-    (inputs `(("libc"          ,glibc)
-              ("gcc:lib"       ,gcc "lib")
-              ("dbus"          ,dbus)
-              ("libxcomposite" ,libxcomposite)
-              ("libxt"         ,libxt)
-              ("gtk+"          ,gtk+)
-              ("atk"           ,atk)
-              ("cairo"         ,cairo)
-              ("dbus-glib"     ,dbus-glib)
-              ("fontconfig"    ,fontconfig)
-              ("freetype"      ,freetype)
-              ("gdk-pixbuf"    ,gdk-pixbuf)
-              ("glib"          ,glib)
-              ("glibc"         ,glibc)
-              ("libx11"        ,libx11)
-              ("libxcb"        ,libxcb)
-              ("libxdamage"    ,libxdamage)
-              ("libxext"       ,libxext)
-              ("libxfixes"     ,libxfixes)
-              ("libxrender"    ,libxrender)
-              ("pango"         ,pango)
-              ("pulseaudio"    ,pulseaudio)
-              ("libogg"        ,libogg)
-              ("libvorbis"     ,libvorbis)
-              ("libevent"      ,libevent)
-              ("libxinerama"   ,libxinerama)
-              ("libxscrnsaver" ,libxscrnsaver)
-              ("libffi"        ,libffi)
-              ("ffmpeg"        ,ffmpeg)
-              ("libvpx"        ,libvpx)
-              ("gtk+"          ,gtk+-2)
-              ("nspr"          ,nspr)
-              ("nss"           ,nss)))
-    (arguments `(#:input-lib-mapping '(("out" "lib")
-                                       ("nss" "lib/nss"))
-                 #:phases            (modify-phases %standard-phases
-                                       (add-after
-                                           'build 'correct-permission
-                                         (lambda* (#:key inputs outputs #:allow-other-keys)
-                                           (let* ((file (string-append "lib/adobe-flashplugin/" "libflashplayer.so"))
-                                                  (stat (lstat file)))
-                                             (chmod file (logior #o111 (stat:perms stat))))
-                                           (let* ((file (string-append "lib/adobe-flashplugin/" "libpepflashplayer.so"))
-                                                  (stat (lstat file)))
-                                             (chmod file (logior #o111 (stat:perms stat)))))))))
-    (synopsis "")
-    (description "")
-    (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
-    (license license:ibmpl1.0)))
-
-(define-public deb-browser-plugin-freshplayer-pepperflash
-  ;; http://mirrors.kernel.org/ubuntu/pool/multiverse/f/freshplayerplugin/browser-plugin-freshplayer-pepperflash_0.3.4-3_amd64.deb
-  (package
-    (name "deb-browser-plugin-freshplayer-pepperflash")
-    (version "0.3.4-3")
-    (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "http://mirrors.kernel.org/ubuntu/pool/multiverse/f/freshplayerplugin/browser-plugin-freshplayer-pepperflash_" version "_amd64.deb"))
-              (file-name (string-append name "-" version ".deb"))
-              (sha256
-               (base32
-                "0hwwx1962kky8hw3bdf8rrjhhjalf635y3v391i83wgmk3zzfcjm"))))
-    (build-system deb:deb-build-system)
-    (inputs `(("libc"          ,glibc)
-              ("gcc:lib"       ,gcc "lib")
-              ("dbus"          ,dbus)
-              ("libxcomposite" ,libxcomposite)
-              ("libxt"         ,libxt)
-              ("gtk+"          ,gtk+)
-              ("atk"           ,atk)
-              ("cairo"         ,cairo)
-              ("dbus-glib"     ,dbus-glib)
-              ("fontconfig"    ,fontconfig)
-              ("freetype"      ,freetype)
-              ("gdk-pixbuf"    ,gdk-pixbuf)
-              ("glib"          ,glib)
-              ("glibc"         ,glibc)
-              ("libx11"        ,libx11)
-              ("libxcb"        ,libxcb)
-              ("libxdamage"    ,libxdamage)
-              ("libxext"       ,libxext)
-              ("libxfixes"     ,libxfixes)
-              ("libxrender"    ,libxrender)
-              ("pango"         ,pango)
-              ("pulseaudio"    ,pulseaudio)
-              ("libogg"        ,libogg)
-              ("libvorbis"     ,libvorbis)
-              ("libevent"      ,libevent)
-              ("libxinerama"   ,libxinerama)
-              ("libxscrnsaver" ,libxscrnsaver)
-              ("libffi"        ,libffi)
-              ("ffmpeg"        ,ffmpeg)
-              ("libvpx"        ,libvpx)
-              ("gtk+"          ,gtk+-2)
-              ("nspr"          ,nspr)
-              ("nss"           ,nss)
-              ("alsa-lib"      ,alsa-lib)
-              ("libevent"      ,libevent)
-              ("openssl"       ,openssl)
-              ("ffmpeg"        ,ffmpeg)))
-    (arguments `(#:input-lib-mapping '(("out" "lib")
-                                       ("nss" "lib/nss"))))
-    (synopsis "")
-    (description "")
-    (home-page "https://wiki.debian.org/PepperFlashPlayer")
-    (license license:ibmpl1.0)))
-
-(define-public patchelf-adobe-flashplugin
-  (package
-   (name "patchelf-adobe-flashplugin")
-   (version "32.0.0.330")
-   (source (origin
-            (method url-fetch)
-            (uri
-             (string-append "https://fpdownload.adobe.com/get/flashplayer/pdc/" version "/flash_player_npapi_linux.x86_64.tar.gz"))
-            (file-name (string-append "flash_player_npapi_linux.x86_64.tar.gz"))
-            (sha256
-             (base32
-              "1pf3k1x8c2kbkc9pf9y5n4jilp3g41v8v0q5ng77sbnl92s35zsj"))))
-   (build-system patchelf:patchelf-build-system)
-   (inputs `(("libc"          ,glibc)
-             ("gcc:lib"       ,gcc "lib")
-             ("dbus"          ,dbus)
-             ("libxcomposite" ,libxcomposite)
-             ("libxt"         ,libxt)
-             ("gtk+"          ,gtk+)
-             ("atk"           ,atk)
-             ("cairo"         ,cairo)
-             ("dbus-glib"     ,dbus-glib)
-             ("fontconfig"    ,fontconfig)
-             ("freetype"      ,freetype)
-             ("gdk-pixbuf"    ,gdk-pixbuf)
-             ("glib"          ,glib)
-             ("glibc"         ,glibc)
-             ("libx11"        ,libx11)
-             ("libxcb"        ,libxcb)
-             ("libxdamage"    ,libxdamage)
-             ("libxext"       ,libxext)
-             ("libxfixes"     ,libxfixes)
-             ("libxrender"    ,libxrender)
-             ("pango"         ,pango)
-             ("pulseaudio"    ,pulseaudio)
-             ("libogg"        ,libogg)
-             ("libvorbis"     ,libvorbis)
-             ("libevent"      ,libevent)
-             ("libxinerama"   ,libxinerama)
-             ("libxscrnsaver" ,libxscrnsaver)
-             ("libffi"        ,libffi)
-             ("ffmpeg"        ,ffmpeg)
-             ("libvpx"        ,libvpx)
-             ("gtk+"          ,gtk+-2)
-             ("nspr"          ,nspr)
-             ("nss"           ,nss)))
-   (arguments `(#:input-lib-mapping '(("out" "lib")
-                                      ("nss" "lib/nss"))
-                #:phases            (modify-phases %standard-phases
-                                      (add-after
-                                          'unpack 'changedir
-                                        (lambda* (#:key inputs outputs #:allow-other-keys)
-                                          (chdir "..")
-                                          (let ((cwd (getcwd)))
-                                            (begin
-                                              (let* ((parent (getcwd))
-                                                     (source (string-append (getcwd) "/unpack"))
-                                                     (files (directory-list-files parent)))
-                                                (for-each (lambda (entry)
-                                                            (let ((src (string-append parent "/" entry))
-                                                                  (trg (string-append source "/" entry)))
-                                                              (mkdir-p (dirname trg))
-                                                              (rename-file src trg)))
-                                                          files)))
-                                            (begin
-                                              (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
-                                              (if #f
-                                               (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
-                                                        (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
-                                               (delete-file (string-append cwd "/unpack/" "usr/lib64/kde4/kcm_adobe_flash_player.so"))))
-                                            (begin
-                                              (begin
-                                                (delete-file (string-append cwd "/unpack/" "usr/bin/flash-player-properties"))
-                                                ;; (delete-file (string-append cwd "/unpack/" "usr/bin"))
-                                                (for-each (lambda (path)
-                                                            (if (access? (string-append cwd "/unpack/usr/" path) F_OK)
-                                                                (copy-recursively (string-append cwd "/unpack/usr/" path) (string-append cwd "/source/" path))
-                                                                (format #t "~a not exists.~%" (string-append cwd "/unpack/usr/" path))))
-                                                          (list "lib64"
-                                                                "share"
-                                                                ;; "bin"
-                                                                "lib")))
-                                              (begin
-                                                (mkdir-p (string-append cwd "/source/share/patchelf-adobe-flashplugin"))
-                                                (mkdir-p (string-append cwd "/source/lib/adobe-flashplugin"))
-                                                (copy-recursively (string-append cwd "/unpack/" "LGPL") (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
-                                                (copy-file (string-append cwd "/unpack/" "readme.txt")  (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
-                                                (copy-file (string-append cwd "/unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
-                                                (mkdir-p   (string-append cwd "/source/lib"))
-                                                (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/libflashplayer.so"))
-                                                (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))
-                                              (begin
-                                                (for-each (lambda (path)
-                                                            (let* ((stat (lstat path)))
-                                                              (chmod path (logior #o111 (stat:perms stat)))))
-                                                          (list (string-append cwd "/source/lib/libflashplayer.so")
-                                                                (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))))
-                                            (chdir (string-append cwd "/source"))
-                                            #t))))))
-   (synopsis "")
-   (description "")
-   (home-page "https://www-zeuthen.desy.de/~friebel/unix/lesspipe.html")
-   (license license:ibmpl1.0)))
-
-
-(define-public gnash
-  (package
-    (name "gnash")
-    (version "0.8.10")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append "https://ftp.gnu.org/gnu/gnash/" version "/gnash-" version ".tar.bz2"))
-              (file-name (string-append name "-" version ".tar.gz"))
-              (sha256
-               (base32
-                "090j5lly5r6jzbnvlc3mhay6dsrd9sfrkjcgqaibm4nz8lp0f9cn"))))
+             (method url-fetch)
+             (uri
+              (string-append
+               "https://github.com/wmutils/libwm/archive/v" version ".tar.gz"))
+             (sha256 (base32 "180aadwhzjgy0p31byfnjq4ps1yhb339gfb7hh68qkrabq698v7m"))))
     (build-system gnu:gnu-build-system)
-    (inputs    `(("gconf"     ,gconf)
-                 ("libungif"  ,libungif)
-                 ("sdl"       ,sdl)
-                 ("agg"       ,agg)
-                 ("gstreamer" ,gstreamer)))
-    (arguments '(#:configure-flags '("--without-gconf")))
-    (synopsis "GNU Gnash is the GNU Flash movie player")
-    (description "GNU Gnash
-
-GNU Gnash is the GNU Flash movie player — Flash is an animation file format
-pioneered by Macromedia which continues to be supported by their successor
-company, Adobe. Flash has been extended to include audio and video content, and
-programs written in ActionScript, an ECMAScript-compatible language. Gnash is
-based on GameSWF, and supports most SWF v7 features and some SWF v8 and v9.
-
-SWF v10 is not supported by GNU Gnash")
-    (home-page "https://www.gnu.org/software/gnash/")
-    (license (list
-              ;; MPL 1.1 -- this license is not GPL compatible
-              license:gpl2
-              license:lgpl2.1))))
-
-(define-public lightspark
-  (package
-    (name "lightspark")
-    (version "0.8.1")
-    (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "https://github.com/lightspark/lightspark/archive/lightspark-" version ".tar.gz"))
-              (file-name (string-append name "-" version ".tar.gz"))
-              (sha256
-               (base32
-                "1pi896syzbpfdr1lisrb6v2y1sc5bvk98cf63s1ls4xniq61byy7"))))
-    (build-system cmake:cmake-build-system)
-    ;; (native-inputs
-    ;;  `(("pkg-config" ,pkg-config)
-    ;;    ("which"      ,which)))
     (inputs
-     `(("gnash"    ,gnash)))
+     `(("libxcb" ,libxcb)))
+    (arguments
+     '(;; #:modules (((guix build-system gnu) #:prefix gnu:))
+       #:tests? #f
+       #:make-flags (let ((out  (assoc-ref %outputs "out")))
+                      (list (string-append "PREFIX=" out)
+                            "CC=gcc"))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure))))
 
-    ;; TODO: figure out solution 
-    ;; https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/messaging.scm#n1878
-    ;; https://github.com/EionRobb/lightspark/blob/master/skypeweb/CMakeLists.txt
-    ;; (arguments
-    ;;  `(#:tests? #f                            ; Run the test suite (this is the default)
-    ;;    ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
-    ;;    #:phases
-    ;;    (modify-phases %standard-phases
-    ;;      (add-after 'unpack 'change-dir
-    ;;        (lambda _ (chdir "skypeweb"))
-    ;;        (substitute* "CMakeLists.txt"
-    ;;          (("variable=plugindir purple 2>/dev/null")
-    ;;           ("variable=plugindir purple 2>/dev/null")))))))
-    ;; (arguments
-    ;;  `(#:modules ((guix build utils))
-    ;;              #:builder (begin)))
-    (synopsis "Lightspark is an open source Flash player implementation for playing files in SWF format")
-    (description "Lightspark is an open source Flash player implementation for
-playing files in SWF format. Lightspark can run as a web browser plugin or as a
-standalone application.
+    (synopsis "A small library for X window manipulation")
+    (description "A small library for X window manipulation")
+    (home-page "https://github.com/wmutils/libwm")
+    (license license:ibmpl1.0)))
 
-Lightspark supports SWF files written on all versions of the ActionScript language.")
-    (home-page "http://lightspark.github.io/")
-    (license (list
-              ;; MPL 1.1 -- this license is not GPL compatible
-              license:gpl2
-              license:lgpl2.1))))
 
-(define-public rofi-master
-  (package (inherit rofi)
-           (name "rofi-master")
-           (version "master")
-           (source (origin
-                     (method git-fetch)
-                     (uri (git-reference
-                           (url "https://github.com/DaveDavenport/rofi.git")
-                           (commit version)))
-                     (sha256
-                      (base32
-                       "0yf3iaqq4vgy9pickdd0zkniksczwjx7zripmsa0f54na9pny6lz"))))))
+(define-public wmutils-opt
+  (package
+    (name "wmutils-opt")
+    (version "1.5")
+    (source (origin
+             (method url-fetch)
+             (uri
+              (string-append
+               "https://github.com/wmutils/opt/archive/v" version ".tar.gz"))
+             (sha256 (base32 "0wk39aq2lrnc0wjs8pv3cigw3lwy2qzaw0v61bwknd5wabm25bvj"))))
+    (build-system gnu:gnu-build-system)
+    (inputs
+     `(("xcb-util-cursor" ,xcb-util-cursor)
+       ("xcb-util"        ,xcb-util)))
+    (arguments
+     '(;; #:modules (((guix build-system gnu) #:prefix gnu:))
+       #:tests? #f
+       #:make-flags (let ((out  (assoc-ref %outputs "out")))
+                      (list (string-append "PREFIX=" out)
+                            "CC=gcc"))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure))))
+
+    (synopsis "wmutils opt is a set of optional utilities meant to accompany wmutils core.")
+    (description "wmutils opt is a set of optional utilities meant to accompany wmutils core.
+
+Just as the core programs, each utility does one job and does it well, like dealing with window events or names.")
+    (home-page "https://github.com/wmutils/opt")
+    (license license:ibmpl1.0)))
+
+(define-public wmutils-core
+  (package
+    (name "wmutils-core")
+    (version "1.5")
+    (source (origin
+             (method url-fetch)
+             (uri
+              (string-append
+               "https://github.com/wmutils/core/archive/v" version ".tar.gz"))
+             (sha256 (base32 "0wk39aq2lrnc0wjs8pv3cigw3lwy2qzaw0v61bwknd5wabm25bvj"))))
+    (build-system gnu:gnu-build-system)
+    (inputs
+     `(("xcb-util" ,xcb-util)
+       ("xcb-util-cursor" ,xcb-util-cursor)))
+    (arguments
+     '(;; #:modules (((guix build-system gnu) #:prefix gnu:))
+       #:tests? #f
+       #:make-flags (let ((out  (assoc-ref %outputs "out")))
+                      (list (string-append "PREFIX=" out)
+                            "CC=gcc"))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure))))
+
+    (synopsis "wmutils' core is a set of tools for X windows manipulation.")
+    (description "wmutils' core is a set of tools for X windows manipulation.
+Each tool only has one purpose, to make it as flexible and reliable as
+possible.")
+    (home-page "https://github.com/wmutils/core")
+    (license license:ibmpl1.0)))
 
 
