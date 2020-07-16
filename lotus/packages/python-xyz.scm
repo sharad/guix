@@ -260,6 +260,24 @@
       "Quickly manages tmux sessions, windows and tmuxinator projects on Rofi")
     (license license:expat)))
 
+(define-public python-tinydb
+  (package
+   (name "python-tinydb")
+   (version "4.1.1")
+   (source
+    (origin
+     (method url-fetch)
+     (uri (pypi-uri "tinydb" version))
+     (sha256
+      (base32
+       "00m2cq2ra58ygdwd3f3sky9m6c01c8yg6sdfqs1dbrigp847738v"))))
+   (build-system python-build-system)
+   (home-page "https://github.com/msiemens/tinydb")
+   (synopsis
+    "TinyDB is a tiny, document oriented database optimized for your happiness :)")
+   (description
+    "TinyDB is a tiny, document oriented database optimized for your happiness :)")
+   (license license:expat)))
 
 
 ;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot-py-0.7.3.tar.gz
@@ -284,3 +302,5 @@
 ;;     (description
 ;;      "Read Exif metadata from tiff and jpeg files.")
 ;;     (license license:bsd-3)))
+
+
