@@ -287,7 +287,7 @@ re-authenticate each time a file is transferred.")
          (add-after 'unpack 'bootstrap
            (lambda _
              (system* "sed" "-i" "-e" "s@^AM_C_PROTOTYPES@dnl AM_C_PROTOTYPES@g" "-e" "s@^AM_GNU_GETTEXT@AM_GNU_GETTEXT([external]) @g" "configure.in")
-             (zero? (system* "autoreconf" "-vif")))))))
+             (zero? (system* "autoreconf" "-vif")) #t)))))
          ;; (add-after 'build 'mkdirs
          ;;   (lambda _
          ;;     (let ((out  (assoc-ref %outputs "out")))
@@ -304,6 +304,9 @@ the last public domain release of Omen Technologies rzsz package, and is now
 free software and released under the GNU General Public Licence.")
     (home-page "https://ohse.de/uwe/software/lrzsz.html")
     (license #f)))
+
+
+
 
 
 
