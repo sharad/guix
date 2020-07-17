@@ -206,7 +206,10 @@
             "1s6crkdn7q8wmzl5d0pb6rdkhhbvp444yxilrgaylnbr2kbxg078"))))
     (build-system python-build-system)
     (propagated-inputs
-      `(("python-xlib" ,python-xlib)))
+     `(("python-six"  ,python-six)
+       ("python-xlib" ,python-xlib)))
+    (arguments
+     '(#:tests? #f))
     (home-page
       "https://github.com/altdesktop/i3ipc-python")
     (synopsis
@@ -244,14 +247,13 @@
         (method url-fetch)
         (uri (pypi-uri "rofi-tmux" version))
         (sha256
-          (base32
-            "19k8dhnzyvdb6maqyb6bx611kf6h8q2n25zjyr59sgnmi7v8y423"))))
+          (base32 "19k8dhnzyvdb6maqyb6bx611kf6h8q2n25zjyr59sgnmi7v8y423"))))
     (build-system python-build-system)
     (propagated-inputs
-      `(("python-click" ,python-click)
-        ("python-i3ipc" ,python-i3ipc)
-        ("python-libtmux" ,python-libtmux)
-        ("python-rofi" ,python-rofi)))
+     `(("python-click"   ,python-click)
+       ("python-i3ipc"   ,python-i3ipc)
+       ("python-libtmux" ,python-libtmux)
+       ("python-rofi"    ,python-rofi)))
     (home-page
       "http://github.com/viniarck/rofi-tmux")
     (synopsis
@@ -304,3 +306,4 @@
 ;;     (license license:bsd-3)))
 
 
+python-rofi-tmux
