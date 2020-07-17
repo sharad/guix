@@ -41,6 +41,8 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages elf)
   #:use-module (gnu packages fontutils)
+  #:use-module (gnu packages readline)
+  #:use-module (gnu packages gettext)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages gtk)
@@ -213,3 +215,95 @@ possible.")
     (license license:ibmpl1.0)))
 
 
+
+(define-public zssh
+  (package
+    (name "zssh")
+    (version "1.5c")
+    (source (origin (method url-fetch)
+                    (uri (string-append "mirror://sourceforge/zssh/zssh/1.5/zssh-" version ".tgz"))
+                    (sha256 (base32 "06z73iq59lz8ibjrgs7d3xl39vh9yld1988yx8khssch4pw41s52"))))
+    (build-system gnu:gnu-build-system)
+    (inputs
+     `(("readline" ,readline)))
+    (native-inputs
+     `(("autoconf" ,autoconf)
+       ("automake" ,automake)
+       ("libtool" ,libtool)
+       ("pkg-config" ,pkg-config)))
+    (arguments
+     '(#:tests? #f
+       #:make-flags (let ((out  (assoc-ref %outputs "out")))
+                      (list (string-append "PREFIX=" out)))
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'bootstrap
+           (lambda _ (zero? (system* "autoreconf" "-vif"))))
+         (add-after 'build 'mkdirs
+           (lambda _
+             (let ((out  (assoc-ref %outputs "out")))
+               (zero? (system* "mkdir" "-p" (string-append out "/bin")))
+               (zero? (system* "mkdir" "-p" (string-append out "/share/man/man1")))
+               (system* "ls" "-rl" out)
+               #t))))))
+         ;; (delete 'configure)
+
+    (synopsis "zssh (Zmodem SSH) is a program for interactively transferring
+files to/from a remote machine while using the secure shell (ssh).")
+    (description "zssh (Zmodem SSH) is a program for interactively transferring
+files to/from a remote machine while using the secure shell (ssh). It is
+intended to be a convenient alternative to scp, avoiding the need to
+re-authenticate each time a file is transferred.")
+    (home-page "http://zssh.sourceforge.net/")
+    (license #f)))
+
+
+
+
+
+(define-public lrzsz
+  (package
+    (name "lrzsz")
+    (version "0.12.20")
+    (source (origin (method url-fetch)
+                    (uri (string-append "https://ohse.de/uwe/releases/lrzsz-" version ".tar.gz"))
+                    (sha256 (base32 "1wcgfa9fsigf1gri74gq0pa7pyajk12m4z69x7ci9c6x9fqkd2y2"))))
+    (build-system gnu:gnu-build-system)
+    ;; (inputs
+    ;;  `(("readline" ,readline)))
+    (native-inputs
+     `(("autoconf" ,autoconf)
+       ("automake" ,automake)
+       ("gettext"  ,gnu-gettext)
+       ("libtool" ,libtool)
+       ("pkg-config" ,pkg-config)))
+    (arguments
+     '(
+       ;; #:tests? #f
+       ;; #:make-flags (let ((out  (assoc-ref %outputs "out")))
+       ;;                (list (string-append "PREFIX=" out)))
+       #:phases
+       (modify-phases %standard-phases
+         (add-after 'unpack 'bootstrap
+           (lambda _
+             (system* "sed" "-i" "-e" "s@^AM_C_PROTOTYPES@dnl AM_C_PROTOTYPES@g" "-e" "s@^AM_GNU_GETTEXT@AM_GNU_GETTEXT([external]) @g" "configure.in")
+             (zero? (system* "autoreconf" "-vif")))))))
+         ;; (add-after 'build 'mkdirs
+         ;;   (lambda _
+         ;;     (let ((out  (assoc-ref %outputs "out")))
+         ;;       (zero? (system* "mkdir" "-p" (string-append out "/bin")))
+         ;;       (zero? (system* "mkdir" "-p" (string-append out "/share/man/man1")))
+         ;;       (system* "ls" "-rl" out)
+         ;;       #t)))
+         ;; (delete 'configure)
+
+    (synopsis "lrzsz is a unix communication package providing the XMODEM, YMODEM ZMODEM file transfer protocols. ")
+    (description "lrzsz is a unix communication package providing the XMODEM,
+YMODEM ZMODEM file transfer protocols. lrzsz is a heavily rehacked version of
+the last public domain release of Omen Technologies rzsz package, and is now
+free software and released under the GNU General Public Licence.")
+    (home-page "https://ohse.de/uwe/software/lrzsz.html")
+    (license #f)))
+
+
+lrzsz
