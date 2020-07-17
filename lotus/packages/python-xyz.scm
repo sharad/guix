@@ -238,6 +238,24 @@
       "Create simple GUIs using the Rofi application")
     (license license:expat)))
 
+(define-public python-rofi-menu
+  (package
+    (name "python-rofi-menu")
+    (version "0.2.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "rofi-menu" version))
+       (sha256
+        (base32
+         "102iblj3niqv0l9mq5lb0masph9jgjkygf2dg6skldq4a6b7wwdb"))))
+    (build-system python-build-system)
+    (home-page
+     "https://github.com/miphreal/python-rofi-menu")
+    (synopsis "Create rofi menus via python")
+    (description "Create rofi menus via python")
+    (license license:expat)))
+
 (define-public python-rofi-tmux
   (package
     (name "python-rofi-tmux")
@@ -306,4 +324,5 @@
 ;;     (license license:bsd-3)))
 
 
-python-rofi-tmux
+
+
