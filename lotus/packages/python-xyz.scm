@@ -4,6 +4,7 @@
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix build-system python)
+  #:use-module (guix git-download)
   #:use-module (gnu packages)
   #:use-module (gnu packages check)
   #:use-module (gnu packages xml)
@@ -299,6 +300,25 @@
     "TinyDB is a tiny, document oriented database optimized for your happiness :)")
    (license license:expat)))
 
+(define-public python-attnmgr
+  (package
+    (name "python-attnmgr")
+    (version "1.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+              (url "https://github.com/sharad/attnmgr")
+              (commit "master")))
+       (file-name (git-file-name name version))
+       (sha256 (base32 "1x4fh65jzhkz5bzb526gal35h6g2cmv1jnj859gr21gz6sjqnq0c"))))
+    (arguments
+     '(#:tests? #f))
+    (build-system python-build-system)
+    (home-page "https://github.com/sharad/attnmgr")
+    (synopsis "attnmgr")
+    (description "attnmgr")
+    (license license:gpl3)))
 
 ;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot-py-0.7.3.tar.gz
 ;; https://files.pythonhosted.org/packages/source/c/camelot-py/camelot_py-0.7.3-py3-none-any.whl
