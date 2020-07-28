@@ -12,7 +12,6 @@
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-crypto))
 
-
 (define-public python-colorama-043
   (package (inherit python-colorama)
            (version "0.4.3")
