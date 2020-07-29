@@ -303,14 +303,12 @@
   (package
     (name "python-attnmgr")
     (version "1.0")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-              (url "https://github.com/sharad/attnmgr")
-              (commit "master")))
-       (file-name (git-file-name name version))
-       (sha256 (base32 "0z83391lz3nmxp8pr6j75fsvq6aklzfb0lbsra6w1z80ydjcajga"))))
+    (source (origin (method git-fetch)
+                    (uri (git-reference
+                          (url "https://github.com/sharad/attnmgr")
+                          (commit "master")))
+                    (file-name (git-file-name name version))
+                    (sha256 (base32 "0z83391lz3nmxp8pr6j75fsvq6aklzfb0lbsra6w1z80ydjcajga"))))
     (arguments
      '(#:tests? #f))
     (build-system python-build-system)
