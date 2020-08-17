@@ -47,6 +47,8 @@
   #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages nss)
   #:use-module (gnu packages jemalloc)
+  #:use-module (gnu packages rust)
+  #:use-module (gnu packages rust-apps)
 
 
   #:use-module (gnu packages admin)
@@ -333,7 +335,7 @@
                                                     (string-append firefox-bin "/dependentlibs.list"))
                                             (mkdir-p bin-dir)
                                             (symlink "../share/firefox/bin/firefox"  (string-append bin-dir "/firefox"))
-                                            (rename-file (string-append bin-dir "/updater") (string-append bin-dir "/stop-updater"))
+                                            (rename-file (string-append firefox-bin "/updater") (string-append firefox-bin "/stop-updater"))
                                             (for-each (lambda (file)
                                                         (format #t "misc: ~a~%" file)
                                                         (let* ((rel-misc (string-drop firefox-misc (string-length (string-append source
@@ -407,4 +409,7 @@
 (define-public retro-firefox
   (package (inherit retro-firefox-56.0)
            (name "retro-firefox")))
+
+
+retro-firefox
 
