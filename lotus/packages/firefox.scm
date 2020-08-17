@@ -203,7 +203,7 @@
                                               `())))
 
 (define retro-firefoxa-inputs `(("libc"          ,glibc)
-                                ("gcc:lib"       ,gcc "lib"))
+                                ("gcc:lib"       ,gcc "lib")
                                 ("dbus"          ,dbus)
                                 ("libxcomposite" ,libxcomposite)
                                 ("libxt"         ,libxt)
@@ -231,7 +231,7 @@
                                 ("libxscrnsaver" ,libxscrnsaver)
                                 ("libffi"        ,libffi)
                                 ("ffmpeg"        ,ffmpeg)
-                                ("libvpx"        ,libvpx))
+                                ("libvpx"        ,libvpx)))
 
 (define retro-firefoxa-phases `(modify-phases %standard-phases
                                        (add-after
@@ -276,6 +276,7 @@
                                                     (string-append firefox-bin "/dependentlibs.list"))
                                             (mkdir-p bin-dir)
                                             (symlink "../share/firefox/bin/firefox"  (string-append bin-dir "/firefox"))
+                                            (rename-file (string-append bin-dir "/updater") (string-append bin-dir "/stop-updater"))
                                             (for-each (lambda (file)
                                                         (format #t "misc: ~a~%" file)
                                                         (let* ((rel-misc (string-drop firefox-misc (string-length (string-append source
