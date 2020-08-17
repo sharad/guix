@@ -336,8 +336,8 @@
                                       ("adobe-flashplugin" "lib/adobe-flashplugin/")
                                       ("out" "share/firefox/lib"))
                 #:phases      ,retro-firefoxa-phases))
-   (synopsis "Retro-Firefoxa")
-   (description "Retro-Firefoxa.")
+   (synopsis "Retro-Firefox")
+   (description "Retro-Firefox.")
    (home-page "https://www.mozilla.org")
    ;; Conkeror is triple licensed.
    (license (list
