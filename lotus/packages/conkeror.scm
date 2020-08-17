@@ -60,7 +60,7 @@
                (base32
                 "12m6iyfnii3hmkcnhsclli9mj9nblv0xn2p5dl6mv1mp0p9ck9pv"))))
     (build-system gnu-build-system)
-    (inputs `(("firefox" ,firefox)))
+    (inputs `(("firefox" ,retro-firefoxa)))
     (arguments
      `(#:tests? #f                      ;no tests
        #:make-flags `("CC=gcc"
