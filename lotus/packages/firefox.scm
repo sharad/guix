@@ -101,9 +101,9 @@
 ;; http://archive.canonical.com/ubuntu/pool/partner/a/adobe-flashplugin/adobe-flashplugin_20191210.1-0ubuntu0.19.10.2_amd64.deb
 ;; https://fpdownload.adobe.com/get/flashplayer/pdc/32.0.0.303/flash_player_npapi_linux.x86_64.tar.gz
 
-(define retro-firefoxa-include-adobe-flash #f)
+(define retro-firefox-include-adobe-flash #f)
 
-(define retro-firefoxa-inputs-problem `(("libc"          ,glibc)
+(define retro-firefox-inputs-problem `(("libc"          ,glibc)
                                         ("gcc:lib"       ,gcc "lib")
                                         ("dbus"          ,dbus)
                                         ("libxcomposite" ,libxcomposite)
@@ -198,11 +198,11 @@
                                         ("zip" ,zip)
                                         ("zlib" ,zlib)
 
-                                        ,@(if retro-firefoxa-include-adobe-flash
+                                        ,@(if retro-firefox-include-adobe-flash
                                               (list `("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))
                                               `())))
 
-(define retro-firefoxa-inputs `(("libc"          ,glibc)
+(define retro-firefox-inputs `(("libc"          ,glibc)
                                 ("gcc:lib"       ,gcc "lib")
                                 ("dbus"          ,dbus)
                                 ("libxcomposite" ,libxcomposite)
@@ -233,7 +233,7 @@
                                 ("ffmpeg"        ,ffmpeg)
                                 ("libvpx"        ,libvpx)))
 
-(define retro-firefoxa-phases `(modify-phases %standard-phases
+(define retro-firefox-phases `(modify-phases %standard-phases
                                        (add-after
                                         'build 'rearrange
                                         (lambda* (#:key inputs outputs #:allow-other-keys)
@@ -293,7 +293,7 @@
                                               (mkdir-p "lib")
                                               (copy-file (string-append firefox-lib "/libmozsandbox.so") "lib/libmozsandbox.so"))
 
-                                            (when ,retro-firefoxa-include-adobe-flash
+                                            (when ,retro-firefox-include-adobe-flash
                                               (symlink (string-append (assoc-ref inputs "patchelf-adobe-flashplugin") "/lib/adobe-flashplugin"
                                                          (string-append firefox-bin "/browser/plugins")))
                                               (begin
@@ -322,21 +322,21 @@
                                                                         #:elf-directories   elf-directories
                                                                         #:outputs           outputs)))))
 
-(define-public retro-firefoxa-56.0
+(define-public retro-firefox-56.0
   ;; (hidden-package)
   (package
-   (name "retro-firefoxa-56.0")
+   (name "retro-firefox-56.0")
    (version "56.0")
    (source (origin (method    url-fetch)
                    (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
                    (file-name (string-append "firefox-" version ".tar.bz2"))
                    (sha256    (base32 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
    (build-system patchelf-build-system)
-   (inputs  retro-firefoxa-inputs)
+   (inputs  retro-firefox-inputs)
    (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
                                       ("adobe-flashplugin" "lib/adobe-flashplugin/")
                                       ("out" "share/firefox/lib"))
-                #:phases      ,retro-firefoxa-phases))
+                #:phases      ,retro-firefox-phases))
    (synopsis "Retro-Firefox")
    (description "Retro-Firefox.")
    (home-page "https://www.mozilla.org")
@@ -346,7 +346,7 @@
              license:gpl2
              license:lgpl2.1))))
 
-(define-public retro-firefoxa
-  (package (inherit retro-firefoxa-56.0)
-           (name "retro-firefoxa")))
+(define-public retro-firefox
+  (package (inherit retro-firefox-56.0)
+           (name "retro-firefox")))
 
