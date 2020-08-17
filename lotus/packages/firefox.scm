@@ -335,7 +335,8 @@
                                                     (string-append firefox-bin "/dependentlibs.list"))
                                             (mkdir-p bin-dir)
                                             (symlink "../share/firefox/bin/firefox"  (string-append bin-dir "/firefox"))
-                                            (rename-file (string-append firefox-bin "/updater") (string-append firefox-bin "/stop-updater"))
+                                            ;; (rename-file (string-append firefox-bin "/updater") (string-append firefox-bin "/stop-updater"))
+                                            (delete-file (string-append firefox-bin "/updater"))
                                             (for-each (lambda (file)
                                                         (format #t "misc: ~a~%" file)
                                                         (let* ((rel-misc (string-drop firefox-misc (string-length (string-append source
