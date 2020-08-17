@@ -46,6 +46,7 @@
   #:use-module (gnu packages video)
   #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages nss)
+  #:use-module (gnu packages jemalloc)
 
 
   #:use-module (gnu packages admin)
