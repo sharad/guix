@@ -52,14 +52,13 @@
 
   (package
     (name "skype4pidgin")
-    (version "v1.6")
+    (version "1.6")
     (source (origin
               (method url-fetch)
               (uri
                (string-append "https://github.com/EionRobb/skype4pidgin/archive/" version ".tar.gz"))
               (file-name (string-append name "-" version ".tar.gz"))
-              (sha256
-               (base32 "1qk8s38pm042pkv7gv8qbapkyn9czldy8cvkyhzlbbpjmj1wyip6"))))
+              (sha256 (base32 "1qk8s38pm042pkv7gv8qbapkyn9czldy8cvkyhzlbbpjmj1wyip6"))))
     (build-system cmake-build-system)
     (native-inputs
      `(("pkg-config" ,pkg-config)
@@ -86,10 +85,22 @@
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-dir
-           (lambda _ (chdir "skypeweb"))
-           (substitute* "CMakeLists.txt"
-             (("variable=plugindir purple 2>/dev/null")
-              ("variable=plugindir purple 2>/dev/null")))))))
+           (lambda _
+             (chdir "skypeweb")
+             #t))
+
+         (add-before 'configure 'disable-Werror
+           (lambda* (#:key outputs #:allow-other-keys)
+             (substitute* "CMakeLists.txt"
+               (("variable=plugindir purple 2>/dev/null")
+                (string-append "variable=plugindir purple 2>/dev/null| echo "
+                               (assoc-ref outputs "out")
+                               "/lib/purple-2/ "))
+               (("variable=datadir purple 2>/dev/null")
+                (string-append "variable=datadir purple 2>/dev/null| echo "
+                               (assoc-ref outputs "out")
+                               "/share/ ")))
+             #t)))))
     ;; (arguments
     ;;  `(#:modules ((guix build utils))
     ;;              #:builder (begin)))
@@ -101,8 +112,3 @@
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
-
-
-
-
-
