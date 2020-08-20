@@ -90,16 +90,15 @@
              #t))
 
          (add-before 'configure 'disable-Werror
-           (lambda* (#:key outputs #:allow-other-keys)
+           (lambda* (#:key inputs outputs #:allow-other-keys)
+             ;; TODO: improve it.
              (substitute* "CMakeLists.txt"
                (("variable=plugindir purple 2>/dev/null")
-                (string-append "variable=plugindir purple 2>/dev/null| echo "
-                               (assoc-ref outputs "out")
-                               "/lib/purple-2/ "))
+                (string-append "variable=plugindir purple 2>/dev/null| sed "
+                               "s@^"(assoc-ref inputs "pidgin")"@"(assoc-ref outputs "out")"@"))
                (("variable=datadir purple 2>/dev/null")
-                (string-append "variable=datadir purple 2>/dev/null| echo "
-                               (assoc-ref outputs "out")
-                               "/share/ ")))
+                (string-append "variable=datadir purple 2>/dev/null| sed "
+                               "s@^"(assoc-ref inputs "pidgin")"@"(assoc-ref outputs "out")"@")))
              #t)))))
     ;; (arguments
     ;;  `(#:modules ((guix build utils))
@@ -112,3 +111,6 @@
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
+
+
+
