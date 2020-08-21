@@ -65,11 +65,6 @@
        ("which"      ,which)))
     (inputs
      `(("pidgin"    ,pidgin)
-       ;; ("libgcrypt" ,libgcrypt)
-       ;; ("libwebp"   ,libwebp)
-       ;; ("gettext"   ,gnu-gettext)
-       ;; ("gtk+"      ,gtk+-2)
-       ;; ("zlib"      ,zlib)
        ("glib"      ,glib)
        ("json-glib" ,json-glib)))
 
@@ -88,16 +83,15 @@
            (lambda _
              (chdir "skypeweb")
              #t))
-
          (add-before 'configure 'disable-Werror
            (lambda* (#:key inputs outputs #:allow-other-keys)
              ;; TODO: improve it.
              (substitute* "CMakeLists.txt"
-               (("variable=plugindir purple 2>/dev/null")
-                (string-append "variable=plugindir purple 2>/dev/null| sed "
+               (("${PKG_CONFIG_EXECUTABLE} --variable=plugindir purple 2>/dev/null")
+                (string-append "${PKG_CONFIG_EXECUTABLE} --variable=plugindir purple 2>/dev/null | sed"
                                "s@^"(assoc-ref inputs "pidgin")"@"(assoc-ref outputs "out")"@"))
-               (("variable=datadir purple 2>/dev/null")
-                (string-append "variable=datadir purple 2>/dev/null| sed "
+               (("${PKG_CONFIG_EXECUTABLE} --variable=datadir purple 2>/dev/null")
+                (string-append "${PKG_CONFIG_EXECUTABLE} --variable=datadir purple 2>/dev/null | sed"
                                "s@^"(assoc-ref inputs "pidgin")"@"(assoc-ref outputs "out")"@")))
              #t)))))
     ;; (arguments
