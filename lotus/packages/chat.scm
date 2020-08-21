@@ -87,11 +87,11 @@
            (lambda* (#:key inputs outputs #:allow-other-keys)
              ;; TODO: improve it.
              (substitute* "CMakeLists.txt"
-               (("${PKG_CONFIG_EXECUTABLE} --variable=plugindir purple 2>/dev/null")
-                (string-append "${PKG_CONFIG_EXECUTABLE} --variable=plugindir purple 2>/dev/null | sed"
+               (("\\$\\{PKG_CONFIG_EXECUTABLE\\} --variable=plugindir purple 2>/dev/null")
+                (string-append "${PKG_CONFIG_EXECUTABLE} --variable=plugindir purple 2>/dev/null | sed -e "
                                "s@^"(assoc-ref inputs "pidgin")"@"(assoc-ref outputs "out")"@"))
-               (("${PKG_CONFIG_EXECUTABLE} --variable=datadir purple 2>/dev/null")
-                (string-append "${PKG_CONFIG_EXECUTABLE} --variable=datadir purple 2>/dev/null | sed"
+               (("\\$\\{PKG_CONFIG_EXECUTABLE\\} --variable=datadir purple 2>/dev/null")
+                (string-append "${PKG_CONFIG_EXECUTABLE} --variable=datadir purple 2>/dev/null | sed -e "
                                "s@^"(assoc-ref inputs "pidgin")"@"(assoc-ref outputs "out")"@")))
              #t)))))
     ;; (arguments
@@ -105,6 +105,4 @@
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
-
-
 
