@@ -67,16 +67,8 @@
      `(("pidgin"    ,pidgin)
        ("glib"      ,glib)
        ("json-glib" ,json-glib)))
-
-    ;; TODO: figure out solution
-
-    ;; https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/messaging.scm#n1878
-
-    ;; https://github.com/EionRobb/skype4pidgin/blob/master/skypeweb/CMakeLists.txt
-
     (arguments
      `(#:tests? #f                            ; Run the test suite (this is the default)
-       ;; #:configure-flags '("-DUSE_SHA1DC=ON") ; SHA-1 collision detection
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-dir
@@ -85,7 +77,6 @@
              #t))
          (add-before 'configure 'disable-Werror
            (lambda* (#:key inputs outputs #:allow-other-keys)
-             ;; TODO: improve it.
              (substitute* "CMakeLists.txt"
                (("\\$\\{PKG_CONFIG_EXECUTABLE\\} --variable=plugindir purple 2>/dev/null")
                 (string-append "${PKG_CONFIG_EXECUTABLE} --variable=plugindir purple 2>/dev/null | sed -e "
@@ -94,15 +85,10 @@
                 (string-append "${PKG_CONFIG_EXECUTABLE} --variable=datadir purple 2>/dev/null | sed -e "
                                "s@^"(assoc-ref inputs "pidgin")"@"(assoc-ref outputs "out")"@")))
              #t)))))
-    ;; (arguments
-    ;;  `(#:modules ((guix build utils))
-    ;;              #:builder (begin)))
     (synopsis "SkypeWeb Plugin for Pidgin")
     (description "Adds a \"Skype (HTTP)\" protocol to the accounts list. Requires libjson-glib. GPLv3 Licenced.")
     (home-page "https://github.com/EionRobb/skype4pidgin/tree/master/skypeweb#skypeweb-plugin-for-pidgin")
     ;; Conkeror is triple licensed.
-    (license (list
-              ;; MPL 1.1 -- this license is not GPL compatible
-              license:gpl2
-              license:lgpl2.1))))
+    (license (list license:gpl2
+                   license:lgpl2.1))))
 
