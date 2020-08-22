@@ -44,7 +44,7 @@
 
   ;; Requires devel headers/libs for libpurple and libjson-glib [libglib2.0-dev, libjson-glib-dev and libpurple-dev]
 
-  ;; https://github.com/EionRobb/skype4pidgin/archive/1.5.tar.gz
+  ;; https://github.com/EionRobb/skype4pidgin/archive/1.6.tar.gz
   ;; git clone git://github.com/EionRobb/skype4pidgin.git
   ;; cd skype4pidgin/skypeweb
   ;; make
@@ -92,3 +92,7 @@
     (license (list license:gpl2
                    license:lgpl2.1))))
 
+(define-public skype4pidgin-1.6
+  (package (inherit skype4pidgin)
+           (name "skype4pidgin-1.6")
+           (version "1.6")))
