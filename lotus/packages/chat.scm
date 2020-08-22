@@ -68,7 +68,7 @@
        ("glib"      ,glib)
        ("json-glib" ,json-glib)))
 
-    ;; TODO: figure out solution 
+    ;; TODO: figure out solution
 
     ;; https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/messaging.scm#n1878
 
