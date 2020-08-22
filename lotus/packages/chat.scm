@@ -53,20 +53,20 @@
   (package
     (name "skype4pidgin")
     (version "1.6")
-    (source (origin
-              (method url-fetch)
-              (uri
-               (string-append "https://github.com/EionRobb/skype4pidgin/archive/" version ".tar.gz"))
-              (file-name (string-append name "-" version ".tar.gz"))
-              (sha256 (base32 "1qk8s38pm042pkv7gv8qbapkyn9czldy8cvkyhzlbbpjmj1wyip6"))))
+    (source
+     (origin
+      (method url-fetch)
+      (uri (string-append "https://github.com/EionRobb/skype4pidgin/archive/" version ".tar.gz"))
+      (file-name (string-append name "-" version ".tar.gz"))
+      (sha256 (base32 "1qk8s38pm042pkv7gv8qbapkyn9czldy8cvkyhzlbbpjmj1wyip6"))))
     (build-system cmake-build-system)
     (native-inputs
      `(("pkg-config" ,pkg-config)
        ("which"      ,which)))
     (inputs
-     `(("pidgin"    ,pidgin)
-       ("glib"      ,glib)
-       ("json-glib" ,json-glib)))
+     `(("pidgin"     ,pidgin)
+       ("glib"       ,glib)
+       ("json-glib"  ,json-glib)))
     (arguments
      `(#:tests? #f                            ; Run the test suite (this is the default)
        #:phases
@@ -91,8 +91,3 @@
     ;; Conkeror is triple licensed.
     (license (list license:gpl2
                    license:lgpl2.1))))
-
-(define-public skype4pidgin-1.6
-  (package (inherit skype4pidgin)
-           (name "skype4pidgin-1.6")
-           (version "1.6")))
