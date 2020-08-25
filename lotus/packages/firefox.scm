@@ -382,8 +382,8 @@
                                                                         #:outputs           outputs)))))
 
 (define-public retro-firefox-0.0
-  (hidden-package
-    (package
+  ;; (hidden-package
+  (package
      (name "retro-firefox-0.0")
      (version "0.0")
      (source (origin (method    url-fetch)
@@ -404,7 +404,7 @@
      (license (list
                ;; MPL 1.1 -- this license is not GPL compatible
                license:gpl2
-               license:lgpl2.1)))))
+               license:lgpl2.1))))
 
 (define-public retro-firefox-56.0
   (package (inherit retro-firefox-0.0)
