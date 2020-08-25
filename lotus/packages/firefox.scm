@@ -418,6 +418,23 @@
                            (file-name (string-append "firefox-" version ".tar.bz2"))
                            (sha256    (base32 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))))
 
+(define-public retro-firefox-75.0
+  (package (inherit retro-firefox-0.0)
+           (name "retro-firefox-75.0")
+           (version "75.0")
+           (source (origin (method    url-fetch)
+                           (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+                           (file-name (string-append "firefox-" version ".tar.bz2"))
+                           (sha256    (base32 "19jarabhbr141hpaqsfvwdlrhvbjsn9maww28bg1pbf4h41p1nf5"))))
+           (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
+                                              ("adobe-flashplugin" "lib/adobe-flashplugin/")
+                                              ("out" "share/firefox/lib"))
+                        #:phases      (modify-phases %standard-phases
+                                        (add-after
+                                            'build 'rearrange
+                                          ,retro-firefox-rearrange-method)
+                                        (delete 'validate-runpath))))))
+
 (define-public retro-firefox-80.0
   (package (inherit retro-firefox-0.0)
            (name "retro-firefox-80.0")
@@ -435,15 +452,3 @@
                                           ,retro-firefox-rearrange-method)
                                         (delete 'validate-runpath))))))
 
-
-
-
-
-(define-public retro-firefox-75.0
-  (package (inherit retro-firefox-0.0)
-           (name "retro-firefox-75.0")
-           (version "75.0")
-           (source (origin (method    url-fetch)
-                           (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
-                           (file-name (string-append "firefox-" version ".tar.bz2"))
-                           (sha256    (base32 "19jarabhbr141hpaqsfvwdlrhvbjsn9maww28bg1pbf4h41p1nf5"))))))
