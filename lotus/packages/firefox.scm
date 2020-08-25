@@ -430,11 +430,11 @@
            (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
                                               ("adobe-flashplugin" "lib/adobe-flashplugin/")
                                               ("out" "share/firefox/lib"))
-                        #:phases      `(modify-phases %standard-phases
-                                         (add-after
-                                             'build 'rearrange
-                                           retro-firefox-rearrange-method)
-                                         (delete 'validate-runpath))))))
+                        #:phases      (modify-phases %standard-phases
+                                        (add-after
+                                            'build 'rearrange
+                                          retro-firefox-rearrange-method)
+                                        (delete 'validate-runpath))))))
 
 
 
