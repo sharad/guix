@@ -203,7 +203,7 @@
 
                                          ,@(if patched-firefox-include-adobe-flash
                                                (list `("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))
-                                               `()))))
+                                               `())))
 
 (define nongnu-mozilla-firefox-inputs `(("bzip2" ,bzip2)
                                         ("cairo" ,cairo)
