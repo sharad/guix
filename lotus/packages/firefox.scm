@@ -367,20 +367,19 @@
                                                           (list (string-append firefox-bin "/browser/plugins/" "libflashplayer.so")
                                                                 (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so")))))
                                             #t)))
-                                       ;; (replace 'validate-runpath
-                                       ;;          (lambda* (#:key (validate-runpath? #t)
-                                       ;;                    (elf-directories '("share/firefox/lib"
-                                       ;;                                       "share/firefox/lib64"
-                                       ;;                                       "share/firefox/libexec"
-                                       ;;                                       "share/firefox/sbin"
-                                       ;;                                       "share/firefox/bin"))
-                                       ;;                    outputs
-                                       ;;                    #:allow-other-keys)
-                                       ;;            (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
-                                       ;;            (gnu:validate-runpath #:validate-runpath? validate-runpath?
-                                       ;;                                  #:elf-directories   elf-directories
-                                       ;;                                  #:outputs           outputs)))
-                                       (delete 'validate-runpath)))
+                                       (replace 'validate-runpath
+                                                (lambda* (#:key (validate-runpath? #t)
+                                                          (elf-directories '("share/firefox/lib"
+                                                                             ;; "share/firefox/lib64"
+                                                                             ;; "share/firefox/libexec"
+                                                                             ;; "share/firefox/sbin"
+                                                                             "share/firefox/bin"))
+                                                          outputs
+                                                          #:allow-other-keys)
+                                                  (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
+                                                  (gnu:validate-runpath #:validate-runpath? validate-runpath?
+                                                                        #:elf-directories   elf-directories
+                                                                        #:outputs           outputs)))))
 
 (define-public retro-firefox-0.0
   ;; (hidden-package
