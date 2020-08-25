@@ -75,7 +75,7 @@
                     (commit version)))
               (sha256
                (base32
-                "16n979ygwz6ffmxb4cwc4k21ah7vf16fc93br01m8h1j0rss2q4l"))))
+                "1v1jdkdq1phc93gdr6mjlk98gipxrkkq4bj8kks0kfdvjgdwkdaa"))))
     (build-system gnu:gnu-build-system)
     (inputs
      `(("bzip2" ,bzip2)
