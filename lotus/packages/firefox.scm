@@ -370,10 +370,10 @@
                                        (replace 'validate-runpath
                                                 (lambda* (#:key (validate-runpath? #t)
                                                           (elf-directories '("share/firefox/lib"
-                                                                             "share/firefox/lib64"
-                                                                             "share/firefox/libexec"
-                                                                             "share/firefox/bin"
-                                                                             "share/firefox/sbin"))
+                                                                             ;; "share/firefox/lib64"
+                                                                             ;; "share/firefox/libexec"
+                                                                             ;; "share/firefox/sbin"
+                                                                             "share/firefox/bin"))
                                                           outputs
                                                           #:allow-other-keys)
                                                   (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
