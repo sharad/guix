@@ -292,10 +292,7 @@
 
 (define retro-firefox-native-inputs `(,@nongnu-mozilla-native-inputs))
 
-(define retro-firefox-phases `(modify-phases %standard-phases
-                                       (add-after
-                                        'build 'rearrange
-                                        (lambda* (#:key inputs outputs #:allow-other-keys)
+(define retro-firefox-rearrange-method '(lambda* (#:key inputs outputs #:allow-other-keys)
                                           ;; This overwrites the installed launcher, which execs xulrunner,
                                           ;; with one that execs 'icecat --app'
                                           ;; (define source (getcwd))
@@ -367,19 +364,26 @@
                                                           (list (string-append firefox-bin "/browser/plugins/" "libflashplayer.so")
                                                                 (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so")))))
                                             #t)))
-                                       (replace 'validate-runpath
-                                                (lambda* (#:key (validate-runpath? #t)
+
+(define retro-firefox-validate-method '(lambda* (#:key (validate-runpath? #t
                                                           (elf-directories '("share/firefox/lib"
-                                                                             ;; "share/firefox/lib64"
-                                                                             ;; "share/firefox/libexec"
-                                                                             ;; "share/firefox/sbin"
+                                                                             "share/firefox/lib64"
+                                                                             "share/firefox/libexec"
+                                                                             "share/firefox/sbin"
                                                                              "share/firefox/bin"))
                                                           outputs
                                                           #:allow-other-keys)
                                                   (define gnu:validate-runpath (assoc-ref %standard-phases 'validate-runpath))
                                                   (gnu:validate-runpath #:validate-runpath? validate-runpath?
                                                                         #:elf-directories   elf-directories
-                                                                        #:outputs           outputs)))))
+                                                                        #:outputs           outputs))))
+
+(define retro-firefox-phases `(modify-phases %standard-phases
+                                       (add-after
+                                        'build 'rearrange
+                                        ,retro-firefox-rearrange-method)
+                                       (replace 'validate-runpath
+                                                ,retro-firefox-validate-method)))
 
 (define-public retro-firefox-0.0
   ;; (hidden-package
@@ -422,7 +426,15 @@
            (source (origin (method    url-fetch)
                            (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
                            (file-name (string-append "firefox-" version ".tar.bz2"))
-                           (sha256    (base32 "1rxwyzba50hji5vr53n45c0wi37n631yc009iimx2z4jvl31y6c4"))))))
+                           (sha256    (base32 "1rxwyzba50hji5vr53n45c0wi37n631yc009iimx2z4jvl31y6c4"))))
+           (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
+                                              ("adobe-flashplugin" "lib/adobe-flashplugin/")
+                                              ("out" "share/firefox/lib"))
+                        #:phases      `(modify-phases %standard-phases
+                                         (add-after
+                                             'build 'rearrange
+                                           ,retro-firefox-rearrange-method)
+                                         (delete 'validate-runpath))))))
 
 
 
