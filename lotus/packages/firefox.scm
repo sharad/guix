@@ -335,8 +335,7 @@
                                                     (string-append firefox-bin "/dependentlibs.list"))
                                             (mkdir-p bin-dir)
                                             (symlink "../share/firefox/bin/firefox"  (string-append bin-dir "/firefox"))
-                                            ;; (rename-file (string-append firefox-bin "/updater") (string-append firefox-bin "/stop-updater"))
-                                            (delete-file (string-append firefox-bin "/updater"))
+                                            ;; (delete-file (string-append firefox-bin "/updater"))
                                             (for-each (lambda (file)
                                                         (format #t "misc: ~a~%" file)
                                                         (let* ((rel-misc (string-drop firefox-misc (string-length (string-append source
@@ -382,34 +381,48 @@
                                                                         #:elf-directories   elf-directories
                                                                         #:outputs           outputs)))))
 
-(define-public retro-firefox-56.0
-  ;; (hidden-package)
-  (package
-   (name "retro-firefox-56.0")
-   (version "56.0")
-   (source (origin (method    url-fetch)
-                   (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
-                   (file-name (string-append "firefox-" version ".tar.bz2"))
-                   (sha256    (base32 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
-   (build-system patchelf-build-system)
-   (inputs         retro-firefox-inputs)
-   (native-inputs  retro-firefox-native-inputs)
-   (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
-                                      ("adobe-flashplugin" "lib/adobe-flashplugin/")
-                                      ("out" "share/firefox/lib"))
-                #:phases      ,retro-firefox-phases))
-   (synopsis "Retro-Firefox")
-   (description "Retro-Firefox.")
-   (home-page "https://www.mozilla.org")
-   ;; Conkeror is triple licensed.
-   (license (list
-             ;; MPL 1.1 -- this license is not GPL compatible
-             license:gpl2
-             license:lgpl2.1))))
+(define-public retro-firefox-0.0
+  (hidden-package
+    (package
+     (name "retro-firefox-0.0")
+     (version "0.0")
+     (source (origin (method    url-fetch)
+                     (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+                     (file-name (string-append "firefox-" version ".tar.bz2"))
+                     (sha256    (base32 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
+     (build-system patchelf-build-system)
+     (inputs         retro-firefox-inputs)
+     (native-inputs  retro-firefox-native-inputs)
+     (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
+                                        ("adobe-flashplugin" "lib/adobe-flashplugin/")
+                                        ("out" "share/firefox/lib"))
+                  #:phases      ,retro-firefox-phases))
+     (synopsis "Retro-Firefox")
+     (description "Retro-Firefox.")
+     (home-page "https://www.mozilla.org")
+     ;; Conkeror is triple licensed.
+     (license (list
+               ;; MPL 1.1 -- this license is not GPL compatible
+               license:gpl2
+               license:lgpl2.1)))))
 
-(define-public retro-firefox
-  (package (inherit retro-firefox-56.0)
-           (name "retro-firefox")))
+(define-public retro-firefox-56.0
+  (package (inherit retro-firefox-0.0)
+           (name "retro-firefox-56.0")
+           (version "56.0")
+           (source (origin (method    url-fetch)
+                           (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+                           (file-name (string-append "firefox-" version ".tar.bz2"))
+                           (sha256    (base32 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))))
+
+(define-public retro-firefox-80.0
+  (package (inherit retro-firefox-0.0)
+           (name "retro-firefox-80.0")
+           (version "80.0")
+           (source (origin (method    url-fetch)
+                           (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
+                           (file-name (string-append "firefox-" version ".tar.bz2"))
+                           (sha256    (base32 "1rxwyzba50hji5vr53n45c0wi37n631yc009iimx2z4jvl31y6c4"))))))
 
 
 
