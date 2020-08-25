@@ -381,9 +381,9 @@
 (define retro-firefox-phases `(modify-phases %standard-phases
                                        (add-after
                                         'build 'rearrange
-                                        ,retro-firefox-rearrange-method)
+                                        retro-firefox-rearrange-method)
                                        (replace 'validate-runpath
-                                                ,retro-firefox-validate-method)))
+                                                retro-firefox-validate-method)))
 
 (define-public retro-firefox-0.0
   ;; (hidden-package
@@ -433,7 +433,7 @@
                         #:phases      `(modify-phases %standard-phases
                                          (add-after
                                              'build 'rearrange
-                                           ,retro-firefox-rearrange-method)
+                                           retro-firefox-rearrange-method)
                                          (delete 'validate-runpath))))))
 
 
