@@ -292,7 +292,7 @@
 
 (define retro-firefox-native-inputs `(,@nongnu-mozilla-native-inputs))
 
-(define retro-firefox-rearrange-method '(lambda* (#:key inputs outputs #:allow-other-keys)
+(define retro-firefox-rearrange-method `(lambda* (#:key inputs outputs #:allow-other-keys)
                                           ;; This overwrites the installed launcher, which execs xulrunner,
                                           ;; with one that execs 'icecat --app'
                                           ;; (define source (getcwd))
@@ -365,7 +365,7 @@
                                                                 (string-append firefox-bin "/browser/plugins/" "libpepflashplayer.so")))))
                                             #t)))
 
-(define retro-firefox-validate-method '(lambda* (#:key (validate-runpath? #t
+(define retro-firefox-validate-method `(lambda* (#:key (validate-runpath? #t
                                                           (elf-directories '("share/firefox/lib"
                                                                              "share/firefox/lib64"
                                                                              "share/firefox/libexec"
