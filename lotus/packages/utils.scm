@@ -67,15 +67,10 @@
 (define-public lesspipe
   (package
     (name "lesspipe")
-    (version "lesspipe")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/wofr06/lesspipe.git")
-                    (commit version)))
-              (sha256
-               (base32
-                "1v1jdkdq1phc93gdr6mjlk98gipxrkkq4bj8kks0kfdvjgdwkdaa"))))
+    (version "1.85")
+    (source (origin (method url-fetch)
+                    (uri (string-append "https://github.com/wofr06/lesspipe/archive/" version ".tar.gz"))
+                    (sha256 (base32 "1y8hj8lqx41qd1f8qfdwhqs59qwvxsnignmxa7ssp93f74rb9yyg"))))
     (build-system gnu:gnu-build-system)
     (inputs
      `(("bzip2" ,bzip2)
