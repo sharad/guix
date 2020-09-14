@@ -52,13 +52,13 @@
 
   (package
     (name "skype4pidgin")
-    (version "1.6")
+    (version "1.7")
     (source
      (origin
       (method url-fetch)
       (uri (string-append "https://github.com/EionRobb/skype4pidgin/archive/" version ".tar.gz"))
       (file-name (string-append name "-" version ".tar.gz"))
-      (sha256 (base32 "1qk8s38pm042pkv7gv8qbapkyn9czldy8cvkyhzlbbpjmj1wyip6"))))
+      (sha256 (base32 "0knq59dqhankix10219gpwmrb5qsyg10j9f6n5malibsh32d8175"))))
     (build-system cmake-build-system)
     (native-inputs
      `(("pkg-config" ,pkg-config)
