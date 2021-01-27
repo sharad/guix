@@ -10,6 +10,7 @@
   #:use-module (gnu packages xml)
   #:use-module (gnu packages tmux)
   #:use-module (gnu packages python-xyz)
+  #:use-module (gnu packages python-build)
   #:use-module (gnu packages python-crypto))
 
 (define-public python-colorama-043
