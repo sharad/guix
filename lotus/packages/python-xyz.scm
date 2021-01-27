@@ -80,13 +80,13 @@
                    (sha256 (base32 "1b90jf6m9vxh9nanhpyvqdq7hmfx5iggw1l8kq10jrs6xgr49qkr"))))
    (build-system python-build-system)
    (propagated-inputs
-    `(("python-pyyaml" ,python-pyyaml)
+    `(("python-pyyaml"     ,python-pyyaml)
       ("python-setuptools" ,python-setuptools)
-      ("python-xmltodict" ,python-xmltodict)))
+      ("python-xmltodict"  ,python-xmltodict)))
    (native-inputs
     `(("python-coverage" ,python-coverage)
-      ("python-flake8" ,python-flake8)
-      ("python-wheel" ,python-wheel)))
+      ("python-flake8"   ,python-flake8)
+      ("python-wheel"    ,python-wheel)))
    (home-page "https://github.com/kislyuk/yq")
    (synopsis
     "Command-line YAML/XML processor - jq wrapper for YAML/XML documents")
