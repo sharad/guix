@@ -75,7 +75,7 @@
            (lambda _
              (chdir "skypeweb")
              #t))
-         (add-before 'configure 'disable-Werror
+         (add-before 'configure 'replace-purple-dir
            (lambda* (#:key inputs outputs #:allow-other-keys)
              (substitute* "CMakeLists.txt"
                (("\\$\\{PKG_CONFIG_EXECUTABLE\\} --variable=plugindir purple 2>/dev/null")
