@@ -107,45 +107,45 @@
 
 
 
-(define openfortivpn-internal
-  (package
-    (name "openfortivpn-internal")
-    (version "1.14.1")
-    (source (origin
-              (method url-fetch)
-              (uri
-               (string-append
-                  "https://github.com/adrienverge/openfortivpn/archive/v" version ".tar.gz"))
-              (sha256
-               (base32
-                "1jjh9fjbp42ral20qinrb0hpdf8cg834mq8h4n7nyv5ar9pgqqmw"))))
-    (build-system gnu:gnu-build-system)
-    (inputs `(("openssl" ,openssl)))
-    (native-inputs
-     `(("autoconf"   ,autoconf)
-       ("automake"   ,automake)
-       ("libtool"    ,libtool)
-       ("pkg-config" ,pkg-config)
-       ("ppp"        ,ppp)))
-    (synopsis "openfortivpn is a client for PPP+SSL VPN tunnel services.")
-    (description "openfortivpn is a client for PPP+SSL VPN tunnel services. It
-spawns a pppd process and operates the communication between the gateway and
-this process.
+;; (define openfortivpn-internal
+;;   (package
+;;     (name "openfortivpn-internal")
+;;     (version "1.14.1")
+;;     (source (origin
+;;               (method url-fetch)
+;;               (uri
+;;                (string-append
+;;                   "https://github.com/adrienverge/openfortivpn/archive/v" version ".tar.gz"))
+;;               (sha256
+;;                (base32
+;;                 "1jjh9fjbp42ral20qinrb0hpdf8cg834mq8h4n7nyv5ar9pgqqmw"))))
+;;     (build-system gnu:gnu-build-system)
+;;     (inputs `(("openssl" ,openssl)))
+;;     (native-inputs
+;;      `(("autoconf"   ,autoconf)
+;;        ("automake"   ,automake)
+;;        ("libtool"    ,libtool)
+;;        ("pkg-config" ,pkg-config)
+;;        ("ppp"        ,ppp)))
+;;     (synopsis "openfortivpn is a client for PPP+SSL VPN tunnel services.")
+;;     (description "openfortivpn is a client for PPP+SSL VPN tunnel services. It
+;; spawns a pppd process and operates the communication between the gateway and
+;; this process.
 
-It is compatible with Fortinet VPNs.")
-    (home-page "https://github.com/adrienverge/openfortivpn/wiki")
-    (license license:gpl3+)))
+;; It is compatible with Fortinet VPNs.")
+;;     (home-page "https://github.com/adrienverge/openfortivpn/wiki")
+;;     (license license:gpl3+)))
 
 
-(define-public openfortivpn-1.14.1
-  (package (inherit openfortivpn-internal)
-           (name "openfortivpn")
-           (version "1.14.1")))
+;; (define-public openfortivpn-1.14.1
+;;   (package (inherit openfortivpn-internal)
+;;            (name "openfortivpn")
+;;            (version "1.14.1")))
 
-(define-public openfortivpn-master
-  (package (inherit openfortivpn-internal)
-           (name "openfortivpn")
-           (version "master")))
+;; (define-public openfortivpn-master
+;;   (package (inherit openfortivpn-internal)
+;;            (name "openfortivpn")
+;;            (version "master")))
 
-(define-public openfortivpn openfortivpn-1.14.1)
+;; (define-public openfortivpn openfortivpn-1.14.1)
 
