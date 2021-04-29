@@ -158,8 +158,6 @@ possible.")
     (home-page "https://github.com/wmutils/core")
     (license license:ibmpl1.0)))
 
-
-
 (define-public zssh
   (package
     (name "zssh")
