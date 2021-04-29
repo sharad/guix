@@ -72,50 +72,6 @@
      "The file management automation tool")
     (license license:expat)))
 
-(define-public python-yq-generic
-  (package
-   (name "python-yq-generic")
-   (version "generic")
-   (source (origin (method url-fetch)
-                   (uri (pypi-uri "yq" version))
-                   (sha256 (base32 "1b90jf6m9vxh9nanhpyvqdq7hmfx5iggw1l8kq10jrs6xgr49qkr"))))
-   (build-system python-build-system)
-   (propagated-inputs
-    `(("python-pyyaml"     ,python-pyyaml)
-      ("python-setuptools" ,python-setuptools)
-      ("python-xmltodict"  ,python-xmltodict)))
-   (native-inputs
-    `(("python-coverage" ,python-coverage)
-      ("python-flake8"   ,python-flake8)
-      ("python-wheel"    ,python-wheel)))
-   (home-page "https://github.com/kislyuk/yq")
-   (synopsis
-    "Command-line YAML/XML processor - jq wrapper for YAML/XML documents")
-   (description
-    "Command-line YAML/XML processor - jq wrapper for YAML/XML documents")
-   (license #f)))
-
-(define-public python-yq-2.9.2
-  (package (inherit python-yq-generic)
-   (name "python-yq-2.9.2")
-   (version "2.9.2")
-   (source (origin (method url-fetch)
-                   (uri (pypi-uri "yq" version))
-                   (sha256 (base32 "1p8y69p2s4030xiwpsimq6245vllmb4rla3y3qay7wmbpln9q5ls"))))))
-
-(define-public python-yq-2.10.0
-  (package (inherit python-yq-generic)
-   (name "python-yq-2.10.0")
-   (version "2.10.0")
-   (source
-    (origin (method url-fetch)
-            (uri (pypi-uri "yq" version))
-            (sha256 (base32 "0ims5q3kfykbyxdfwc3lsrhbcnpgdl56p5rfhpp8vhzi503jrbxb"))))))
-
-(define-public python-yq
-  (package (inherit python-yq-2.9.2)
-    (name "python-yq")))
-
 (define-public python-xq
   (package
     (name "python-xq")
