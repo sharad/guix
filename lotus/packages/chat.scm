@@ -111,20 +111,6 @@
   (package/inherit bitlbee-purple
     (name "bitlbee-purple-plus")
     (synopsis "IRC to instant messaging gateway (using Pidgin's libpurple)")
-    (inputs `(("gsettings-desktop-schemas" ,gsettings-desktop-schemas)
+    (inputs `(("purple"       ,purple)
               ("skype4pidgin" ,skype4pidgin)
-              ,@(package-inputs bitlbee-purple)))
-    (arguments
-     (substitute-keyword-arguments (package-arguments bitlbee-purple)
-       ((#:phases phases '%standard-phases)
-        `(modify-phases ,phases
-           (replace 'configure                    ;add "--purple=1"
-             (lambda* (#:key outputs #:allow-other-keys)
-               (invoke "./configure"
-                       (string-append "--prefix="
-                                      (assoc-ref outputs "out"))
-                       "--otr=1" "--purple=1")))))
-       ((#:tests? _ #t)
-        ;; XXX: Tests fail to link, and ./configure says that it's "supported
-        ;; on a best-effort basis" anyway.
-        #f)))))
+              ,@(package-inputs bitlbee)))))
