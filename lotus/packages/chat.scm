@@ -22,8 +22,6 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
-  #:use-module (guix build-system gnu)
-  #:use-module (guix build-system cmake)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages compression)
@@ -35,7 +33,21 @@
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages gnupg)
   #:use-module (gnu packages image)
-  #:use-module (gnu packages gnome))
+  #:use-module (gnu packages gnome)
+  #:use-module (guix build-system cmake)
+  #:use-module (guix build-system glib-or-gtk)
+  #:use-module (guix build-system gnu)
+  #:use-module (guix build-system meson)
+  #:use-module (guix build-system perl)
+  #:use-module (guix build-system python)
+  #:use-module (guix build-system qt)
+  #:use-module (guix build-system trivial)
+  #:use-module (guix download)
+  #:use-module (guix git-download)
+  #:use-module (guix hg-download)
+  #:use-module ((guix licenses) #:prefix license:)
+  #:use-module (guix packages)
+  #:use-module (guix utils))
 
 (define-public skype4pidgin
 
@@ -102,7 +114,7 @@
     (inputs `(("skype4pidgin" ,skype4pidgin)
               ,@(package-inputs bitlbee-purple)))
     (arguments
-     (substitute-keyword-arguments (package-arguments bitlbee)
+     (substitute-keyword-arguments (package-arguments bitlbee-purple)
        ((#:phases phases '%standard-phases)
         `(modify-phases ,phases
            (replace 'configure                    ;add "--purple=1"
