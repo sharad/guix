@@ -91,3 +91,13 @@
     ;; Conkeror is triple licensed.
     (license (list license:gpl2
                    license:lgpl2.1))))
+
+
+(define-public bitlbee-purple-plus
+  ;; This variant uses libpurple, which provides support for more protocols at
+  ;; the expense of a much bigger closure.
+  (package/inherit bitlbee-purple
+    (name "bitlbee-purple-plus")
+    (synopsis "IRC to instant messaging gateway (using Pidgin's libpurple)")
+    (inputs `(("skype4pidgin" ,skype4pidgin)
+              ,@(package-inputs bitlbee-purple)))))
