@@ -55,7 +55,7 @@
      "GNU Bicon is an implementation of the Unicode Bidirectional
 Algorithm.  This algorithm is used to properly display text in left-to-right
 or right-to-left ordering as necessary.")
-    (home-page "https://github.com/bicon/bicon")
+    (home-page "https://github.com/behdad/bicon")
     (license lgpl2.1+)))
 
 (define bicon/fixed
