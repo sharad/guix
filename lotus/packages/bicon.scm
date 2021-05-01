@@ -49,7 +49,7 @@
     (native-inputs `(("pkg-config" ,pkg-config)
                      ("perl"       ,perl)
                      ("kbd"        ,kbd)))
-    (inputs        `(("fribidi" ,fribidi)))
+    (inputs        `(("fribidi"    ,fribidi)))
     (synopsis "Implementation of the Unicode bidirectional algorithm")
     (description
      "GNU Bicon is an implementation of the Unicode Bidirectional
