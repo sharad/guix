@@ -84,7 +84,21 @@
                (("\\$\\{PKG_CONFIG_EXECUTABLE\\} --variable=datadir purple 2>/dev/null")
                 (string-append "${PKG_CONFIG_EXECUTABLE} --variable=datadir purple 2>/dev/null | sed -e "
                                "s@^"(assoc-ref inputs "pidgin")"@"(assoc-ref outputs "out")"@")))
-             #t)))))
+             #t))
+         (add-after
+             'install 'rearrange
+           (lambda* (#:key inputs outputs #:allow-other-keys)
+            (let* ((out         (assoc-ref outputs "out"))
+                   (purple-dir  (string-append out "/lib/purple-2"))
+                   (bitlbee-dir (string-append out "/lib/bitlbee"))
+                   (files-to-arrange (find-files purple-dir)))
+             (mkdir-p bitlbee-dir)
+             (for-each (lambda (file)
+                         (let* ((target-file   (string-append bitlbee-dir "/" (basename file))))
+                           (format #t "rearrange: src ~a -> target ~a~%" file target-file)
+                           (copy-file file target-file)))
+                       files-to-arrange)))))))
+
     (synopsis "SkypeWeb Plugin for Pidgin")
     (description "Adds a \"Skype (HTTP)\" protocol to the accounts list. Requires libjson-glib. GPLv3 Licenced.")
     (home-page "https://github.com/EionRobb/skype4pidgin/tree/master/skypeweb#skypeweb-plugin-for-pidgin")
@@ -92,4 +106,8 @@
     (license (list license:gpl2
                    license:lgpl2.1))))
 
+
+
+
+skype4pidgin
 
