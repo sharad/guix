@@ -107,7 +107,3 @@
                    license:lgpl2.1))))
 
 
-
-
-skype4pidgin
-
