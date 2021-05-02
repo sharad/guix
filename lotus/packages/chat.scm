@@ -114,5 +114,5 @@
   (package/inherit bitlbee-purple
     (name "bitlbee-purple-plus")
     (synopsis "IRC to instant messaging gateway (using Pidgin's libpurple)")
-    (inputs `(("skype4web" ,skyp4web)
+    (inputs `(("skype4web" ,skype4web)
               ,@(package-inputs bitlbee-purple)))))
