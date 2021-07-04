@@ -125,7 +125,7 @@
                     (commit version)))
               (sha256
                (base32
-                "19mrpf28x682gvhn8rb3zjn39pphpb56fd4z7jx2ilkbvhs7mvll"))))
+                "1hjkp0aqdmndhaqpvk1xbiw3zc5gai1bwfy66mhl8hjnq0gz4fql"))))
                 ;; "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"
     (build-system gnu-build-system)
     (inputs
