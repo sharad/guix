@@ -142,6 +142,7 @@
        ("libxinerama"   ,libxinerama)
        ("libxscrnsaver" ,libxscrnsaver)
        ("libxt"         ,libxt)
+       ("xrdb"          ,xrdb)
        ("xbitmaps"      ,xbitmaps)))
     (native-inputs
      `(("coreutils"    ,coreutils)
