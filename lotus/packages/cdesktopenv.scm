@@ -160,9 +160,10 @@
        ("bdftopcf"     ,bdftopcf)
        ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
-     `(#:tests? #f                            ; Run the test suite (this is the default)
-       #:configure-flags `("--disable-dependency-tracking"
-                           ,(string-append "--with-tcl=" (assoc-ref inputs "tcl") "/lib")) ; SHA-1 collision detection
+     `(#:tests? #f
+       #:configure-flags (let ((tcl (assoc-ref %build-inputs "tcl")))
+                           `("--disable-dependency-tracking"
+                             ,(string-append "--with-tcl=" tcl "/lib")))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
