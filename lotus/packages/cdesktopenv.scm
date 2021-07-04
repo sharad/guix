@@ -115,7 +115,8 @@
 (define-public cdesktopenv
   (package
     (name "cdesktopenv")
-    (version "build-correction-autotools-conversion")
+    ;; (version "build-correction-autotools-conversion")
+    (version "master")
     (source (origin
               (method git-fetch)
               (uri (git-reference
