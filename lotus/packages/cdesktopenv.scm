@@ -161,7 +161,8 @@
        ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
      `(#:tests? #f                            ; Run the test suite (this is the default)
-       #:configure-flags '("--disable-dependency-tracking") ; SHA-1 collision detection
+       #:configure-flags `("--disable-dependency-tracking"
+                           ,(string-append "--with-tcl=" (assoc-ref inputs "tcl") "/lib")) ; SHA-1 collision detection
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
