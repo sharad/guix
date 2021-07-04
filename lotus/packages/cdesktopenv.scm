@@ -129,7 +129,8 @@
                 ;; "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"
     (build-system gnu-build-system)
     (inputs
-     `(("libtirpc-gh"   ,libtirpc-gh)
+     `(("tcllib"        ,tcllib)
+       ("libtirpc-gh"   ,libtirpc-gh)
        ("freetype"      ,freetype)
        ("bzip2"         ,bzip2)
        ("libjpeg"       ,libjpeg)
