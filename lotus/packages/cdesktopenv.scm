@@ -119,11 +119,13 @@
     (source (origin
               (method git-fetch)
               (uri (git-reference
-                    (url "https://github.com/sharad/cdesktopenv.git")
+                    ;; (url "https://github.com/sharad/cdesktopenv.git")
+                    (url "https://git.code.sf.net/p/cdesktopenv/code")
                     (commit version)))
               (sha256
                (base32
-                "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"))))
+                "19mrpf28x682gvhn8rb3zjn39pphpb56fd4z7jx2ilkbvhs7mvll"))))
+                ;; "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"
     (build-system gnu-build-system)
     (inputs
      `(("libtirpc-gh"   ,libtirpc-gh)
