@@ -162,9 +162,11 @@
        ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
      `(#:tests? #f
-       #:configure-flags (let ((tcl (assoc-ref %build-inputs "tcl")))
+       #:configure-flags (let ((tcl   (assoc-ref %build-inputs "tcl"))
+                               (tirpc (assoc-ref %build-inputs "tirpc")))
                            `("--disable-dependency-tracking"
-                             ,(string-append "--with-tcl=" tcl "/lib")))
+                             ,(string-append "--with-tcl=" tcl "/lib")
+                             ,(string-append "CPPFLAGS=-I" tirpc "/include/tirpc/")))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
