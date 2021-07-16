@@ -143,7 +143,8 @@
        ("libxscrnsaver" ,libxscrnsaver)
        ("libxt"         ,libxt)
        ("xrdb"          ,xrdb)
-       ("xbitmaps"      ,xbitmaps)))
+       ("xbitmaps"      ,xbitmaps)
+       ("mit-krb5"      ,mit-krb5)))
     (native-inputs
      `(("coreutils"    ,coreutils)
        ("autoconf"     ,autoconf)
