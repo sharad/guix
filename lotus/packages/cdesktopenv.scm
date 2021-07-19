@@ -161,6 +161,7 @@
        ("tcsh"         ,tcsh)
        ("mkfontdir"    ,mkfontdir)
        ("bdftopcf"     ,bdftopcf)
+       ("mit-krb5"     ,mit-krb5)
        ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
      `(#:tests? #f
@@ -173,6 +174,8 @@
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
                     (lambda _
+                      (substitute* "cde/programs/dthelp/dthelpgen/dthelpgen.dtsh"
+                                   (("/usr/dt/bin/dtksh") (string-append (assoc-ref %outputs "out") "/dt/bin/dtksh")))
                       (substitute* "cde/programs/dtksh/ksh93/src/cmd/INIT/ar.ibm.risc"
                                    (("/usr/bin/ar") (which "ar")))
                       (substitute* "cde/programs/dtksh/ksh93/src/cmd/INIT/ar.freebsd12.amd64"
