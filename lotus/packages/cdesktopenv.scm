@@ -165,9 +165,9 @@
      `(#:tests? #f
        #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
                                (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
-                           `("--disable-dependency-tracking"
-                             ,(string-append "--with-tcl=" tcl "/lib")
-                             ,(string-append "CPPFLAGS=-I" libtirpc-gh "/include/tirpc/")))
+                           (list "--disable-dependency-tracking"
+                                 (string-append "--with-tcl=" tcl "/lib")
+                                 (string-append "CPPFLAGS=-I" libtirpc-gh "/include/tirpc/")))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
