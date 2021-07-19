@@ -128,7 +128,8 @@
                 "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"))))
     (build-system gnu-build-system)
     (inputs
-     `(("tcl"           ,tcl)
+     `(("binutils"      ,binutils)
+       ("tcl"           ,tcl)
        ;; ("libtirpc-gh"   ,libtirpc-gh)
        ("libtirpc-gh"   ,libtirpc-gh)
        ("freetype"      ,freetype)
