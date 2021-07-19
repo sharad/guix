@@ -172,10 +172,16 @@
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
-           (lambda _
-             (substitute* "cde/contrib/desktopentry/cde.desktop"
-               (("Exec=/usr/dt/bin/Xsession")
-                (string-append "Exec=" (string-append %output "/usr/dt/bin/Xsession"))))))
+                    (lambda _
+                      (substitute* "programs/dtksh/ksh93/src/cmd/INIT/ar.ibm.risc"
+                                   (("/usr/bin/ar") (which "ar")))
+                      (substitute* "programs/dtksh/ksh93/src/cmd/INIT/ar.freebsd12.amd64"
+                                   (("/usr/bin/ar") (which "ar")))
+                      (substitute* "programs/dtksh/ksh93/src/cmd/INIT/ar.linux.i386-64"
+                                   (("/usr/bin/ar") (which "ar")))
+                      (substitute* "cde/contrib/desktopentry/cde.desktop"
+                        (("Exec=/usr/dt/bin/Xsession")
+                         (string-append "Exec=" (string-append %output "/usr/dt/bin/Xsession"))))))
          (add-before 'configure 'change-dir
            (lambda _
              (begin (chdir "cde")
