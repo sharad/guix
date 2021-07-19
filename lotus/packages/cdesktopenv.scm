@@ -163,11 +163,14 @@
        ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
      `(#:tests? #f
-       #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
-                               (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
-                           (list "--disable-dependency-tracking"
-                                 (string-append "--with-tcl=" tcl "/lib")
-                                 (string-append "CPPFLAGS=-I" libtirpc-gh "/include/tirpc/")))
+       ;; #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
+       ;;                         (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
+       ;;                     (list "--disable-dependency-tracking"
+       ;;                           (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")
+       ;;                           (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc/")))
+       #:configure-flags (list "--disable-dependency-tracking"
+                               (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")
+                               (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc/"))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
