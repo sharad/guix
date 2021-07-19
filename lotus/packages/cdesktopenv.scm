@@ -161,17 +161,18 @@
        ("tcsh"         ,tcsh)
        ("mkfontdir"    ,mkfontdir)
        ("bdftopcf"     ,bdftopcf)
-       ("mit-krb5"     ,mit-krb5)
+       ;; ("mit-krb5"     ,mit-krb5)
        ("rpcsvc-proto" ,rpcsvc-proto)))
-    (propagated--inputs
-     `(("mit-krb5"     ,mit-krb5)))
+    ;; (propagated--inputs
+    ;;  `(("mit-krb5"     ,mit-krb5)))
     (arguments
      `(#:tests? #f
        #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
                                (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
                            (list "--disable-dependency-tracking"
                                  (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")
-                                 (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc/")))
+                                 (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc")
+                                 (string-append "LDFLAGS=-L" (assoc-ref  %build-inputs "mit-krb5") "/lib")))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
@@ -192,6 +193,11 @@
              (begin (chdir "cde")
                     (system "./autogen.sh")
                     #t)))
+         (add-before 'build 'set-build-environment-variables
+                     (lambda _
+                       (setenv "LD_LIBRARY_PATH"
+                               (string-append (assoc-ref %build-inputs "mit-krb5") "/lib"))
+                       #t))
          (add-after 'install 'dektop-entry
            (lambda _ (let ((src-file    "contrib/desktopentry/cde.desktop")
                            (desktop-dir (string-append %output "/share/xsessions")))
