@@ -163,6 +163,8 @@
        ("bdftopcf"     ,bdftopcf)
        ("mit-krb5"     ,mit-krb5)
        ("rpcsvc-proto" ,rpcsvc-proto)))
+    (propagated--inputs
+     `(("mit-krb5"     ,mit-krb5)))
     (arguments
      `(#:tests? #f
        #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
