@@ -125,16 +125,17 @@
                     (commit version)))
               (sha256
                (base32
-                "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"))))
+                "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"))))
+                ;; "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"
                 ;; "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"
     (build-system gnu-build-system)
     (inputs
      `(("tcl"           ,tcl)
        ;; ("libtirpc-gh"   ,libtirpc-gh)
-       ("tirpc"   ,libtirpc-gh)
+       ("libtirpc-gh"   ,libtirpc-gh)
        ("freetype"      ,freetype)
        ("bzip2"         ,bzip2)
-       ("libjpeg"       ,libjpeg)
+       ("libjpeg-turbo" ,libjpeg-turbo)
        ("motif"         ,motif)                            ;pkg-config missing
        ("libx11"        ,libx11)
        ("libxmu"        ,libxmu)
@@ -164,14 +165,11 @@
        ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
      `(#:tests? #f
-       ;; #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
-       ;;                         (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
-       ;;                     (list "--disable-dependency-tracking"
-       ;;                           (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")
-       ;;                           (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc/")))
-       #:configure-flags (list "--disable-dependency-tracking"
-                               (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")
-                               (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "tirpc") "/include/tirpc/"))
+       #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
+                               (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
+                           (list "--disable-dependency-tracking"
+                                 (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")
+                                 (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc/")))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
@@ -210,18 +208,19 @@ Features
               license:gpl2
               license:lgpl2.1))))
 
-(define-public "nscde"
-  (package (name "nscde")
-           ;; (version "build-correction-autotools-conversion")
-           (version "master")
-           (source (origin
-                    (method git-fetch)
-                    (uri (git-reference
-                          (url "https://github.com/NsCDE/NsCDE.git")
-                          (commit version)))
-                    (sha256
-                     (base32
-                      "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"))))))
+;; (define-public "nscde"
+;;   (package (name "nscde")
+;;            ;; (version "build-correction-autotools-conversion")
+;;            (version "master")
+;;            (source (origin
+;;                     (method git-fetch)
+;;                     (uri (git-reference
+;;                           (url "https://github.com/NsCDE/NsCDE.git")
+;;                           (commit version)))
+;;                     (sha256
+;;                      (base32
+;;                       "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"))))))
 
 ;; cdesktopenv
 
+cdesktopenv
