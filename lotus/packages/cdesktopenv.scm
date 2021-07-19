@@ -125,9 +125,7 @@
                     (commit version)))
               (sha256
                (base32
-                "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"))))
-                ;; "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"
-                ;; "0k089q4z02k2f0iz699s41b9lbrbw2gb0dgm41vr6yhh2plxgrzw"
+                "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"))))
     (build-system gnu-build-system)
     (inputs
      `(("tcl"           ,tcl)
