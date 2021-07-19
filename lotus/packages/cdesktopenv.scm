@@ -173,11 +173,11 @@
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
                     (lambda _
-                      (substitute* "programs/dtksh/ksh93/src/cmd/INIT/ar.ibm.risc"
+                      (substitute* "cde/programs/dtksh/ksh93/src/cmd/INIT/ar.ibm.risc"
                                    (("/usr/bin/ar") (which "ar")))
-                      (substitute* "programs/dtksh/ksh93/src/cmd/INIT/ar.freebsd12.amd64"
+                      (substitute* "cde/programs/dtksh/ksh93/src/cmd/INIT/ar.freebsd12.amd64"
                                    (("/usr/bin/ar") (which "ar")))
-                      (substitute* "programs/dtksh/ksh93/src/cmd/INIT/ar.linux.i386-64"
+                      (substitute* "cde/programs/dtksh/ksh93/src/cmd/INIT/ar.linux.i386-64"
                                    (("/usr/bin/ar") (which "ar")))
                       (substitute* "cde/contrib/desktopentry/cde.desktop"
                         (("Exec=/usr/dt/bin/Xsession")
