@@ -164,10 +164,10 @@
     (arguments
      `(#:tests? #f
        #:configure-flags (let ((tcl   (assoc-ref %build-inputs "tcl"))
-                               (tirpc (assoc-ref %build-inputs "tirpc")))
+                               (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
                            `("--disable-dependency-tracking"
                              ,(string-append "--with-tcl=" tcl "/lib")
-                             ,(string-append "CPPFLAGS=-I" tirpc "/include/tirpc/")))
+                             ,(string-append "CPPFLAGS=-I" libtirpc-gh "/include/tirpc/")))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
@@ -205,6 +205,19 @@ Features
               ;; MPL 1.1 -- this license is not GPL compatible
               license:gpl2
               license:lgpl2.1))))
+
+(define-public "nscde"
+  (package (name "nscde")
+           ;; (version "build-correction-autotools-conversion")
+           (version "master")
+           (source (origin
+                    (method git-fetch)
+                    (uri (git-reference
+                          (url "https://github.com/NsCDE/NsCDE.git")
+                          (commit version)))
+                    (sha256
+                     (base32
+                      "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"))))))
 
 ;; cdesktopenv
 
