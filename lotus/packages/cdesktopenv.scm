@@ -142,6 +142,7 @@
        ("libxinerama"   ,libxinerama)
        ("libxscrnsaver" ,libxscrnsaver)
        ("libxt"         ,libxt)
+       ("tcl"           ,tcl)
        ("xrdb"          ,xrdb)
        ("xbitmaps"      ,xbitmaps)
        ("mit-krb5"      ,mit-krb5)))
@@ -157,13 +158,12 @@
        ("gawk"         ,gawk)
        ("perl"         ,perl)
        ("tcsh"         ,tcsh)
-       ("tcl"          ,tcl)
        ("mkfontdir"    ,mkfontdir)
        ("bdftopcf"     ,bdftopcf)
        ("rpcsvc-proto" ,rpcsvc-proto)))
     (arguments
      `(#:tests? #f
-       #:configure-flags (let ((tcl   (assoc-ref %build-inputs "tcl"))
+       #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
                                (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
                            `("--disable-dependency-tracking"
                              ,(string-append "--with-tcl=" tcl "/lib")
