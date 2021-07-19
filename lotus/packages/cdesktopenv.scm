@@ -130,7 +130,8 @@
     (build-system gnu-build-system)
     (inputs
      `(("tcl"           ,tcl)
-       ("libtirpc-gh"   ,libtirpc-gh)
+       ;; ("libtirpc-gh"   ,libtirpc-gh)
+       ("tirpc"   ,libtirpc-gh)
        ("freetype"      ,freetype)
        ("bzip2"         ,bzip2)
        ("libjpeg"       ,libjpeg)
@@ -170,7 +171,7 @@
        ;;                           (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc/")))
        #:configure-flags (list "--disable-dependency-tracking"
                                (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")
-                               (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc/"))
+                               (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "tirpc") "/include/tirpc/"))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
