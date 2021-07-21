@@ -128,7 +128,7 @@
                     (commit version)))
               (sha256
                (base32
-                "064vxm2gg0gji0hyc0ymr2qxkp4xwfxzcpg6b6n6y22avnkgfy4d"))))
+                "17nhjd7grfns5hhdanaspmyayr10ybqf2ykkia35rv32lhbpqnil"))))
     (build-system gnu-build-system)
     (inputs
      `(("binutils"      ,binutils)
@@ -148,6 +148,7 @@
        ("tcl"           ,tcl)
        ("xrdb"          ,xrdb)
        ("xbitmaps"      ,xbitmaps)
+       ("zlib"          ,zlib)
        ("mit-krb5"      ,mit-krb5)))
     (native-inputs
      `(("coreutils"    ,coreutils)
