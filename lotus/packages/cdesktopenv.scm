@@ -202,7 +202,8 @@
            (lambda _ (let ((src-file    "contrib/desktopentry/cde.desktop")
                            (desktop-dir (string-append %output "/share/xsessions")))
                        (mkdir-p desktop-dir)
-                       (copy-file src-file (string-append desktop-dir "/cde.desktop"))))))))
+                       (copy-file src-file (string-append desktop-dir "/cde.desktop")))))
+         (delete 'validate-runpath))))
     (synopsis "CDE - Common Desktop Environment")
     (description " The Common Desktop Environment, the classic UNIX desktop
 Brought to you by: flibble, jon13
