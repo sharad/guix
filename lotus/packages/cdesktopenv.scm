@@ -116,16 +116,19 @@
   (package
     (name "cdesktopenv")
     ;; (version "build-correction-autotools-conversion")
-    (version "master")
+    (version "guix")
     (source (origin
               (method git-fetch)
+              ;; (uri (git-reference
+              ;;       ;; (url "https://github.com/sharad/cdesktopenv.git")
+              ;;       (url "https://git.code.sf.net/p/cdesktopenv/code")
+              ;;       (commit version)))
               (uri (git-reference
-                    ;; (url "https://github.com/sharad/cdesktopenv.git")
-                    (url "https://git.code.sf.net/p/cdesktopenv/code")
+                    (url "https://github.com/sharad/cdesktopenv.git")
                     (commit version)))
               (sha256
                (base32
-                "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"))))
+                "0pv3fba69lhjp7661i81vqjdk1ah3wgwyxg3cj5ypfs184wsnwcb"))))
     (build-system gnu-build-system)
     (inputs
      `(("binutils"      ,binutils)
