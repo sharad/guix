@@ -196,8 +196,8 @@
          (add-before 'build 'set-build-environment-variables
                      (lambda _
                        (setenv "LD_LIBRARY_PATH"
-                               ;; (string-join (map (lambda (path) (string-append (cadr path) "/lib")) %build-inputs) ":")
-                               (string-append (assoc-ref %build-inputs "mit-krb5") "/lib" ":" (assoc-ref %build-inputs "libjpeg-turbo") "/lib"))
+                               ;; (string-append (assoc-ref %build-inputs "mit-krb5") "/lib" ":" (assoc-ref %build-inputs "libjpeg-turbo") "/lib")
+                               (string-join (map (lambda (path) (string-append (cadr path) "/lib")) %build-inputs) ":"))
                        #t))
          (add-after 'install 'dektop-entry
            (lambda _ (let ((src-file    "contrib/desktopentry/cde.desktop")
