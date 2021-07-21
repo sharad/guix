@@ -128,12 +128,11 @@
                     (commit version)))
               (sha256
                (base32
-                "0pv3fba69lhjp7661i81vqjdk1ah3wgwyxg3cj5ypfs184wsnwcb"))))
+                "1yb9kq2kvnjavm6agqsr98qqh5x9k3ryk21k1a4dg7mkk5wjik2s"))))
     (build-system gnu-build-system)
     (inputs
      `(("binutils"      ,binutils)
        ("tcl"           ,tcl)
-       ;; ("libtirpc-gh"   ,libtirpc-gh)
        ("libtirpc-gh"   ,libtirpc-gh)
        ("freetype"      ,freetype)
        ("bzip2"         ,bzip2)
