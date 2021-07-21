@@ -192,13 +192,14 @@
            (lambda _
              (begin (chdir "cde")
                     (system "./autogen.sh")
+                    ;; (format #t "%build-inputs = ~a" %build-inputs)
                     #t)))
          (add-before 'build 'set-build-environment-variables
                      (lambda _
-                       (for-each (lambda (path) (format #t "path ~a" (cadr path))) %build-inputs)
+                       (for-each (lambda (path) (format #t "path ~a" (cdr path))) %build-inputs)
                        (setenv "LD_LIBRARY_PATH"
                                ;; (string-append (assoc-ref %build-inputs "mit-krb5") "/lib" ":" (assoc-ref %build-inputs "libjpeg-turbo") "/lib")
-                               (string-join (map (lambda (path) (string-append (cadr path) "/lib")) %build-inputs) ":"))
+                               (string-join (map (lambda (path) (string-append (cdr path) "/lib")) %build-inputs) ":"))
                        #t))
          (add-after 'install 'dektop-entry
            (lambda _ (let ((src-file    "contrib/desktopentry/cde.desktop")
