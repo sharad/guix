@@ -128,7 +128,7 @@
                     (commit version)))
               (sha256
                (base32
-                "1i8d9fgk61za3lwnh09vpzicw504xkyp32xl8fiy6yxdbgb48qfr"))))
+                "064vxm2gg0gji0hyc0ymr2qxkp4xwfxzcpg6b6n6y22avnkgfy4d"))))
     (build-system gnu-build-system)
     (inputs
      `(("binutils"      ,binutils)
@@ -163,10 +163,7 @@
        ("tcsh"         ,tcsh)
        ("mkfontdir"    ,mkfontdir)
        ("bdftopcf"     ,bdftopcf)
-       ;; ("mit-krb5"     ,mit-krb5)
        ("rpcsvc-proto" ,rpcsvc-proto)))
-    ;; (propagated--inputs
-    ;;  `(("mit-krb5"     ,mit-krb5)))
     (arguments
      `(#:tests? #f
        #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
@@ -198,7 +195,6 @@
          (add-before 'build 'set-build-environment-variables
                      (lambda _
                        (setenv "LD_LIBRARY_PATH"
-                               ;; (string-append (assoc-ref %build-inputs "mit-krb5") "/lib" ":" (assoc-ref %build-inputs "libjpeg-turbo") "/lib")
                                (string-join (map (lambda (path) (string-append (cdr path) "/lib")) %build-inputs) ":"))
                        #t))
          (add-after 'install 'dektop-entry
