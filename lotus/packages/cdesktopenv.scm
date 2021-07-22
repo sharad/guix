@@ -128,7 +128,7 @@
                     (commit version)))
               (sha256
                (base32
-                "1s949gc5phcyng6ffksnp853cd0phqgza6cxlc2vax0581xaykg8"))))
+                "0ln9j9c48p0919g12505v45czv44716fq0nw57i5cbyvfsy1bvpa"))))
     (build-system gnu-build-system)
     (inputs
      `(("binutils"      ,binutils)
@@ -191,7 +191,7 @@
              (begin (chdir "cde")
                     (system "./autogen.sh")
                     #t)))
-         (add-before 'build 'set-build-environment-variables
+         (add-after 'set-path 'set-build-environment-variables
                      (lambda _
                        (setenv "LD_LIBRARY_PATH"
                                (string-join (map (lambda (path) (string-append (cdr path) "/lib")) %build-inputs) ":"))
@@ -215,6 +215,7 @@
                                                  #\:))
                             ":"))
                    (setenv "CPLUS_INCLUDE_PATH" (getenv "C_INCLUDE_PATH")))
+               (setenv "LD_LIBRARY_PATH" "")
                (format #true
                        "environment variable `CPLUS_INCLUDE_PATH' changed to ~a~%"
                        (getenv "CPLUS_INCLUDE_PATH")))))
