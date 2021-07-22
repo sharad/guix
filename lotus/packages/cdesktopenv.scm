@@ -128,7 +128,7 @@
                     (commit version)))
               (sha256
                (base32
-                "17nhjd7grfns5hhdanaspmyayr10ybqf2ykkia35rv32lhbpqnil"))))
+                "1s949gc5phcyng6ffksnp853cd0phqgza6cxlc2vax0581xaykg8"))))
     (build-system gnu-build-system)
     (inputs
      `(("binutils"      ,binutils)
@@ -170,9 +170,7 @@
        #:configure-flags (let ((tcl         (assoc-ref %build-inputs "tcl"))
                                (libtirpc-gh (assoc-ref %build-inputs "libtirpc-gh")))
                            (list "--disable-dependency-tracking"
-                                 (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")
-                                 (string-append "CPPFLAGS=-I" (assoc-ref %build-inputs "libtirpc-gh") "/include/tirpc")
-                                 (string-append "LDFLAGS=-L" (assoc-ref  %build-inputs "mit-krb5") "/lib")))
+                                 (string-append "--with-tcl=" (assoc-ref %build-inputs "tcl") "/lib")))
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'change-entries
@@ -198,12 +196,33 @@
                        (setenv "LD_LIBRARY_PATH"
                                (string-join (map (lambda (path) (string-append (cdr path) "/lib")) %build-inputs) ":"))
                        #t))
+         (add-after 'set-paths 'adjust-CPLUS_INCLUDE_PATH
+           (lambda* (#:key inputs #:allow-other-keys)
+             (let ((tirpc (assoc-ref inputs  "tirpc")))
+               (setenv "C_INCLUDE_PATH"
+                       (string-join
+                        (cons* (string-append (assoc-ref inputs "libtirpc-gh")
+                                              "/include/tirpc")
+                               (string-split (getenv "C_INCLUDE_PATH")
+                                             #\:))
+                        ":"))
+               (if (getenv "CPLUS_INCLUDE_PATH")
+                   (setenv "CPLUS_INCLUDE_PATH"
+                           (string-join
+                            (cons* (string-append (assoc-ref inputs "libtirpc-gh")
+                                                  "/include/tirpc")
+                                   (string-split (getenv "CPLUS_INCLUDE_PATH")
+                                                 #\:))
+                            ":"))
+                   (setenv "CPLUS_INCLUDE_PATH" (getenv "C_INCLUDE_PATH")))
+               (format #true
+                       "environment variable `CPLUS_INCLUDE_PATH' changed to ~a~%"
+                       (getenv "CPLUS_INCLUDE_PATH")))))
          (add-after 'install 'dektop-entry
            (lambda _ (let ((src-file    "contrib/desktopentry/cde.desktop")
                            (desktop-dir (string-append %output "/share/xsessions")))
                        (mkdir-p desktop-dir)
-                       (copy-file src-file (string-append desktop-dir "/cde.desktop")))))
-         (delete 'validate-runpath))))
+                       (copy-file src-file (string-append desktop-dir "/cde.desktop"))))))))
     (synopsis "CDE - Common Desktop Environment")
     (description " The Common Desktop Environment, the classic UNIX desktop
 Brought to you by: flibble, jon13
@@ -238,6 +257,6 @@ Features
 ;;                      (base32
 ;;                       "1ly3wczrhnh67hjwh2zl09x0zbb3mqa5wnzyygrmxnznhvwjkn2l"))))))
 
-;; cdesktopenv
+cdesktopenv
 
 
