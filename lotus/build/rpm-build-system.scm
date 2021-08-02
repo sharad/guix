@@ -57,9 +57,11 @@
   "Unpack SOURCE into the build directory.  SOURCE may be a compressed
 archive, a directory, or an Emacs Lisp file."
   (let ((cwd (getcwd)))
-    (mkdir "data")
-    (chdir "data")
+    (mkdir "rpmdata")
+    (chdir "rpmdata")
+    (format #t "invoking rpm2cpio ~%")
     (invoke "rpm2cpio" source "|" "cpio" "-idmv")
+    (format #t "invoked rpm2cpio ~%")
     (chdir cwd)
     (mkdir "rpmdata")
     (copy-recursively "rpmdata/usr" "source")
