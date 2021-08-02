@@ -11,7 +11,8 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages bootstrap)
   #:use-module (gnu packages base)
-  #:use-module (gnu packages nss))
+  #:use-module (gnu packages nss)
+  #:use-module (gnu packages glib))
 
 
 (define-public rpm-teams
