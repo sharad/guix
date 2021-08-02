@@ -12,7 +12,13 @@
   #:use-module (gnu packages bootstrap)
   #:use-module (gnu packages base)
   #:use-module (gnu packages nss)
-  #:use-module (gnu packages glib))
+  #:use-module (gnu packages glib)
+  #:use-module (gnu packages xorg)
+  #:use-module (gnu packages xml)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages gtk)
+  #:use-module (gnu packages cups)
+  #:use-module (gnu packages gcc))
 
 
 (define-public rpm-teams
@@ -47,7 +53,7 @@
                      ("atk"            ,atk)
                      ("gtk+"           ,gtk+)
                      ("pango"          ,pango)
-                     ("cario"          ,cario)
+                     ("cairo"          ,cairo)
                      ("gdk-pixbuf+svg" ,gdk-pixbuf+svg)))
            (build-system rpm-build-system)
            (arguments `(#:input-lib-mapping '(("out" "share/teams"))))
