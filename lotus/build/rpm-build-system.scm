@@ -60,7 +60,7 @@ archive, a directory, or an Emacs Lisp file."
     (mkdir "rpmdata")
     (chdir "rpmdata")
     (format #t "invoking rpm2cpio ~%")
-    (invoke "sh" "-c" (sting-join (list "rpm2cpio" source "|" "cpio" "-idmv") " "))
+    (invoke "sh" "-c" (string-join (list "rpm2cpio" source "|" "cpio" "-idmv") " "))
     (format #t "invoked rpm2cpio ~%")
     (chdir cwd)
     (mkdir "rpmdata")
