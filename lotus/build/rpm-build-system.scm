@@ -63,21 +63,8 @@ archive, a directory, or an Emacs Lisp file."
     (invoke "sh" "-c" (string-join (list "rpm2cpio" source "|" "cpio" "-idmv") " "))
     (format #t "invoked rpm2cpio ~%")
     (chdir cwd)
-    ;; (mkdir "rpmdata")
     (copy-recursively "rpmdata/usr" "source")
     #t))
-    ;; (let* ((files (find-files "data")))
-    ;;   (chdir "rpmdata")
-    ;;   (for-each (lambda (file)
-    ;;               (format #t "checking ~a~%" file)
-    ;;               (when (string-prefix? "data/data" file)
-    ;;                 (format #t "matched unpacking ~a~%" file)
-    ;;                 (gnu:unpack #:source (string-append cwd "/" file))))
-    ;;             files)
-    ;;   (chdir cwd)
-    ;;   (copy-recursively "rpmdata/usr" "source")
-    ;;   (chdir "source")
-    ;;   #t)
 
 (define %standard-phases
   (modify-phases patchelf:%standard-phases

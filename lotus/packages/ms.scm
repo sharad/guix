@@ -10,7 +10,8 @@
   #:use-module (lotus build rpm-build-system)
   #:use-module (gnu packages)
   #:use-module (gnu packages bootstrap)
-  #:use-module (gnu packages base))
+  #:use-module (gnu packages base)
+  #:use-module (gnu packages nss))
 
 
 (define-public rpm-teams
@@ -20,10 +21,35 @@
                            (uri       (string-append "https://packages.microsoft.com/yumrepos/ms-teams/teams-" version ".x86_64.rpm"))
                            (file-name (string-append "teams-" version ".x86_64.rpm"))
                            (sha256    (base32 "009rh55r56k1zd7spiz6hy5chgkq9bg4d0zim9rwjyg28754r4zy"))))
+           (inputs `(("nss"            ,nss)
+                     ("glib"           ,glib)
+                     ("libx11"         ,libx11)
+                     ("libxcb"         ,libxcb)
+                     ("libxcomposite"  ,libxcomposite)
+                     ("libxcursor"     ,libxcursor)
+                     ("libxdamage"     ,libxdamage)
+                     ("libxext"        ,libxext)
+                     ("libxfixes"      ,libxfixes)
+                     ("libxi"          ,libxi)
+                     ("libxrender"     ,libxrender)
+                     ("libxtst"        ,libxtst)
+                     ("expat"          ,expat)
+                     ("util-linux"     ,util-linux)
+                     ("libxrandr"      ,libxrandr)
+                     ("libxscrnsaver"  ,libxscrnsaver)
+                     ("alsa-lib"       ,alsa-lib)
+                     ("dbus"           ,dbus)
+                     ("at-spi2-atk"    ,at-spi2-atk)
+                     ("cups-minimal"   ,cups-minimal)
+                     ("gcc:lib"        ,gcc "lib")
+                     ("nspr"           ,nspr)
+                     ("atk"            ,atk)
+                     ("gtk+"           ,gtk+)
+                     ("pango"          ,pango)
+                     ("cario"          ,cario)
+                     ("gdk-pixbuf+svg" ,gdk-pixbuf+svg)))
            (build-system rpm-build-system)
-           (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
-                                              ("adobe-flashplugin" "lib/adobe-flashplugin/")
-                                              ("out" "share/firefox/lib"))))
+           (arguments `(#:input-lib-mapping '(("out" "share/teams"))))
                         ;; #:phases      (modify-phases %standard-phases
                         ;;                 (add-after
                         ;;                     'build 'rearrange
@@ -32,11 +58,7 @@
            (synopsis "rpm-teams")
            (description "rpm-teams.")
            (home-page "https://teams")
-                                        ;; Conkeror is triple licensed.
-           (license (list
-                     ;; MPL 1.1 -- this license is not GPL compatible
-                     license:gpl2
-                     license:lgpl2.1))))
+           (license #f)))
 
 
 
