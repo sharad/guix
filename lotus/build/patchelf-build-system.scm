@@ -131,6 +131,7 @@
 
   (let* ((out (assoc-ref outputs "out"))
          (files-to-install (find-files source install-file?)))
+    (format #t "instaling in ~a%" out)
     (cond
      ((not (null? files-to-install))
       (for-each (lambda (file)

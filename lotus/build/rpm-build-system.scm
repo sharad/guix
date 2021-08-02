@@ -63,7 +63,13 @@ archive, a directory, or an Emacs Lisp file."
     (invoke "sh" "-c" (string-join (list "rpm2cpio" source "|" "cpio" "-idmv") " "))
     (format #t "invoked rpm2cpio ~%")
     (chdir cwd)
-    (copy-recursively "rpmdata/usr" "source")
+    (if (access? "rpmdata/usr" F_OK)
+        (copy-recursively "rpmdata/usr" "source")
+        (format #t "rpmdata/usr not exists."))
+    (if (access? "rpmdata/opt" F_OK)
+        (copy-recursively "rpmdata/opt" "source")
+        (format #t "rpmdata/opt not exists."))
+    (chdir "source")
     #t))
 
 (define %standard-phases
