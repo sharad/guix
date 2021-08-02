@@ -56,7 +56,8 @@
                      ("cairo"          ,cairo)
                      ("gdk-pixbuf+svg" ,gdk-pixbuf+svg)))
            (build-system rpm-build-system)
-           (arguments `(#:input-lib-mapping '(("out" "share/teams"))))
+           (arguments `(#:input-lib-mapping '(("out" "share/teams")
+                                              ("nss" "lib/nss"))))
                         ;; #:phases      (modify-phases %standard-phases
                         ;;                 (add-after
                         ;;                     'build 'rearrange
