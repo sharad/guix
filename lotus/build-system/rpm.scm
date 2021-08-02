@@ -75,7 +75,8 @@
                         ,@inputs
                         ;; Keep the standard inputs of 'gnu-build-system'.
                         ,@(gnu:standard-packages)))
-         (build-inputs `(("rpm" ,rpm)
+         (build-inputs `(("rpm"      ,rpm)
+                         ("cpio"     ,cpio)
                          ("patchelf" ,patchelf)
                          ,@native-inputs))
          ;; (build-inputs `(,@(if source
