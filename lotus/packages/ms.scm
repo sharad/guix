@@ -65,7 +65,7 @@
            (synopsis "rpm-teams")
            (description "rpm-teams.")
            (home-page "https://teams")
-           (license #f)))
+           (license license:asl2.0)))
 
 
 
