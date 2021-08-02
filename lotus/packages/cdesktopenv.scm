@@ -128,7 +128,7 @@
                     (commit version)))
               (sha256
                (base32
-                "0ln9j9c48p0919g12505v45czv44716fq0nw57i5cbyvfsy1bvpa"))))
+                "1darw7ihka87iqns1n0kd8ypggnr18nd9hrq6z9gs5m4v9hbsi9w"))))
     (build-system gnu-build-system)
     (inputs
      `(("binutils"      ,binutils)
@@ -215,7 +215,7 @@
                                                  #\:))
                             ":"))
                    (setenv "CPLUS_INCLUDE_PATH" (getenv "C_INCLUDE_PATH")))
-               (setenv "LD_LIBRARY_PATH" "")
+               ;; (setenv "LD_LIBRARY_PATH" "")
                (format #true
                        "environment variable `CPLUS_INCLUDE_PATH' changed to ~a~%"
                        (getenv "CPLUS_INCLUDE_PATH")))))
