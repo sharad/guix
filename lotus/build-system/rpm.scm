@@ -31,6 +31,7 @@
   #:use-module (ice-9 match)
   #:use-module (srfi srfi-26)
   #:use-module (gnu packages package-management)
+  #:use-module (gnu packages cpio)
   #:export (%rpm-build-system-modules
             rpm-build
             rpm-build-system))
