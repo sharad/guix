@@ -12,7 +12,8 @@
             elf-aslr-file?
             regular-file?
             directory?
-            directory-list-files))
+            directory-list-files
+            file-info))
             ;; patchelf-dynamic-linker
 
 
@@ -80,3 +81,10 @@
 ;;                                  (%current-system))))
 ;;   (use-modules (gnu packages bootstrap))
 ;;   (glibc-dynamic-linker system))
+
+(define (file-info file)
+  (format "file-info: ~a~%" file)
+  (format "file-info: ~a: (stat:type (stat file)) = ~a~%" file (stat:type (stat file)))
+  (format "file-info: ~a: (string-suffix? ".so" file) = ~a~%" file (string-suffix? ".so" file))
+  (format "file-info: ~a: (executable-file? file)= ~a~%" file (executable-file? file))
+  (format "file-info: ~a: (elf-file? file) = ~a~%" file (elf-file? file)))
