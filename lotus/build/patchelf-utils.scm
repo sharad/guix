@@ -68,7 +68,9 @@
   (if (or (elf-file? file)
           (elf-pie-file? file)
           (elf-aslr-file? file))
-      (invoke "sh" "-c" (format #f "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'" file))
+      (with-exception-handler (const #f)
+        (lambda _ (invoke "sh" "-c" (format #f "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'" file)))
+        #:unwind? #f)
       #f))
 
 (define (regular-file? file)
