@@ -99,9 +99,9 @@
                     (file-info file)
                     (let ((stat (stat file)))
                       (format #t "~%build: patching `~a'~%" file)
-                      (if (or (elf-binary-file? file)
-                              (elf-aslr-file?   file)
-                              (library-file?    file))
+                      (if (or (library-file?    file)
+                              (elf-binary-file? file)
+                              (elf-aslr-file?   file))
                           (begin
                             (make-file-writable file)
                             (format #t "build: `~a' is an elf binary or library file~%" file)
