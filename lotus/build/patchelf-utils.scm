@@ -85,6 +85,6 @@
 (define (file-info file)
   (format #t "file-info: ~a~%" file)
   (format #t "file-info: ~a: (stat:type (stat file)) = ~a~%" file (stat:type (stat file)))
-  (format #t "file-info: ~a: (string-suffix? ".so" file) = ~a~%" file (string-suffix? ".so" file))
+  (format #t "file-info: ~a: (string-suffix? \".so\" file) = ~a~%" file (string-suffix? ".so" file))
   (format #t "file-info: ~a: (executable-file? file)= ~a~%" file (executable-file? file))
   (format #t "file-info: ~a: (elf-file? file) = ~a~%" file (elf-file? file)))
