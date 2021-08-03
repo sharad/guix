@@ -100,6 +100,7 @@
                     (let ((stat (stat file)))
                       (format #t "~%build: patching `~a'~%" file)
                       (if (or (elf-binary-file? file)
+                              (elf-aslr-file?   file)
                               (library-file?    file))
                           (begin
                             (make-file-writable file)
