@@ -68,7 +68,7 @@
   (when (or  (elf-file? file)
              (elf-pie-file? file)
              (elf-aslr-file? file))
-    (invoke "sh" "-c" "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'")))
+    (invoke "sh" "-c" (format #f "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'" file))))
 
 (define (regular-file? file)
   (and (not (library-file? file))
@@ -93,4 +93,5 @@
   (format #t "file-info: ~a: (stat:type (stat file)) = ~a~%" file (stat:type (stat file)))
   (format #t "file-info: ~a: (string-suffix? \".so\" file) = ~a~%" file (string-suffix? ".so" file))
   (format #t "file-info: ~a: (executable-file? file)= ~a~%" file (executable-file? file))
-  (format #t "file-info: ~a: (elf-file? file) = ~a~%" file (elf-file? file)))
+  (format #t "file-info: ~a: (elf-file? file) = ~a~%" file (elf-file? file))
+  (format #t "file-info: ~a: (elf-file-dynamic? file) = ~a~%" file (elf-file-dynamic? file)))
