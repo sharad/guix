@@ -19,7 +19,13 @@
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages cups)
   #:use-module (gnu packages gcc)
-  #:use-module (gnu packages gnome))
+  #:use-module (gnu packages gnome)
+  #:use-module (gnu packages commencement)
+  #:use-module (gnu packages gl)
+  #:use-module (gnu packages linux)
+  #:use-module (gnu packages fontutils)
+  #:use-module (gnu packages bash)
+  #:use-module (gnu packages chromium))
 
 
 
@@ -32,7 +38,9 @@
                            (uri       (string-append "https://packages.microsoft.com/yumrepos/ms-teams/teams-" version ".x86_64.rpm"))
                            (file-name (string-append "teams-" version ".x86_64.rpm"))
                            (sha256    (base32 "009rh55r56k1zd7spiz6hy5chgkq9bg4d0zim9rwjyg28754r4zy"))))
-           (inputs `(("alsa-lib"                 ,alsa-lib)
+           (inputs `(("chromium"                 ,ungoogled-chromium)
+                     ("bash"                     ,bash)
+                     ("alsa-lib"                 ,alsa-lib)
                      ("atk"                      ,atk)
                      ("at-spi2-atk"              ,at-spi2-atk)
                      ("cairo"                    ,cairo)
@@ -69,20 +77,16 @@
                      ("pango"                    ,pango)
                      ("util-linux"               ,util-linux)
                      ("util-linux:lib"           ,util-linux "lib")
-                     ("util-linux-with-udev:lib" ,util-linux-with-udev "lib")))
+                     ("util-linux-with-udev:lib" ,util-linux+udev "lib")
+                     ("fontconfig"               ,fontconfig)))
+           (native-inputs `(("bash"              ,bash)))
            (build-system rpm-build-system)
            (arguments `(#:input-lib-mapping '(("out" "share/teams")
+                                              ("out" "share/teams/swiftshader")
                                               ("nss" "lib/nss"))))
-                        ;; #:phases      (modify-phases %standard-phases
-                        ;;                 (add-after
-                        ;;                     'build 'rearrange
-                        ;;                   ,patched-firefox-rearrange-method)
-                        ;;                 (delete 'validate-runpath))
            (synopsis "rpm-teams")
            (description "rpm-teams.")
            (home-page "https://teams")
            (license license:asl2.0)))
 
-
 rpm-teams
-
