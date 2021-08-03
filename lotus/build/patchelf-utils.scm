@@ -68,7 +68,7 @@
   (if (or (elf-file? file)
           (elf-pie-file? file)
           (elf-aslr-file? file))
-      (zero? (apply system* "sh" "-c" (format #f "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'" file)))
+      (zero? (apply system* "sh" (list "-c" (format #f "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'" file))))
       #f))
 
 (define (regular-file? file)
