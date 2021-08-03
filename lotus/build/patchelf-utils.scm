@@ -10,6 +10,7 @@
             elf-binary-file?
             elf-pie-file?
             elf-aslr-file?
+            elf-file-dynamic?
             regular-file?
             directory?
             directory-list-files
