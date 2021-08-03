@@ -71,9 +71,18 @@
                          lib))
                    slist))))))
 
+  ;; (define (find-lib input mapping)
+  ;;   (map (lambda (lib) (string-append (cdr input) "/" lib))
+  ;;        (or (assoc-ref mapping (car input)) '("lib"))))
+
   (define (find-lib input mapping)
-    (map (lambda (lib) (string-append (cdr input) "/" lib))
-         (or (assoc-ref mapping (car input)) '("lib"))))
+    (let ((pkg      (car input))
+          (pkg-path (cdr input)))
+      (map (lambda (lib) (string-append pkg-path "/" lib))
+           (or (map cadr
+                    (filter (lambda (x) (equal? pkg (car x)))
+                            mapping))
+               '("lib")))))
 
          ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
   (let* ((ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
