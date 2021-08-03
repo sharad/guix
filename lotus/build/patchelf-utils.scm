@@ -64,6 +64,12 @@
 (define (elf-aslr-file? file)
   (= 2 (last (bytevector->u8-list (patchelf-get-header file 17)))))
 
+(define (elf-file-dynamic? file)
+  (when (or  (elf-file? file)
+             (elf-pie-file? file)
+             (elf-aslr-file? file))
+    (invoke "sh" "-c" "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'")))
+
 (define (regular-file? file)
   (and (not (library-file? file))
        (not (elf-binary-file? file))))

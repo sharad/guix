@@ -108,8 +108,7 @@
                             (format #t "build: invoke: patchelf" "--set-rpath ~a ~a~%" rpath file)
                             (invoke "patchelf" "--set-rpath" rpath file)
                             (if (and (not (library-file? file))
-                                     (or (elf-binary-file? file)
-                                         (elf-aslr-file? file)))
+                                     (elf-file-dynamic? file))
                                 (begin
                                   (format #t "build: `~a' is a elf binary file~%" file)
                                   (format #t "build: invoke: patchelf" "--set-interpreter ~a ~a~%" ld-so file)
