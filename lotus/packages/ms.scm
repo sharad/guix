@@ -1,3 +1,4 @@
+
 (define-module (lotus packages ms)
   #:use-module (ice-9 ftw)
   #:use-module (lotus build patchelf-utils)
@@ -197,8 +198,8 @@
                      ("fontconfig"               ,fontconfig)))
            (native-inputs `(("bash"              ,bash)))
            (build-system rpm:rpm-build-system)
-           (arguments `(#:input-lib-mapping '(("out" "lib/slack")
-                                              ("out" "lib")
+           (arguments `(#:input-lib-mapping '(("out" "lib")
+                                              ("out" "lib/slack")
                                               ("nss" "lib/nss"))))
            (synopsis "rpm-slack")
            (description "rpm-slack.")

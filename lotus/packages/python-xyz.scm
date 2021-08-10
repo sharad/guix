@@ -259,13 +259,13 @@
 (define-public python-attnmgr
   (package
     (name "python-attnmgr")
-    (version "1.0")
+    (version "2.0")
     (source (origin (method git-fetch)
                     (uri (git-reference
                           (url "https://github.com/sharad/attnmgr")
                           (commit "master")))
                     (file-name (git-file-name name version))
-                    (sha256 (base32 "0gy6vawq07llambnzsrg6v3jrphl7im4hrnqi7hp8f1m54lxigqi"))))
+                    (sha256 (base32 "18wq2vx3zjlb8l3k6v4iz6gn60p6h7np2pn5lhla9jwqf50nmx9b"))))
     (arguments
      '(#:tests? #f))
     (build-system python-build-system)
@@ -296,7 +296,3 @@
 ;;     (description
 ;;      "Read Exif metadata from tiff and jpeg files.")
 ;;     (license license:bsd-3)))
-
-
-
-
