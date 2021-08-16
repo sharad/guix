@@ -84,13 +84,16 @@
                             mapping))
                '("lib")))))
 
-  (define find-rpath-libs (host-inputs outputs input-lib-mapping)
+  (define (find-rpath-libs host-inputs
+                           outputs
+                           input-lib-mapping)
     (let ((host-inputs (filter (lambda (input)
                                  (not (member (car input) '("source" "patchelf"))))
                                inputs)))
-      (format #t "find-rpath-libs:: host-inputs ~a~%" host-inputs)
-      (format #t "find-rpath-libs:: outputs ~a~%" outputs)
-      (format #t "find-rpath-libs:: input-lib-mapping ~a~%" input-lib-mapping)
+      (format #t "find-rpath-libs:~%")
+      (format #t "find-rpath-libs: host-inputs ~a~%" host-inputs)
+      (format #t "find-rpath-libs: outputs ~a~%" outputs)
+      (format #t "find-rpath-libs: input-lib-mapping ~a~%" input-lib-mapping)
       (format #t "~%~%")
       (format #t "find-rpath-libs: filtered inputs ~a~%" host-inputs)
       (format #t "~%~%")
