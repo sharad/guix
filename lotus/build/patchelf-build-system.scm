@@ -82,13 +82,15 @@
           (pkg-path (cdr input)))
       (format #t "find-lib: maping ~a~%" mapping)
       (format #t "find-lib: pkg ~a, pkg-path ~a~%" pkg pkg-path)
-      (map (lambda (lib) (string-append pkg-path "/" lib))
-           (or (map cadr
-                    (filter (lambda (x)
-                              (format #t "find-lib pkg ~a, (car x) ~a, (equal? pkg (car x)) ~a~%" pkg (car x) (equal? pkg (car x)))
-                              (equal? pkg (car x)))
-                            mapping))
-               '("lib")))))
+      (let ((filtered-libs (map cadr
+                                (filter (lambda (x)
+                                          (format #t "find-lib pkg ~a, (car x) ~a, (equal? pkg (car x)) ~a~%" pkg (car x) (equal? pkg (car x)))
+                                          (equal? pkg (car x)))
+                                        mapping))))
+        (map (lambda (lib) (string-append pkg-path "/" lib))
+             (if (> (length filtered-libs) 0)
+                 filtered-libs
+                 '("lib"))))))
 
   (define (find-rpath-libs outputs
                            input-lib-mapping)
