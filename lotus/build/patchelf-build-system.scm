@@ -123,7 +123,7 @@
                                   (begin
                                     (format #t "build: `~a' is an elf binary file~%" file)
                                     (format #t "~%~%")
-                                    (format #t "build: invoke: patchelf" "--set-interpreter ~a ~a~%" ld-so file)
+                                    (format #t "build: invoke: patchelf --set-interpreter ~a ~a~%" ld-so file)
                                     (format #t "~%~%")
                                     (invoke "patchelf" "--set-interpreter" ld-so file))))
                             (chmod file (stat:perms stat)))
