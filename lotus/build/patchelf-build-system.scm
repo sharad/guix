@@ -84,8 +84,7 @@
                             mapping))
                '("lib")))))
 
-  (define (find-rpath-libs host-inputs
-                           outputs
+  (define (find-rpath-libs outputs
                            input-lib-mapping)
     (let ((host-inputs (filter (lambda (input)
                                  (not (member (car input) '("source" "patchelf"))))
@@ -109,7 +108,7 @@
 
   (format #t "BUILD:~%")
   (let* ((ld-so             (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
-         (rpath-libs        (find-rpath-libs host-inputs outputs input-lib-mapping))
+         (rpath-libs        (find-rpath-libs outputs input-lib-mapping))
          (readonly-binaries readonly-binaries)
          (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
