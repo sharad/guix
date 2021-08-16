@@ -108,15 +108,17 @@
                     (let ((stat (stat file)))
                       (format #t "~%build: patching `~a'~%" file)
                       (if (or (library-file?    file)
-                              (elf-binary-file? file)
-                              (elf-aslr-file?   file))
+                              (elf-binary-file? file))
                           (begin
                             (make-file-writable file)
                             (format #t "build: `~a' is an elf binary or library file~%" file)
-                            (format #t "build: invoke: patchelf" "--set-rpath ~a ~a~%" rpath file)
-                            (invoke "patchelf" "--set-rpath" rpath file)
+                            (if (library-file? file)
+                                (begin
+                                  (invoke "patchelf" "--set-rpath" rpath file)
+                                  (invoke "patchelf" "--set-rpath" rpath file))
+                                (format #t "build: `~a' is not a library file~%" file))
                             (if (and (not (library-file? file))
-                                     (elf-file-dynamic? file))
+                                     (elf-binary-file? file))
                                 (begin
                                   (format #t "build: `~a' is a elf binary file~%" file)
                                   (format #t "build: invoke: patchelf" "--set-interpreter ~a ~a~%" ld-so file)

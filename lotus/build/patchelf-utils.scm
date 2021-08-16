@@ -18,16 +18,6 @@
             ;; patchelf-dynamic-linker
 
 
-(define (library-file? file)
-  (and (eq? 'regular (stat:type (stat file)))
-       (string-suffix? ".so" file)))
-
-(define (elf-binary-file? file)
-  (and (eq? 'regular (stat:type (stat file)))
-       (not (string-suffix? ".so" file))
-       (executable-file? file)
-       (elf-file? file)))
-
 ;; https://stackoverflow.com/questions/38189169/elf-pie-aslr-and-everything-in-between-specifically-within-linux
 ;; TODO
 ;; (define (file-header-loc-match loc num)
@@ -65,26 +55,34 @@
 
 (define (elf-pie-file? file)
   (let ((header (patchelf-get-header file 17)))
-    (if (patchelf-valid-header? header 17)
-        (= 3 (last (bytevector->u8-list header)))
-        #f)))
+    (and (patchelf-valid-header? header 17)
+         (= 3 (last (bytevector->u8-list header))))))
 
 (define (elf-aslr-file? file)
   (let ((header (patchelf-get-header file 17)))
-    (if (patchelf-valid-header? header 17)
-        (= 2 (last (bytevector->u8-list header)))
-        #f)))
+    (and (patchelf-valid-header? header 17)
+        (= 2 (last (bytevector->u8-list header))))))
 
 (define (elf-file-dynamic? file)
-  (if (or (elf-file? file)
-          (elf-pie-file? file)
-          (elf-aslr-file? file))
-      (zero? (apply system* "sh" (list "-c" (format #f "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'" file))))
-      #f))
+  (and (or (elf-file? file)
+           (elf-pie-file? file)
+           (elf-aslr-file? file))
+       (zero? (apply system* "sh" (list "-c" (format #f "readelf -x .interp ~a 2>&1 | grep 'Hex dump of section'" file))))))
 
 (define (regular-file? file)
   (and (not (library-file? file))
        (not (elf-binary-file? file))))
+
+
+(define (library-file? file)
+  (and (eq? 'regular (stat:type (stat file)))
+       (string-suffix? ".so" file)))
+
+(define (elf-binary-file? file)
+  (and (eq? 'regular (stat:type (stat file)))
+       (not (string-suffix? ".so" file))
+       (executable-file? file)
+       (elf-file-dynamic? file)))
 
 (define (directory? file)
   (let ((stat (stat file)))
