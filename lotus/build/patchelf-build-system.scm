@@ -104,6 +104,7 @@
                         (find-lib input input-lib-mapping))))
                 (append host-inputs outputs)))))
 
+  (format #t "BUILD:~%")
   (let* ((ld-so             (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
          (rpath-libs        (find-rpath-libs host-inputs outputs input-lib-mapping))
          (readonly-binaries readonly-binaries)
