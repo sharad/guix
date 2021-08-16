@@ -84,19 +84,28 @@
                             mapping))
                '("lib")))))
 
-         ;; ((ld-so (string-append (assoc-ref inputs "libc") (glibc-dynamic-linker))))
-  (let* ((ld-so          (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
-         (host-inputs    (filter (lambda (input)
-                                   (not (member (car input) '("source" "patchelf"))))
-                                 inputs))
-         (rpath-libs     (apply append
-                                (map (lambda (input)
-                                       (let ((plibs (pkg-config-libs input)))
-                                         (if (> (length plibs) 0)
-                                             plibs
-                                             (find-lib input input-lib-mapping))))
-                                     (append host-inputs
-                                             outputs))))
+  (define find-rpath-libs (host-inputs outputs input-lib-mapping)
+    (let ((host-inputs (filter (lambda (input)
+                                 (not (member (car input) '("source" "patchelf"))))
+                               inputs)))
+      (format #t "find-rpath-libs:: host-inputs ~a~%" host-inputs)
+      (format #t "find-rpath-libs:: outputs ~a~%" outputs)
+      (format #t "find-rpath-libs:: input-lib-mapping ~a~%" input-lib-mapping)
+      (format #t "~%~%")
+      (format #t "find-rpath-libs: filtered inputs ~a~%" host-inputs)
+      (format #t "~%~%")
+      (apply append
+           (map (lambda (input)
+                  (format #t "find-rpath-libs: working on input: ~a~%" input)
+                  (let ((plibs (pkg-config-libs input)))
+                    (format #t "find-rpath-libs: pkg-config-libs for ~a input: ~a~%" input plibs)
+                    (if (> (length plibs) 0)
+                        plibs
+                        (find-lib input input-lib-mapping))))
+                (append host-inputs outputs)))))
+
+  (let* ((ld-so             (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+         (rpath-libs        (find-rpath-libs host-inputs outputs input-lib-mapping))
          (readonly-binaries readonly-binaries)
          (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
