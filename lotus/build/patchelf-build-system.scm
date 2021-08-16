@@ -72,6 +72,7 @@
                    slist))))))
 
   (define (find-lib-1 input mapping)
+    (format #t "find-lib-1: (assoc-ref mapping (car input)) ~a~%" (assoc-ref mapping (car input)))
     (map (lambda (lib) (string-append (cdr input) "/" lib))
          (or (assoc-ref mapping (car input))
              '("lib"))))
@@ -79,9 +80,13 @@
   (define (find-lib input mapping)
     (let ((pkg      (car input))
           (pkg-path (cdr input)))
+      (format #t "find-lib: maping ~a~%" mapping)
+      (format #t "find-lib: pkg ~a, pkg-path ~a~%" pkg pkg-path)
       (map (lambda (lib) (string-append pkg-path "/" lib))
            (or (map cadr
-                    (filter (lambda (x) (equal? pkg (car x)))
+                    (filter (lambda (x)
+                              (format #t "find-lib pkg ~a, (car x) ~a, (equal? pkg (car x)) ~a~%" pkg (car x) (equal? pkg (car x)))
+                              (equal? pkg (car x)))
                             mapping))
                '("lib")))))
 
