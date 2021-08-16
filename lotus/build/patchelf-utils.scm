@@ -59,11 +59,21 @@
       (get-bytevector-n port len))
     #:binary #t #:guess-encoding #f))
 
+(define (patchelf-valid-header? file len)
+  (and (not (eof-object? header))
+       (= 17 (bytevector-length header))))
+
 (define (elf-pie-file? file)
-  (= 3 (last (bytevector->u8-list (patchelf-get-header file 17)))))
+  (let ((header (patchelf-get-header file 17)))
+    (if (patchelf-valid-header? header 17)
+        (= 3 (last (bytevector->u8-list header)))
+        #f)))
 
 (define (elf-aslr-file? file)
-  (= 2 (last (bytevector->u8-list (patchelf-get-header file 17)))))
+  (let ((header (patchelf-get-header file 17)))
+    (if (patchelf-valid-header? header 17)
+        (= 2 (last (bytevector->u8-list header)))
+        #f)))
 
 (define (elf-file-dynamic? file)
   (if (or (elf-file? file)
