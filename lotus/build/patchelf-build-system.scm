@@ -114,13 +114,17 @@
                             (format #t "build: `~a' is an elf binary or library file~%" file)
                             (if (library-file? file)
                                 (begin
+                                  (format #t "~%~%")
                                   (format #t "build: invoke patchelf --set-rpath ~a ~a~%" rpath file)
+                                  (format #t "~%~%")
                                   (invoke "patchelf" "--set-rpath" rpath file))
                                 (begin
                                   (format #t "build: `~a' is not a library file~%" file)
                                   (begin
                                     (format #t "build: `~a' is an elf binary file~%" file)
+                                    (format #t "~%~%")
                                     (format #t "build: invoke: patchelf" "--set-interpreter ~a ~a~%" ld-so file)
+                                    (format #t "~%~%")
                                     (invoke "patchelf" "--set-interpreter" ld-so file))))
                             (chmod file (stat:perms stat)))
                           (begin
