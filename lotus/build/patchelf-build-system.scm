@@ -71,16 +71,16 @@
                          lib))
                    slist))))))
 
-  ;; (define (find-lib input mapping)
-  ;;   (map (lambda (lib) (string-append (cdr input) "/" lib))
-  ;;        (or (assoc-ref mapping (car input))
-  ;;            '("lib"))))
+  (define (find-lib-1 input mapping)
+    (map (lambda (lib) (string-append (cdr input) "/" lib))
+         (or (assoc-ref mapping (car input))
+             '("lib"))))
 
   (define (find-lib input mapping)
     (let ((pkg      (car input))
           (pkg-path (cdr input)))
       (map (lambda (lib) (string-append pkg-path "/" lib))
-           (or (map caddr
+           (or (map cadr
                     (filter (lambda (x) (equal? pkg (car x)))
                             mapping))
                '("lib")))))
@@ -104,7 +104,9 @@
                     (format #t "find-rpath-libs: pkg-config-libs for ~a input: ~a~%" input plibs)
                     (if (> (length plibs) 0)
                         plibs
-                        (let ((found-lib (find-lib input input-lib-mapping)))
+                        (let ((found-lib-1 (find-lib-1 input input-lib-mapping))
+                              (found-lib (find-lib input input-lib-mapping)))
+                          (format #t "find-rpath-libs: found-lib-1 ~a~%" found-lib-1)
                           (format #t "find-rpath-libs: found-lib ~a~%" found-lib)
                           found-lib))))
                 (append host-inputs outputs)))))
