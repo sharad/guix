@@ -59,7 +59,7 @@
       (get-bytevector-n port len))
     #:binary #t #:guess-encoding #f))
 
-(define (patchelf-valid-header? file len)
+(define (patchelf-valid-header? header len)
   (and (not (eof-object? header))
        (= 17 (bytevector-length header))))
 
