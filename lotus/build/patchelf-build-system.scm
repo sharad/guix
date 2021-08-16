@@ -112,12 +112,13 @@
                           (begin
                             (make-file-writable file)
                             (format #t "build: `~a' is an elf binary or library file~%" file)
+                            (begin
+                              (format #t "~%~%")
+                              (format #t "build: invoke patchelf --set-rpath ~a ~a~%" rpath file)
+                              (format #t "~%~%")
+                              (invoke "patchelf" "--set-rpath" rpath file))
                             (if (library-file? file)
-                                (begin
-                                  (format #t "~%~%")
-                                  (format #t "build: invoke patchelf --set-rpath ~a ~a~%" rpath file)
-                                  (format #t "~%~%")
-                                  (invoke "patchelf" "--set-rpath" rpath file))
+                                (format #t "build: file ~a is not an elf binary, it is a library" file)
                                 (begin
                                   (format #t "build: `~a' is not a library file~%" file)
                                   (begin
