@@ -58,6 +58,8 @@
     (char-set-complement (char-set #\Space)))
 
   (define (pkg-config-libs input)
+    ;; TODO: (car input) "gcc:lib" ??
+    ;; (car input) is simple user defined name
     (let* ((p (open-pipe* OPEN_READ (%pkg-config) "--libs-only-L" (car input)))
            (l (read-line p)))
       (if (or (not (zero? (close-pipe p)))
@@ -75,9 +77,7 @@
     (let ((pkg      (car input))
           (pkg-path (cdr input)))
       (let ((filtered-libs (map cadr
-                                (filter (lambda (x)
-                                          (format #t "find-lib pkg ~a, (car x) ~a, (equal? pkg (car x)) ~a~%" pkg (car x) (equal? pkg (car x)))
-                                          (equal? pkg (car x)))
+                                (filter (lambda (x) (equal? pkg (car x)))
                                         mapping))))
         (map (lambda (lib) (string-append pkg-path "/" lib))
              (if (> (length filtered-libs) 0)
@@ -91,24 +91,18 @@
                                inputs)))
       (apply append
              (map (lambda (input)
-                    (format #t "find-rpath-libs: working on input: ~a~%" input)
                     (let ((plibs (pkg-config-libs input)))
-                      (format #t "find-rpath-libs: pkg-config-libs for ~a input: ~a~%" input plibs)
                       (if (> (length plibs) 0)
                           plibs
-                          (let ((found-lib-1 (find-lib-1 input input-lib-mapping))
-                                (found-lib (find-lib input input-lib-mapping)))
-                            (format #t "find-rpath-libs: found-lib-1 ~a~%" found-lib-1)
-                            (format #t "find-rpath-libs: found-lib ~a~%" found-lib)
-                            found-lib))))
+                          (find-lib input input-lib-mapping))))
                   (append host-inputs
                           outputs)))))
 
   (format #t "BUILD:~%")
-  (let* ((ld-so             (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+  (let* ((loader            (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
          (rpath-libs        (find-rpath-libs outputs input-lib-mapping))
          (readonly-binaries readonly-binaries)
-         (rpath          (string-join rpath-libs ":"))
+         (rpath             (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
     (cond
@@ -116,30 +110,30 @@
         (for-each (lambda (file)
                     (file-info file)
                     (let ((stat (stat file)))
-                      (format #t "~%build: patching `~a'~%" file)
+                      ;; (format #t "~%build: patching `~a'~%" file)
                       (if (or (library-file?    file)
                               (elf-binary-file? file))
                           (begin
                             (make-file-writable file)
-                            (format #t "build: `~a' is an elf binary or library file~%" file)
+                            ;; (format #t "build: `~a' is an elf binary or library file~%" file)
                             (begin
-                              (format #t "~%~%")
-                              (format #t "build: invoke patchelf --set-rpath ~a ~a~%" rpath file)
-                              (format #t "~%~%")
+                              ;; (format #t "~%~%")
+                              ;; (format #t "build: invoke patchelf --set-rpath ~a ~a~%" rpath file)
+                              ;; (format #t "~%~%")
                               (invoke "patchelf" "--set-rpath" rpath file))
                             (if (library-file? file)
                                 (format #t "build: file ~a is not an elf binary, it is a library" file)
                                 (begin
-                                  (format #t "build: `~a' is not a library file~%" file)
+                                  ;; (format #t "build: `~a' is not a library file~%" file)
                                   (begin
-                                    (format #t "build: `~a' is an elf binary file~%" file)
-                                    (format #t "~%~%")
-                                    (format #t "build: invoke: patchelf --set-interpreter ~a ~a~%" ld-so file)
-                                    (format #t "~%~%")
-                                    (invoke "patchelf" "--set-interpreter" ld-so file))))
+                                    ;; (format #t "build: `~a' is an elf binary file~%" file)
+                                    ;; (format #t "~%~%")
+                                    ;; (format #t "build: invoke: patchelf --set-interpreter ~a ~a~%" loader file)
+                                    ;; (format #t "~%~%")
+                                    (invoke "patchelf" "--set-interpreter" loader file))))
                             (chmod file (stat:perms stat)))
                           (begin
-                            (format #t "build: file ~a is not an executable or library~%" file)
+                            ;; (format #t "build: file ~a is not an executable or library~%" file)
                             (format #t "build: invoke: no action for ~a~%" file)))))
                   files-to-build)
         #t)
