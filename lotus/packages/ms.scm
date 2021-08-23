@@ -78,7 +78,7 @@
                      ("util-linux:lib"           ,util-linux "lib")
                      ("util-linux-with-udev:lib" ,util-linux+udev "lib")
                      ("fontconfig"               ,fontconfig)))
-           (propagate-inputs '(("gcc:lib"          ,gcc "lib")
+           (propagate-inputs `(("gcc:lib"          ,gcc "lib")
                                ("fontconfig"       ,fontconfig)
                                ("libsecret"        ,libsecret)
                                ("pulseaudio"       ,pulseaudio)))
