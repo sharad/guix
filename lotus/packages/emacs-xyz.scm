@@ -114,5 +114,24 @@ mode. Here is an example of how to set up your startup file (possibly .emacs) to
 use.")
     (license license:gpl3+)))
 
-
-
+(define-public emacs-oneliner
+  (package
+    (name "emacs-oneliner")
+    (version "0.3.6")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append "mirror://sourceforge/oneliner-elisp/unstable-tarball/"
+                           version
+                           "/oneliner-"
+                           version ".tar.gz"))
+       (sha256
+        (base32 "0wiy2irwzbnvf7p2wh570dsawf19ds3wjg43zy5wzyxxyrxw4lkc"))))
+    (build-system emacs-build-system)
+    (home-page "http://oneliner-elisp.sourceforge.net")
+    (synopsis "Emacs Oneliner")
+    (description
+     "Oneliner integrates UNIX shell with Emacs text editor. Oneliner provides
+various syntax for integration. (e.g. You can connect 'shell pipe' and 'Emacs
+buffer' directly with simple syntax.)")
+    (license license:gpl2+)))
