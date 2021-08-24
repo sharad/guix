@@ -26,6 +26,7 @@
   #:use-module (gnu packages fontutils)
   #:use-module (gnu packages bash)
   #:use-module (gnu packages video)
+  #:use-module (gnu packages pulseaudio)
   #:use-module (gnu packages chromium))
 
 (define-public rpm-teams
