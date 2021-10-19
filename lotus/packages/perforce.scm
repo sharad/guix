@@ -42,8 +42,7 @@
               (string-append "https://cdist2.perforce.com/perforce/r" version "/bin.linux26x86_64/helix-core-server.tgz"))
              (file-name "p4")
              (sha256
-              (base32
-               "0ksk05vajkgbm4c4siprdjw4bpvg7dwy1niwdf7w2wkwx6r9zgz3"))))
+              (base32 "1mxp62247l6xvlg76ivmqaqd5xycrcfh5harpxrxm3zw5n66hxdf"))))
    (build-system trivial-build-system)
    (inputs `(("libc" ,glibc)))
    (native-inputs
