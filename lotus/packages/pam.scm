@@ -30,6 +30,7 @@
   #:use-module (gnu packages messaging)
   #:use-module (gnu packages elf)
   #:use-module (gnu packages pkg-config)
+  #:use-module (gnu packages autotools)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages perl)
   #:use-module (gnu packages python)
@@ -57,24 +58,30 @@
       (string-append "ftp://ftp.freeradius.org/pub/freeradius/freeradius-server-" version ".tar.gz"))
      (sha256
       (base32 "042czyi0kq803l13rp6npyxfhmg63ilw35ws6ljn1r6fnf5sd0s8"))))
-   ;; (native-inputs `(("pkg-config" ,pkg-config)))
+   ;; (native-inputs `(("coreutils" ,coreutils)))
    (inputs        `(("talloc"    ,talloc)
                     ("openssl"   ,openssl)
                     ("perl"      ,perl)
-                    ("cppcheck"  ,cppcheck)
+                    ("libtool"   ,libtool)
+                    ;; ("cppcheck"  ,cppcheck)
                     ("python-2.7" ,python-2.7)))
    (build-system gnu-build-system)
    (arguments
-    `(#:parallel-build? #f
+    `(#:tests? #f
+      #:parallel-build? #f
       #:phases
       (modify-phases %standard-phases
                      (add-after 'configure 'patch-absolute-paths
-                                (lambda _
-                                  (setenv "VERBOSE" "1")
-                                  (substitute* "src/include/all.mk"
-                                               (("/bin/sh") (which "sh")))
-                                  (substitute* "scripts/libtool.mk"
-                                               (("\\$\\{LIBTOOL\\} --silent") "${LIBTOOL}"))
+                                (lambda* (#:key outputs #:allow-other-keys)
+                                  (let* ((out (assoc-ref outputs "out")))
+                                    (setenv "VERBOSE" "1")
+                                    (substitute* '("src/include/all.mk"
+                                                   "scripts/jlibtool.c")
+                                                 (("/bin/sh") (which "sh")))
+                                    (substitute* '("scripts/jlibtool.c")
+                                                 (("/usr/local/lib") (string-append out "/lib")))
+                                    (substitute* "scripts/libtool.mk"
+                                                 (("\\$\\{LIBTOOL\\} --silent") "${LIBTOOL}")))
                                   #t)))))
    (synopsis "The FreeRADIUS Server Project is a high performance and highly configurable
 GPL'd free RADIUS server")
