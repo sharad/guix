@@ -244,7 +244,7 @@
                                         ("zlib" ,zlib)))
 
 (define nongnu-mozilla-native-inputs `(("autoconf" ,autoconf-2.13)
-                                       ("cargo" ,rust-1.41 "cargo")
+                                       ("cargo" ,rust "cargo")
                                        ("clang" ,clang)
                                        ("llvm" ,llvm)
                                        ("nasm" ,nasm)
@@ -253,7 +253,7 @@
                                        ("pkg-config" ,pkg-config)
                                        ("python" ,python)
                                        ("python2" ,python-2.7)
-                                       ("rust" ,rust-1.41)
+                                       ("rust" ,rust)
                                        ("rust-cbindgen" ,rust-cbindgen)
                                        ("which" ,which)
                                        ("yasm" ,yasm)))
