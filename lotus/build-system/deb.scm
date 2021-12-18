@@ -139,12 +139,12 @@
               (guile  (module-ref distro 'guile-final)))
          (package-derivation store guile system #:graft? #f)))))
 
-  (build-expression->derivation store name builder
-                                #:inputs inputs
-                                #:system system
-                                #:modules imported-modules
-                                #:outputs outputs
-                                #:guile-for-build guile-for-build))
+  (gexp->derivation store name builder
+                    #:inputs inputs
+                    #:system system
+                    #:modules imported-modules
+                    #:outputs outputs
+                    #:guile-for-build guile-for-build))
 
 (define deb-build-system
   (build-system
