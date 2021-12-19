@@ -96,7 +96,7 @@
        #:phases
        (modify-phases %standard-phases
          (replace 'unpack
-           (lambda _
+           (lambda* (#:key outputs #:allow-other-keys)
              (let ((gzipbin (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip"))
                    (tarbin  (string-append (assoc-ref %build-inputs "tar")   "/bin/tar")))
                (mkdir-p "/tmp/develock")
