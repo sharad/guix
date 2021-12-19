@@ -96,12 +96,12 @@
        #:phases
        (modify-phases %standard-phases
          (replace 'unpack
-           (lambda* (#:key outputs #:allow-other-keys)
-             (let ((gzipbin (string-append (assoc-ref %build-inputs "gzip")  "/bin/gzip"))
-                   (tarbin  (string-append (assoc-ref %build-inputs "tar")   "/bin/tar")))
+           (lambda* (#:key inputs #:allow-other-keys)
+             (let ((gzipbin (string-append (assoc-ref inputs "gzip")  "/bin/gzip"))
+                   (tarbin  (string-append (assoc-ref inputs "tar")   "/bin/tar")))
                (mkdir-p "/tmp/develock")
                (chdir "/tmp/develock")
-               (system (string-append tarbin " -xf " (assoc-ref %build-inputs "source") " -C " "/tmp/develock/"))
+               (system (string-append tarbin " -xf " (assoc-ref inputs "source") " -C " "/tmp/develock/"))
                #t))))))
     (home-page "http://www.jpl.org/elips/")
     (synopsis "Emacs minor mode for to make font-lock highlight leading and trailing whitespace")
