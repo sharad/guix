@@ -92,43 +92,43 @@
          (arguments (strip-keyword-arguments private-keywords arguments)))))
 
 (define* (deb-build store name inputs
-                         #:key source ;; host-inputs
-                         (tests? #f)
-                         (parallel-tests? #t)
-                         (test-command ''("make" "check"))
-                         (phases '(@ (lotus build deb-build-system)
-                                     %standard-phases))
-                         (outputs '("out"))
-                         (input-lib-mapping ''())
-                         (search-paths '())
-                         (system (%current-system))
-                         (guile #f)
-                         (imported-modules %deb-build-system-modules)
-                         (modules '((lotus build deb-build-system)
-                                    (guix build utils))))
+                    #:key source ;; host-inputs
+                    (tests? #f)
+                    (parallel-tests? #t)
+                    (test-command ''("make" "check"))
+                    (phases '(@ (lotus build deb-build-system)
+                                %standard-phases))
+                    (outputs '("out"))
+                    (input-lib-mapping ''())
+                    (search-paths '())
+                    (system (%current-system))
+                    (guile #f)
+                    (imported-modules %deb-build-system-modules)
+                    (modules '((lotus build deb-build-system)
+                               (guix build utils))))
   "Build SOURCE using DEB, and with INPUTS."
   (define builder
     `(begin
        (use-modules ,@modules)
-       (deb-build #:name ,name
-                       #:source ,(match (assoc-ref inputs "source")
-                                   (((? derivation? source))
-                                    (derivation->output-path source))
-                                   ((source)
-                                    source)
-                                   (source
-                                    source))
-                       #:system ,system
-                       #:test-command ,test-command
-                       #:tests? ,tests?
-                       #:phases ,phases
-                       #:outputs %outputs
-                       #:input-lib-mapping ,input-lib-mapping
+       (deb-build ,store ,name
+                  #:source ,(match (assoc-ref inputs "source")
+                              (((? derivation? source))
+                               (derivation->output-path source))
+                              ((source)
+                               source)
+                              (source
+                               source))
+                  #:system ,system
+                  #:test-command ,test-command
+                  #:tests? ,tests?
+                  #:phases ,phases
+                  #:outputs %outputs
+                  #:input-lib-mapping ,input-lib-mapping
                        ;; #:exclude ,exclude
-                       #:search-paths ',(map search-path-specification->sexp
-                                             search-paths)
+                  #:search-paths ',(map search-path-specification->sexp
+                                        search-paths)
                        ;; #:host-inputs ',inputs
-                       #:inputs %build-inputs)))
+                  #:inputs %build-inputs)))
 
   (define guile-for-build
     (match guile

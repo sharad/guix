@@ -216,7 +216,7 @@
                                         ("gtk+" ,gtk+)
                                         ("gtk+-2" ,gtk+-2)
                                         ("hunspell" ,hunspell)
-                                        ("icu4c" ,icu4c-67)
+                                        ("icu4c" ,icu4c-71)
                                         ("jemalloc" ,jemalloc)
                                         ("libcanberra" ,libcanberra)
                                         ("libevent" ,libevent)

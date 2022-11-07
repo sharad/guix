@@ -60,7 +60,7 @@
     (build-system deb:deb-build-system)
     (arguments `(#:input-lib-mapping '(("out" "lib"))
                  #:phases            (modify-phases %standard-phases
-                                       (delete 'validate-runpath))))
+                                                    (delete 'validate-runpath))))
     (synopsis "")
     (description "")
     (home-page "https://www.forticlient.com/repoinfo")
