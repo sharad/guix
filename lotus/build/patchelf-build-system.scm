@@ -186,7 +186,7 @@
     (replace 'install install)))
 
 (define* (patchelf-build #:key inputs (phases %standard-phases)
-                      #:allow-other-keys #:rest args)
+                         #:allow-other-keys #:rest args)
   "Build the given Patchelf package, applying all of PHASES in order."
   (apply gnu:gnu-build
          #:inputs inputs #:phases phases

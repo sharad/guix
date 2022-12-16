@@ -118,6 +118,7 @@
   (define builder
     `(begin
        (use-modules ,@modules)
+       (format #t "Hello")
        (patchelf-build #:name ,name
                        #:source ,(match (assoc-ref inputs "source")
                                    (((? derivation? source))
