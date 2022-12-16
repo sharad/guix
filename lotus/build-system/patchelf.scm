@@ -132,15 +132,20 @@
                        #:tests? ,tests?
                        #:phases ,phases
 
-                       #:search-paths ',(map search-path-specification->sexp
-                                             search-paths)
-                       
+                       ;; #:search-paths ',(map search-path-specification->sexp
+                       ;;                       search-paths)
+
                        #:outputs %outputs
                        #:input-lib-mapping ,input-lib-mapping
                        #:readonly-binaries ,readonly-binaries
                        ;; #:exclude ,exclude
                        ;; #:search-paths ',(map search-path-specification->sexp
                        ;;                       search-paths)
+
+                       #:search-paths '#$(sexp->gexp
+                                          (map search-path-specification->sexp
+                                               search-paths))
+
                        ;; #:host-inputs ',inputs
                        #:inputs %build-inputs)))
 

@@ -393,7 +393,7 @@
                      (uri       (string-append "https://ftp.mozilla.org/pub/firefox/releases/" version "/linux-x86_64/en-US/firefox-" version ".tar.bz2"))
                      (file-name (string-append "firefox-" version ".tar.bz2"))
                      (sha256    (base32 "06w2pkfxf9yj68h9i7h4765md0pmgn8bdh5qxg7jrf3n22ikhngb"))))
-     (build-system patchelf-build-system)
+     (build-system   patchelf-build-system)
      (inputs         patched-firefox-inputs)
      (native-inputs  patched-firefox-native-inputs)
      (arguments `(#:input-lib-mapping '(("nss" "lib/nss")
