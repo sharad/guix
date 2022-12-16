@@ -115,6 +115,10 @@
                                     (guix build utils)
                                     (lotus build patchelf-utils))))
   "Build SOURCE using PATCHELF, and with INPUTS."
+
+
+  ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build-system/gnu.scm?h=master#n343
+
   (define builder
     `(begin
        (use-modules ,@modules)
@@ -148,6 +152,11 @@
 
                        ;; #:host-inputs ',inputs
                        #:inputs %build-inputs)))
+
+
+
+
+
 
   (define guile-for-build
     (match guile
