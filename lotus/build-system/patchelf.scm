@@ -118,7 +118,7 @@
   (define builder
     `(begin
        (use-modules ,@modules)
-       (format #t "Hello")
+       (format #t "patchelf-build.2 Hello")
        (patchelf-build #:name ,name
                        #:source ,(match (assoc-ref inputs "source")
                                    (((? derivation? source))
@@ -131,12 +131,16 @@
                        #:test-command ,test-command
                        #:tests? ,tests?
                        #:phases ,phases
+
+                       #:search-paths ',(map search-path-specification->sexp
+                                             search-paths)
+                       
                        #:outputs %outputs
                        #:input-lib-mapping ,input-lib-mapping
                        #:readonly-binaries ,readonly-binaries
                        ;; #:exclude ,exclude
-                       #:search-paths ',(map search-path-specification->sexp
-                                             search-paths)
+                       ;; #:search-paths ',(map search-path-specification->sexp
+                       ;;                       search-paths)
                        ;; #:host-inputs ',inputs
                        #:inputs %build-inputs)))
 
