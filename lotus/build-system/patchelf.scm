@@ -22,13 +22,17 @@
   ;; #:select (%default-include %default-exclude)
   #:use-module (guix store)
   #:use-module (guix utils)
-  #:use-module (guix packages)
+  #:use-module (guix memoization)
+  #:use-module (guix gexp)
+  #:use-module (guix monads)
   #:use-module (guix derivations)
   #:use-module (guix search-paths)
   #:use-module (guix build-system)
   #:use-module (guix build-system gnu)
-  #:use-module (ice-9 match)
+  #:use-module (guix packages)
+  #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
+  #:use-module (ice-9 match)
   #:export (%patchelf-build-system-modules
             patchelf-build
             patchelf-build-system))
@@ -47,6 +51,17 @@
   `((lotus build patchelf-build-system)
     (lotus build patchelf-utils)
     ,@%gnu-build-system-modules))
+
+(define %default-modules
+  ;; Modules in scope in the build-side environment.
+  '((lotus build patchelf-build-system)
+    (guix build utils)
+    (lotus build patchelf-utils)))
+
+;; (define %default-modules
+;;   ;; Modules in scope in the build-side environment.
+;;   '((guix build gnu-build-system)
+;;     (guix build utils)))
 
 (define (default-patchelf)
   "Return the default Patchelf package."
@@ -241,9 +256,8 @@
 
 (define* (patchelf-build name inputs
                          #:key
-                         ;; guile
-                         (guile #f)
-                         source
+                         ;; (guile #f)
+                         guile source
                          (outputs '("out"))
                          (search-paths '())
                          (bootstrap-scripts %bootstrap-scripts)
@@ -252,7 +266,6 @@
                          (out-of-source? #f)
                          (tests? #f)
                          (test-target "check")
-                         ;; (test-command ''("make" "check"))
                          (parallel-build? #t)
                          (parallel-tests? #t)
                          (patch-shebangs? #t)
@@ -272,10 +285,12 @@
                          (build (nix-system->gnu-triplet system))
                          ;; (imported-modules %gnu-build-system-modules)
                          (imported-modules %patchelf-build-system-modules)
-                         ;; (modules %default-modules)
-                         (modules '((lotus build patchelf-build-system)
-                                    (guix build utils)
-                                    (lotus build patchelf-utils)))
+                         (modules %default-modules)
+                         ;; (modules %patchelf-build-system-modules)
+                         ;; (modules '((lotus build patchelf-build-system)
+                         ;;            (guix build utils)
+                         ;;            (lotus build patchelf-utils)))
+                         ;; (modules '())
                          (substitutable? #t)
                          allowed-references
                          disallowed-references)
@@ -309,8 +324,8 @@
                                 #:phases #$(if (pair? phases)
                                                (sexp->gexp phases)
                                                phases)
-                                #:input-lib-mapping ,input-lib-mapping
-                                #:readonly-binaries ,readonly-binaries
+                                #:input-lib-mapping #$input-lib-mapping
+                                #:readonly-binaries #$readonly-binaries
                                 #:locale #$locale
                                 #:bootstrap-scripts #$bootstrap-scripts
                                 #:configure-flags #$(if (pair? configure-flags)
@@ -344,24 +359,7 @@
                       #:substitutable? substitutable?
                       #:allowed-references allowed-references
                       #:disallowed-references disallowed-references
-                      #:guile-for-build guile))
-
-  ;; (define guile-for-build
-  ;;   (match guile
-  ;;     ((? package?)
-  ;;      (package-derivation store guile system #:graft? #f))
-  ;;     (#f                                         ; the default
-  ;;      (let* ((distro (resolve-interface '(gnu packages commencement)))
-  ;;             (guile  (module-ref distro 'guile-final)))
-  ;;        (package-derivation store guile system #:graft? #f)))))
-
-  ;; (gexp->derivation store name builder
-  ;;                   #:inputs inputs
-  ;;                   #:system system
-  ;;                   #:modules imported-modules
-  ;;                   #:outputs outputs
-  ;;                   #:guile-for-build guile-for-build)
-  )
+                      #:guile-for-build guile)))
 
 (define patchelf-build-system
   (build-system
