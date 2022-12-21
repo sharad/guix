@@ -176,6 +176,19 @@
     (build patchelf-build)
     (arguments (strip-keyword-arguments private-keywords arguments))))
 
+(define %license-file-regexp
+  ;; Regexp matching license files.
+  "^(COPYING.*|LICEN[CS]E.*|[Ll]icen[cs]e.*|Copy[Rr]ight(\\.(txt|md))?)$")
+
+(define %bootstrap-scripts
+  ;; Typical names of Autotools "bootstrap" scripts.
+  #~%bootstrap-scripts)
+
+(define %strip-flags
+  #~'("--strip-unneeded" "--enable-deterministic-archives"))
+
+(define %strip-directories
+  #~'("lib" "lib64" "libexec" "bin" "sbin"))
 
 
 
