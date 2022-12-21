@@ -198,7 +198,7 @@
                     source
                     (outputs '("out"))
                     (search-paths '())
-                    (bootstrap-scripts %bootstrap-scripts)
+                    ;; (bootstrap-scripts %bootstrap-scripts)
                     (configure-flags ''())
                     (make-flags ''())
                     (out-of-source? #f)
@@ -263,7 +263,7 @@
                            #:input-lib-mapping ,input-lib-mapping
                            #:readonly-binaries ,readonly-binaries
                            #:locale #$locale
-                           #:bootstrap-scripts #$bootstrap-scripts
+                           ;; #:bootstrap-scripts #$bootstrap-scripts
                            #:configure-flags #$(if (pair? configure-flags)
                                                    (sexp->gexp configure-flags)
                                                    configure-flags)
