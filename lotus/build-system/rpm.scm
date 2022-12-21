@@ -39,7 +39,7 @@
   #:use-module (gnu packages package-management)
   #:use-module (gnu packages cpio)
   #:use-module (gnu packages base)
-  
+
   #:export (%rpm-build-system-modules
             rpm-build
             rpm-build-system))
