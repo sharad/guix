@@ -34,7 +34,7 @@
   ;; #:use-module (srfi srfi-26)
   #:use-module (ice-9 match)
 
-  #:use-modules (guix build gnu-build-system)
+  #:use-module (guix build gnu-build-system)
   #:export (%patchelf-build-system-modules
             patchelf-build
             patchelf-build-system))

@@ -46,7 +46,7 @@
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module (ice-9 match)
 
-  #:use-modules (guix build gnu-build-system)
+  #:use-module (guix build gnu-build-system)
   #:use-module (gnu packages base)
   #:export (%deb-build-system-modules
             deb-build
