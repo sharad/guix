@@ -60,119 +60,307 @@
   (let ((pkg-config-mod (resolve-interface '(gnu packages pkg-config))))
     (module-ref pkg-config-mod '%pkg-config)))
 
+;; (define* (lower name
+;;                 #:key source inputs native-inputs outputs system target ;; host-inputs
+;;                 (patchelf (default-patchelf))
+;;                 (pkg-config (default-pkg-config))
+;;                 #:allow-other-keys
+;;                 #:rest arguments)
+;;   "Return a bag for NAME."
+;;   (define private-keywords
+;;     '(#:target #:patchelf #:pkg-config #:inputs #:native-inputs)) ;#:host-inputs
+;; 
+;;   (and (not target)                               ;XXX: no cross-compilation
+;;        (bag
+;;          (name name)
+;;          (system system)
+;;          (host-inputs `(,@(if source
+;;                               `(("source" ,source))
+;;                               '())
+;;                         ,@inputs
+;;                         ;; Keep the standard inputs of 'gnu-build-system'.
+;;                         ,@(standard-packages)))
+;;          (build-inputs `(("patchelf"   ,patchelf)
+;;                          ("pkg-config" ,pkg-config)
+;;                          ,@native-inputs))
+;;          ;; (build-inputs `(,@(if source
+;;          ;;                       `(("source" ,source))
+;;          ;;                       '())
+;;          ;;                 ,@native-inputs
+;;          ;;                 ,@(if (and target implicit-cross-inputs?)
+;;          ;;                       (standard-cross-packages target 'host)
+;;          ;;                       '())
+;;          ;;                 ,@(if implicit-inputs?
+;;          ;;                       (standard-packages)
+;;          ;;                       '())))
+;;          (outputs outputs)
+;;          (build patchelf-build)
+;;          (arguments (strip-keyword-arguments private-keywords arguments)))))
+
 (define* (lower name
-                #:key source inputs native-inputs outputs system target ;; host-inputs
+                #:key source inputs native-inputs outputs target
+                (implicit-inputs? #t) (implicit-cross-inputs? #t)
+                (strip-binaries? #t) system
                 (patchelf (default-patchelf))
                 (pkg-config (default-pkg-config))
                 #:allow-other-keys
                 #:rest arguments)
-  "Return a bag for NAME."
+  "Return a bag for NAME from the given arguments."
   (define private-keywords
-    '(#:target #:patchelf #:pkg-config #:inputs #:native-inputs)) ;#:host-inputs
+    `(#:inputs #:native-inputs #:outputs
+      #:implicit-inputs? #:implicit-cross-inputs?
+      ,@(if target '() '(#:target))))
+  ;; (and (not target)) ;XXX: no cross-compilation
+  (bag
+    (name name)
+    (system system) (target target)
+    (build-inputs `(("patchelf"   ,patchelf)
+                    ("pkg-config" ,pkg-config)
 
-  (and (not target)                               ;XXX: no cross-compilation
-       (bag
-         (name name)
-         (system system)
-         (host-inputs `(,@(if source
-                              `(("source" ,source))
-                              '())
-                        ,@inputs
-                        ;; Keep the standard inputs of 'gnu-build-system'.
-                        ,@(standard-packages)))
-         (build-inputs `(("patchelf"   ,patchelf)
-                         ("pkg-config" ,pkg-config)
-                         ,@native-inputs))
-         ;; (build-inputs `(,@(if source
-         ;;                       `(("source" ,source))
-         ;;                       '())
-         ;;                 ,@native-inputs
-         ;;                 ,@(if (and target implicit-cross-inputs?)
-         ;;                       (standard-cross-packages target 'host)
-         ;;                       '())
-         ;;                 ,@(if implicit-inputs?
-         ;;                       (standard-packages)
-         ;;                       '())))
-         (outputs outputs)
-         (build patchelf-build)
-         (arguments (strip-keyword-arguments private-keywords arguments)))))
+                    ,@(if source
+                          `(("source" ,source))
+                          '())
+                    ,@native-inputs
 
-(define* (patchelf-build store name inputs
-                         #:key source ;; host-inputs
+                    ;; When not cross-compiling, ensure implicit inputs come
+                    ;; last.  That way, libc headers come last, which allows
+                    ;; #include_next to work correctly; see
+                    ;; <https://bugs.gnu.org/30756>.
+                    ,@(if target '() inputs)
+                    ,@(if (and target implicit-cross-inputs?)
+                          (standard-cross-packages target 'host)
+                          '())
+                    ,@(if implicit-inputs?
+                          (standard-packages)
+                          '())))
+    (host-inputs (if target inputs '()))
+
+    ;; older used
+    ;; (host-inputs `(,@(if source
+    ;;                      `(("source" ,source))
+    ;;                      '())
+    ;;                ,@inputs
+    ;;                ;; Keep the standard inputs of 'gnu-build-system'.
+    ;;                ,@(standard-packages)))
+
+    ;; The cross-libc is really a target package, but for bootstrapping
+    ;; reasons, we can't put it in 'host-inputs'.  Namely, 'cross-gcc' is a
+    ;; native package, so it would end up using a "native" variant of
+    ;; 'cross-libc' (built with 'gnu-build'), whereas all the other packages
+    ;; would use a target variant (built with 'gnu-cross-build'.)
+    (target-inputs (if (and target implicit-cross-inputs?)
+                       (standard-cross-packages target 'target)
+                       '()))
+    ;; (outputs (if strip-binaries?
+    ;;              outputs
+    ;;              (delete "debug" outputs)))
+    (outputs outputs)
+    ;; (build (if target gnu-cross-build gnu-build))
+    (build patchelf-build)
+    (arguments (strip-keyword-arguments private-keywords arguments))))
+
+
+
+
+
+;; (define* (patchelf-build store name inputs
+;;                          #:key source ;; host-inputs
+;;                          (tests? #f)
+;;                          (parallel-tests? #t)
+;;                          (test-command ''("make" "check"))
+;;                          (phases '(@ (lotus build patchelf-build-system)
+;;                                      %standard-phases))
+;;                          (outputs '("out"))
+;;                          (input-lib-mapping ''())
+;;                          (readonly-binaries ''())
+;;                          (search-paths '())
+;;                          (system (%current-system))
+;;                          (guile #f)
+;;                          (imported-modules %patchelf-build-system-modules)
+;;                          (modules '((lotus build patchelf-build-system)
+;;                                     (guix build utils)
+;;                                     (lotus build patchelf-utils))))
+;;   "Build SOURCE using PATCHELF, and with INPUTS."
+;; 
+;; 
+;;   ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build-system/gnu.scm?h=master#n343
+;; 
+;;   (define builder
+;;     `(begin
+;;        (use-modules ,@modules)
+;;        (format #t "patchelf-build.2 Hello")
+;;        (patchelf-build #:name ,name
+;;                        #:source ,(match (assoc-ref inputs "source")
+;;                                    (((? derivation? source))
+;;                                     (derivation->output-path source))
+;;                                    ((source)
+;;                                     source)
+;;                                    (source
+;;                                     source))
+;;                        #:system ,system
+;;                        #:test-command ,test-command
+;;                        #:tests? ,tests?
+;;                        #:phases ,phases
+;; 
+;;                        ;; #:search-paths ',(map search-path-specification->sexp
+;;                        ;;                       search-paths)
+;; 
+;;                        #:outputs %outputs
+;;                        #:input-lib-mapping ,input-lib-mapping
+;;                        #:readonly-binaries ,readonly-binaries
+;;                        ;; #:exclude ,exclude
+;;                        ;; #:search-paths ',(map search-path-specification->sexp
+;;                        ;;                       search-paths)
+;; 
+;;                        #:search-paths '#$(sexp->gexp
+;;                                           (map search-path-specification->sexp
+;;                                                search-paths))
+;; 
+;;                        ;; #:host-inputs ',inputs
+;;                        #:inputs %build-inputs)))
+;; 
+;;   (define guile-for-build
+;;     (match guile
+;;       ((? package?)
+;;        (package-derivation store guile system #:graft? #f))
+;;       (#f                                         ; the default
+;;        (let* ((distro (resolve-interface '(gnu packages commencement)))
+;;               (guile  (module-ref distro 'guile-final)))
+;;          (package-derivation store guile system #:graft? #f)))))
+;; 
+;;   (gexp->derivation store name builder
+;;                     #:inputs inputs
+;;                     #:system system
+;;                     #:modules imported-modules
+;;                     #:outputs outputs
+;;                     #:guile-for-build guile-for-build))
+
+
+
+
+
+(define* (patchelf-build name inputs
+                         #:key
+                         ;; guile
+                         (guile #f)
+                         source
+                         (outputs '("out"))
+                         (search-paths '())
+                         (bootstrap-scripts %bootstrap-scripts)
+                         (configure-flags ''())
+                         (make-flags ''())
+                         (out-of-source? #f)
                          (tests? #f)
+                         (test-target "check")
+                         (parallel-build? #t)
                          (parallel-tests? #t)
-                         (test-command ''("make" "check"))
+                         (patch-shebangs? #t)
+                         (strip-binaries? #t)
+                         (strip-flags %strip-flags)
+                         (strip-directories %strip-directories)
+                         (validate-runpath? #t)
+                         (make-dynamic-linker-cache? #t)
+                         (license-file-regexp %license-file-regexp)
+                         ;; (phases '%standard-phases)
                          (phases '(@ (lotus build patchelf-build-system)
                                      %standard-phases))
-                         (outputs '("out"))
                          (input-lib-mapping ''())
                          (readonly-binaries ''())
-                         (search-paths '())
+                         (locale "en_US.utf8")
                          (system (%current-system))
-                         (guile #f)
+                         (build (nix-system->gnu-triplet system))
+                         ;; (imported-modules %gnu-build-system-modules)
                          (imported-modules %patchelf-build-system-modules)
+                         ;; (modules %default-modules)
                          (modules '((lotus build patchelf-build-system)
                                     (guix build utils)
-                                    (lotus build patchelf-utils))))
+                                    (lotus build patchelf-utils)))
+                         (substitutable? #t)
+                         allowed-references
+                         disallowed-references)
   "Build SOURCE using PATCHELF, and with INPUTS."
 
 
   ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build-system/gnu.scm?h=master#n343
 
   (define builder
-    `(begin
-       (use-modules ,@modules)
-       (format #t "patchelf-build.2 Hello")
-       (patchelf-build #:name ,name
-                       #:source ,(match (assoc-ref inputs "source")
-                                   (((? derivation? source))
-                                    (derivation->output-path source))
-                                   ((source)
-                                    source)
-                                   (source
-                                    source))
-                       #:system ,system
-                       #:test-command ,test-command
-                       #:tests? ,tests?
-                       #:phases ,phases
+    (with-imported-modules imported-modules
+      #~(begin
+          (use-modules #$@(sexp->gexp modules))
 
-                       ;; #:search-paths ',(map search-path-specification->sexp
-                       ;;                       search-paths)
+          #$(with-build-variables inputs outputs
+              #~(patchelf-build #:source #+source
+                                ;; last used
+                                ;; #:source ,(match (assoc-ref inputs "source")
+                                ;;             (((? derivation? source))
+                                ;;              (derivation->output-path source))
+                                ;;             ((source)
+                                ;;              source)
+                                ;;             (source
+                                ;;              source))
+                                #:system #$system
+                                #:build #$build
+                                #:outputs %outputs
+                                #:inputs %build-inputs
+                                #:search-paths '#$(sexp->gexp
+                                                   (map search-path-specification->sexp
+                                                        search-paths))
+                                #:phases #$(if (pair? phases)
+                                               (sexp->gexp phases)
+                                               phases)
+                                #:input-lib-mapping ,input-lib-mapping
+                                #:readonly-binaries ,readonly-binaries
+                                #:locale #$locale
+                                #:bootstrap-scripts #$bootstrap-scripts
+                                #:configure-flags #$(if (pair? configure-flags)
+                                                        (sexp->gexp configure-flags)
+                                                        configure-flags)
+                                #:make-flags #$(if (pair? make-flags)
+                                                   (sexp->gexp make-flags)
+                                                   make-flags)
+                                #:out-of-source? #$out-of-source?
+                                #:tests? #$tests?
+                                #:test-target #$test-target
+                                #:parallel-build? #$parallel-build?
+                                #:parallel-tests? #$parallel-tests?
+                                #:patch-shebangs? #$patch-shebangs?
+                                #:license-file-regexp #$license-file-regexp
+                                #:strip-binaries? #$strip-binaries?
+                                #:validate-runpath? #$validate-runpath?
+                                #:make-dynamic-linker-cache? #$make-dynamic-linker-cache?
+                                #:license-file-regexp #$license-file-regexp
+                                #:strip-flags #$strip-flags
+                                #:strip-directories #$strip-directories)))))
 
-                       #:outputs %outputs
-                       #:input-lib-mapping ,input-lib-mapping
-                       #:readonly-binaries ,readonly-binaries
-                       ;; #:exclude ,exclude
-                       ;; #:search-paths ',(map search-path-specification->sexp
-                       ;;                       search-paths)
+  (mlet %store-monad ((guile (package->derivation (or guile (default-guile))
+                                                  system #:graft? #f)))
+    ;; Note: Always pass #:graft? #f.  Without it, ALLOWED-REFERENCES &
+    ;; co. would be interpreted as referring to grafted packages.
+    (gexp->derivation name builder
+                      #:system system
+                      #:target #f
+                      #:graft? #f
+                      #:substitutable? substitutable?
+                      #:allowed-references allowed-references
+                      #:disallowed-references disallowed-references
+                      #:guile-for-build guile))
 
-                       #:search-paths '#$(sexp->gexp
-                                          (map search-path-specification->sexp
-                                               search-paths))
+  ;; (define guile-for-build
+  ;;   (match guile
+  ;;     ((? package?)
+  ;;      (package-derivation store guile system #:graft? #f))
+  ;;     (#f                                         ; the default
+  ;;      (let* ((distro (resolve-interface '(gnu packages commencement)))
+  ;;             (guile  (module-ref distro 'guile-final)))
+  ;;        (package-derivation store guile system #:graft? #f)))))
 
-                       ;; #:host-inputs ',inputs
-                       #:inputs %build-inputs)))
-
-
-
-
-
-
-  (define guile-for-build
-    (match guile
-      ((? package?)
-       (package-derivation store guile system #:graft? #f))
-      (#f                                         ; the default
-       (let* ((distro (resolve-interface '(gnu packages commencement)))
-              (guile  (module-ref distro 'guile-final)))
-         (package-derivation store guile system #:graft? #f)))))
-
-  (gexp->derivation store name builder
-                    #:inputs inputs
-                    #:system system
-                    #:modules imported-modules
-                    #:outputs outputs
-                    #:guile-for-build guile-for-build))
+  ;; (gexp->derivation store name builder
+  ;;                   #:inputs inputs
+  ;;                   #:system system
+  ;;                   #:modules imported-modules
+  ;;                   #:outputs outputs
+  ;;                   #:guile-for-build guile-for-build)
+  )
 
 (define patchelf-build-system
   (build-system
