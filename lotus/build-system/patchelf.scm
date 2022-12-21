@@ -34,6 +34,8 @@
   ;; #:use-module (srfi srfi-26)
   #:use-module (ice-9 match)
 
+  #:use-module (ice-9 format)
+
   #:use-module (guix build gnu-build-system)
   #:export (%patchelf-build-system-modules
             patchelf-build
@@ -275,7 +277,7 @@
                          guile source
                          (outputs '("out"))
                          (search-paths '())
-                         (bootstrap-scripts %bootstrap-scripts)
+                         ;; (bootstrap-scripts %bootstrap-scripts)
                          (configure-flags ''())
                          (make-flags ''())
                          (out-of-source? #f)
@@ -342,7 +344,7 @@
                                 #:input-lib-mapping #$input-lib-mapping
                                 #:readonly-binaries #$readonly-binaries
                                 #:locale #$locale
-                                #:bootstrap-scripts #$bootstrap-scripts
+                                ;; #:bootstrap-scripts #$bootstrap-scripts
                                 #:configure-flags #$(if (pair? configure-flags)
                                                         (sexp->gexp configure-flags)
                                                         configure-flags)
