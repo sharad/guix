@@ -252,6 +252,7 @@
                          (out-of-source? #f)
                          (tests? #f)
                          (test-target "check")
+                         ;; (test-command ''("make" "check"))
                          (parallel-build? #t)
                          (parallel-tests? #t)
                          (patch-shebangs? #t)

@@ -79,8 +79,10 @@ archive, a directory, or an Emacs Lisp file."
     (delete  'configure)
     (delete  'check)))
 
-(define* (rpm-build #:key inputs (phases %standard-phases)
-                      #:allow-other-keys #:rest args)
+(define* (rpm-build #:key (source #f) (outputs #f) (inputs #f)
+                    (phases %standard-phases)
+                    #:allow-other-keys
+                    #:rest args)
   "Build the given Rpm package, applying all of PHASES in order."
   (apply patchelf:patchelf-build
          #:inputs inputs #:phases phases

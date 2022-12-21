@@ -77,8 +77,10 @@ archive, a directory, or an Emacs Lisp file."
     (delete  'configure)
     (delete  'check)))
 
-(define* (deb-build #:key inputs (phases %standard-phases)
-                      #:allow-other-keys #:rest args)
+(define* (deb-build #:key (source #f) (outputs #f) (inputs #f)
+                    (phases %standard-phases)
+                    #:allow-other-keys
+                    #:rest args)
   "Build the given Deb package, applying all of PHASES in order."
   (apply patchelf:patchelf-build
          #:inputs inputs #:phases phases
