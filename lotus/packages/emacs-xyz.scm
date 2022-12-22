@@ -127,6 +127,7 @@ use.")
        (sha256
         (base32 "0wiy2irwzbnvf7p2wh570dsawf19ds3wjg43zy5wzyxxyrxw4lkc"))))
     (inputs (list emacs-apel-lb))
+    (native-inputs (list emacs-apel-lb))
     (build-system emacs-build-system)
     (home-page "http://oneliner-elisp.sourceforge.net")
     (synopsis "Emacs Oneliner")
