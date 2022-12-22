@@ -23,6 +23,7 @@
   #:use-module (gnu packages databases)
   #:use-module (gnu packages dictionaries)
   #:use-module (gnu packages emacs)
+  #:use-module (gnu packages emacs-xyz)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages gnome)
@@ -90,6 +91,8 @@
     (native-inputs
      `(("gzip" ,gzip)
        ("tar"  ,tar)))
+    (inputs
+     `(("emacs" ,emacs)))
     (build-system emacs-build-system)
     (arguments
      '(#:tests? #f ; no check target
@@ -128,7 +131,8 @@ use.")
        (sha256
         (base32 "0wiy2irwzbnvf7p2wh570dsawf19ds3wjg43zy5wzyxxyrxw4lkc"))))
     (inputs
-     `(("emacs-apel-lb" ,emacs-apel-lb)))
+     `(("emacs" ,emacs)
+       ("emacs-apel-lb" ,emacs-apel-lb)))
     (build-system emacs-build-system)
     (home-page "http://oneliner-elisp.sourceforge.net")
     (synopsis "Emacs Oneliner")
