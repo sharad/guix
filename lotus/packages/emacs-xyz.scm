@@ -88,11 +88,7 @@
     (source (origin (method url-fetch)
                     (uri (string-append "http://deb.debian.org/debian/pool/main/d/develock-el/develock-el_" version ".orig.tar.gz"))
                     (sha256 (base32 "1zrkvg33cfwcqx7kd2x94pacmnxyinfx61rjlrmlbb8lpjwxvsn4"))))
-    (native-inputs
-     `(("gzip" ,gzip)
-       ("tar"  ,tar)))
-    (inputs
-     `(("emacs" ,emacs)))
+    (native-inputs (list gzip tar))
     (build-system emacs-build-system)
     (arguments
      '(#:tests? #f ; no check target
@@ -130,9 +126,7 @@ use.")
                            version ".tar.gz"))
        (sha256
         (base32 "0wiy2irwzbnvf7p2wh570dsawf19ds3wjg43zy5wzyxxyrxw4lkc"))))
-    (inputs
-     `(("emacs" ,emacs)
-       ("emacs-apel-lb" ,emacs-apel-lb)))
+    (inputs (list emacs-apel-lb))
     (build-system emacs-build-system)
     (home-page "http://oneliner-elisp.sourceforge.net")
     (synopsis "Emacs Oneliner")
