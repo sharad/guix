@@ -148,8 +148,6 @@
                                              xvid
                                              libxv
 
-
-
                                              gst-libav
                                              gst-plugins-base
                                              gst-plugins-good
@@ -205,43 +203,43 @@
 ;;       (list patchelf-adobe-flashplugin)
 ;;       `())
 
-(define nongnu-mozilla-firefox-inputs `(bzip2
-                                        cairo
-                                        cups
-                                        dbus-glib
-                                        freetype
-                                        ffmpeg
-                                        gdk-pixbuf
-                                        glib
-                                        gtk+
-                                        gtk+-2
-                                        hunspell
-                                        icu4c-71
-                                        jemalloc
-                                        libcanberra
-                                        libevent
-                                        libffi
-                                        libgnome
-                                        libjpeg-turbo
-                                        ;; "libpng-apng" ,libpng-apng
-                                        libvpx
-                                        libxcomposite
-                                        libxft
-                                        libxinerama
-                                        libxscrnsaver
-                                        libxt
-                                        mesa
-                                        mit-krb5
-                                        ;; "nspr" ,nspr
-                                        ;; "nss" ,nss
-                                        pango
-                                        pixman
-                                        pulseaudio
-                                        startup-notification
-                                        sqlite
-                                        unzip
-                                        zip
-                                        zlib))
+(define nongnu-mozilla-firefox-inputs (list bzip2
+                                            cairo
+                                            cups
+                                            dbus-glib
+                                            freetype
+                                            ffmpeg
+                                            gdk-pixbuf
+                                            glib
+                                            gtk+
+                                            gtk+-2
+                                            hunspell
+                                            icu4c-71
+                                            jemalloc
+                                            libcanberra
+                                            libevent
+                                            libffi
+                                            libgnome
+                                            libjpeg-turbo
+                                            ;; "libpng-apng" ,libpng-apng
+                                            libvpx
+                                            libxcomposite
+                                            libxft
+                                            libxinerama
+                                            libxscrnsaver
+                                            libxt
+                                            mesa
+                                            mit-krb5
+                                            ;; "nspr" ,nspr
+                                            ;; "nss" ,nss
+                                            pango
+                                            pixman
+                                            pulseaudio
+                                            startup-notification
+                                            sqlite
+                                            unzip
+                                            zip
+                                            zlib))
 
 (define nongnu-mozilla-native-inputs (list autoconf-2.13
                                            `(,rust "cargo")
