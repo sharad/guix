@@ -69,7 +69,7 @@
   #:use-module (gnu packages compression)
   #:use-module (gnu packages fontutils)
   #:use-module (gnu packages libevent)
-  #:use-module (gnu packages libreoffice)  ;for hunspell
+  #:use-module (gnu packages hunspell)  ;for hunspell
   #:use-module (gnu packages image)
   #:use-module (gnu packages libffi)
   #:use-module (gnu packages pulseaudio)
@@ -205,43 +205,43 @@
                                                (list `("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))
                                                `())))
 
-(define nongnu-mozilla-firefox-inputs `(("bzip2" ,bzip2)
-                                        ("cairo" ,cairo)
-                                        ("cups" ,cups)
-                                        ("dbus-glib" ,dbus-glib)
-                                        ("freetype" ,freetype)
-                                        ("ffmpeg" ,ffmpeg)
-                                        ("gdk-pixbuf" ,gdk-pixbuf)
-                                        ("glib" ,glib)
-                                        ("gtk+" ,gtk+)
-                                        ("gtk+-2" ,gtk+-2)
-                                        ("hunspell" ,hunspell)
-                                        ("icu4c" ,icu4c-71)
-                                        ("jemalloc" ,jemalloc)
-                                        ("libcanberra" ,libcanberra)
-                                        ("libevent" ,libevent)
-                                        ("libffi" ,libffi)
-                                        ("libgnome" ,libgnome)
-                                        ("libjpeg-turbo" ,libjpeg-turbo)
-                                        ;; ("libpng-apng" ,libpng-apng)
-                                        ("libvpx" ,libvpx)
-                                        ("libxcomposite" ,libxcomposite)
-                                        ("libxft" ,libxft)
-                                        ("libxinerama" ,libxinerama)
-                                        ("libxscrnsaver" ,libxscrnsaver)
-                                        ("libxt" ,libxt)
-                                        ("mesa" ,mesa)
-                                        ("mit-krb5" ,mit-krb5)
-                                        ;; ("nspr" ,nspr)
-                                        ;; ("nss" ,nss)
-                                        ("pango" ,pango)
-                                        ("pixman" ,pixman)
-                                        ("pulseaudio" ,pulseaudio)
-                                        ("startup-notification" ,startup-notification)
-                                        ("sqlite" ,sqlite)
-                                        ("unzip" ,unzip)
-                                        ("zip" ,zip)
-                                        ("zlib" ,zlib)))
+(define nongnu-mozilla-firefox-inputs `(bzip2
+                                        cairo
+                                        cups
+                                        dbus-glib
+                                        freetype
+                                        ffmpeg
+                                        gdk-pixbuf
+                                        glib
+                                        gtk+
+                                        gtk+-2
+                                        hunspell
+                                        icu4c-71
+                                        jemalloc
+                                        libcanberra
+                                        libevent
+                                        libffi
+                                        libgnome
+                                        libjpeg-turbo
+                                        ;; "libpng-apng" ,libpng-apng
+                                        libvpx
+                                        libxcomposite
+                                        libxft
+                                        libxinerama
+                                        libxscrnsaver
+                                        libxt
+                                        mesa
+                                        mit-krb5
+                                        ;; "nspr" ,nspr
+                                        ;; "nss" ,nss
+                                        pango
+                                        pixman
+                                        pulseaudio
+                                        startup-notification
+                                        sqlite
+                                        unzip
+                                        zip
+                                        zlib))
 
 (define nongnu-mozilla-native-inputs `(("autoconf" ,autoconf-2.13)
                                        ("cargo" ,rust "cargo")
