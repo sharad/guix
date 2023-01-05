@@ -106,104 +106,104 @@
 
 (define patched-firefox-include-adobe-flash #f)
 
-(define patched-firefox-inputs-problem `(("libc"          ,glibc)
-                                         ("gcc:lib"       ,gcc "lib")
-                                         ("dbus"          ,dbus)
-                                         ("libxcomposite" ,libxcomposite)
-                                         ("libxt"         ,libxt)
-                                         ("gtk+"          ,gtk+)
-                                         ("atk"           ,atk)
-                                         ("cairo"         ,cairo)
-                                         ("dbus-glib"     ,dbus-glib)
-                                         ("fontconfig"    ,fontconfig)
-                                         ("freetype"      ,freetype)
-                                         ("gdk-pixbuf"    ,gdk-pixbuf)
-                                         ("glib"          ,glib)
-                                         ("glibc"         ,glibc)
-                                         ("libx11"        ,libx11)
-                                         ("libxcb"        ,libxcb)
-                                         ("libxdamage"    ,libxdamage)
-                                         ("libxext"       ,libxext)
-                                         ("libxfixes"     ,libxfixes)
-                                         ("libxrender"    ,libxrender)
-                                         ("pango"         ,pango)
-                                         ("pulseaudio"    ,pulseaudio)
-                                         ("libogg"        ,libogg)
-                                         ("libvorbis"     ,libvorbis)
-                                         ("libevent"      ,libevent)
-                                         ("libxinerama"   ,libxinerama)
-                                         ("libxscrnsaver" ,libxscrnsaver)
-                                         ("libffi"        ,libffi)
-                                         ("ffmpeg"        ,ffmpeg)
-                                         ("libvpx"        ,libvpx)
+(define patched-firefox-inputs-problem (list glibc
+                                             `(,gcc "lib")
+                                             dbus
+                                             libxcomposite
+                                             libxt
+                                             gtk+
+                                             atk
+                                             cairo
+                                             dbus-glib
+                                             fontconfig
+                                             freetype
+                                             gdk-pixbuf
+                                             glib
+                                             glibc
+                                             libx11
+                                             libxcb
+                                             libxdamage
+                                             libxext
+                                             libxfixes
+                                             libxrender
+                                             pango
+                                             pulseaudio
+                                             libogg
+                                             libvorbis
+                                             libevent
+                                             libxinerama
+                                             libxscrnsaver
+                                             libffi
+                                             ffmpeg
+                                             libvpx
 
-                                         ;; machine hang
-                                         ("libfdk"        ,libfdk)
-                                         ("libtheora"     ,libtheora)
-                                         ("wavpack"       ,wavpack)
-                                         ("libwebp"       ,libwebp)
-                                         ("speex"         ,speex)
-                                         ("opus"          ,opus)
-                                         ("x265"          ,x265)
-                                         ("xvid"          ,xvid)
-                                         ("libxv"         ,libxv)
+                                             ;; machine hang
+                                             libfdk
+                                             libtheora
+                                             wavpack
+                                             libwebp
+                                             speex
+                                             opus
+                                             x265
+                                             xvid
+                                             libxv
 
 
 
-                                         ("gst-libav"        ,gst-libav)
-                                         ("gst-plugins-base" ,gst-plugins-base)
-                                         ("gst-plugins-good" ,gst-plugins-good)
-                                         ("gst-plugins-bad"  ,gst-plugins-bad)
-                                         ("gst-plugins-ugly" ,gst-plugins-ugly)
-                                         ("gst123"           ,gst123)
-                                         ("gstreamer"     ,gstreamer)
-                                         ("openh264"      ,openh264)
-                                         ("libsmpeg"      ,libsmpeg)
-                                         ("libmpeg2"      ,libmpeg2)
-                                         ;; ("libmad"        ,libmad)
+                                             gst-libav
+                                             gst-plugins-base
+                                             gst-plugins-good
+                                             gst-plugins-bad
+                                             gst-plugins-ugly
+                                             gst123
+                                             gstreamer
+                                             openh264
+                                             libsmpeg
+                                             libmpeg2
+                                             ;; "libmad"        ,libmad)
 
-                                         ("vlc"  ,vlc)
-                                         ("alsa-lib" ,alsa-lib)
-                                         ("bzip2" ,bzip2)
-                                         ("cups" ,cups)
-                                         ("dbus-glib" ,dbus-glib)
-                                         ("gdk-pixbuf" ,gdk-pixbuf)
-                                         ("glib" ,glib)
-                                         ("gtk+" ,gtk+)
-                                         ("gtk+-2" ,gtk+-2)
-                                         ("graphite2" ,graphite2)
-                                         ("pango" ,pango)
-                                         ("freetype" ,freetype)
-                                         ("harfbuzz" ,harfbuzz)
-                                         ("libcanberra" ,libcanberra)
-                                         ("libgnome" ,libgnome)
-                                         ("libjpeg-turbo" ,libjpeg-turbo)
-                                         ("libogg" ,libogg)
-                                         ;; ("libtheora" ,libtheora) ; wants theora-1.2, not yet released
-                                         ("libvorbis" ,libvorbis)
-                                         ("libxft" ,libxft)
-                                         ("libevent" ,libevent)
-                                         ("libxinerama" ,libxinerama)
-                                         ("libxscrnsaver" ,libxscrnsaver)
-                                         ("libxcomposite" ,libxcomposite)
-                                         ("libxt" ,libxt)
-                                         ("libffi" ,libffi)
-                                         ("ffmpeg" ,ffmpeg)
-                                         ("libvpx" ,libvpx)
-                                         ("icu4c" ,icu4c)
-                                         ("pixman" ,pixman)
-                                         ("pulseaudio" ,pulseaudio)
-                                         ("mesa" ,mesa)
-                                         ("mit-krb5" ,mit-krb5)
-                                         ("sqlite" ,sqlite)
-                                         ("startup-notification" ,startup-notification)
-                                         ("unzip" ,unzip)
-                                         ("zip" ,zip)
-                                         ("zlib" ,zlib)
+                                             vlc
+                                             alsa-lib
+                                             bzip2
+                                             cups
+                                             dbus-glib
+                                             gdk-pixbuf
+                                             glib
+                                             gtk+
+                                             gtk+-2
+                                             graphite2
+                                             pango
+                                             freetype
+                                             harfbuzz
+                                             libcanberra
+                                             libgnome
+                                             libjpeg-turbo
+                                             libogg
+                                             ;; "libtheora" ,libtheora) ; wants theora-1.2, not yet released
+                                             libvorbis
+                                             libxft
+                                             libevent
+                                             libxinerama
+                                             libxscrnsaver
+                                             libxcomposite
+                                             libxt
+                                             libffi
+                                             ffmpeg
+                                             libvpx
+                                             icu4c
+                                             pixman
+                                             pulseaudio
+                                             mesa
+                                             mit-krb5
+                                             sqlite
+                                             startup-notification
+                                             unzip
+                                             zip
+                                             zlib
 
-                                         ,@(if patched-firefox-include-adobe-flash
-                                               (list `("patchelf-adobe-flashplugin" ,patchelf-adobe-flashplugin))
-                                               `())))
+                                             ,@(if patched-firefox-include-adobe-flash
+                                                   (list patchelf-adobe-flashplugin)
+                                                   `())))
 
 (define nongnu-mozilla-firefox-inputs `(bzip2
                                         cairo
@@ -243,52 +243,52 @@
                                         zip
                                         zlib))
 
-(define nongnu-mozilla-native-inputs `(("autoconf" ,autoconf-2.13)
-                                       ("cargo" ,rust "cargo")
-                                       ("clang" ,clang)
-                                       ("llvm" ,llvm)
-                                       ("nasm" ,nasm)
-                                       ("node" ,node)
-                                       ("perl" ,perl)
-                                       ("pkg-config" ,pkg-config)
-                                       ("python" ,python)
-                                       ("python2" ,python-2.7)
-                                       ("rust" ,rust)
-                                       ("rust-cbindgen" ,rust-cbindgen)
-                                       ("which" ,which)
-                                       ("yasm" ,yasm)))
+(define nongnu-mozilla-native-inputs (list ("autoconf" autoconf-2.13)
+                                           `(,rust "cargo")
+                                           clang
+                                           llvm
+                                           nasm
+                                           node
+                                           perl
+                                           pkg-config
+                                           python
+                                           ("python2" python-2.7)
+                                           rust
+                                           rust-cbindgen
+                                           which
+                                           yasm))
 
-(define patched-firefox-inputs `(("libc"          ,glibc)
-                                 ("gcc:lib"       ,gcc "lib")
-                                 ("dbus"          ,dbus)
-                                 ("libxcomposite" ,libxcomposite)
-                                 ("libxt"         ,libxt)
-                                 ("gtk+"          ,gtk+)
-                                 ("atk"           ,atk)
-                                 ("cairo"         ,cairo)
-                                 ("dbus-glib"     ,dbus-glib)
-                                 ("fontconfig"    ,fontconfig)
-                                 ("freetype"      ,freetype)
-                                 ("gdk-pixbuf"    ,gdk-pixbuf)
-                                 ("glib"          ,glib)
-                                 ;; ("glibc"         ,glibc)
-                                 ("libx11"        ,libx11)
-                                 ("libxcb"        ,libxcb)
-                                 ("libxdamage"    ,libxdamage)
-                                 ("libxext"       ,libxext)
-                                 ("libxfixes"     ,libxfixes)
-                                 ("libxrender"    ,libxrender)
-                                 ("pango"         ,pango)
-                                 ("pulseaudio"    ,pulseaudio)
-                                 ("libogg"        ,libogg)
-                                 ("libvorbis"     ,libvorbis)
-                                 ("libevent"      ,libevent)
-                                 ("libxinerama"   ,libxinerama)
-                                 ("libxscrnsaver" ,libxscrnsaver)
-                                 ("libffi"        ,libffi)
-                                 ("ffmpeg"        ,ffmpeg)
-                                 ("libvpx"        ,libvpx)
-                                 ,@nongnu-mozilla-firefox-inputs))
+(define patched-firefox-inputs  (list glib
+                                      `(,gcc "lib")
+                                      dbus
+                                      libxcomposite
+                                      libxt
+                                      gtk+
+                                      atk
+                                      cairo
+                                      dbus-glib
+                                      fontconfig
+                                      freetype
+                                      gdk-pixbuf
+                                      glib
+                                      ;; glibc
+                                      libx11
+                                      libxcb
+                                      libxdamage
+                                      libxext
+                                      libxfixes
+                                      libxrender
+                                      pango
+                                      pulseaudio
+                                      libogg
+                                      libvorbis
+                                      libevent
+                                      libxinerama
+                                      libxscrnsaver
+                                      libffi
+                                      ffmpeg
+                                      libvpx
+                                      ,@nongnu-mozilla-firefox-inputs))
 
 (define patched-firefox-native-inputs `(,@nongnu-mozilla-native-inputs))
 
