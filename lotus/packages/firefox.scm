@@ -252,7 +252,7 @@
                                            perl
                                            pkg-config
                                            python
-                                           ("python2" python-2.7)
+                                           python-2.7
                                            rust
                                            rust-cbindgen
                                            which
