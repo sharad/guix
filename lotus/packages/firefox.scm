@@ -243,7 +243,7 @@
                                         zip
                                         zlib))
 
-(define nongnu-mozilla-native-inputs (list ("autoconf" autoconf-2.13)
+(define nongnu-mozilla-native-inputs (list autoconf-2.13
                                            `(,rust "cargo")
                                            clang
                                            llvm
