@@ -199,11 +199,11 @@
                                              startup-notification
                                              unzip
                                              zip
-                                             zlib
+                                             zlib))
 
-                                             ,@(if patched-firefox-include-adobe-flash
-                                                   (list patchelf-adobe-flashplugin)
-                                                   `())))
+;; ,@(if patched-firefox-include-adobe-flash
+;;       (list patchelf-adobe-flashplugin)
+;;       `())
 
 (define nongnu-mozilla-firefox-inputs `(bzip2
                                         cairo
@@ -288,7 +288,7 @@
                                       libffi
                                       ffmpeg
                                       libvpx
-                                      ,@nongnu-mozilla-firefox-inputs))
+                                      `,@nongnu-mozilla-firefox-inputs))
 
 (define patched-firefox-native-inputs `(,@nongnu-mozilla-native-inputs))
 
