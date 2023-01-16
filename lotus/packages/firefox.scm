@@ -256,39 +256,39 @@
                                            which
                                            yasm))
 
-(define patched-firefox-inputs  (list glib
-                                      `(,gcc "lib")
-                                      dbus
-                                      libxcomposite
-                                      libxt
-                                      gtk+
-                                      atk
-                                      cairo
-                                      dbus-glib
-                                      fontconfig
-                                      freetype
-                                      gdk-pixbuf
-                                      glib
-                                      ;; glibc
-                                      libx11
-                                      libxcb
-                                      libxdamage
-                                      libxext
-                                      libxfixes
-                                      libxrender
-                                      pango
-                                      pulseaudio
-                                      libogg
-                                      libvorbis
-                                      libevent
-                                      libxinerama
-                                      libxscrnsaver
-                                      libffi
-                                      ffmpeg
-                                      libvpx
-                                      `,@nongnu-mozilla-firefox-inputs))
+(define patched-firefox-inputs (append (list glib
+                                             `(,gcc "lib")
+                                             dbus
+                                             libxcomposite
+                                             libxt
+                                             gtk+
+                                             atk
+                                             cairo
+                                             dbus-glib
+                                             fontconfig
+                                             freetype
+                                             gdk-pixbuf
+                                             glib
+                                             ;; glibc
+                                             libx11
+                                             libxcb
+                                             libxdamage
+                                             libxext
+                                             libxfixes
+                                             libxrender
+                                             pango
+                                             pulseaudio
+                                             libogg
+                                             libvorbis
+                                             libevent
+                                             libxinerama
+                                             libxscrnsaver
+                                             libffi
+                                             ffmpeg
+                                             libvpx)
+                                       nongnu-mozilla-firefox-inputs))
 
-(define patched-firefox-native-inputs `(,@nongnu-mozilla-native-inputs))
+(define patched-firefox-native-inputs (append nongnu-mozilla-native-inputs))
 
 (define patched-firefox-rearrange-method `(lambda* (#:key inputs outputs #:allow-other-keys)
                                             ;; This overwrites the installed launcher, which execs xulrunner,
