@@ -44,6 +44,7 @@
   #:use-module (gnu packages fontutils)
   #:use-module (gnu packages shells)
   #:use-module (gnu packages gawk)
+  #:use-module (gnu packages image)
   #:use-module (gnu packages perl)
   #:use-module (gnu packages tcl)
   #:use-module (gnu packages kerberos)

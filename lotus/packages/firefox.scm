@@ -89,7 +89,7 @@
   #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages readline)
   #:use-module (gnu packages sqlite)
-
+  #:use-module (gnu packages image)
   #:use-module (lotus packages utils))
 
 ;; https://packages.ubuntu.com/search?keywords=ubuntu-restricted-extras
