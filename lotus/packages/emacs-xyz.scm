@@ -156,6 +156,11 @@ buffer' directly with simple syntax.)")
    (build-system gnu-build-system)
    (arguments
      `(#:tests? #f                            ; Run the test suite (this is the default)
+       #:configure-flags (list "--with-lispdir"
+                               (string-append "--with-lispdir="
+                                              %output
+                                              "/share/emacs/site-lisp/"
+                                              ,name "-" ,version))
        #:phases
        (modify-phases %standard-phases
          (add-before 'configure 'replace-purple-dir
@@ -163,12 +168,11 @@ buffer' directly with simple syntax.)")
              (substitute* "c/doxymacs_parser.c"
                (("inline ")
                 ""))
-             #t)))))
+             #t))
+         (delete 'make-dynamic-linker-cache))))
    (home-page "http://doxymacs.sourceforge.net")
    (synopsis "Emacs Doxymacs")
    (description
-    "doxymacs aims to make creating/using Doxygen-created documentation easier for the {X}Emacs user.")
+    "doxymacs aims to make creating/using Doxygen-created documentation easier for
+the {X}Emacs user.")
    (license license:gpl2+)))
-
-
-
