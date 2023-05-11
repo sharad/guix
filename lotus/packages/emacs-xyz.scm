@@ -136,3 +136,39 @@ use.")
 various syntax for integration. (e.g. You can connect 'shell pipe' and 'Emacs
 buffer' directly with simple syntax.)")
     (license license:gpl2+)))
+
+(define-public emacs-doxymacs
+  (package
+   (name "emacs-doxymacs")
+   (version "1.8.0")
+   (source
+    (origin
+     (method url-fetch)
+     (uri (string-append "mirror://sourceforge/doxymacs/doxymacs/"
+                         version
+                         "/doxymacs-"
+                         version ".tar.gz"))
+     (sha256
+      (base32 "1yjs9764jqmzjvwica9pskwqgsa115hrf9f6hx9yw89wphrxhgx2"))))
+   (inputs (list libxml2
+                 emacs))
+   ;; (propagated-inputs (list emacs-apel-lb))
+   (build-system gnu-build-system)
+   (arguments
+     `(#:tests? #f                            ; Run the test suite (this is the default)
+       #:phases
+       (modify-phases %standard-phases
+         (add-before 'configure 'replace-purple-dir
+           (lambda* (#:key inputs outputs #:allow-other-keys)
+             (substitute* "c/doxymacs_parser.c"
+               (("inline ")
+                ""))
+             #t)))))
+   (home-page "http://doxymacs.sourceforge.net")
+   (synopsis "Emacs Doxymacs")
+   (description
+    "doxymacs aims to make creating/using Doxygen-created documentation easier for the {X}Emacs user.")
+   (license license:gpl2+)))
+
+
+
