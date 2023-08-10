@@ -84,8 +84,9 @@
     (version "1.001")
     (source (origin
               (method url-fetch)
-              (uri (string-append "https://devanagarifonts.net/downloadfiles/zippedfontstyles/m/a/mangal-regular.zip?st=kO_I0qIEeRyKhZ8QxN515Q&e=1687945992"))
-              (file-name "mangal-regular2.zip")
+              ;; https://devanagarifonts.net/fonts/mangal-regular ->  "https://devanagarifonts.net/downloadfiles/zippedfontstyles/m/a/mangal-regular.zip?st=kO_I0qIEeRyKhZ8QxN515Q&e=1687945992"
+              (uri (string-append "https://github.com/sharad/guix/raw/master/lotus/packages/mangal-regular.zip"))
+              (file-name "mangal-regular.zip")
               (sha256
                (base32
                 "1202cmbc8c7dhx7mkcjcrn37fkyijida57xkddi0vkvd0wz648gw"))))
