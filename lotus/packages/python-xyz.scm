@@ -9,6 +9,7 @@
   #:use-module (gnu packages check)
   #:use-module (gnu packages xml)
   #:use-module (gnu packages tmux)
+  #:use-module (gnu packages audio)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-web)
   #:use-module (gnu packages python-build)
@@ -312,6 +313,7 @@
        (sha256
         (base32 "10lzmlmv4c6i3ldszdhvjwqf3a8jrv5cd8mr0q5f4dkqdf4331vi"))))
     (build-system pyproject-build-system)
+    (inputs  (list python-pyaudio))
     (propagated-inputs (list python-requests python-typing-extensions))
     (home-page "https://github.com/Uberi/speech_recognition#readme")
     (synopsis
