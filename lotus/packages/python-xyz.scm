@@ -9,6 +9,7 @@
   #:use-module (gnu packages check)
   #:use-module (gnu packages xml)
   #:use-module (gnu packages tmux)
+  #:use-module (gnu packages speech)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-web)
@@ -334,8 +335,10 @@ APIs, online and offline.")
                          (commit (string-append "v." version))))
                    (file-name (git-file-name name version))
                    (sha256 (base32 "1g0yhf2ph32if0187aj67qvpdpx4gkw8kmmg47c16plg8ihv4r88"))))
-   (arguments
-    '(#:tests? #f))
+   (inputs (list espeak-ng
+                 espeak))
+   ;; (arguments
+   ;;  '(#:tests? #f))
    (build-system python-build-system)
    (synopsis "Offline Text To Speech (TTS) converter for Python ")
    (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
