@@ -11,6 +11,7 @@
   #:use-module (gnu packages tmux)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-build)
+  #:use-module (guix build-system pyproject)
   #:use-module (gnu packages python-crypto))
 
 (define-public python-colorama-043
@@ -268,7 +269,8 @@
                     (sha256 (base32 "0g59clri4bjw9ar9syw3bb8zf8ch25p73kgb5vz7z902zzj00z6n"))))
     (arguments
      '(#:tests? #f))
-    (build-system python-build-system)
+    ;; (build-system python-build-system)
+    (build-system pyproject-build-system)
     (home-page "https://github.com/sharad/attnmgr")
     (synopsis "attnmgr")
     (description "attnmgr")
@@ -317,3 +319,21 @@
      "Library for performing speech recognition, with support for several engines and
 APIs, online and offline.")
     (license license:bsd-3)))
+
+(define-public python-pyttsx3
+  (package
+   (name "python-pyttsx3")
+   (home-page "https://github.com/nateshmbhat/pyttsx3")
+   (version "2.90")
+   (source (origin (method git-fetch)
+                   (uri (git-reference
+                         (url home-page)
+                         (commit (string-append "v." version))))
+                   (file-name (git-file-name name version))
+                   (sha256 (base32 "1g0yhf2ph32if0187aj67qvpdpx4gkw8kmmg47c16plg8ihv4r88"))))
+   (arguments
+    '(#:tests? #f))
+   (build-system python-build-system)
+   (synopsis "Offline Text To Speech (TTS) converter for Python ")
+   (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
+   (license license:gpl3)))
