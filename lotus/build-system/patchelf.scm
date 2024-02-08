@@ -79,43 +79,6 @@
   (let ((pkg-config-mod (resolve-interface '(gnu packages pkg-config))))
     (module-ref pkg-config-mod '%pkg-config)))
 
-;; (define* (lower name
-;;                 #:key source inputs native-inputs outputs system target ;; host-inputs
-;;                 (patchelf (default-patchelf))
-;;                 (pkg-config (default-pkg-config))
-;;                 #:allow-other-keys
-;;                 #:rest arguments)
-;;   "Return a bag for NAME."
-;;   (define private-keywords
-;;     '(#:target #:patchelf #:pkg-config #:inputs #:native-inputs)) ;#:host-inputs
-;; 
-;;   (and (not target)                               ;XXX: no cross-compilation
-;;        (bag
-;;          (name name)
-;;          (system system)
-;;          (host-inputs `(,@(if source
-;;                               `(("source" ,source))
-;;                               '())
-;;                         ,@inputs
-;;                         ;; Keep the standard inputs of 'gnu-build-system'.
-;;                         ,@(standard-packages)))
-;;          (build-inputs `(("patchelf"   ,patchelf)
-;;                          ("pkg-config" ,pkg-config)
-;;                          ,@native-inputs))
-;;          ;; (build-inputs `(,@(if source
-;;          ;;                       `(("source" ,source))
-;;          ;;                       '())
-;;          ;;                 ,@native-inputs
-;;          ;;                 ,@(if (and target implicit-cross-inputs?)
-;;          ;;                       (standard-cross-packages target 'host)
-;;          ;;                       '())
-;;          ;;                 ,@(if implicit-inputs?
-;;          ;;                       (standard-packages)
-;;          ;;                       '())))
-;;          (outputs outputs)
-;;          (build patchelf-build)
-;;          (arguments (strip-keyword-arguments private-keywords arguments)))))
-
 (define* (lower name
                 #:key source inputs native-inputs outputs target
                 (implicit-inputs? #t) (implicit-cross-inputs? #t)
@@ -191,85 +154,6 @@
 
 (define %strip-directories
   #~'("lib" "lib64" "libexec" "bin" "sbin"))
-
-
-
-
-;; (define* (patchelf-build store name inputs
-;;                          #:key source ;; host-inputs
-;;                          (tests? #f)
-;;                          (parallel-tests? #t)
-;;                          (test-command ''("make" "check"))
-;;                          (phases '(@ (lotus build patchelf-build-system)
-;;                                      %standard-phases))
-;;                          (outputs '("out"))
-;;                          (input-lib-mapping ''())
-;;                          (readonly-binaries ''())
-;;                          (search-paths '())
-;;                          (system (%current-system))
-;;                          (guile #f)
-;;                          (imported-modules %patchelf-build-system-modules)
-;;                          (modules '((lotus build patchelf-build-system)
-;;                                     (guix build utils)
-;;                                     (lotus build patchelf-utils))))
-;;   "Build SOURCE using PATCHELF, and with INPUTS."
-;; 
-;; 
-;;   ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build-system/gnu.scm?h=master#n343
-;; 
-;;   (define builder
-;;     `(begin
-;;        (use-modules ,@modules)
-;;        (format #t "patchelf-build.2 Hello")
-;;        (patchelf-build #:name ,name
-;;                        #:source ,(match (assoc-ref inputs "source")
-;;                                    (((? derivation? source))
-;;                                     (derivation->output-path source))
-;;                                    ((source)
-;;                                     source)
-;;                                    (source
-;;                                     source))
-;;                        #:system ,system
-;;                        #:test-command ,test-command
-;;                        #:tests? ,tests?
-;;                        #:phases ,phases
-;; 
-;;                        ;; #:search-paths ',(map search-path-specification->sexp
-;;                        ;;                       search-paths)
-;; 
-;;                        #:outputs %outputs
-;;                        #:input-lib-mapping ,input-lib-mapping
-;;                        #:readonly-binaries ,readonly-binaries
-;;                        ;; #:exclude ,exclude
-;;                        ;; #:search-paths ',(map search-path-specification->sexp
-;;                        ;;                       search-paths)
-;; 
-;;                        #:search-paths '#$(sexp->gexp
-;;                                           (map search-path-specification->sexp
-;;                                                search-paths))
-;; 
-;;                        ;; #:host-inputs ',inputs
-;;                        #:inputs %build-inputs)))
-;; 
-;;   (define guile-for-build
-;;     (match guile
-;;       ((? package?)
-;;        (package-derivation store guile system #:graft? #f))
-;;       (#f                                         ; the default
-;;        (let* ((distro (resolve-interface '(gnu packages commencement)))
-;;               (guile  (module-ref distro 'guile-final)))
-;;          (package-derivation store guile system #:graft? #f)))))
-;; 
-;;   (gexp->derivation store name builder
-;;                     #:inputs inputs
-;;                     #:system system
-;;                     #:modules imported-modules
-;;                     #:outputs outputs
-;;                     #:guile-for-build guile-for-build))
-
-
-
-
 
 (define* (patchelf-build name inputs
                          #:key

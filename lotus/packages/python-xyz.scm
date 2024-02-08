@@ -4,6 +4,7 @@
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix build-system python)
+  #:use-module (guix build-system pyproject)
   #:use-module (guix git-download)
   #:use-module (gnu packages)
   #:use-module (gnu packages check)
@@ -14,7 +15,6 @@
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-web)
   #:use-module (gnu packages python-build)
-  #:use-module (guix build-system pyproject)
   #:use-module (gnu packages python-crypto))
 
 (define-public python-colorama-043
@@ -341,7 +341,7 @@ APIs, online and offline.")
                  espeak))
    (arguments
     '(#:tests? #f))
-   (build-system python-build-system)
+   (build-system pypython-build-system)
    (synopsis "Offline Text To Speech (TTS) converter for Python ")
    (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
    (license license:gpl3)))
