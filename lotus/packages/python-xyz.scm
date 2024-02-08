@@ -296,3 +296,24 @@
 ;;     (description
 ;;      "Read Exif metadata from tiff and jpeg files.")
 ;;     (license license:bsd-3)))
+
+
+(define-public python-speechrecognition
+  (package
+    (name "python-speechrecognition")
+    (version "3.10.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "SpeechRecognition" version))
+       (sha256
+        (base32 "10lzmlmv4c6i3ldszdhvjwqf3a8jrv5cd8mr0q5f4dkqdf4331vi"))))
+    (build-system pyproject-build-system)
+    (propagated-inputs (list python-requests python-typing-extensions))
+    (home-page "https://github.com/Uberi/speech_recognition#readme")
+    (synopsis
+     "Library for performing speech recognition, with support for several engines and APIs, online and offline.")
+    (description
+     "Library for performing speech recognition, with support for several engines and
+APIs, online and offline.")
+    (license license:bsd-3)))
