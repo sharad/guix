@@ -319,12 +319,21 @@
      '(#:tests? #f
        #:phases
        (modify-phases %standard-phases
-                      (add-before 'configure 'replace-flac-binary
-                                  (lambda* (#:key inputs outputs #:allow-other-keys)
-                                    (substitute* "speech_recognition/audio.py"
-                                                 (("os.path.join\\(base_path, \"flac-linux-x86\"\\)")
-                                                  (string-append (assoc-ref inputs "flac") "/bin/flac")))
-                                    #t)))))
+         (add-after  'unpack 'compatibility
+           (lambda* (#:key inputs outputs #:allow-other-keys)
+             (format #t "HELLO")
+             (system* "pwd")
+             (format #t "HELLO1")
+             (system* "ls")
+             (format #t "HELLO3")
+             (delete-file "speech_recognition/flac-linux-x86")
+             (delete-file "speech_recognition/flac-linux-x86_64")
+             (delete-file "speech_recognition/flac-mac")
+             (delete-file "speech_recognition/flac-win32.exe")
+             (substitute* "speech_recognition/audio.py"
+               (("os\\.path\\.join.+$")
+                (string-append "\"" (assoc-ref inputs "flac") "/bin/flac" "\"\n")))
+             #t)))))
     (inputs  (list python-pyaudio
                    flac))
     (propagated-inputs (list python-requests python-typing-extensions))
@@ -355,3 +364,7 @@ APIs, online and offline.")
    (synopsis "Offline Text To Speech (TTS) converter for Python ")
    (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
    (license license:gpl3)))
+
+
+python-speechrecognition
+
