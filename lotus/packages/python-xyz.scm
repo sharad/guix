@@ -351,7 +351,7 @@ APIs, online and offline.")
                  espeak))
    (arguments
     '(#:tests? #f))
-   (build-system pypython-build-system)
+   (build-system pyproject-build-system)
    (synopsis "Offline Text To Speech (TTS) converter for Python ")
    (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
    (license license:gpl3)))
