@@ -364,7 +364,3 @@ APIs, online and offline.")
    (synopsis "Offline Text To Speech (TTS) converter for Python ")
    (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
    (license license:gpl3)))
-
-
-python-speechrecognition
-
