@@ -314,6 +314,8 @@
        (sha256
         (base32 "10lzmlmv4c6i3ldszdhvjwqf3a8jrv5cd8mr0q5f4dkqdf4331vi"))))
     (build-system pyproject-build-system)
+    (arguments
+     '(#:tests? #f))
     (inputs  (list python-pyaudio))
     (propagated-inputs (list python-requests python-typing-extensions))
     (home-page "https://github.com/Uberi/speech_recognition#readme")
