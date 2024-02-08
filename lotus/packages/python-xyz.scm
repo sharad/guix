@@ -12,6 +12,7 @@
   #:use-module (gnu packages tmux)
   #:use-module (gnu packages speech)
   #:use-module (gnu packages audio)
+  #:use-module (gnu packages xiph)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-web)
   #:use-module (gnu packages python-build)
