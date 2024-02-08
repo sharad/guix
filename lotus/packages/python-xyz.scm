@@ -3,8 +3,8 @@
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix packages)
   #:use-module (guix download)
-  #:use-module (guix build-system python)
   #:use-module (guix build-system pyproject)
+  #:use-module (guix build-system python)
   #:use-module (guix git-download)
   #:use-module (gnu packages)
   #:use-module (gnu packages check)
@@ -316,7 +316,15 @@
         (base32 "10lzmlmv4c6i3ldszdhvjwqf3a8jrv5cd8mr0q5f4dkqdf4331vi"))))
     (build-system pyproject-build-system)
     (arguments
-     '(#:tests? #f))
+     '(#:tests? #f
+       #:phases
+       (modify-phases %standard-phases
+                      (add-before 'configure 'replace-flac-binary
+                                  (lambda* (#:key inputs outputs #:allow-other-keys)
+                                    (substitute* "speech_recognition/audio.py"
+                                                 (("os.path.join\\(base_path, \"flac-linux-x86\"\\)")
+                                                  (string-append (assoc-ref inputs "flac") "/bin/flac")))
+                                    #t)))))
     (inputs  (list python-pyaudio
                    flac))
     (propagated-inputs (list python-requests python-typing-extensions))
