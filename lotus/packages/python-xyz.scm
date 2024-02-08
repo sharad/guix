@@ -339,8 +339,8 @@ APIs, online and offline.")
                    (sha256 (base32 "1g0yhf2ph32if0187aj67qvpdpx4gkw8kmmg47c16plg8ihv4r88"))))
    (inputs (list espeak-ng
                  espeak))
-   ;; (arguments
-   ;;  '(#:tests? #f))
+   (arguments
+    '(#:tests? #f))
    (build-system python-build-system)
    (synopsis "Offline Text To Speech (TTS) converter for Python ")
    (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
