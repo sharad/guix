@@ -316,7 +316,8 @@
     (build-system pyproject-build-system)
     (arguments
      '(#:tests? #f))
-    (inputs  (list python-pyaudio))
+    (inputs  (list python-pyaudio
+                   flac))
     (propagated-inputs (list python-requests python-typing-extensions))
     (home-page "https://github.com/Uberi/speech_recognition#readme")
     (synopsis
