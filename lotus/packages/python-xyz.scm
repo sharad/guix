@@ -321,11 +321,6 @@
        (modify-phases %standard-phases
          (add-after  'unpack 'compatibility
            (lambda* (#:key inputs outputs #:allow-other-keys)
-             (format #t "HELLO")
-             (system* "pwd")
-             (format #t "HELLO1")
-             (system* "ls")
-             (format #t "HELLO3")
              (delete-file "speech_recognition/flac-linux-x86")
              (delete-file "speech_recognition/flac-linux-x86_64")
              (delete-file "speech_recognition/flac-mac")
