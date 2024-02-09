@@ -383,7 +383,3 @@ APIs, online and offline.")
     "Pure Python, cross platform, single function module with no dependencies for
 playing sounds.")
    (license license:expat)))
-
-python-playsound
-
-
