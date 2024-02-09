@@ -11,7 +11,9 @@
   #:use-module (gnu packages xml)
   #:use-module (gnu packages tmux)
   #:use-module (gnu packages speech)
+  #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages audio)
+  #:use-module (gnu packages glib)
   #:use-module (gnu packages xiph)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-web)
@@ -359,3 +361,29 @@ APIs, online and offline.")
    (synopsis "Offline Text To Speech (TTS) converter for Python ")
    (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
    (license license:gpl3)))
+
+(define-public python-playsound
+  (package
+   (name "python-playsound")
+   (home-page "https://github.com/TaylorSMarks/playsound")
+   (version "1.3.0")
+   (source (origin
+            (method url-fetch)
+            (uri (pypi-uri "playsound" version))
+            (sha256 (base32 "1vbw54iv92gvib9yd7552j26pdzla2zv8ssfcbpv0d1hfwfx2vnc"))))
+   (inputs (list gst123
+                 python-pygobject
+                 python-gst))
+   (build-system python-build-system)
+   (arguments
+    '(#:tests? #f))
+   (synopsis
+    "Pure Python, cross platform, single function module with no dependencies for playing sounds.")
+   (description
+    "Pure Python, cross platform, single function module with no dependencies for
+playing sounds.")
+   (license license:expat)))
+
+python-playsound
+
+
