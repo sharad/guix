@@ -376,10 +376,25 @@ APIs, online and offline.")
                  python-gst))
    (build-system python-build-system)
    (arguments
-    '(#:tests? #f))
+    '(#:tests? #f
+      #:phases
+      (modify-phases %standard-phases
+                     (add-after  'unpack 'compatibility
+                                 (lambda* (#:key inputs outputs #:allow-other-keys)
+                                   (format #t "HELLO1")
+                                   (system* "pwd")
+                                   (system* "ls")
+                                   (format #t "HELLO2")
+                                   (substitute* "playsound.py"
+                                                (("/usr/bin/python3")
+                                                 (string-append "\"" (assoc-ref inputs "python") "/bin/python3" "\"")))
+                                   #t)))))
    (synopsis
     "Pure Python, cross platform, single function module with no dependencies for playing sounds.")
    (description
     "Pure Python, cross platform, single function module with no dependencies for
 playing sounds.")
    (license license:expat)))
+
+
+
