@@ -12,6 +12,7 @@
   #:use-module (gnu packages tmux)
   #:use-module (gnu packages speech)
   #:use-module (gnu packages gstreamer)
+  #:use-module (gnu packages python)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages xiph)
@@ -373,7 +374,11 @@ APIs, online and offline.")
             (sha256 (base32 "1vbw54iv92gvib9yd7552j26pdzla2zv8ssfcbpv0d1hfwfx2vnc"))))
    (inputs (list gst123
                  python-pygobject
-                 python-gst))
+                 python-gst
+                 python))
+   (propagated-inputs (list gst123
+                            python-pygobject
+                            python-gst))
    (build-system python-build-system)
    (arguments
     '(#:tests? #f
@@ -381,13 +386,13 @@ APIs, online and offline.")
       (modify-phases %standard-phases
                      (add-after  'unpack 'compatibility
                                  (lambda* (#:key inputs outputs #:allow-other-keys)
-                                   (format #t "HELLO1")
-                                   (system* "pwd")
-                                   (system* "ls")
-                                   (format #t "HELLO2")
+                                   ;; (format #t "HELLO1")
+                                   ;; (system* "pwd")
+                                   ;; (system* "ls")
+                                   ;; (format #t "HELLO2")
                                    (substitute* "playsound.py"
                                                 (("/usr/bin/python3")
-                                                 (string-append "\"" (assoc-ref inputs "python") "/bin/python3" "\"")))
+                                                 (string-append (assoc-ref inputs "python") "/bin/python")))
                                    #t)))))
    (synopsis
     "Pure Python, cross platform, single function module with no dependencies for playing sounds.")
@@ -397,4 +402,4 @@ playing sounds.")
    (license license:expat)))
 
 
-
+;; python-playsound
