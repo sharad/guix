@@ -334,7 +334,9 @@
              #t)))))
     (inputs  (list python-pyaudio
                    flac))
-    (propagated-inputs (list python-requests python-typing-extensions))
+    (propagated-inputs (list python-pyaudio
+                             python-requests
+                             python-typing-extensions))
     (home-page "https://github.com/Uberi/speech_recognition#readme")
     (synopsis
      "Library for performing speech recognition, with support for several engines and APIs, online and offline.")
