@@ -278,6 +278,10 @@
      '(#:tests? #f))
     ;; (build-system python-build-system)
     (build-system pyproject-build-system)
+    (inputs  (list python-roffi
+                   python-tinydb
+                   xprop
+                   wmctrl))
     (home-page "https://github.com/sharad/attnmgr")
     (synopsis "attnmgr")
     (description "attnmgr")
@@ -388,13 +392,13 @@ APIs, online and offline.")
       (modify-phases %standard-phases
                      (add-after  'unpack 'compatibility
                                  (lambda* (#:key inputs outputs #:allow-other-keys)
-                                   ;; (format #t "HELLO1")
-                                   ;; (system* "pwd")
-                                   ;; (system* "ls")
-                                   ;; (format #t "HELLO2")
+                                   (format #t "HELLO1")
+                                   (system* "pwd")
+                                   (system* "ls")
+                                   (format #t "HELLO2")
                                    (substitute* "playsound.py"
                                                 (("/usr/bin/python3")
-                                                 (string-append (assoc-ref inputs "python") "/bin/python")))
+                                                 (string-append "\"" (assoc-ref inputs "python") "/bin/python3" "\"")))
                                    #t)))))
    (synopsis
     "Pure Python, cross platform, single function module with no dependencies for playing sounds.")
@@ -403,5 +407,3 @@ APIs, online and offline.")
 playing sounds.")
    (license license:expat)))
 
-
-;; python-playsound

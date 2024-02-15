@@ -23,6 +23,7 @@
   #:use-module ((guix build gnu-build-system) #:prefix gnu:)
   #:use-module (guix build utils)
   #:use-module (lotus build patchelf-utils)
+  #:use-module (gnu packages bootstrap)
   #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-11)
@@ -84,6 +85,40 @@
                  filtered-libs
                  '("lib"))))))
 
+  (define (patch-file file rpath loader)
+    (file-info file)
+    (let ((stat (stat file)))
+      (format #t "~%build: patching `~a'~%" file)
+      (if (or (library-file?    file)
+              (elf-binary-file? file))
+          (begin
+            (make-file-writable file)
+            (format #t "build: `~a' is an elf binary or library file~%" file)
+            (begin
+              (format #t "~%~%")
+              (format #t "build: invoke patchelf --set-rpath ~a ~a~%" rpath file)
+              (format #t "~%~%")
+              (invoke "patchelf" "--set-rpath" rpath file))
+            (if (library-file? file)
+                (format #t "build: file ~a is not an elf binary, it is a library" file)
+                (if (elf-binary-file? file)
+                    (begin
+                      (format #t "build: `~a' is not a library file~%" file)
+                      (begin
+                        (format #t "build: `~a' is an elf binary file~%" file)
+                        (format #t "~%~%")
+                        (format #t "build: invoke: patchelf --set-interpreter ~a ~a~%" loader file)
+                        (format #t "~%~%")
+                        (invoke "patchelf" "--set-interpreter" loader file)))))
+            (chmod file (stat:perms stat)))
+          (begin
+            (format #t "build: file ~a is not an executable or library~%" file)
+            (format #t "build: invoke: no action for ~a~%" file)))))
+
+  (define (wrap-file file rpath loader)
+    (wrap-ro-program file
+                     '()))
+
   (define (find-rpath-libs outputs
                            input-lib-mapping)
     (let ((host-inputs (filter (lambda (input)
@@ -99,42 +134,18 @@
                           outputs)))))
 
   (format #t "BUILD:~%")
-  (let* ((loader            (string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2"))
+  (let* ((loader            (glibc-dynamic-linker)) ;(string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2")
          (rpath-libs        (find-rpath-libs outputs input-lib-mapping))
-         (readonly-binaries readonly-binaries)
+         ;; (readonly-binaries readonly-binaries)
          (rpath             (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
     (cond
        ((not (null? files-to-build))
         (for-each (lambda (file)
-                    (file-info file)
-                    (let ((stat (stat file)))
-                      (format #t "~%build: patching `~a'~%" file)
-                      (if (or (library-file?    file)
-                              (elf-binary-file? file))
-                          (begin
-                            (make-file-writable file)
-                            (format #t "build: `~a' is an elf binary or library file~%" file)
-                            (begin
-                              (format #t "~%~%")
-                              (format #t "build: invoke patchelf --set-rpath ~a ~a~%" rpath file)
-                              (format #t "~%~%")
-                              (invoke "patchelf" "--set-rpath" rpath file))
-                            (if (library-file? file)
-                                (format #t "build: file ~a is not an elf binary, it is a library" file)
-                                (begin
-                                  (format #t "build: `~a' is not a library file~%" file)
-                                  (begin
-                                    (format #t "build: `~a' is an elf binary file~%" file)
-                                    (format #t "~%~%")
-                                    (format #t "build: invoke: patchelf --set-interpreter ~a ~a~%" loader file)
-                                    (format #t "~%~%")
-                                    (invoke "patchelf" "--set-interpreter" loader file))))
-                            (chmod file (stat:perms stat)))
-                          (begin
-                            (format #t "build: file ~a is not an executable or library~%" file)
-                            (format #t "build: invoke: no action for ~a~%" file)))))
+                    (if readonly-binaries
+                        (wrap-file file)
+                        (patch-file file rpath loader)))
                   files-to-build)
         #t)
        (else
