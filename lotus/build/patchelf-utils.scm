@@ -148,6 +148,9 @@ with definitions for VARS. If it is not, SH will be used as interpreter."
   (define vars/filtered
     (match vars
       ((#:sh _ . vars) vars)
+      ((#:loader _ . vars) vars)
+      ((#:sh _ #:loader _ . vars) vars)
+      ((#:loader _ #:sh _ . vars) vars)
       (vars vars)))
 
   (define wrapped-file
