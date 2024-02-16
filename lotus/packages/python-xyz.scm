@@ -8,6 +8,7 @@
   #:use-module (guix git-download)
   #:use-module (gnu packages)
   #:use-module (gnu packages xorg)
+  #:use-module (gnu packages xdisorg)
   #:use-module (gnu packages check)
   #:use-module (gnu packages xml)
   #:use-module (gnu packages tmux)
