@@ -116,8 +116,7 @@
             (format #t "build: invoke: no action for ~a~%" file)))))
 
   (define (wrap-file file rpath loader)
-    ;; (wrap-ro-program file)
-    #f)
+    (wrap-ro-program file))
 
   (define (find-rpath-libs outputs
                            input-lib-mapping)
