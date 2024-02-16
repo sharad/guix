@@ -215,7 +215,7 @@
                     (phases '(@ (lotus build rpm-build-system)
                                 %standard-phases))
                     (input-lib-mapping ''())
-                    ;; (readonly-binaries ''())
+                    (readonly-binaries '#f)
                     (locale "en_US.utf8")
                     (system (%current-system))
                     (build (nix-system->gnu-triplet system))
