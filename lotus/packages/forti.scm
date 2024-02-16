@@ -97,10 +97,10 @@
   (hidden-package
    (package
      (name "deb-forticlient-6.0")
-     (version "6.0.8.0140_amd64")
+     (version "6.0.8.0140")
      (source (origin
                (method url-fetch)
-               (uri (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_u18.deb"))
+               (uri (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64_u18.deb"))
                (file-name (string-append name "-" version ".deb"))
                (sha256 (base32 "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
      (build-system deb:deb-build-system)

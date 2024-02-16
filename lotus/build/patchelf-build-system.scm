@@ -46,7 +46,7 @@
                 outputs
                 inputs
                 (input-lib-mapping '())
-                (readonly-binaries '())
+                (readonly-binaries #f)
                 #:allow-other-keys)
   "Patch elf files."
 
@@ -116,8 +116,7 @@
             (format #t "build: invoke: no action for ~a~%" file)))))
 
   (define (wrap-file file rpath loader)
-    (wrap-ro-program file
-                     '()))
+    (wrap-ro-program file))
 
   (define (find-rpath-libs outputs
                            input-lib-mapping)
@@ -144,7 +143,7 @@
        ((not (null? files-to-build))
         (for-each (lambda (file)
                     (if readonly-binaries
-                        (wrap-file file)
+                        (wrap-file file rpath loader)
                         (patch-file file rpath loader)))
                   files-to-build)
         #t)
