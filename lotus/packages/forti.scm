@@ -119,10 +119,10 @@
     (name "deb-forticlient-7.0")
     (version "7.0.11.0369")
     (source (origin
-              (method url-fetch))
-            (uri (string-append "https://repo.fortinet.com/repo/7.0/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
-            (file-name (string-append name "-" version ".deb"))
-            (sha256 (base32 "0gs8rm62hrvwf6j4ia24saf5rglnif0qcr3lvm6n3vgr1nkhyymw")))))
+              (method url-fetch)
+              (uri (string-append "https://repo.fortinet.com/repo/7.0/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
+              (file-name (string-append name "-" version ".deb"))
+              (sha256 (base32 "0gs8rm62hrvwf6j4ia24saf5rglnif0qcr3lvm6n3vgr1nkhyymw"))))))
 
 (define-public deb-forticlient-7.2
   (package
@@ -154,3 +154,4 @@
 
 
 
+s
