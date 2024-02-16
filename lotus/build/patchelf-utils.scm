@@ -1,5 +1,19 @@
 
 (define-module (lotus build patchelf-utils)
+  #:use-module (srfi srfi-1)
+  #:use-module (srfi srfi-11)
+  #:use-module (srfi srfi-26)
+  #:use-module (srfi srfi-34)
+  #:use-module (srfi srfi-35)
+  #:use-module (srfi srfi-60)
+  #:use-module (ice-9 ftw)
+  #:use-module (ice-9 match)
+  #:use-module (ice-9 regex)
+  #:use-module (ice-9 rdelim)
+  #:use-module (ice-9 format)
+  #:use-module (ice-9 threads)
+  #:use-module (rnrs bytevectors)
+  #:use-module (rnrs io ports)
   #:use-module (ice-9 ftw)
   #:use-module (srfi srfi-26)
   #:use-module (guix build utils)
@@ -115,7 +129,7 @@
 
 (define* (wrap-ro-program prog
                           #:key
-                          (sh (which "bash"))
+                          (sh     (which "bash"))
                           (loader (glibc-dynamic-linker))
                           #:rest vars)
   "Make a wrapper for PROG.  VARS should look like this:
