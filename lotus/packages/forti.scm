@@ -93,65 +93,66 @@
 ;; https://repo.fortinet.com/repo/forticlient/7.2/ubuntu/pool/multiverse/forticlient/forticlient_7.2.3.0790_amd64.deb
 ;; https://repo.fortinet.com/repo/forticlient/7.2/debian/pool/non-free/f/forticlient/forticlient_7.2.3.0790_amd64.deb
 
-(define-public deb-forticlient-6.0
-  (hidden-package
-   (package
-     (name "deb-forticlient-6.0")
-     (version "6.0.8.0140")
-     (source (origin
-               (method url-fetch)
-               (uri (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64_u18.deb"))
-               (file-name (string-append name "-" version ".deb"))
-               (sha256 (base32 "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
-     (build-system deb:deb-build-system)
-     (arguments `(#:input-lib-mapping '(("out" "lib"))
-                  #:readonly-binaries #f
-                  #:phases            (modify-phases %standard-phases
-                                        (delete 'validate-runpath))))
-     (synopsis "")
-     (description "")
-     (home-page "https://www.forticlient.com/repoinfo")
-     (license license:ibmpl1.0))))
+;; (define-public deb-forticlient-6.0
+;;   (hidden-package
+;;    (package
+;;      (name "deb-forticlient-6.0")
+;;      (version "6.0.8.0140")
+;;      (source (origin
+;;                (method url-fetch)
+;;                (uri (string-append "https://repo.fortinet.com/repo/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64_u18.deb"))
+;;                (file-name (string-append name "-" version ".deb"))
 
-(define-public deb-forticlient-7.0
-  (package
-    (inherit deb-forticlient-6.0)
-    (name "deb-forticlient-7.0")
-    (version "7.0.11.0369")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append "https://repo.fortinet.com/repo/7.0/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
-              (file-name (string-append name "-" version ".deb"))
-              (sha256 (base32 "0gs8rm62hrvwf6j4ia24saf5rglnif0qcr3lvm6n3vgr1nkhyymw"))))))
+;;                (sha256 (base32 "0gs8rm62hrvwf6j4ia24sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))
+;;      (build-system deb:deb-build-system)
+;;      (arguments `(#:input-lib-mapping '(("out" "lib"))
+;;                   #:readonly-binaries #t
+;;                   #:phases            (modify-phases %standard-phases
+;;                                         (delete 'validate-runpath))))
+;;      (synopsis "")
+;;      (description "")
+;;      (home-page "https://www.forticlient.com/repoinfo")
+;;      (license license:ibmpl1.0))))
 
-(define-public deb-forticlient-7.2
-  (package
-    (inherit deb-forticlient-6.0)
-    (name "deb-forticlient-7.2")
-    (version "7.2.3.0790")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append "https://repo.fortinet.com/repo/forticlient/7.2/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
-              (file-name (string-append name "-" version ".deb"))
-              (sha256 (base32 "0gs8rm62hrvwf6j4i2a4sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))))
+;; (define-public deb-forticlient-7.0
+;;   (package
+;;     (inherit deb-forticlient-6.0)
+;;     (name "deb-forticlient-7.0")
+;;     (version "7.0.11.0369")
+;;     (source (origin
+;;               (method url-fetch)
+;;               (uri (string-append "https://repo.fortinet.com/repo/7.0/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
+;;               (file-name (string-append name "-" version ".deb"))
+;;               (sha256 (base32 "0gs8rm62hrvwf6j4ia24saf5rglnif0qcr3lvm6n3vgr1nkhyymw"))))))
 
-
-(define-public deb-forticlient-non-free-7.2
-  (package
-    (inherit deb-forticlient-7.2)
-    (name "deb-forticlient-non-free-7.2")
-    (version "7.2.3.0790")
-    (source (origin
-              (method url-fetch)
-              (uri (string-append "https://repo.fortinet.com/repo/forticlient/7.2/debian/pool/non-free/f/forticlient/forticlient_" version "_amd64.deb"))
-              (file-name (string-append name "-" version ".deb"))
-              (sha256 (base32 "0gs8rm62hrvwf6j4ia24sa5fgrlnif0qcr3lvm6n3vgr1nkhyymw"))))))
+;; (define-public deb-forticlient-7.2
+;;   (package
+;;     (inherit deb-forticlient-6.0)
+;;     (name "deb-forticlient-7.2")
+;;     (version "7.2.3.0790")
+;;     (source (origin
+;;               (method url-fetch)
+;;               (uri (string-append "https://repo.fortinet.com/repo/forticlient/7.2/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
+;;               (file-name (string-append name "-" version ".deb"))
+;;               (sha256 (base32 "0gs8rm62hrvwf6j4i2a4sa5frglnif0qcr3lvm6n3vgr1nkhyymw"))))))
 
 
-
+;; (define-public deb-forticlient-non-free-7.2
+;;   (package
+;;     (inherit deb-forticlient-7.2)
+;;     (name "deb-forticlient-non-free-7.2")
+;;     (version "7.2.3.0790")
+;;     (source (origin
+;;               (method url-fetch)
+;;               (uri (string-append "https://repo.fortinet.com/repo/forticlient/7.2/debian/pool/non-free/f/forticlient/forticlient_" version "_amd64.deb"))
+;;               (file-name (string-append name "-" version ".deb"))
+;;               (sha256 (base32 "0gs8rm62hrvwf6j4ia24sa5fgrlnif0qcr3lvm6n3vgr1nkhyymw"))))))
 
 
 
 
 
-s
+
+
+
+;; s
