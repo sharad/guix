@@ -278,7 +278,7 @@
      '(#:tests? #f))
     ;; (build-system python-build-system)
     (build-system pyproject-build-system)
-    (inputs  (list python-roffi
+    (inputs  (list python-rofi
                    python-tinydb
                    xprop
                    wmctrl))
