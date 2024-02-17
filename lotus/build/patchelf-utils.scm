@@ -30,7 +30,8 @@
             directory?
             directory-list-files
             file-info
-            glibc-dynamic-linker))
+            glibc-dynamic-linker
+            wrap-ro-program))
             ;; patchelf-dynamic-linker
 
 
