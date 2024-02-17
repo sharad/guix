@@ -266,6 +266,7 @@
     "TinyDB is a tiny, document oriented database optimized for your happiness :)")
    (license license:expat)))
 
+
 (define-public python-attnmgr
   (package
     (name "python-attnmgr")
@@ -284,6 +285,7 @@
                    python-tinydb
                    xprop
                    wmctrl))
+    (propagated-inputs (list python-tinydb))
     (home-page "https://github.com/sharad/attnmgr")
     (synopsis "attnmgr")
     (description "attnmgr")
@@ -409,3 +411,4 @@ APIs, online and offline.")
 playing sounds.")
    (license license:expat)))
 
+python-attnmgr
