@@ -54,8 +54,8 @@
   ;; Build-side modules imported by default.
   `((lotus build patchelf-build-system)
     (lotus build patchelf-utils)
-    (gnu packages bootstrap)
-    (guix licenses)
+    ;; (gnu packages bootstrap)
+    ;; (guix licenses)
     ,@%gnu-build-system-modules))
 
 (define %default-modules
