@@ -20,7 +20,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (rnrs bytevectors)
   #:use-module (rnrs io ports)
-  ;; #:use-module (gnu packages bootstrap)
+  #:use-module (gnu packages bootstrap)
   #:export (library-file?
             elf-binary-file?
             elf-pie-file?
