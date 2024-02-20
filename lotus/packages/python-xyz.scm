@@ -270,13 +270,13 @@
 (define-public python-attnmgr
   (package
     (name "python-attnmgr")
-    (version "2.0")
+    (version "0.3")
     (source (origin (method git-fetch)
                     (uri (git-reference
                           (url "https://github.com/sharad/attnmgr")
-                          (commit "master")))
+                          (commit (string-append "v" version))))
                     (file-name (git-file-name name version))
-                    (sha256 (base32 "0g59clri4bjw9ar9syw3bb8zf8ch25p73kgb5vz7z902zzj00z6n"))))
+                    (sha256 (base32 "0g62fhvnjk2hi3hzd8816979hfldc6vzk7q6kz7fdlwmnr2w78ak"))))
     (arguments
      '(#:tests? #f))
     ;; (build-system python-build-system)
