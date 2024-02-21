@@ -86,6 +86,24 @@
                  filtered-libs
                  '("lib"))))))
 
+  (define (patch-library file rpath)
+    (let ((stat (stat file)))
+      (when (and (library-file?    file)
+                 (not (elf-binary-file? file)))
+        (format #t "build: `~a' is an elf binary or library file~%" file)
+        (make-file-writable file)
+        (invoke "patchelf" "--set-rpath" rpath file)
+        (chmod file (stat:perms stat)))))
+
+  (define (patch-elf-binary file rpath loader)
+    (let ((stat (stat file)))
+      (when (and (not (library-file?    file))
+                 (elf-binary-file? file))
+         (make-file-writable file)
+         (invoke "patchelf" "--set-rpath" rpath file)
+         (invoke "patchelf" "--set-interpreter" loader file)
+         (chmod file (stat:perms stat)))))
+    
   (define (patch-file file rpath loader)
     (file-info file)
     (let ((stat (stat file)))
@@ -93,25 +111,9 @@
       (if (or (library-file?    file)
               (elf-binary-file? file))
           (begin
-            (make-file-writable file)
-            (format #t "build: `~a' is an elf binary or library file~%" file)
-            (begin
-              (format #t "~%~%")
-              (format #t "build: invoke patchelf --set-rpath ~a ~a~%" rpath file)
-              (format #t "~%~%")
-              (invoke "patchelf" "--set-rpath" rpath file))
-            (if (library-file? file)
-                (format #t "build: file ~a is not an elf binary, it is a library" file)
-                (if (elf-binary-file? file)
-                    (begin
-                      (format #t "build: `~a' is not a library file~%" file)
-                      (begin
-                        (format #t "build: `~a' is an elf binary file~%" file)
-                        (format #t "~%~%")
-                        (format #t "build: invoke: patchelf --set-interpreter ~a ~a~%" loader file)
-                        (format #t "~%~%")
-                        (invoke "patchelf" "--set-interpreter" loader file)))))
-            (chmod file (stat:perms stat)))
+            (path-library file rpath)
+            (unless readonly-binaries
+              (path-elf-binary file rpath loader)))
           (begin
             (format #t "build: file ~a is not an executable or library~%" file)
             (format #t "build: invoke: no action for ~a~%" file)))))
@@ -129,11 +131,10 @@
                           (find-lib input input-lib-mapping))))
                   (append host-inputs
                           outputs)))))
-
-  (format #t "BUILD:~%")
-  (let* ((loader            (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system))) ;(string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2")
-         (rpath-libs        (find-rpath-libs outputs input-lib-mapping))
-         (rpath             (string-join rpath-libs ":"))
+  
+  (let* ((loader         (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system)))
+         (rpath-libs     (find-rpath-libs outputs input-lib-mapping))
+         (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
     (cond
@@ -186,18 +187,25 @@
 
 ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build/python-build-system.scm?h=master#n208
 (define* (wrap-if-ro #:key inputs outputs #:allow-other-keys)
-  (define (list-of-files dir)
+  (define (find-rpath-libs outputs
+                           input-lib-mapping)
+    (let ((host-inputs (filter (lambda (input)
+                                 (not (member (car input) '("source" "patchelf"))))
+                               inputs)))
+      (apply append
+             (map (lambda (input)
+                    (let ((plibs (pkg-config-libs input)))
+                      (if (> (length plibs) 0)
+                          plibs
+                          (find-lib input input-lib-mapping))))
+                  (append host-inputs
+                          outputs)))))
+  (define (list-of-elf-files dir)
     (find-files dir (lambda (file stat)
                       (and (eq? 'regular (stat:type stat))
-                           (not (wrapped-program? file))))))
-
-  (define bindirs
-    (append-map (match-lambda
-                  ((_ . dir)
-                   (list (string-append dir "/bin")
-                         (string-append dir "/sbin"))))
-                outputs))
-
+                           (not (wrapped-program? file))
+                           (elf-binary-file? file)
+                           (not (library-file? file))))))
   ;; Do not require "bash" to be present in the package inputs
   ;; even when there is nothing to wrap.
   ;; Also, calculate (sh) only once to prevent some I/O.
@@ -205,15 +213,33 @@
   (define (sh) (force %sh))
   (define (loader)
     (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system)))
+  (let ((rpath-libs (find-rpath-libs outputs input-lib-mapping))
+        (rpath      (string-join rpath-libs ":"))
+        (var `("LD_LIBRARY_PATH" prefix
+               ,rpath)))
+   (for-each (lambda (dir)
+               (let ((files (list-of-elf-files dir)))
+                 (for-each (cut wrap-ro-program <>
+                                #:sh (sh)
+                                #:loader (loader)
+                                var)
+                           files)))
+           outputs)))
 
-  (let* ((var `("GUIX_PYTHONPATH" prefix
-                ,(search-path-as-string->list
-                  (or (getenv "GUIX_PYTHONPATH") "")))))
-    (for-each (lambda (dir)
-                (let ((files (list-of-files dir)))
-                  (for-each (cut wrap-ro-program <> #:sh (sh) #:loader (loader) var)
-                            files)))
-              bindirs)))
+;; (for-each (lambda (dir)
+;;             (let ((files (list-of-files dir)))
+;;               (for-each (cut wrap-ro-program <> #:sh (sh) #:loader (loader) var)
+;;                         files)))
+;;           bindirs)
+
+;; (let* ((var `("GUIX_PYTHONPATH" prefix
+;;               ,(search-path-as-string->list
+;;                 (or (getenv "GUIX_PYTHONPATH") "")))))
+;;   (for-each (lambda (dir)
+;;               (let ((files (list-of-files dir)))
+;;                 (for-each (cut wrap-ro-program <> #:sh (sh) #:loader (loader) var)
+;;                           files)))
+;;             bindirs))
 
 (define %standard-phases
   (modify-phases gnu:%standard-phases
