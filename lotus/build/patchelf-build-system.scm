@@ -116,9 +116,6 @@
             (format #t "build: file ~a is not an executable or library~%" file)
             (format #t "build: invoke: no action for ~a~%" file)))))
 
-  (define (wrap-file file rpath loader)
-    (wrap-ro-program file #:loader loader))
-
   (define (find-rpath-libs outputs
                            input-lib-mapping)
     (let ((host-inputs (filter (lambda (input)
@@ -143,8 +140,8 @@
     (cond
        ((not (null? files-to-build))
         (for-each (lambda (file)
-                    (if readonly-binaries
-                        (wrap-file file rpath loader)
+                    ;; (wrap-file file rpath loader)
+                    (unless readonly-binaries
                         (patch-file file rpath loader)))
                   files-to-build)
         #t)
@@ -189,7 +186,7 @@
       #f))))
 
 ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build/python-build-system.scm?h=master#n208
-(define* (wrap #:key inputs outputs #:allow-other-keys)
+(define* (wrap-if-ro #:key inputs outputs #:allow-other-keys)
   (define (list-of-files dir)
     (find-files dir (lambda (file stat)
                       (and (eq? 'regular (stat:type stat))
@@ -224,7 +221,7 @@
     (replace 'build build)
     (delete  'check)
     (replace 'install install)
-    (add-after 'install 'wrap wrap)))
+    (add-after 'install 'wrap-if-ro wrap-if-ro)))
 
 (define* (patchelf-build #:key
                          (source #f)
