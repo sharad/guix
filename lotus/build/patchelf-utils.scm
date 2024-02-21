@@ -15,7 +15,7 @@
   #:use-module (rnrs bytevectors)
   #:use-module (rnrs io ports)
   ;;   #:use-module (srfi srfi-26)
-  #:use-module (guix utils)
+  ;; #:use-module (guix utils)
   #:use-module (guix build utils)
   ;; #:use-module (srfi srfi-1)
   ;; #:use-module (rnrs bytevectors)
@@ -30,42 +30,55 @@
             directory?
             directory-list-files
             file-info
-            glibc-dynamic-linker
+            patchelf-dynamic-linker
             wrap-ro-program))
-            ;; patchelf-dynamic-linker
 
 
-(define* (glibc-dynamic-linker
-          #:optional (system (or (and=> (%current-target-system)
-                                        gnu-triplet->nix-system)
-                                 (%current-system))))
+;; (define* (patchelf-dynamic-linker
+;;           #:optional (system (or (and=> (%current-target-system)
+;;                                         gnu-triplet->nix-system)
+;;                                  (%current-system))))
+;;   "Return the name of Glibc's dynamic linker for SYSTEM."
+;;   ;; See the 'SYSDEP_KNOWN_INTERPRETER_NAMES' cpp macro in libc.
+;;   (let ((platform (false-if-platform-not-found
+;;                    (lookup-platform-by-system system))))
+;;     (cond
+;;      ((platform? platform)
+;;       (platform-patchelf-dynamic-linker platform))
+
+;;      ;; TODO: Define those as platforms.
+;;      ((string=? system "i686-gnu") "/lib/ld.so.1")
+;;      ((string=? system "powerpc64-linux") "/lib/ld64.so.1")
+;;      ((string=? system "alpha-linux") "/lib/ld-linux.so.2")
+
+;;      ;; TODO: Differentiate between x86_64-linux-gnu and x86_64-linux-gnux32.
+;;      ((string=? system "x86_64-linux-gnux32") "/lib/ld-linux-x32.so.2")
+
+;;      ;; XXX: This one is used bare-bones, without a libc, so add a case
+;;      ;; here just so we can keep going.
+;;      ((string=? system "arm-eabi") "no-ld.so")
+;;      ((string=? system "avr") "no-ld.so")
+;;      ((string=? system "i686-mingw") "no-ld.so")
+;;      ((string=? system "or1k-elf") "no-ld.so")
+;;      ((string=? system "x86_64-mingw") "no-ld.so")
+;;      ((string-suffix? "-elf" system) "no-ld.so")
+
+;;      (else (error "dynamic linker name not known for this system"
+;;                   system)))))
+
+
+
+(define* (patchelf-dynamic-linker #:optional system)      ;(use-modules (gnu packages bootstrap))
+          ;; #:optional (system (or (and=> (%current-target-system)
+          ;;                               gnu-triplet->nix-system)
+          ;;                        (%current-system)))
+
   "Return the name of Glibc's dynamic linker for SYSTEM."
   ;; See the 'SYSDEP_KNOWN_INTERPRETER_NAMES' cpp macro in libc.
-  (let ((platform (false-if-platform-not-found
-                   (lookup-platform-by-system system))))
-    (cond
-     ((platform? platform)
-      (platform-glibc-dynamic-linker platform))
 
-     ;; TODO: Define those as platforms.
-     ((string=? system "i686-gnu") "/lib/ld.so.1")
-     ((string=? system "powerpc64-linux") "/lib/ld64.so.1")
-     ((string=? system "alpha-linux") "/lib/ld-linux.so.2")
+  "/lib/ld-linux.so.2")
 
-     ;; TODO: Differentiate between x86_64-linux-gnu and x86_64-linux-gnux32.
-     ((string=? system "x86_64-linux-gnux32") "/lib/ld-linux-x32.so.2")
 
-     ;; XXX: This one is used bare-bones, without a libc, so add a case
-     ;; here just so we can keep going.
-     ((string=? system "arm-eabi") "no-ld.so")
-     ((string=? system "avr") "no-ld.so")
-     ((string=? system "i686-mingw") "no-ld.so")
-     ((string=? system "or1k-elf") "no-ld.so")
-     ((string=? system "x86_64-mingw") "no-ld.so")
-     ((string-suffix? "-elf" system) "no-ld.so")
-
-     (else (error "dynamic linker name not known for this system"
-                  system)))))
 
 ;; https://stackoverflow.com/questions/38189169/elf-pie-aslr-and-everything-in-between-specifically-within-linux
 ;; TODO
@@ -140,13 +153,6 @@
 (define (directory-list-files dir)
   (scandir dir (negate (cut member <> '("." "..")))))
 
-;; (define* (patchelf-dynamic-linker
-;;           #:optional (system (or (and=> (%current-target-system)
-;;                                         gnu-triplet->nix-system)
-;;                                  (%current-system))))
-;;   (use-modules (gnu packages bootstrap))
-;;   (glibc-dynamic-linker system))
-
 (define (file-info file)
   (format #t "~%~%")
   (format #t "file-info: ~%")
@@ -164,7 +170,7 @@
 (define* (wrap-ro-program prog
                           #:key
                           (sh     (which "bash"))
-                          (loader (glibc-dynamic-linker))
+                          (loader #f)
                           #:rest vars)
   "Make a wrapper for PROG.  VARS should look like this:
 

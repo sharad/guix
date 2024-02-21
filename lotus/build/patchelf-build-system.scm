@@ -117,7 +117,7 @@
             (format #t "build: invoke: no action for ~a~%" file)))))
 
   (define (wrap-file file rpath loader)
-    (wrap-ro-program file))
+    (wrap-ro-program file #:loader loader))
 
   (define (find-rpath-libs outputs
                            input-lib-mapping)
@@ -134,7 +134,7 @@
                           outputs)))))
 
   (format #t "BUILD:~%")
-  (let* ((loader            (glibc-dynamic-linker)) ;(string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2")
+  (let* ((loader            (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system))) ;(string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2")
          (rpath-libs        (find-rpath-libs outputs input-lib-mapping))
          ;; (readonly-binaries readonly-binaries)
          (rpath             (string-join rpath-libs ":"))
@@ -196,12 +196,20 @@
     (delete  'check)
     (replace 'install install)))
 
-(define* (patchelf-build #:key (source #f) (outputs #f) (inputs #f)
+(define* (patchelf-build #:key
+                         (source #f)
+                         (outputs #f)
+                         (inputs #f)
+                         system
                          (phases %standard-phases)
                          #:allow-other-keys
                          #:rest args)
   "Build the given Patchelf package, applying all of PHASES in order."
-  (format #t "patchelf-build.1 Hello")
+  (format #t "patchelf-build.1 source = ~a" source)
+  (format #t "patchelf-build.1 inputs = ~a" inputs)
+  (format #t "patchelf-build.1 outputs = ~a" outputs)
+  (format #t "patchelf-build.1 system = ~a" system)
+  ;; (format #t "patchelf-build.1 inputs = ~a" inputs)
   (apply gnu:gnu-build
          #:inputs inputs #:phases phases
          args))

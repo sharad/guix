@@ -396,10 +396,6 @@ APIs, online and offline.")
       (modify-phases %standard-phases
                      (add-after  'unpack 'compatibility
                                  (lambda* (#:key inputs outputs #:allow-other-keys)
-                                   (format #t "HELLO1")
-                                   (system* "pwd")
-                                   (system* "ls")
-                                   (format #t "HELLO2")
                                    (substitute* "playsound.py"
                                                 (("/usr/bin/python3")
                                                  (string-append "\"" (assoc-ref inputs "python") "/bin/python3" "\"")))
@@ -410,5 +406,3 @@ APIs, online and offline.")
     "Pure Python, cross platform, single function module with no dependencies for
 playing sounds.")
    (license license:expat)))
-
-python-attnmgr
