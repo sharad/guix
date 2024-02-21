@@ -133,7 +133,6 @@
   (format #t "BUILD:~%")
   (let* ((loader            (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system))) ;(string-append (assoc-ref inputs "libc") "/lib/ld-linux-x86-64.so.2")
          (rpath-libs        (find-rpath-libs outputs input-lib-mapping))
-         ;; (readonly-binaries readonly-binaries)
          (rpath             (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
@@ -204,13 +203,15 @@
   ;; Also, calculate (sh) only once to prevent some I/O.
   (define %sh (delay (search-input-file inputs "bin/bash")))
   (define (sh) (force %sh))
+  (define (loader)
+    (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system)))
 
   (let* ((var `("GUIX_PYTHONPATH" prefix
                 ,(search-path-as-string->list
                   (or (getenv "GUIX_PYTHONPATH") "")))))
     (for-each (lambda (dir)
                 (let ((files (list-of-files dir)))
-                  (for-each (cut wrap-ro-program <> #:sh (sh) var)
+                  (for-each (cut wrap-ro-program <> #:sh (sh) #:loader (loader) var)
                             files)))
               bindirs)))
 
