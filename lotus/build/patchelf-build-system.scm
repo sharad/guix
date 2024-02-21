@@ -188,13 +188,43 @@
                            (install-file? file stat #:verbose? #t)))
       #f))))
 
+;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build/python-build-system.scm?h=master#n208
+(define* (wrap #:key inputs outputs #:allow-other-keys)
+  (define (list-of-files dir)
+    (find-files dir (lambda (file stat)
+                      (and (eq? 'regular (stat:type stat))
+                           (not (wrapped-program? file))))))
+
+  (define bindirs
+    (append-map (match-lambda
+                  ((_ . dir)
+                   (list (string-append dir "/bin")
+                         (string-append dir "/sbin"))))
+                outputs))
+
+  ;; Do not require "bash" to be present in the package inputs
+  ;; even when there is nothing to wrap.
+  ;; Also, calculate (sh) only once to prevent some I/O.
+  (define %sh (delay (search-input-file inputs "bin/bash")))
+  (define (sh) (force %sh))
+
+  (let* ((var `("GUIX_PYTHONPATH" prefix
+                ,(search-path-as-string->list
+                  (or (getenv "GUIX_PYTHONPATH") "")))))
+    (for-each (lambda (dir)
+                (let ((files (list-of-files dir)))
+                  (for-each (cut wrap-ro-program <> #:sh (sh) var)
+                            files)))
+              bindirs)))
+
 (define %standard-phases
   (modify-phases gnu:%standard-phases
     (delete  'bootstrap)
     (delete  'configure)
     (replace 'build build)
     (delete  'check)
-    (replace 'install install)))
+    (replace 'install install)
+    (add-after 'install 'wrap wrap)))
 
 (define* (patchelf-build #:key
                          (source #f)
