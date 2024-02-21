@@ -132,7 +132,7 @@
     (version "7.2.0.0644")
     (source (origin
               (method url-fetch)
-              (uri (string-append "https://repo.fortinet.com/repo/7.0/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
+              (uri (string-append "https://repo.fortinet.com/repo/forticlient/7.2/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
               (file-name (string-append name "-" version ".deb"))
               (sha256 (base32 "1m5yq02wrfy4ans313y3x2w1jp9ssq5s0gdjblsi3shp55731k99"))))))
 
