@@ -270,7 +270,7 @@
 (define-public python-attnmgr
   (package
     (name "python-attnmgr")
-    (version "0.3")
+    (version "0.4")
     (source (origin (method git-fetch)
                     (uri (git-reference
                           (url "https://github.com/sharad/attnmgr")
