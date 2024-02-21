@@ -134,7 +134,7 @@
               (method url-fetch)
               (uri (string-append "https://repo.fortinet.com/repo/forticlient/7.2/ubuntu/pool/multiverse/forticlient/forticlient_" version "_amd64.deb"))
               (file-name (string-append name "-" version ".deb"))
-              (sha256 (base32 "1m5yq02wrfy4ans313y3x2w1jp9ssq5s0gdjblsi3shp55731k99"))))))
+              (sha256 (base32 "0rinpbad31zd3xa7yp11cjshn3qwvv75z0mj1pdng1ddz2gf87kk"))))))
 
 (define-public deb-forticlient-7.2.3
   (package
