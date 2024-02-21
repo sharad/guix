@@ -260,8 +260,8 @@
                            #:phases #$(if (pair? phases)
                                           (sexp->gexp phases)
                                           phases)
-                           #:input-lib-mapping ,input-lib-mapping
-                           #:readonly-binaries ,readonly-binaries
+                           #:input-lib-mapping #$input-lib-mapping
+                           #:readonly-binaries #$readonly-binaries
                            #:locale #$locale
                            ;; #:bootstrap-scripts #$bootstrap-scripts
                            #:configure-flags #$(if (pair? configure-flags)

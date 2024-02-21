@@ -180,7 +180,7 @@
                          (phases '(@ (lotus build patchelf-build-system)
                                      %standard-phases))
                          (input-lib-mapping ''())
-                         ;; (readonly-binaries '#f)
+                         (readonly-binaries '#f)
                          (locale "en_US.utf8")
                          (system (%current-system))
                          (build (nix-system->gnu-triplet system))
@@ -226,7 +226,7 @@
                                                (sexp->gexp phases)
                                                phases)
                                 #:input-lib-mapping #$input-lib-mapping
-                                ;; #:readonly-binaries #$readonly-binaries
+                                #:readonly-binaries #$readonly-binaries
                                 #:locale #$locale
                                 ;; #:bootstrap-scripts #$bootstrap-scripts
                                 #:configure-flags #$(if (pair? configure-flags)
