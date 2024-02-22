@@ -44,6 +44,8 @@
 ;; Code:
 
 ;; Utils
+(define %pkg-config
+  (make-parameter "pkg-config"))
 (define (pkg-config-libs input)
   ;; TODO: (car input) "gcc:lib" ??
   ;; (car input) is simple user defined name
@@ -84,8 +86,8 @@
 
   (define source (getcwd))
 
-  (define %pkg-config
-    (make-parameter "pkg-config"))
+  ;; (define %pkg-config
+  ;;   (make-parameter "pkg-config"))
 
   (define %not-space
     (char-set-complement (char-set #\Space)))
@@ -199,7 +201,7 @@
       #f))))
 
 ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build/python-build-system.scm?h=master#n208
-(define* (wrap-if-ro
+(define* (wrap
           #:key
           inputs
           outputs
@@ -232,6 +234,19 @@
                                    var)
                               files)))
                 outputs))))
+
+(define* (wrap-if-ro
+          #:key
+          inputs
+          outputs
+          (input-lib-mapping '())
+          (readonly-binaries #f)
+          #:allow-other-keys)
+  (when readonly-binaries
+    (wrap #:inputs inputs
+          #:outputs outputs
+          #:input-lib-mapping input-lib-mapping
+          #:readonly-binaries readonly-binaries)))
 
 ;; (for-each (lambda (dir)
 ;;             (let ((files (list-of-files dir)))
