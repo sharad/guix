@@ -245,6 +245,7 @@ with definitions for VARS. If it is not, SH will be used as interpreter."
 
   (define (export-variable lst)
     ;; Return a string that exports an environment variable.
+    (format #t "EXPORT-VARIABLE: lst: ~a" lst)
     (match lst
       ((var sep '= rest)
        (format #f "export ~a=\"~a\""
