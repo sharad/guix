@@ -201,7 +201,7 @@
       #f))))
 
 ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build/python-build-system.scm?h=master#n208
-(define* (wrap
+(define* (wrap-if-ro
           #:key
           inputs
           outputs
