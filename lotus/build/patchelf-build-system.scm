@@ -111,9 +111,9 @@
       (if (or (library-file?    file)
               (elf-binary-file? file))
           (begin
-            (path-library file rpath)
+            (patch-library file rpath)
             (unless readonly-binaries
-              (path-elf-binary file rpath loader)))
+              (patch-elf-binary file rpath loader)))
           (begin
             (format #t "build: file ~a is not an executable or library~%" file)
             (format #t "build: invoke: no action for ~a~%" file)))))
@@ -184,7 +184,13 @@
       #f))))
 
 ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build/python-build-system.scm?h=master#n208
-(define* (wrap-if-ro #:key inputs outputs readonly-binaries #:allow-other-keys)
+(define* (wrap-if-ro
+          #:key
+          inputs
+          outputs
+          (input-lib-mapping '())
+          (readonly-binaries #f)
+          #:allow-other-keys)
   (define (find-rpath-libs outputs
                            input-lib-mapping)
     (let ((host-inputs (filter (lambda (input)
