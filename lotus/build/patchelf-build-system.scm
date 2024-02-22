@@ -237,7 +237,7 @@
                                    #:loader (loader)
                                    var)
                               files)))
-                (map car outputs)))))
+                (map cdr outputs)))))
 
 (define* (wrap-if-ro #:key
                      inputs
