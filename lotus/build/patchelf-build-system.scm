@@ -140,9 +140,7 @@
     (cond
        ((not (null? files-to-build))
         (for-each (lambda (file)
-                    ;; (wrap-file file rpath loader)
-                    (unless readonly-binaries
-                        (patch-file file rpath loader)))
+                    (patch-file file rpath loader))
                   files-to-build)
         #t)
        (else
@@ -186,7 +184,7 @@
       #f))))
 
 ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build/python-build-system.scm?h=master#n208
-(define* (wrap-if-ro #:key inputs outputs #:allow-other-keys)
+(define* (wrap-if-ro #:key inputs outputs readonly-binaries #:allow-other-keys)
   (define (find-rpath-libs outputs
                            input-lib-mapping)
     (let ((host-inputs (filter (lambda (input)
@@ -217,7 +215,7 @@
     (let* ((rpath-libs (find-rpath-libs outputs input-lib-mapping))
            (rpath      (string-join rpath-libs ":"))
            (var `("LD_LIBRARY_PATH" prefix
-                  ,rpath)))
+                  (,rpath))))
       (for-each (lambda (dir)
                   (let ((files (list-of-elf-files dir)))
                     (for-each (cut wrap-ro-program <>
