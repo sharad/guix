@@ -229,7 +229,9 @@
            (var `("LD_LIBRARY_PATH" prefix
                   (,rpath))))
       (for-each (lambda (dir)
+                  (format #t "WRAP: DIR = ~a" dir)
                   (let ((files (list-of-elf-files dir)))
+                    (format #t "WRAP: FILES = ~a" files)
                     (for-each (cut wrap-ro-program <>
                                    #:sh (sh)
                                    #:loader (loader)
