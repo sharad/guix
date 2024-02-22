@@ -43,6 +43,37 @@
 ;;
 ;; Code:
 
+;; Utils
+(define (pkg-config-libs input)
+  ;; TODO: (car input) "gcc:lib" ??
+  ;; (car input) is simple user defined name
+  (let* ((p (open-pipe* OPEN_READ (%pkg-config) "--libs-only-L" (car input)))
+         (l (read-line p)))
+    (if (or (not (zero? (close-pipe p)))
+            (eof-object? l))
+        '()
+        (begin
+          (let* ((slist (string-tokenize l %not-space)))
+            (map (lambda (lib)
+                   (if (string-prefix? "-L" lib)
+                       (string-drop lib (string-length "-L"))
+                       lib))
+                 slist))))))
+(define (find-rpath-libs outputs
+                         input-lib-mapping)
+  (let ((host-inputs (filter (lambda (input)
+                               (not (member (car input) '("source" "patchelf"))))
+                             inputs)))
+    (apply append
+           (map (lambda (input)
+                  (let ((plibs (pkg-config-libs input)))
+                    (if (> (length plibs) 0)
+                        plibs
+                        (find-lib input input-lib-mapping))))
+                (append host-inputs
+                        outputs)))))
+;; Utils Ends
+
 (define* (build #:key
                 outputs
                 inputs
@@ -58,22 +89,6 @@
 
   (define %not-space
     (char-set-complement (char-set #\Space)))
-
-  (define (pkg-config-libs input)
-    ;; TODO: (car input) "gcc:lib" ??
-    ;; (car input) is simple user defined name
-    (let* ((p (open-pipe* OPEN_READ (%pkg-config) "--libs-only-L" (car input)))
-           (l (read-line p)))
-      (if (or (not (zero? (close-pipe p)))
-              (eof-object? l))
-          '()
-          (begin
-            (let* ((slist (string-tokenize l %not-space)))
-              (map (lambda (lib)
-                     (if (string-prefix? "-L" lib)
-                         (string-drop lib (string-length "-L"))
-                         lib))
-                   slist))))))
 
   (define (find-lib input mapping)
     (let ((pkg      (car input))
@@ -191,19 +206,6 @@
           (input-lib-mapping '())
           (readonly-binaries #f)
           #:allow-other-keys)
-  (define (find-rpath-libs outputs
-                           input-lib-mapping)
-    (let ((host-inputs (filter (lambda (input)
-                                 (not (member (car input) '("source" "patchelf"))))
-                               inputs)))
-      (apply append
-             (map (lambda (input)
-                    (let ((plibs (pkg-config-libs input)))
-                      (if (> (length plibs) 0)
-                          plibs
-                          (find-lib input input-lib-mapping))))
-                  (append host-inputs
-                          outputs)))))
   (define (list-of-elf-files dir)
     (find-files dir (lambda (file stat)
                       (and (eq? 'regular (stat:type stat))
