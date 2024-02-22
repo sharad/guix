@@ -61,7 +61,8 @@
                        (string-drop lib (string-length "-L"))
                        lib))
                  slist))))))
-(define (find-rpath-libs outputs
+(define (find-rpath-libs inputs
+                         outputs
                          input-lib-mapping)
   (let ((host-inputs (filter (lambda (input)
                                (not (member (car input) '("source" "patchelf"))))
@@ -135,22 +136,23 @@
             (format #t "build: file ~a is not an executable or library~%" file)
             (format #t "build: invoke: no action for ~a~%" file)))))
 
-  (define (find-rpath-libs outputs
-                           input-lib-mapping)
-    (let ((host-inputs (filter (lambda (input)
-                                 (not (member (car input) '("source" "patchelf"))))
-                               inputs)))
-      (apply append
-             (map (lambda (input)
-                    (let ((plibs (pkg-config-libs input)))
-                      (if (> (length plibs) 0)
-                          plibs
-                          (find-lib input input-lib-mapping))))
-                  (append host-inputs
-                          outputs)))))
+  ;; (define (find-rpath-libs inputs
+  ;;                          outputs
+  ;;                          input-lib-mapping)
+  ;;   (let ((host-inputs (filter (lambda (input)
+  ;;                                (not (member (car input) '("source" "patchelf"))))
+  ;;                              inputs)))
+  ;;     (apply append
+  ;;            (map (lambda (input)
+  ;;                   (let ((plibs (pkg-config-libs input)))
+  ;;                     (if (> (length plibs) 0)
+  ;;                         plibs
+  ;;                         (find-lib input input-lib-mapping))))
+  ;;                 (append host-inputs
+  ;;                         outputs)))))
 
   (let* ((loader         (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system)))
-         (rpath-libs     (find-rpath-libs outputs input-lib-mapping))
+         (rpath-libs     (find-rpath-libs inputs outputs input-lib-mapping))
          (rpath          (string-join rpath-libs ":"))
          (files-to-build (find-files source)))
     (format #t "output-libs:~%~{    ~a~%~}~%" rpath-libs)
@@ -201,13 +203,12 @@
       #f))))
 
 ;; https://git.savannah.gnu.org/cgit/guix.git/tree/guix/build/python-build-system.scm?h=master#n208
-(define* (wrap
-          #:key
-          inputs
-          outputs
-          (input-lib-mapping '())
-          (readonly-binaries #f)
-          #:allow-other-keys)
+(define* (wrap #:key
+               inputs
+               outputs
+               (input-lib-mapping '())
+               (readonly-binaries #f)
+               #:allow-other-keys)
   (define (list-of-elf-files dir)
     (find-files dir (lambda (file stat)
                       (and (eq? 'regular (stat:type stat))
@@ -222,7 +223,7 @@
   (define (loader)
     (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system)))
   (when readonly-binaries
-    (let* ((rpath-libs (find-rpath-libs outputs input-lib-mapping))
+    (let* ((rpath-libs (find-rpath-libs inputs outputs input-lib-mapping))
            (rpath      (string-join rpath-libs ":"))
            (var `("LD_LIBRARY_PATH" prefix
                   (,rpath))))
@@ -235,13 +236,12 @@
                               files)))
                 outputs))))
 
-(define* (wrap-if-ro
-          #:key
-          inputs
-          outputs
-          (input-lib-mapping '())
-          (readonly-binaries #f)
-          #:allow-other-keys)
+(define* (wrap-if-ro #:key
+                     inputs
+                     outputs
+                     (input-lib-mapping '())
+                     (readonly-binaries #f)
+                     #:allow-other-keys)
   (when readonly-binaries
     (wrap #:inputs inputs
           #:outputs outputs
