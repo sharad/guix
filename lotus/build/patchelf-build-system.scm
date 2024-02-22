@@ -103,7 +103,7 @@
          (invoke "patchelf" "--set-rpath" rpath file)
          (invoke "patchelf" "--set-interpreter" loader file)
          (chmod file (stat:perms stat)))))
-    
+
   (define (patch-file file rpath loader)
     (file-info file)
     (let ((stat (stat file)))
@@ -131,7 +131,7 @@
                           (find-lib input input-lib-mapping))))
                   (append host-inputs
                           outputs)))))
-  
+
   (let* ((loader         (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system)))
          (rpath-libs     (find-rpath-libs outputs input-lib-mapping))
          (rpath          (string-join rpath-libs ":"))
@@ -213,18 +213,19 @@
   (define (sh) (force %sh))
   (define (loader)
     (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system)))
-  (let ((rpath-libs (find-rpath-libs outputs input-lib-mapping))
-        (rpath      (string-join rpath-libs ":"))
-        (var `("LD_LIBRARY_PATH" prefix
-               ,rpath)))
-   (for-each (lambda (dir)
-               (let ((files (list-of-elf-files dir)))
-                 (for-each (cut wrap-ro-program <>
-                                #:sh (sh)
-                                #:loader (loader)
-                                var)
-                           files)))
-           outputs)))
+  (when readonly-binaries
+    (let* ((rpath-libs (find-rpath-libs outputs input-lib-mapping))
+           (rpath      (string-join rpath-libs ":"))
+           (var `("LD_LIBRARY_PATH" prefix
+                  ,rpath)))
+      (for-each (lambda (dir)
+                  (let ((files (list-of-elf-files dir)))
+                    (for-each (cut wrap-ro-program <>
+                                   #:sh (sh)
+                                   #:loader (loader)
+                                   var)
+                              files)))
+                outputs))))
 
 ;; (for-each (lambda (dir)
 ;;             (let ((files (list-of-files dir)))
