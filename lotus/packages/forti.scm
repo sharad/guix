@@ -58,7 +58,8 @@
      `(("libc"    ,glibc)
        ("gcc:lib" ,gcc "lib")
        ("gtk+-2"  ,gtk+-2)
-       ("libsm"   ,libsm)))
+       ("libsm"   ,libsm)
+       ("util-linux" ,util-linux)))
     (arguments `(#:input-lib-mapping '(("out" "lib"))
                  #:readonly-binaries #f
                  #:phases            (modify-phases %standard-phases
