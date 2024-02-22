@@ -93,7 +93,7 @@
   "Return the name of Glibc's dynamic linker for SYSTEM."
   ;; See the 'SYSDEP_KNOWN_INTERPRETER_NAMES' cpp macro in libc.
 
-  "/lib/ld-linux.so.2")
+  "/lib/ld-linux-x86-64.so.2")
 
 
 
