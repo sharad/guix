@@ -44,26 +44,41 @@
 ;; Code:
 
 ;; Utils
-(define %pkg-config
-  (make-parameter "pkg-config"))
-(define (pkg-config-libs input)
-  ;; TODO: (car input) "gcc:lib" ??
-  ;; (car input) is simple user defined name
-  (let* ((p (open-pipe* OPEN_READ (%pkg-config) "--libs-only-L" (car input)))
-         (l (read-line p)))
-    (if (or (not (zero? (close-pipe p)))
-            (eof-object? l))
-        '()
-        (begin
-          (let* ((slist (string-tokenize l %not-space)))
-            (map (lambda (lib)
-                   (if (string-prefix? "-L" lib)
-                       (string-drop lib (string-length "-L"))
-                       lib))
-                 slist))))))
+
+
 (define (find-rpath-libs inputs
                          outputs
                          input-lib-mapping)
+
+  (define (pkg-config-libs input)
+    (define %pkg-config
+      (make-parameter "pkg-config"))
+    (define %not-space
+      (char-set-complement (char-set #\Space)))
+    ;; TODO: (car input) "gcc:lib" ??
+    ;; (car input) is simple user defined name
+    (let* ((p (open-pipe* OPEN_READ (%pkg-config) "--libs-only-L" (car input)))
+           (l (read-line p)))
+      (if (or (not (zero? (close-pipe p)))
+              (eof-object? l))
+          '()
+          (begin
+            (let* ((slist (string-tokenize l %not-space)))
+              (map (lambda (lib)
+                     (if (string-prefix? "-L" lib)
+                         (string-drop lib (string-length "-L"))
+                         lib))
+                   slist))))))
+  (define (find-lib input mapping)
+    (let ((pkg      (car input))
+          (pkg-path (cdr input)))
+      (let ((filtered-libs (map cadr
+                                (filter (lambda (x) (equal? pkg (car x)))
+                                        mapping))))
+        (map (lambda (lib) (string-append pkg-path "/" lib))
+             (if (> (length filtered-libs) 0)
+                 filtered-libs
+                 '("lib"))))))
   (let ((host-inputs (filter (lambda (input)
                                (not (member (car input) '("source" "patchelf"))))
                              inputs)))
@@ -89,20 +104,6 @@
 
   ;; (define %pkg-config
   ;;   (make-parameter "pkg-config"))
-
-  (define %not-space
-    (char-set-complement (char-set #\Space)))
-
-  (define (find-lib input mapping)
-    (let ((pkg      (car input))
-          (pkg-path (cdr input)))
-      (let ((filtered-libs (map cadr
-                                (filter (lambda (x) (equal? pkg (car x)))
-                                        mapping))))
-        (map (lambda (lib) (string-append pkg-path "/" lib))
-             (if (> (length filtered-libs) 0)
-                 filtered-libs
-                 '("lib"))))))
 
   (define (patch-library file rpath)
     (let ((stat (stat file)))
