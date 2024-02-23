@@ -60,7 +60,8 @@
        ("gcc:lib" ,gcc "lib")
        ("gtk+-2"  ,gtk+-2)
        ("libsm"   ,libsm)
-       ("util-linux" ,util-linux)))
+       ("util-linux" ,util-linux)
+       ("eudev     " ,eudev)))
     (arguments `(#:input-lib-mapping '(("out" "lib"))
                  #:readonly-binaries #f
                  #:phases            (modify-phases %standard-phases

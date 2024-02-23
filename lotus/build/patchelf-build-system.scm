@@ -124,7 +124,7 @@
          (chmod file (stat:perms stat)))))
 
   (define (patch-file file rpath loader)
-    (file-info file)
+    ;; (file-info file)
     (let ((stat (stat file)))
       (format #t "~%build: patching `~a'~%" file)
       (if (or (library-file?    file)
@@ -163,10 +163,8 @@
                     (patch-file file rpath loader))
                   files-to-build)
         #t)
-       (else
-        (format #t "error: No files found to build.\n")
-        files-to-build
-        #f))))
+       (else (format #t "error: No files found to build.~%")
+             #f))))
 
 ;;; All the packages are installed directly under site-lisp, which means that
 ;;; having that directory in the PATCHELFLOADPATH is enough to have them found by
@@ -183,7 +181,7 @@
 
   (let* ((out (assoc-ref outputs "out"))
          (files-to-install (find-files source install-file?)))
-    (format #t "instaling in ~a%" out)
+    (format #t "instaling in ~a~%" out)
     (cond
      ((not (null? files-to-install))
       (for-each (lambda (file)
@@ -198,7 +196,7 @@
                 files-to-install)
       #t)
      (else
-      (format #t "error: No files found to install.\n")
+      (format #t "error: No files found to install.~%")
       (find-files source (lambda (file stat)
                            (install-file? file stat #:verbose? #t)))
       #f))))
@@ -229,9 +227,9 @@
            (var `("LD_LIBRARY_PATH" prefix
                   (,rpath))))
       (for-each (lambda (dir)
-                  (format #t "WRAP: DIR = ~a" dir)
+                  (format #t "WRAP: DIR = ~a~%" dir)
                   (let ((files (list-of-elf-files dir)))
-                    (format #t "WRAP: FILES = ~a" files)
+                    (format #t "WRAP: FILES = ~a~%" files)
                     (for-each (cut wrap-ro-program <>
                                    #:sh (sh)
                                    #:loader (loader)
@@ -251,21 +249,6 @@
           #:input-lib-mapping input-lib-mapping
           #:readonly-binaries readonly-binaries)))
 
-;; (for-each (lambda (dir)
-;;             (let ((files (list-of-files dir)))
-;;               (for-each (cut wrap-ro-program <> #:sh (sh) #:loader (loader) var)
-;;                         files)))
-;;           bindirs)
-
-;; (let* ((var `("GUIX_PYTHONPATH" prefix
-;;               ,(search-path-as-string->list
-;;                 (or (getenv "GUIX_PYTHONPATH") "")))))
-;;   (for-each (lambda (dir)
-;;               (let ((files (list-of-files dir)))
-;;                 (for-each (cut wrap-ro-program <> #:sh (sh) #:loader (loader) var)
-;;                           files)))
-;;             bindirs))
-
 (define %standard-phases
   (modify-phases gnu:%standard-phases
     (delete  'bootstrap)
@@ -284,11 +267,11 @@
                          #:allow-other-keys
                          #:rest args)
   "Build the given Patchelf package, applying all of PHASES in order."
-  (format #t "patchelf-build.1 source = ~a" source)
-  (format #t "patchelf-build.1 inputs = ~a" inputs)
-  (format #t "patchelf-build.1 outputs = ~a" outputs)
-  (format #t "patchelf-build.1 system = ~a" system)
-  ;; (format #t "patchelf-build.1 inputs = ~a" inputs)
+  (format #t "patchelf-build.1 source = ~a~%" source)
+  (format #t "patchelf-build.1 inputs = ~a~%" inputs)
+  (format #t "patchelf-build.1 outputs = ~a~%" outputs)
+  (format #t "patchelf-build.1 system = ~a~%" system)
+  ;; (format #t "patchelf-build.1 inputs = ~a~%" inputs)
   (apply gnu:gnu-build
          #:inputs inputs #:phases phases
          args))
