@@ -62,7 +62,13 @@
        ("libsm"   ,libsm)
        ("util-linux" ,util-linux)
        ("eudev     " ,eudev)))
-    (arguments `(#:input-lib-mapping '(("out" "lib"))
+    (arguments `(#:input-lib-mapping '(("out"
+                                        "lib"
+                                        "forticlient"
+                                        "forticlient/tpm2/tpm2_ptool/exe.linux-x86_64-3.7/lib/cffi.libs"
+                                        "forticlient/tpm2/tpm2_ptool/exe.linux-x86_64-3.7/lib"
+                                        "forticlient/tpm2/lib"
+                                        "forticlient/gui/FortiClient-linux-x64"))
                  #:readonly-binaries #f
                  #:phases            (modify-phases %standard-phases
                                        (delete 'validate-runpath)

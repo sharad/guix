@@ -103,9 +103,6 @@
 
   (define source (getcwd))
 
-  ;; (define %pkg-config
-  ;;   (make-parameter "pkg-config"))
-
   (define (patch-library file rpath)
     (let ((stat (stat file)))
       (when (and (library-file?    file)
