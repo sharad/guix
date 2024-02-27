@@ -72,13 +72,14 @@
   (define (find-lib input mapping)
     (let ((pkg      (car input))
           (pkg-path (cdr input)))
-      (let ((filtered-libs (map cadr
-                                (filter (lambda (x) (equal? pkg (car x)))
-                                        mapping))))
+      (let ((filtered-libs (apply append (map cdr
+                                            (filter (lambda (m) (equal? pkg (car m)))
+                                                    mapping)))))
         (map (lambda (lib) (string-append pkg-path "/" lib))
              (if (> (length filtered-libs) 0)
                  filtered-libs
                  '("lib"))))))
+
   (let ((host-inputs (filter (lambda (input)
                                (not (member (car input) '("source" "patchelf"))))
                              inputs)))
@@ -136,21 +137,6 @@
           (begin
             (format #t "build: file ~a is not an executable or library~%" file)
             (format #t "build: invoke: no action for ~a~%" file)))))
-
-  ;; (define (find-rpath-libs inputs
-  ;;                          outputs
-  ;;                          input-lib-mapping)
-  ;;   (let ((host-inputs (filter (lambda (input)
-  ;;                                (not (member (car input) '("source" "patchelf"))))
-  ;;                              inputs)))
-  ;;     (apply append
-  ;;            (map (lambda (input)
-  ;;                   (let ((plibs (pkg-config-libs input)))
-  ;;                     (if (> (length plibs) 0)
-  ;;                         plibs
-  ;;                         (find-lib input input-lib-mapping))))
-  ;;                 (append host-inputs
-  ;;                         outputs)))))
 
   (let* ((loader         (string-append (assoc-ref inputs "libc") (patchelf-dynamic-linker system)))
          (rpath-libs     (find-rpath-libs inputs outputs input-lib-mapping))
