@@ -21,7 +21,7 @@
             (uri (git-reference
                   (url "https://github.com/stumpwm/stumpwm-gnome.git")
                   (commit version)))
-            (sha256 (base32 "0p0lcyz504rw6kv980n1rbfzj4lff11m3j3dp0g3mafr8m061pmm"))))
+            (sha256 (base32 "0fjmjq04d4bllmayy18hq3vr70zidlm3m8b8xvf80z7k2qi2gj6j"))))
    ;; (native-inputs
    ;;  `(("autoconf" ,autoconf)
    ;;    ("automake" ,automake)
