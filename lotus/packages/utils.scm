@@ -38,6 +38,7 @@
   #:use-module (gnu packages bootstrap)
   #:use-module (gnu packages base)
   #:use-module (gnu packages gcc)
+  #:use-module (gnu packages c)
   #:use-module (gnu packages compression)
   #:use-module (gnu packages elf)
   #:use-module (gnu packages fontutils)
@@ -198,3 +199,40 @@ intended to be a convenient alternative to scp, avoiding the need to
 re-authenticate each time a file is transferred.")
     (home-page "http://zssh.sourceforge.net/")
     (license #f)))
+
+
+
+;; https://issues.guix.gnu.org/41428
+
+(define-public wrap-cc
+  (lambda* (cc #:optional
+               (bin (package-name cc))
+               (name (string-append (package-name cc) "-wrapper")))
+    (package/inherit cc
+      (name name)
+      (source #f)
+      (build-system trivial-build-system)
+      (outputs '("out"))
+      (native-inputs '())
+      (inputs '())
+      (propagated-inputs `(("cc" ,cc)))
+      (arguments
+       `(#:modules ((guix build utils))
+         #:builder
+         (begin
+           (use-modules (guix build utils))
+           (let ((bin-dir (string-append (assoc-ref %build-inputs "cc") "/bin/"))
+                 (wrapper-dir (string-append (assoc-ref %outputs "out") "/bin/")))
+             (mkdir-p wrapper-dir)
+             (symlink (string-append bin-dir ,bin)
+                      (string-append wrapper-dir "cc"))))))
+      (synopsis (string-append "Wrapper for " bin))
+      (description
+       (string-append "Wraps " (package-name cc) " such that @command{" bin "}
+ can be invoked under the name @command{cc}.")))))
+
+
+(define-public gcc-toolchain-wrapper
+  (wrap-cc gcc-toolchain "gcc"))
+
+
