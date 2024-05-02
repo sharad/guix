@@ -25,7 +25,7 @@
   #:use-module ((lotus build-system deb) #:prefix deb:)
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module ((guix  build-system copy) #:prefix copy:)
-  #:use-module (guix build-system trivial #:prefix trivial)
+  #:use-module (guix build-system trivial #:prefix trivial:)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
