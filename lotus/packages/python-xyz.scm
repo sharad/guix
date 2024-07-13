@@ -276,7 +276,7 @@
                           (url "https://github.com/sharad/attnmgr")
                           (commit (string-append "v" version))))
                     (file-name (git-file-name name version))
-                    (sha256 (base32 "1cbcg8pk4n222msm3fci7q4mvr25i35y4xk1wysrnzzi07ici9zc"))))
+                    (sha256 (base32 "1pqq7gqj5y76c1fwpx3hswva4j79h3gqqvkpgxni7rw3jix0a7ck"))))
     (arguments
      '(#:tests? #f))
     ;; (build-system python-build-system)
