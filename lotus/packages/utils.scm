@@ -222,8 +222,8 @@ re-authenticate each time a file is transferred.")
          #:builder
          (begin
            (use-modules (guix build utils))
-           (let ((bin-dir (string-append (assoc-ref %build-inputs "cc") "/bin/"))
-                 (wrapper-dir (string-append (assoc-ref %outputs "out") "/bin/")))
+           (let ((bin-dir     (string-append (assoc-ref %build-inputs "cc") "/bin/"))
+                 (wrapper-dir (string-append (assoc-ref %outputs "out")     "/bin/")))
              (mkdir-p wrapper-dir)
              (symlink (string-append bin-dir ,bin)
                       (string-append wrapper-dir "cc"))))))
