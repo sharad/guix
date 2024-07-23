@@ -61,9 +61,9 @@
 
 
 
-(define-public git-annex-new
+(define-public git-annex-new1
   (package
-    (name "git-annex-new")
+    (name "git-annex-new1")
     (version "10.20240701")
     ;; (name "git-annex")
     ;; (version "10.20240227")
@@ -145,22 +145,22 @@
              (let* ((out (assoc-ref outputs "out"))
                     (bash (string-append out "/etc/bash_completions.d"))
                     (fish (string-append out "/share/fish/vendor_completions.d"))
-                    (zsh (string-append out "/share/zsh/site-functions"))))
-             (setenv "PREFIX" out)
-             (invoke "make" "install-mans")
-             (mkdir-p bash)
-             (copy-file "bash-completion.bash"
-                        (string-append bash "/git-annex"))
-             (mkdir-p fish)
-             (with-output-to-file (string-append fish "/git-annex.fish")
-               (lambda _
-                 (invoke (string-append out "/bin/git-annex")
-                         "--fish-completion-script" "git-annex")))
-             (mkdir-p zsh)
-             (with-output-to-file (string-append zsh "/_git-annex")
-               (lambda _
-                 (invoke (string-append out "/bin/git-annex")
-                         "--zsh-completion-script" "git-annex")))))
+                    (zsh (string-append out "/share/zsh/site-functions")))
+               (setenv "PREFIX" out)
+               (invoke "make" "install-mans")
+               (mkdir-p bash)
+               (copy-file "bash-completion.bash"
+                          (string-append bash "/git-annex"))
+               (mkdir-p fish)
+               (with-output-to-file (string-append fish "/git-annex.fish")
+                 (lambda _
+                   (invoke (string-append out "/bin/git-annex")
+                           "--fish-completion-script" "git-annex")))
+               (mkdir-p zsh)
+               (with-output-to-file (string-append zsh "/_git-annex")
+                 (lambda _
+                   (invoke (string-append out "/bin/git-annex")
+                           "--zsh-completion-script" "git-annex"))))))
          (add-after 'install 'install-symlinks
            (lambda* (#:key outputs #:allow-other-keys)
              (let* ((out (assoc-ref outputs "out"))
@@ -271,5 +271,5 @@ used to keep a folder in sync between computers.")
                    license:bsd-2
                    license:expat
                    license:gpl2))))
-git-annex-new
+git-annex-new1
 
