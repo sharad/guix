@@ -58,7 +58,6 @@
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages xorg))
 
-
 (define-public git-annex-new
   (package
     (name "git-annex-new")
@@ -267,8 +266,6 @@ used to keep a folder in sync between computers.")
                    license:bsd-2
                    license:expat
                    license:gpl2))))
-
-
 
 git-annex-new
 
