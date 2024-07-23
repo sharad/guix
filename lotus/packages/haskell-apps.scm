@@ -37,6 +37,7 @@
 
 (define-module (lotus packages haskell-apps)
   #:use-module (guix download)
+  #:use-module (guix gexp)
   #:use-module (guix git-download)
   #:use-module (guix packages)
   #:use-module ((guix licenses) #:prefix license:)
@@ -58,10 +59,14 @@
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages xorg))
 
+
+
 (define-public git-annex-new
   (package
     (name "git-annex-new")
     (version "10.20240701")
+    ;; (name "git-annex")
+    ;; (version "10.20240227")
     (source
      (origin
        ;; hackage release doesn't include everything needed for extra bits.
@@ -266,6 +271,5 @@ used to keep a folder in sync between computers.")
                    license:bsd-2
                    license:expat
                    license:gpl2))))
-
 git-annex-new
 
