@@ -95,7 +95,7 @@
     (synopsis "A small library for X window manipulation")
     (description "A small library for X window manipulation")
     (home-page "https://github.com/wmutils/libwm")
-    (license license:ibmpl1.0)))
+    (license license:gpl3)))
 
 
 (define-public wmutils-opt
@@ -127,7 +127,7 @@
 
 Just as the core programs, each utility does one job and does it well, like dealing with window events or names.")
     (home-page "https://github.com/wmutils/opt")
-    (license license:ibmpl1.0)))
+    (license license:gpl3)))
 
 (define-public wmutils-core
   (package
@@ -158,7 +158,7 @@ Just as the core programs, each utility does one job and does it well, like deal
 Each tool only has one purpose, to make it as flexible and reliable as
 possible.")
     (home-page "https://github.com/wmutils/core")
-    (license license:ibmpl1.0)))
+    (license license:gpl3)))
 
 (define-public zssh
   (package
@@ -235,5 +235,43 @@ re-authenticate each time a file is transferred.")
 
 (define-public gcc-toolchain-wrapper
   (wrap-cc gcc-toolchain "gcc"))
+
+
+(define-public git-extras
+  (package
+    (name "git-extras")
+    (version "7.2.0")
+    (source (origin
+             (method url-fetch)
+             (uri
+              (string-append "https://github.com/tj/git-extras/archive/refs/tags/" version ".tar.gz"))
+             (sha256 (base32 "1wa7qf01df2l7a8578500is9hm0bdrn57l4qrc4yj1rlksdz2w7m"))))
+    (build-system gnu:gnu-build-system)
+    (inputs  (list util-linux))
+    (arguments
+     '(;; #:modules (((guix build-system gnu) #:prefix gnu:))
+       #:tests? #f
+       #:make-flags (let ((out  (assoc-ref %outputs "out")))
+                      (list (string-append "PREFIX=" out)))
+       #:phases
+       (modify-phases %standard-phases
+         (delete 'configure))))
+
+    (synopsis "GIT utilities -- repo summary, repl, changelog population, author commit percentages and more")
+    (description "git abort, alias, archive-file, authors, browse, browse-ci,
+git bulk, brv, changelog, clear, clear-soft, coauthor, commits-since, contrib,
+count, cp, create-branch, delete-branch, delete-merged-branches,
+delete-squashed-branches, delete-submodule, delete-tag, delta, effort, extras,
+feature, force-clone, fork, fresh-branch, get, gh-pages, graft, guilt, ignore,
+ignore-io, info, local-commits, lock, locked, magic, merge-into, merge-repo,
+missing, mr, obliterate, paste, pr, psykorebase, pull-request, reauthor,
+rebase-patch, release, rename-branch, rename-file, rename-tag, rename-remote,
+repl, reset-file, root, rscp, scp, sed, setup, show-merged-branches, show-tree,
+show-unmerged-branches, stamp, squash, standup, summary, sync, touch, undo,
+unlock, utimes")
+    (home-page "https://github.com/tj/git-extras") (license license:gpl3)))
+
+
+git-extras
 
 
