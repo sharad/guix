@@ -270,8 +270,3 @@ repl, reset-file, root, rscp, scp, sed, setup, show-merged-branches, show-tree,
 show-unmerged-branches, stamp, squash, standup, summary, sync, touch, undo,
 unlock, utimes")
     (home-page "https://github.com/tj/git-extras") (license license:gpl3)))
-
-
-git-extras
-
-
