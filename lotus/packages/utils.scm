@@ -307,6 +307,5 @@ unlock, utimes")
        (string-append "Wraps " (package-name cc) " such that @command{" bin "}
  can be invoked under the name @command{cc}.")))))
 
-
 (define-public gcc-toolchain-wrapper
   (wrap-cc gcc-toolchain "gcc"))
