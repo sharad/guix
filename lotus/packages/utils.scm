@@ -245,39 +245,6 @@ See the ecryptfs-simple help message below for more information.")
     ;; grant additional permission to link with OpenSSL.
     (license license:gpl2+)))
 
-;; https://issues.guix.gnu.org/41428
-
-(define-public wrap-cc
-  (lambda* (cc #:optional
-               (bin (package-name cc))
-               (name (string-append (package-name cc) "-wrapper")))
-    (package/inherit cc
-      (name name)
-      (source #f)
-      (build-system trivial:trivial-build-system)
-      (outputs '("out"))
-      (native-inputs '())
-      (inputs '())
-      (propagated-inputs `(("cc" ,cc)))
-      (arguments
-       `(#:modules ((guix build utils))
-         #:builder
-         (begin
-           (use-modules (guix build utils))
-           (let ((bin-dir     (string-append (assoc-ref %build-inputs "cc") "/bin/"))
-                 (wrapper-dir (string-append (assoc-ref %outputs "out")     "/bin/")))
-             (mkdir-p wrapper-dir)
-             (symlink (string-append bin-dir ,bin)
-                      (string-append wrapper-dir "cc"))))))
-      (synopsis (string-append "Wrapper for " bin))
-      (description
-       (string-append "Wraps " (package-name cc) " such that @command{" bin "}
- can be invoked under the name @command{cc}.")))))
-
-
-(define-public gcc-toolchain-wrapper
-  (wrap-cc gcc-toolchain "gcc"))
-
 (define-public git-extras
   (package
     (name "git-extras")
@@ -311,3 +278,35 @@ repl, reset-file, root, rscp, scp, sed, setup, show-merged-branches, show-tree,
 show-unmerged-branches, stamp, squash, standup, summary, sync, touch, undo,
 unlock, utimes")
     (home-page "https://github.com/tj/git-extras") (license license:gpl3)))
+
+(define-public wrap-cc
+  (lambda* (cc #:optional
+               (bin (package-name cc))
+               (name (string-append (package-name cc) "-wrapper")))
+    ;; https://issues.guix.gnu.org/41428
+    (package/inherit cc
+      (name name)
+      (source #f)
+      (build-system trivial:trivial-build-system)
+      (outputs '("out"))
+      (native-inputs '())
+      (inputs '())
+      (propagated-inputs `(("cc" ,cc)))
+      (arguments
+       `(#:modules ((guix build utils))
+         #:builder
+         (begin
+           (use-modules (guix build utils))
+           (let ((bin-dir     (string-append (assoc-ref %build-inputs "cc") "/bin/"))
+                 (wrapper-dir (string-append (assoc-ref %outputs "out")     "/bin/")))
+             (mkdir-p wrapper-dir)
+             (symlink (string-append bin-dir ,bin)
+                      (string-append wrapper-dir "cc"))))))
+      (synopsis (string-append "Wrapper for " bin))
+      (description
+       (string-append "Wraps " (package-name cc) " such that @command{" bin "}
+ can be invoked under the name @command{cc}.")))))
+
+
+(define-public gcc-toolchain-wrapper
+  (wrap-cc gcc-toolchain "gcc"))
