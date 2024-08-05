@@ -26,6 +26,7 @@
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module ((guix  build-system copy) #:prefix copy:)
   #:use-module ((guix build-system trivial) #:prefix trivial:)
+  #:use-module ((guix build-system cmake))
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
@@ -60,6 +61,8 @@
   #:use-module (gnu packages image)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages xdisorg)
+  #:use-module (gnu packages crypto)
+  #:use-module (gnu packages gnupg)
   #:use-module (gnu packages sdl)
   #:use-module (gnu packages graphics)
   #:use-module (gnu packages gstreamer))
@@ -202,6 +205,45 @@ re-authenticate each time a file is transferred.")
     (license #f)))
 
 
+(define-public ecryptfs-simple
+  (package
+    (name "ecryptfs-simple")
+    (version "2016.11.16.1")
+    ;; (version "2017")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append "https://github.com/mhogomchungu/ecryptfs-simple/archive/refs/tags/"
+                           version ".tar.gz"))
+       ;; (uri (string-append "https://xyne.dev/projects/ecryptfs-simple/src/ecryptfs-simple-"
+       ;;                     version ".tar.gz"))
+       (sha256
+        (base32 "1bz88c6rgzfrzi49hrl5rf4flq674rxn6yc60c4c8sy9dvnhvx4v"))))
+    (build-system cmake-build-system)
+    (arguments
+     `(#:tests? #f))
+    (native-inputs
+     (list))
+    (inputs
+     (list libgcrypt
+           keyutils
+           ecryptfs-utils
+           `(,util-linux "lib")))
+    (home-page "https://github.com/mhogomchungu/ecryptfs-simple")
+    (synopsis "A very simple utility for working with eCryptfs. old https://xyne.dev/projects/ecryptfs-simple/")
+    (description "ecryptfs-simple is a utility for users that want to work with eCryptfs in the
+simplest way possible. It allows users to mount and unmount eCryptfs directories
+if they have full permissions on the source and target directories.
+ecryptfs-simple requires neither superuser privileges nor entries in fstab.
+Unlike the utilities in the ecryptfs-utils package, there are no hard-coded
+paths (e.g. ~/.Private).
+
+The idea is to make eCryptfs as easy to use as EncFS.
+
+See the ecryptfs-simple help message below for more information.")
+    ;; The files src/key_mod/ecryptfs_key_mod_{openssl,pkcs11_helper,tspi}.c
+    ;; grant additional permission to link with OpenSSL.
+    (license license:gpl2+)))
 
 ;; https://issues.guix.gnu.org/41428
 
@@ -235,7 +277,6 @@ re-authenticate each time a file is transferred.")
 
 (define-public gcc-toolchain-wrapper
   (wrap-cc gcc-toolchain "gcc"))
-
 
 (define-public git-extras
   (package
