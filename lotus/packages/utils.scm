@@ -284,35 +284,37 @@ version 3.0 and 2.40 as well.")
 
 (define-public python-pkcs11-provider
   (package
-   (name "pkcs11-provider")
-   (version "v0.5")
-   (source (origin
-            (method url-fetch)
-            (uri (string-append "https://github.com/sharad/python-pkcs11-provider.git"))
-            (sha256 (base32 "12csss35gm4ahcsrjs3z1qcanb4n9rqhgzzgkydh9fs67rjs2f6f"))))
-   (build-system meson-build-system)
+   (name "python-pkcs11-provider")
+   (version "master")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/sharad/python-pkcs11-provider")
+           (commit version)))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "0a8wz0ccgw7djs3b77vcvhm8gz6jc2iq6vpg76ipnxm08pwl0qb0"))))
+   (build-system gnu:gnu-build-system)
    (inputs  (list python
                   python-cython
                   pkg-config
                   openssl))
    (arguments
-    (list #:configure-flags
+    (list #:make-flags
           #~(list (string-append "CC=gcc"
-                                 "-Dlibdir=" #$output "/lib"))
-          #:phases
-          #~(modify-phases %standard-phases
-                           (add-before 'configure 'replace-purple-dir
-                                       (lambda* (#:key inputs outputs #:allow-other-keys)
-                                         (substitute* "meson.build"
-                                                      (("libcrypto.get_variable\\(pkgconfig: 'modulesdir'\\)")
-                                                       (string-append "'" (assoc-ref outputs "out") "/lib" "'")))
-                                         #t)))))
+                                 "-Dlibdir=" #$output "/lib"))))
 
    (synopsis "Write your own PKCS#11 module in Python! ")
    (description "python-pkcs11-provider
 Write your own PKCS#11 module in Python! ")
-   (home-page "https://github.com/sharad/python-pkcs11-provider.git")
+   (home-page "https://github.com/danni/python-pkcs11-provider.git")
    (license license:gpl3)))
+
+
+;; https://github.com/Pkcs11Interop/pkcs11-mock
+;; https://github.com/kinnalru/soft-pkcs11
+;; https://github.com/Pkcs11Interop/empty-pkcs11
 
 (define-public git-extras
   (package
