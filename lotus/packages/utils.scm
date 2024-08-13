@@ -27,7 +27,9 @@
   #:use-module ((guix  build-system copy) #:prefix copy:)
   #:use-module ((guix build-system trivial) #:prefix trivial:)
   #:use-module ((guix build-system cmake))
+  #:use-module ((guix build-system meson))
   #:use-module ((guix licenses) #:prefix license:)
+  #:use-module (guix gexp)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
   #:use-module (gnu packages linux)
@@ -65,7 +67,8 @@
   #:use-module (gnu packages gnupg)
   #:use-module (gnu packages sdl)
   #:use-module (gnu packages graphics)
-  #:use-module (gnu packages gstreamer))
+  #:use-module (gnu packages gstreamer)
+  #:use-module (gnu packages cmake))
 
 ;; https://issues.guix.gnu.org/issue/35619
 
@@ -204,7 +207,6 @@ re-authenticate each time a file is transferred.")
     (home-page "http://zssh.sourceforge.net/")
     (license #f)))
 
-
 (define-public ecryptfs-simple
   (package
     (name "ecryptfs-simple")
@@ -245,14 +247,49 @@ See the ecryptfs-simple help message below for more information.")
     ;; grant additional permission to link with OpenSSL.
     (license license:gpl2+)))
 
+(define-public pkcs11-provider
+  (package
+   (name "pkcs11-provider")
+   (version "v0.5")
+   (source (origin
+            (method url-fetch)
+            (uri (string-append "https://github.com/latchset/pkcs11-provider/archive/refs/tags/" version ".tar.gz"))
+            (sha256 (base32 "12csss35gm4ahcsrjs3z1qcanb4n9rqhgzzgkydh9fs67rjs2f6f"))))
+   (build-system meson-build-system)
+   (inputs  (list cmake
+                  pkg-config
+                  openssl))
+   (arguments
+    (list #:configure-flags
+          #~(list (string-append "-Dlibdir=" #$output "/lib"))
+          #:phases
+          #~(modify-phases %standard-phases
+                           (add-before 'configure 'replace-purple-dir
+                                       (lambda* (#:key inputs outputs #:allow-other-keys)
+                                         (substitute* "meson.build"
+                                                      (("libcrypto.get_variable\\(pkgconfig: 'modulesdir'\\)")
+                                                       (string-append "'" (assoc-ref outputs "out") "/lib" "'")))
+                                         #t)))))
+
+   (synopsis "A pkcs#11 provider for OpenSSL 3.0+")
+   (description "pkcs11-provider
+This is an OpenSSL 3.x provider to access Hardware and Software Tokens using the
+PKCS#11 Cryptographic Token Interface. Access to tokens depends on loading an
+appropriate PKCS#11 driver that knows how to talk to the specific token. The
+PKCS#11 provider is a connector that allows OpenSSL to make proper use of such
+drivers. This code targets PKCS#11 version 3.1 but is backwards compatible to
+version 3.0 and 2.40 as well.")
+   (home-page "https://github.com/latchset/pkcs11-provider/")
+   (license license:gpl3)))
+
+
 (define-public git-extras
   (package
     (name "git-extras")
     (version "7.2.0")
     (source (origin
              (method url-fetch)
-             (uri
-              (string-append "https://github.com/tj/git-extras/archive/refs/tags/" version ".tar.gz"))
+             (uri (string-append "https://github.com/tj/git-extras/archive/refs/tags/" version ".tar.gz"))
              (sha256 (base32 "1wa7qf01df2l7a8578500is9hm0bdrn57l4qrc4yj1rlksdz2w7m"))))
     (build-system gnu:gnu-build-system)
     (inputs  (list util-linux))
@@ -277,7 +314,8 @@ rebase-patch, release, rename-branch, rename-file, rename-tag, rename-remote,
 repl, reset-file, root, rscp, scp, sed, setup, show-merged-branches, show-tree,
 show-unmerged-branches, stamp, squash, standup, summary, sync, touch, undo,
 unlock, utimes")
-    (home-page "https://github.com/tj/git-extras") (license license:gpl3)))
+    (home-page "https://github.com/tj/git-extras")
+    (license license:gpl3)))
 
 (define-public wrap-cc
   (lambda* (cc #:optional
@@ -309,3 +347,6 @@ unlock, utimes")
 
 (define-public gcc-toolchain-wrapper
   (wrap-cc gcc-toolchain "gcc"))
+
+;; pkcs11-provider
+
