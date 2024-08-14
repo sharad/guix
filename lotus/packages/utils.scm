@@ -28,6 +28,7 @@
   #:use-module ((guix build-system trivial) #:prefix trivial:)
   #:use-module ((guix build-system cmake))
   #:use-module ((guix build-system meson))
+  ;; #:use-module ((guix build utils))
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (gnu packages autotools)
@@ -68,7 +69,9 @@
   #:use-module (gnu packages sdl)
   #:use-module (gnu packages graphics)
   #:use-module (gnu packages gstreamer)
-  #:use-module (gnu packages cmake))
+  #:use-module (gnu packages cmake)
+  #:use-module (gnu packages python)
+  #:use-module (gnu packages python-xyz))
 
 ;; https://issues.guix.gnu.org/issue/35619
 
@@ -282,34 +285,33 @@ version 3.0 and 2.40 as well.")
    (home-page "https://github.com/latchset/pkcs11-provider/")
    (license license:gpl3)))
 
-;; (define-public python-pkcs11-provider
-;;   (package
-;;    (name "python-pkcs11-provider")
-;;    (version "master")
-;;    (source
-;;     (origin
-;;      (method git-fetch)
-;;      (uri (git-reference
-;;            (url "https://github.com/sharad/python-pkcs11-provider")
-;;            (commit version)))
-;;      (file-name (git-file-name name version))
-;;      (sha256
-;;       (base32 "0a8wz0ccgw7djs3b77vcvhm8gz6jc2iq6vpg76ipnxm08pwl0qb0"))))
-;;    (build-system gnu:gnu-build-system)
-;;    (inputs  (list python
-;;                   python-cython
-;;                   pkg-config
-;;                   openssl))
-;;    (arguments
-;;     (list #:make-flags
-;;           #~(list (string-append "CC=gcc"
-;;                                  "-Dlibdir=" #$output "/lib"))))
-
-;;    (synopsis "Write your own PKCS#11 module in Python! ")
-;;    (description "python-pkcs11-provider
-;; Write your own PKCS#11 module in Python! ")
-;;    (home-page "https://github.com/danni/python-pkcs11-provider.git")
-;;    (license license:gpl3)))
+(define-public python-pkcs11-provider
+  (package
+    (name "python-pkcs11-provider")
+    (version "master")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                     (url "https://github.com/sharad/python-pkcs11-provider")
+                     (commit version)))
+              (file-name (git-file-name name version))
+              (sha256 (base32 "1lxshjj9p65wllh3l4rldrd2cxl489bgrmwdmgii4ypy66lvhi5k"))))
+    (build-system gnu:gnu-build-system)
+    (inputs (list python
+                  python-cython
+                  pkg-config
+                  openssl))
+    (propagated-inputs (list python))
+    (arguments
+     (list #:tests? #f
+           #:make-flags #~(list "CC=gcc" (string-append "PREFIX=" #$output))
+           #:phases #~(modify-phases %standard-phases
+                                     (delete 'configure))))
+   (synopsis "Write your own PKCS#11 module in Python! ")
+   (description "python-pkcs11-provider
+Write your own PKCS#11 module in Python!")
+   (home-page "https://github.com/danni/python-pkcs11-provider")
+   (license license:gpl3)))
 
 
 ;; https://github.com/Pkcs11Interop/pkcs11-mock
@@ -353,10 +355,12 @@ unlock, utimes")
 (define-public wrap-cc
   (lambda* (cc #:optional
                (bin (package-name cc))
-               (name (string-append (package-name cc) "-wrapper")))
+               (name (string-append (package-name cc) "-wrapper"))
+               (version (package-version cc)))
     ;; https://issues.guix.gnu.org/41428
     (package/inherit cc
       (name name)
+      (version version)
       (source #f)
       (build-system trivial:trivial-build-system)
       (outputs '("out"))
@@ -383,3 +387,5 @@ unlock, utimes")
 
 ;; pkcs11-provider
 
+python-pkcs11-provider
+gcc-toolchain-wrapper
