@@ -28,7 +28,6 @@
   #:use-module ((guix build-system trivial) #:prefix trivial:)
   #:use-module ((guix build-system cmake))
   #:use-module ((guix build-system meson))
-  ;; #:use-module ((guix build utils))
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (gnu packages autotools)
