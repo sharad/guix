@@ -282,34 +282,34 @@ version 3.0 and 2.40 as well.")
    (home-page "https://github.com/latchset/pkcs11-provider/")
    (license license:gpl3)))
 
-(define-public python-pkcs11-provider
-  (package
-   (name "python-pkcs11-provider")
-   (version "master")
-   (source
-    (origin
-     (method git-fetch)
-     (uri (git-reference
-           (url "https://github.com/sharad/python-pkcs11-provider")
-           (commit version)))
-     (file-name (git-file-name name version))
-     (sha256
-      (base32 "0a8wz0ccgw7djs3b77vcvhm8gz6jc2iq6vpg76ipnxm08pwl0qb0"))))
-   (build-system gnu:gnu-build-system)
-   (inputs  (list python
-                  python-cython
-                  pkg-config
-                  openssl))
-   (arguments
-    (list #:make-flags
-          #~(list (string-append "CC=gcc"
-                                 "-Dlibdir=" #$output "/lib"))))
+;; (define-public python-pkcs11-provider
+;;   (package
+;;    (name "python-pkcs11-provider")
+;;    (version "master")
+;;    (source
+;;     (origin
+;;      (method git-fetch)
+;;      (uri (git-reference
+;;            (url "https://github.com/sharad/python-pkcs11-provider")
+;;            (commit version)))
+;;      (file-name (git-file-name name version))
+;;      (sha256
+;;       (base32 "0a8wz0ccgw7djs3b77vcvhm8gz6jc2iq6vpg76ipnxm08pwl0qb0"))))
+;;    (build-system gnu:gnu-build-system)
+;;    (inputs  (list python
+;;                   python-cython
+;;                   pkg-config
+;;                   openssl))
+;;    (arguments
+;;     (list #:make-flags
+;;           #~(list (string-append "CC=gcc"
+;;                                  "-Dlibdir=" #$output "/lib"))))
 
-   (synopsis "Write your own PKCS#11 module in Python! ")
-   (description "python-pkcs11-provider
-Write your own PKCS#11 module in Python! ")
-   (home-page "https://github.com/danni/python-pkcs11-provider.git")
-   (license license:gpl3)))
+;;    (synopsis "Write your own PKCS#11 module in Python! ")
+;;    (description "python-pkcs11-provider
+;; Write your own PKCS#11 module in Python! ")
+;;    (home-page "https://github.com/danni/python-pkcs11-provider.git")
+;;    (license license:gpl3)))
 
 
 ;; https://github.com/Pkcs11Interop/pkcs11-mock
