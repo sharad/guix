@@ -355,12 +355,11 @@ unlock, utimes")
 (define-public wrap-cc
   (lambda* (cc #:optional
                (bin (package-name cc))
-               (name (string-append (package-name cc) "-wrapper"))
-               (version (package-version cc)))
+               (name (string-append (package-name cc) "-wrapper")))
     ;; https://issues.guix.gnu.org/41428
     (package/inherit cc
       (name name)
-      (version version)
+      (version "14.2.0")
       (source #f)
       (build-system trivial:trivial-build-system)
       (outputs '("out"))
@@ -385,7 +384,3 @@ unlock, utimes")
 (define-public gcc-toolchain-wrapper
   (wrap-cc gcc-toolchain "gcc"))
 
-;; pkcs11-provider
-
-python-pkcs11-provider
-gcc-toolchain-wrapper
