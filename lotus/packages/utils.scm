@@ -468,3 +468,46 @@ unlock, utimes")
   (wrap-cc gcc-toolchain "gcc"))
 
 
+(define-public xrandr-invert-colors
+  (package
+   (name "xrandr-invert-colors")
+   (version "master")
+   (source (origin
+            (method git-fetch)
+            (uri (git-reference
+                  (url "https://github.com/zoltanp/xrandr-invert-colors.git")
+                  (commit version)))
+            (file-name (git-file-name name version))
+            (sha256 (base32 "1695wrwr5kxarwcw9sn66y1jl48vjlymvph9m065l7apa71pv80d"))))
+   (build-system gnu:gnu-build-system)
+   (inputs (list libxcb
+                 libxau
+                 libxdmcp))
+   (propagated-inputs (list python))
+   (arguments
+    (list #:tests? #f
+          #:make-flags #~(list "CC=gcc" (string-append "PREFIX=" #$output))
+          #:phases #~(modify-phases %standard-phases
+                                    (delete 'configure))))
+   (synopsis "Small utility for inverting the colors on all monitors attached to an XRandR-capable X11 display server.")
+   (description "Achknowledgements
+
+Redshift developers, for creating the XRandR gamma setting code. Their code is
+reused in this application. http://jonls.dk/redshift/
+https://launchpad.net/redshift Alternatives
+
+    xcalib -i -a : Inverts the colors of the current screen.
+        Note that as of date of last testing (2014, xcalib version 0.8) xcalib
+has not been able to invert the colors on all monitors in a multi-monitor setup,
+because all monitors are presented by the X11 server as a single screen. Thus
+this limitation is coming from the X11 server. xrandr-invert-colors does not
+have this limitation, because it uses XRandR API, which correctly handles all
+attached monitors.
+")
+   (home-page "https://github.com/zoltanp/xrandr-invert-colors")
+   (license license:gpl3)))
+
+
+
+
+
