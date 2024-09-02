@@ -517,7 +517,19 @@ attached monitors.")
     (inputs (list libgit2 libuv))
     (arguments
      (list #:tests? #f
-           #:configure-flags #~(list "-DCMAKE_BUILD_TYPE=Release")))
+           #:build-type "release"
+           #:configure-flags #~(list "-DCMAKE_BUILD_TYPE=Release")
+           #:phases
+           #~(modify-phases %standard-phases
+               (add-before 'configure 'replace-purple-dir
+                 (lambda* (#:key inputs outputs #:allow-other-keys)
+                   (delete-file-recursively "lib")
+                   (substitute* "CMakeLists.txt"
+                     (("add_subdirectory(lib/libgit2)")
+                      "")
+                     (("add_subdirectory(lib/libuv)")
+                      ""))
+                   #t)))))
     (synopsis "Watches a folder for file modifications and commits them to a git repository automatically.")
     (description "A program that watches a folder for file modifications and commits them to a git
 repository automatically How gwatch works
