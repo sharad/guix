@@ -524,11 +524,22 @@ attached monitors.")
                (add-before 'configure 'replace-purple-dir
                  (lambda* (#:key inputs outputs #:allow-other-keys)
                    (delete-file-recursively "lib")
+                   (substitute* "fs_oper_linux.c"
+                                (("include \"lib/libuv/include/uv.h\"")
+                                 "include \"uv.h\""))
                    (substitute* "CMakeLists.txt"
-                     (("add_subdirectory(lib/libgit2)")
+                     (("add_subdirectory\\(lib/libgit2\\)")
                       "")
-                     (("add_subdirectory(lib/libuv)")
-                      ""))
+                     (("add_subdirectory\\(lib/libuv\\)")
+                      "")
+                     (("    uv_a")
+                      "    uv"))
+                   (invoke "sed" "-i" "93,99d" "CMakeLists.txt")
+                   (invoke "sed" "-i"
+                           "-e" "$ainstall(TARGETS gwatch"
+                           "-e" "$a    DESTINATION ${CMAKE_INSTALL_PREFIX}"
+                           "-e" "$a    )\\n"
+                           "CMakeLists.txt")
                    #t)))))
     (synopsis "Watches a folder for file modifications and commits them to a git repository automatically.")
     (description "A program that watches a folder for file modifications and commits them to a git
