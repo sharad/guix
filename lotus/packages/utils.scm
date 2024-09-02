@@ -504,10 +504,3 @@ have this limitation, because it uses XRandR API, which correctly handles all
 attached monitors.")
    (home-page "https://github.com/zoltanp/xrandr-invert-colors")
    (license license:gpl3)))
-
-
-
-
-
-;; xrandr-invert-colors
-python-pkcs11-provider
