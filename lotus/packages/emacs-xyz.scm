@@ -198,8 +198,9 @@ the {X}Emacs user.")
            #~(modify-phases %standard-phases
                             (add-after 'unpack 'move-source-files
                               (lambda* (#:key inputs outputs #:allow-other-keys)
-                                (format #t "~a~%" inputs)
-                                (format #t "~a~%" outputs)
+                                ;; (substitute* "emacs/git-wip.el"
+                                ;;              (("\\(define " all)
+                                ;;               (string-append ";;;###autoload\n" all)))
                                 (with-output-to-file "test.sh"
                                   (lambda _
                                     (format #t "#!/usr/bin/env bash~%")
