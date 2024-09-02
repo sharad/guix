@@ -467,7 +467,6 @@ unlock, utimes")
 (define-public gcc-toolchain-wrapper
   (wrap-cc gcc-toolchain "gcc"))
 
-
 (define-public xrandr-invert-colors
   (package
    (name "xrandr-invert-colors")

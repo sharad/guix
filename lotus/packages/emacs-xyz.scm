@@ -12,6 +12,7 @@
   #:use-module (guix build-system glib-or-gtk)
   #:use-module (guix build-system perl)
   #:use-module (guix build-system trivial)
+  #:use-module (guix gexp)
   #:use-module (gnu packages)
   #:use-module (gnu packages admin)
   #:use-module (gnu packages audio)
@@ -176,3 +177,54 @@ buffer' directly with simple syntax.)")
     "doxymacs aims to make creating/using Doxygen-created documentation easier for
 the {X}Emacs user.")
    (license license:gpl2+)))
+
+(define-public git-wip
+  (package
+    (name "git-wip")
+    (version "master")
+    (source (origin
+             (method git-fetch)
+             (uri (git-reference
+                   (url "https://github.com/bartman/git-wip.git")
+                   (commit version)))
+             (file-name (git-file-name name version))
+             (sha256 (base32 "1ypjxqkc9alx5dkzgcgbc8i064c0dbi0xxyhjqvl7fffqkmf0fxf"))))
+    (build-system emacs-build-system)
+    (inputs  (list git))
+    (arguments
+     (list #:tests? #true
+           #:test-command #~(list "./test.sh")
+           #:phases
+           #~(modify-phases %standard-phases
+                            (add-after 'unpack 'move-source-files
+                              (lambda* (#:key inputs outputs #:allow-other-keys)
+                                (format #t "~a~%" inputs)
+                                (format #t "~a~%" outputs)
+                                (with-output-to-file "test.sh"
+                                  (lambda _
+                                    (format #t "#!/usr/bin/env bash~%")
+                                    (format #t "export GIT_CONFIG_GLOBAL=~a/gitconfig~%" (getcwd))
+                                    (format #t "git config --global user.name \"FIRST_NAME LAST_NAME\"~%")
+                                    (format #t "git config --global user.email \"FIRST_NAME@example.com\"~%")
+                                    (format #t "./test-git-wip.sh~%")))
+                                (chmod "test.sh" #o755)
+                                (let ((el-files (find-files "./emacs" ".*\\.el$")))
+                                  (for-each (lambda (f)
+                                              (rename-file f (basename f)))
+                                            el-files))))
+                            (add-after 'install 'install-bin
+                              (lambda _
+                                (install-file "git-wip"
+                                              (string-append #$output
+                                                             "/bin"))
+                                (install-file "test-git-wip.sh"
+                                              (string-append #$output
+                                                             "/bin")))))))
+    (synopsis "help track git Work In Progress branches ")
+    (description "git-wip is a script that will manage Work In Progress (or WIP) branches. WIP
+branches are mostly throw away but identify points of development between
+commits. The intent is to tie this script into your editor so that each time you
+save your file, the git-wip script captures that state in git. git-wip also
+helps you return back to a previous state of development.")
+    (home-page "https://github.com/bartman/git-wip.git")
+    (license license:gpl3)))
