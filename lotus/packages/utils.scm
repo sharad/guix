@@ -380,11 +380,11 @@ version 3.0 and 2.40 as well.")
               (file-name (git-file-name name version))
               (sha256 (base32 "1lxshjj9p65wllh3l4rldrd2cxl489bgrmwdmgii4ypy66lvhi5k"))))
     (build-system gnu:gnu-build-system)
-    (inputs (list python
+    (inputs (list python-3
                   python-cython
                   pkg-config
                   openssl))
-    (propagated-inputs (list python))
+    (propagated-inputs (list python-3))
     (arguments
      (list #:tests? #f
            #:make-flags #~(list "CC=gcc" (string-append "PREFIX=" #$output))
@@ -483,7 +483,6 @@ unlock, utimes")
    (inputs (list libxcb
                  libxau
                  libxdmcp))
-   (propagated-inputs (list python))
    (arguments
     (list #:tests? #f
           #:make-flags #~(list "CC=gcc" (string-append "PREFIX=" #$output))
@@ -510,3 +509,5 @@ attached monitors.")
 
 
 
+;; xrandr-invert-colors
+python-pkcs11-provider
