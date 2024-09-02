@@ -576,7 +576,6 @@ Gwatch works on Linux and on Windows.")
                  (replace 'install
                    (lambda _
                      (let ((bin (string-append #$output "/bin")))
-                       (display (getcwd))
                        (copy-file "gitwatch.sh" "git-watch")
                        (install-file "git-watch" (string-append bin "/git-watch"))))))))
 
@@ -603,4 +602,5 @@ your changes
 know, and we can add them to this list!")
     (home-page "https://github.com/gitwatch/gitwatch")
     (license license:gpl3)))
+
 
