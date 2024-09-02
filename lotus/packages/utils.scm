@@ -604,6 +604,3 @@ know, and we can add them to this list!")
     (home-page "https://github.com/gitwatch/gitwatch")
     (license license:gpl3)))
 
-
-
-git-gwatch
