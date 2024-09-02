@@ -220,7 +220,7 @@ the {X}Emacs user.")
                                 (install-file "test-git-wip.sh"
                                               (string-append #$output
                                                              "/bin")))))))
-    (synopsis "help track git Work In Progress branches ")
+    (synopsis "help track git Work In Progress branches.")
     (description "git-wip is a script that will manage Work In Progress (or WIP) branches. WIP
 branches are mostly throw away but identify points of development between
 commits. The intent is to tie this script into your editor so that each time you

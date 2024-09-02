@@ -70,6 +70,7 @@
   #:use-module (gnu packages gstreamer)
   #:use-module (gnu packages cmake)
   #:use-module (gnu packages python)
+  #:use-module (gnu packages version-control)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages boost)
   #:use-module (gnu packages ruby))
@@ -503,3 +504,83 @@ have this limitation, because it uses XRandR API, which correctly handles all
 attached monitors.")
    (home-page "https://github.com/zoltanp/xrandr-invert-colors")
    (license license:gpl3)))
+
+(define-public git-gwatch
+  (package
+    (name "git-gwatch")
+    (version "v0.2")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "https://github.com/jw0k/gwatch/archive/refs/tags/" version ".tar.gz"))
+              (sha256 (base32 "11bb6y08cr9qdwqap6iwpchcjg149w5z4x959gga7fqwiwwxd3dl"))))
+    (build-system cmake-build-system)
+    (inputs (list libgit2 libuv))
+    (arguments
+     (list #:tests? #f
+           #:configure-flags #~(list "-DCMAKE_BUILD_TYPE=Release")))
+    (synopsis "Watches a folder for file modifications and commits them to a git repository automatically.")
+    (description "A program that watches a folder for file modifications and commits them to a git
+repository automatically How gwatch works
+
+After gwatch is started it will watch a given folder and all of its
+subfolders (recursively) for changes. If a change occurs, a timer will be
+started (30s by default). After the timer expires, gwatch will create a new git
+commit with all the modifications. The timer is to prevent creating too many
+commits when there are a lot of modifications. In order for gwatch to
+successfully create commits, a git repository must be initialized in the watched
+folder.
+
+Gwatch works on Linux and on Windows.")
+    (home-page "https://github.com/jw0k/gwatch")
+    (license license:gpl3)))
+
+(define-public git-watch
+  (package
+    (name "git-watch")
+    (version "v0.2")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "https://github.com/gitwatch/gitwatch/archive/refs/tags/" version ".tar.gz"))
+              (sha256 (base32 "09cvcjv43da7f9l1c9c8qa6h7hw8v2gns18gnl987qd05wnpdz9q"))))
+    (build-system gnu:gnu-build-system)
+    (inputs (list tar))
+    (arguments
+       (list #:tests? #f
+             #:phases
+             #~(modify-phases %standard-phases
+                 (delete 'configure)
+                 (delete 'build)
+                 (replace 'install
+                   (lambda _
+                     (let ((bin (string-append #$output "/bin")))
+                       (display (getcwd))
+                       (copy-file "gitwatch.sh" "git-watch")
+                       (install-file "git-watch" (string-append bin "/git-watch"))))))))
+
+    (synopsis "Watch a file or folder and automatically commit changes to a git repo easily.")
+    (description "A bash script to watch a file or folder and commit changes to a git repo
+What to use it for?
+
+That's really up to you, but here are some examples:
+
+   * config files: some programs auto-write their config files, without waiting
+for you to click an 'Apply' button; or even if there is such a button, most
+programs offer you no way of going back to an earlier version of your settings.
+If you commit your config file(s) to a git repo, you can track changes and go
+back to older versions. This script makes it convenient, to have all changes
+recorded automatically.
+
+   * document files: if you use an editor that does not have built-in git
+support (or maybe if you don't like the git support it has), you can use
+gitwatch to automatically commit your files when you save them, or combine it
+with the editor's auto-save feature to fully automatically and regularly track
+your changes
+
+   * more stuff! If you have any other uses, or can think of ones, please let us
+know, and we can add them to this list!")
+    (home-page "https://github.com/gitwatch/gitwatch")
+    (license license:gpl3)))
+
+
+
+git-gwatch
