@@ -626,7 +626,7 @@ know, and we can add them to this list!")
                          (add-after 'unpack 'amend-makefile
                                     (lambda* (#:key inputs outputs #:allow-other-keys)
                                       (invoke "sed" "-i"
-                                              "-e" "$ainstall:\\n\\tinstall -D pwnat \\$\\(PREFIX\\)/bin\\n\\tinstall -D manpage.txt \\$\\(PREFIX\\)/share/man/man1/pwnat.1"
+                                              "-e" "$ainstall:\\n\\tinstall -D pwnat \\$\\(PREFIX\\)/bin/pwnat\\n\\tinstall -D manpage.txt \\$\\(PREFIX\\)/share/man/man1/pwnat.1"
                                               "Makefile"))))))
     (synopsis "The only tool/technique to punch holes through firewalls/NATs where multiple clients & server can be behind separate NATs without any 3rd party involvement.")
     (description "The only tool/technique to punch holes through firewalls/NATs where multiple
@@ -650,4 +650,3 @@ Simply put, this is a proxy server that works behind a NAT, even when the client
 is also behind a NAT.")
    (home-page "http://samy.pl/pwnat/")
    (license license:gpl3)))
-
