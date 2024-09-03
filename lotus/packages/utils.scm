@@ -391,7 +391,7 @@ version 3.0 and 2.40 as well.")
            #:make-flags #~(list "CC=gcc" (string-append "PREFIX=" #$output))
            #:phases #~(modify-phases %standard-phases
                                      (delete 'configure))))
-   (synopsis "Write your own PKCS#11 module in Python! ")
+   (synopsis "Write your own PKCS#11 module in Python!")
    (description "python-pkcs11-provider
 Write your own PKCS#11 module in Python!")
    (home-page "https://github.com/danni/python-pkcs11-provider")
@@ -603,4 +603,51 @@ know, and we can add them to this list!")
     (home-page "https://github.com/gitwatch/gitwatch")
     (license license:gpl3)))
 
+
+(define-public pwnat
+  (package
+    (name "pwnat")
+    (version "master")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/samyk/pwnat.git")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256 (base32 "02ci0wmjcs3nck16wddjkm9689kmrf3kbg4mhkkmz3i0785p5vkn"))))
+    (build-system gnu:gnu-build-system)
+    (inputs (list))
+    (propagated-inputs (list))
+    (arguments
+     (list #:tests? #f
+           #:make-flags #~(list (string-append "PREFIX=" #$output))
+           #:phases #~(modify-phases %standard-phases
+                         (delete 'configure)
+                         (add-after 'unpack 'amend-makefile
+                                    (lambda* (#:key inputs outputs #:allow-other-keys)
+                                      (invoke "sed" "-i"
+                                              "-e" "$ainstall:\\n\\tinstall -D pwnat \\$\\(PREFIX\\)/bin\\n\\tinstall -D manpage.txt \\$\\(PREFIX\\)/share/man/man1/pwnat.1"
+                                              "Makefile"))))))
+    (synopsis "The only tool/technique to punch holes through firewalls/NATs where multiple clients & server can be behind separate NATs without any 3rd party involvement.")
+    (description "The only tool/technique to punch holes through firewalls/NATs where multiple
+clients & server can be behind separate NATs without any 3rd party involvement.
+Pwnat is a newly developed technique, exploiting a property of NAT translation
+tables, with no 3rd party, port forwarding, DMZ, DNS, router admin requirements,
+STUN/TURN/UPnP/ICE, or spoofing.
+
+by Samy Kamkar, is a tool that allows any client behind a NAT to communicate
+with a server behind a separate NAT with no port forwarding and no DMZ setup on
+any routers in order to directly communicate with each other.
+
+There is no middle man, no proxy, no third party, no UPnP required, no spoofing,
+no DNS tricks. The server does not need to know the client's IP address before
+connecting.
+
+More importantly, the client can then connect to any host or port on any remote
+host or to a fixed host and port decided by the server.
+
+Simply put, this is a proxy server that works behind a NAT, even when the client
+is also behind a NAT.")
+   (home-page "http://samy.pl/pwnat/")
+   (license license:gpl3)))
 
