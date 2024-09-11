@@ -31,19 +31,21 @@
   #:use-module (guix utils)
   #:use-module (guix packages))
 
-(define-public surfrw-koisk
+
+
+(define-public surf-kiosk
   (package
-    (name "surfrw-koisk")
-    (version "master")
+    (name "surf-kiosk")
+    (version "fb-copy-attempt")
     (source
      (origin
       (method git-fetch)
       (uri (git-reference
-            (url "https://github.com/sharad/surf")
+            (url "https://github.com/sharad/surf-kiosk")
             (commit version)))
       (file-name (git-file-name name version))
       (sha256
-       (base32 "0a8wz0ccgw7djs3b77vcvhm8gz6jc2iq6vpg76ipnxm07pwl0qb0"))))
+       (base32 "0nbhj11hz6cw1spz28x224zrj0pc3d2g4xg5437iwl4knk239j4d"))))
     (build-system glib-or-gtk-build-system)
     (arguments
      `(#:tests? #f                      ; no tests
@@ -62,7 +64,7 @@
              #t)))))
     (inputs
      `(("dmenu" ,dmenu)
-       ("gcr" ,gcr)
+       ("gcr" ,gcr-3)
        ("glib-networking" ,glib-networking)
        ("gsettings-desktop-schemas" ,gsettings-desktop-schemas)
        ("webkitgtk" ,webkitgtk-with-libsoup2)
@@ -76,9 +78,9 @@
 display websites and follow links.  It supports the XEmbed protocol which
 makes it possible to embed it in another application.  Furthermore, one can
 point surf to another URI by setting its XProperties.")
-   (license license:x11)))
+    (license (list license:expat
+                   license:x11))))
 
-
-
+surf-kiosk
 
 
