@@ -45,7 +45,7 @@
             (commit version)))
       (file-name (git-file-name name version))
       (sha256
-       (base32 "0nbhj11hz6cw1spz28x224zrj0pc3d2g4xg5437iwl4knk239j4d"))))
+       (base32 "1xr56hskdyy5vs66vfn8g7pyx8fpxmd0adfyff2i1w57k8nhpxmd"))))
     (build-system glib-or-gtk-build-system)
     (arguments
      `(#:tests? #f                      ; no tests
