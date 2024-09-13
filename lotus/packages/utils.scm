@@ -528,16 +528,18 @@ attached monitors.")
                                 (("include \"lib/libuv/include/uv.h\"")
                                  "include \"uv.h\""))
                    (substitute* "CMakeLists.txt"
-                     (("add_subdirectory\\(lib/libgit2\\)")
-                      "")
-                     (("add_subdirectory\\(lib/libuv\\)")
-                      "")
-                     (("    uv_a")
-                      "    uv"))
+                                (("gwatch")
+                                 "git-gwatch")
+                                (("add_subdirectory\\(lib/libgit2\\)")
+                                 "")
+                                (("add_subdirectory\\(lib/libuv\\)")
+                                 "")
+                                (("    uv_a")
+                                 "    uv"))
                    (invoke "sed" "-i" "93,99d" "CMakeLists.txt")
                    (invoke "sed" "-i"
-                           "-e" "$ainstall(TARGETS gwatch"
-                           "-e" "$a    DESTINATION ${CMAKE_INSTALL_PREFIX}"
+                           "-e" "$ainstall(TARGETS git-gwatch"
+                           "-e" "$a    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin"
                            "-e" "$a    )\\n"
                            "CMakeLists.txt")
                    #t)))))
@@ -577,7 +579,7 @@ Gwatch works on Linux and on Windows.")
                    (lambda _
                      (let ((bin (string-append #$output "/bin")))
                        (copy-file "gitwatch.sh" "git-watch")
-                       (install-file "git-watch" (string-append bin "/git-watch"))))))))
+                       (install-file "git-watch" (string-append bin))))))))
 
     (synopsis "Watch a file or folder and automatically commit changes to a git repo easily.")
     (description "A bash script to watch a file or folder and commit changes to a git repo
@@ -650,3 +652,7 @@ Simply put, this is a proxy server that works behind a NAT, even when the client
 is also behind a NAT.")
    (home-page "http://samy.pl/pwnat/")
    (license license:gpl3)))
+
+
+git-gwatch
+
