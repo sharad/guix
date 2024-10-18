@@ -605,7 +605,6 @@ know, and we can add them to this list!")
     (home-page "https://github.com/gitwatch/gitwatch")
     (license license:gpl3)))
 
-
 (define-public pwnat
   (package
     (name "pwnat")
@@ -654,5 +653,45 @@ is also behind a NAT.")
    (license license:gpl3)))
 
 
-git-gwatch
+;; (define-public fuse-ramfs
+;;   (package
+;;    (name "fuse-ramfs")
+;;    (version "master")
+;;    (source (origin
+;;              (method git-fetch)
+;;              (uri (git-reference
+;;                    (url "https://github.com/pfisterer/fuse-ramfs.git")
+;;                    (commit version)))
+;;              (file-name (git-file-name name version))
+;;              (sha256 (base32 "19khq4f9p9pgi38wcps81a3sywqisisp1gkfqbxsaz0blxpain6q"))))
+;;    (build-system gnu:gnu-build-system)
+;;    (inputs (list fuse))
+;;    (propagated-inputs (list))
+;;    (arguments
+;;     (list #:tests? #f
+;;           #:make-flags #~(list (string-append "PREFIX=" #$output))
+;;           #:phases #~(modify-phases %standard-phases
+;;                         (delete 'configure)
+;;                         ;; (add-after 'unpack 'amend-makefile
+;;                         ;;            (lambda* (#:key inputs outputs #:allow-other-keys)
+;;                         ;;              (substitute* "./fuse-test.cpp"
+;;                         ;;                           (("include <fuse.h>")
+;;                         ;;                            "include <fuse3/fuse.h>"))
+;;                         ;;              (invoke "sed" "-i"
+;;                         ;;                      "-e" "$ainstall:\\n\\tinstall -D fuse-test \\$\\(PREFIX\\)/bin/fuse-test\\n"
+;;                         ;;                      "Makefile")))
+;;                         (add-after 'unpack 'amend-makefile
+;;                                    (lambda* (#:key inputs outputs #:allow-other-keys)
+;;                                      (invoke "sed" "-i" "-e" "s@fuse.h@fuse3/fuse.h@" "fuse-test.cpp")
+;;                                      (invoke "sed" "-i"
+;;                                              "-e" "$ainstall:\\n\\tinstall -D fuse-test \\$\\(PREFIX\\)/bin/fuse-test\\n"
+;;                                              "Makefile")
+;;                                      #t)))))
+;;    (synopsis "A simple example for an in-memory, flat FUSE-based file system.")
+;;    (description "A simple example for an in-memory, flat FUSE-based file system.")
+;;    (home-page "https://github.com/pfisterer/fuse-ramfs.git")
+;;    (license license:bsd-4)))
+
+
+;; fuse-ramfs
 
