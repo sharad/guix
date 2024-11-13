@@ -721,8 +721,7 @@ is also behind a NAT.")
       (propagated-inputs
        (list python-pyyaml))
       (arguments
-       `(#:tests? #f
-         #:phases
+       `(#:phases
          (modify-phases %standard-phases
            (replace 'check
              (lambda* (#:key inputs outputs #:allow-other-keys)
