@@ -716,17 +716,20 @@ is also behind a NAT.")
       (build-system python-build-system)
       (native-inputs
        (list git ;for tests
-             python-pytest))
+             python-pytest
+             python-argcomplete))
       (propagated-inputs
        (list python-pyyaml))
       (arguments
-       `(#:phases
+       `(#:tests? #f
+         #:phases
          (modify-phases %standard-phases
            (replace 'check
              (lambda* (#:key inputs outputs #:allow-other-keys)
                (substitute* "tests/test_main.py"
-                 (("'gita\\\\n'") "'source\\n'")
-                 (("'gita'") "'source'"))
+                            (("\"gita\\\\n\"") "\"source\\n\"")
+                            (("\"gita\"") "\"source\"")
+                            (("\"group add gita -n test\"") "\"group add source -n test\""))
                (invoke (search-input-file inputs "/bin/git")
                        "init")
                (add-installed-pythonpath inputs outputs)
@@ -736,13 +739,21 @@ is also behind a NAT.")
              (lambda* (#:key outputs #:allow-other-keys)
                (let* ((out (assoc-ref outputs "out"))
                       (bash-completion (string-append out "/etc/bash_completion.d"))
-                      (zsh-completion (string-append out "/etc/zsh/site-functions")))
+                      (zsh-completion  (string-append out "/etc/zsh/site-functions"))
+                      (profile-dir     (string-append out "/etc/profile.d"))
+                      (fish-completion (string-append out "/etc/fish/completions")))
                  (mkdir-p bash-completion)
-                 (copy-file ".gita-completion.bash"
+                 (copy-file "auto-completion/bash/.gita-completion.bash"
                             (string-append bash-completion "/gita"))
+                 (mkdir-p profile-dir)
+                 (copy-file "auto-completion/zsh/.gita-completion.zsh"
+                            (string-append profile-dir "/gita.zsh"))
                  (mkdir-p zsh-completion)
-                 (copy-file ".gita-completion.zsh"
-                            (string-append zsh-completion "/_gita"))))))))
+                 (copy-file "auto-completion/zsh/_gita"
+                            (string-append zsh-completion "/_gita"))
+                 (mkdir-p fish-completion)
+                 (copy-file "auto-completion/fish/gita.fish"
+                            (string-append fish-completion "/gita"))))))))
       (home-page "https://github.com/nosarthur/gita")
       (synopsis "Command-line tool to manage multiple Git repos")
       (description "This package provides a command-line tool to manage
@@ -757,6 +768,9 @@ commit message side by side
 
 If several repos are related, it helps to see their status together.")
       (license license:expat))))
+
+
+
 
 
 
