@@ -73,6 +73,8 @@
   #:use-module (gnu packages version-control)
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages boost)
+  #:use-module (guix build-system python)
+  #:use-module (gnu packages check)
   #:use-module (gnu packages ruby))
 
 ;; https://issues.guix.gnu.org/issue/35619
@@ -694,4 +696,71 @@ is also behind a NAT.")
 
 
 ;; fuse-ramfs
+
+
+(define-public gita
+  (let ((commit "2108ddb34c701c15a2610bd295a0a1ab24cb024f")
+        (revision "2"))
+    (package
+      (name "gita")
+      (version (git-version "0.16.7" revision commit))
+      (source (origin
+                (method git-fetch)
+                (uri (git-reference
+                      (url "https://github.com/nosarthur/gita")
+                      (commit commit)))
+                (file-name (git-file-name name version))
+                (sha256
+                 (base32
+                  "118dzmjgml0c32yllr2178ash2hvgn201i463bv4y0qbywajm9ax"))))
+      (build-system python-build-system)
+      (native-inputs
+       (list git ;for tests
+             python-pytest))
+      (propagated-inputs
+       (list python-pyyaml))
+      (arguments
+       `(#:phases
+         (modify-phases %standard-phases
+           (replace 'check
+             (lambda* (#:key inputs outputs #:allow-other-keys)
+               (substitute* "tests/test_main.py"
+                 (("'gita\\\\n'") "'source\\n'")
+                 (("'gita'") "'source'"))
+               (invoke (search-input-file inputs "/bin/git")
+                       "init")
+               (add-installed-pythonpath inputs outputs)
+               (invoke (search-input-file inputs "/bin/pytest")
+                       "-vv" "tests")))
+           (add-after 'install 'install-shell-completions
+             (lambda* (#:key outputs #:allow-other-keys)
+               (let* ((out (assoc-ref outputs "out"))
+                      (bash-completion (string-append out "/etc/bash_completion.d"))
+                      (zsh-completion (string-append out "/etc/zsh/site-functions")))
+                 (mkdir-p bash-completion)
+                 (copy-file ".gita-completion.bash"
+                            (string-append bash-completion "/gita"))
+                 (mkdir-p zsh-completion)
+                 (copy-file ".gita-completion.zsh"
+                            (string-append zsh-completion "/_gita"))))))))
+      (home-page "https://github.com/nosarthur/gita")
+      (synopsis "Command-line tool to manage multiple Git repos")
+      (description "This package provides a command-line tool to manage
+multiple Git repos.
+
+This tool does two things:
+@itemize
+@item display the status of multiple Git repos such as branch, modification,
+commit message side by side
+@item (batch) delegate Git commands/aliases from any working directory
+@end itemize
+
+If several repos are related, it helps to see their status together.")
+      (license license:expat))))
+
+
+
+
+
+
 
