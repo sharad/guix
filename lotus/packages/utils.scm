@@ -28,6 +28,7 @@
   #:use-module ((guix build-system trivial) #:prefix trivial:)
   #:use-module ((guix build-system cmake))
   #:use-module ((guix build-system meson))
+  #:use-module ((guix build-system go))
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (gnu packages autotools)
@@ -44,6 +45,8 @@
   #:use-module (gnu packages gcc)
   #:use-module (gnu packages commencement)
   #:use-module (gnu packages c)
+  #:use-module (gnu packages golang)
+  #:use-module (gnu packages golang-build)
   #:use-module (gnu packages elf)
   #:use-module (gnu packages fontutils)
   #:use-module (gnu packages readline)
@@ -768,9 +771,37 @@ commit message side by side
 If several repos are related, it helps to see their status together.")
       (license license:expat))))
 
+(define-public go-github-com-bbengfort-memfs
+  (package
+   (name "go-github-com-bbengfort-memfs")
+   (version "master")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/bbengfort/memfs.git")
+           (commit version)))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "0as8bply6r9smmkabf1xb2d65wxjm3hckbw5l5kxy65qybgzbcza"))))
+   (build-system go-build-system)
+   ;; (arguments
+   ;;  (list
+   ;;   #:import-path "github.com/bbbengfort/memfs"))
+   (inputs
+    (list perl
+          python))
+   ;; (propagated-inputs
+   ;;  (list go-github-com-ipfs-go-datastore go-github-com-syndtr-goleveldb))
+   (home-page "https://github.com/bbengfort/memfs")
+   (synopsis "Implementation of go-github-com-bbengfort-memfs")
+   (description
+    "This package implements the
+@url{https://github.com/bbengfort/memfs} In memory file system that implements
+as many FUSE interfaces as possible.")
+   (license license:expat)))
 
-
-
+go-github-com-bbengfort-memfs
 
 
 
