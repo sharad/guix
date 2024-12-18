@@ -185,10 +185,10 @@ the {X}Emacs user.")
     (source (origin
              (method git-fetch)
              (uri (git-reference
-                   (url "https://github.com/bartman/git-wip.git")
+                   (url "https://github.com/sharad/git-wip.git")
                    (commit version)))
              (file-name (git-file-name name version))
-             (sha256 (base32 "1ypjxqkc9alx5dkzgcgbc8i064c0dbi0xxyhjqvl7fffqkmf0fxf"))))
+             (sha256 (base32 "1n6853mpjy9k3hai3a3cxchikfgnran5gwy9awpp6n83alcnf195"))))
     (build-system emacs-build-system)
     (inputs  (list git))
     (arguments
@@ -229,3 +229,5 @@ save your file, the git-wip script captures that state in git. git-wip also
 helps you return back to a previous state of development.")
     (home-page "https://github.com/bartman/git-wip.git")
     (license license:gpl3)))
+
+
