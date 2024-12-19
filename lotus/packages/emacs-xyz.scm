@@ -181,37 +181,37 @@ buffer' directly with simple syntax.)")
 the {X}Emacs user.")
    (license license:gpl2+)))
 
-(define emacs-git-wip
-  (package
-    (inherit git-wip)
-    (name "emacs-git-wip")
-    (build-system emacs-build-system)
-    (inputs  (list git git-wip))
-    (arguments
-     (list #:tests? #false
-           #:phases
-           #~(modify-phases %standard-phases
-               (add-after 'unpack 'move-source-files
-                 (lambda* (#:key inputs outputs #:allow-other-keys)
-                   (let ((el-files (find-files "./emacs" ".*\\.el$")))
-                     (for-each (lambda (f)
-                                 (rename-file f (basename f)))
-                               el-files)))))))
-    (synopsis "help track git Work In Progress branches. emacs package.")))
+;; (define emacs-git-wip
+;;  (package
+;;    (inherit git-wip)
+;;    (name "emacs-git-wip")
+;;    (build-system emacs-build-system)
+;;    (inputs  (list git git-wip))
+;;    (arguments
+;;     (list #:tests? #false
+;;           #:phases
+;;           #~(modify-phases %standard-phases
+;;               (add-after 'unpack 'move-source-files
+;;                 (lambda* (#:key inputs outputs #:allow-other-keys)
+;;                   (let ((el-files (find-files "./emacs" ".*\\.el$")))
+;;                     (for-each (lambda (f)
+;;                                 (rename-file f (basename f)))
+;;                               el-files)))))))
+;;    (synopsis "help track git Work In Progress branches. emacs package.")))
 
-(define vim-git-wip
-  (package
-    (inherit git-wip)
-    (name "vim-git-wip")
-    (build-system vim-build-system)
-    (inputs  (list git git-wip))
-    (arguments
-     (list #:plugin-name "git-wip"
-           #:phases
-           #~(modify-phases %standard-phases
-               (add-after 'unpack 'move-source-files
-                 (lambda* (#:key inputs outputs #:allow-other-keys)
-                   ;; (delete-file "git-web")
-                   (delete-file-recursively "emacs")
-                   (delete-file-recursively "sublime"))))))
-    (synopsis "help track git Work In Progress branches. vim plugin.") ))
+;;(define vim-git-wip
+;;  (package
+;;    (inherit git-wip)
+;;    (name "vim-git-wip")
+;;    (build-system vim-build-system)
+;;    (inputs  (list git git-wip))
+;;    (arguments
+;;     (list #:plugin-name "git-wip"
+;;           #:phases
+;;           #~(modify-phases %standard-phases
+;;               (add-after 'unpack 'move-source-files
+;;                 (lambda* (#:key inputs outputs #:allow-other-keys)
+;;                   ;; (delete-file "git-web")
+;;                   (delete-file-recursively "emacs")
+;;                   (delete-file-recursively "sublime"))))))
+;;    (synopsis "help track git Work In Progress branches. vim plugin.") ))
