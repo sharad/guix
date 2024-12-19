@@ -211,7 +211,6 @@ the {X}Emacs user.")
            #~(modify-phases %standard-phases
                (add-after 'unpack 'move-source-files
                  (lambda* (#:key inputs outputs #:allow-other-keys)
-                   ;; (delete-file "git-web")
                    (delete-file-recursively "emacs")
                    (delete-file-recursively "sublime"))))))
-    (synopsis "help track git Work In Progress branches.") ))
+    (synopsis "help track git Work In Progress branches. vim plugin.") ))
