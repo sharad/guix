@@ -7,6 +7,8 @@
   #:use-module (guix git-download)
   #:use-module (guix hg-download)
   #:use-module (guix build-system gnu)
+  #:use-module (guix build-system copy)
+  #:use-module (guix build-system vim)
   #:use-module (guix build-system cmake)
   #:use-module (guix build-system emacs)
   #:use-module (guix build-system glib-or-gtk)
@@ -144,11 +146,11 @@ buffer' directly with simple syntax.)")
    (version "1.8.0")
    (source
     (origin
-     (method url-fetch)
-     (uri (string-append "mirror://sourceforge/doxymacs/doxymacs/"
-                         version
-                         "/doxymacs-"
-                         version ".tar.gz"))
+      (method url-fetch)
+      (uri (string-append "mirror://sourceforge/doxymacs/doxymacs/"
+                          version
+                          "/doxymacs-"
+                          version ".tar.gz"))
      (sha256
       (base32 "1yjs9764jqmzjvwica9pskwqgsa115hrf9f6hx9yw89wphrxhgx2"))))
    (inputs (list libxml2
@@ -178,49 +180,38 @@ buffer' directly with simple syntax.)")
 the {X}Emacs user.")
    (license license:gpl2+)))
 
-(define-public git-wip
+(define git-wip
   (package
     (name "git-wip")
     (version "master")
     (source (origin
-             (method git-fetch)
-             (uri (git-reference
-                   (url "https://github.com/sharad/git-wip.git")
-                   (commit version)))
-             (file-name (git-file-name name version))
-             (sha256 (base32 "1223y8pypgh0r7jzcssdb6syjah14l47qai6bznbbjl9qadp0dgx"))))
-    (build-system emacs-build-system)
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/sharad/git-wip.git")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256 (base32 "1223y8pypgh0r7jzcssdb6syjah14l47qai6bznbbjl9qadp0dgx"))))
+    (build-system copy-build-system)
     (inputs  (list git))
     (arguments
      (list #:tests? #true
-           #:test-command #~(list "./test.sh")
+           ;; #:test-command #~(list "./test.sh")
+           #:install-plan #~`(("git-wip" "bin/git-wip"))
            #:phases
            #~(modify-phases %standard-phases
-                            (add-after 'unpack 'move-source-files
-                              (lambda* (#:key inputs outputs #:allow-other-keys)
-                                ;; (substitute* "emacs/git-wip.el"
-                                ;;              (("\\(define " all)
-                                ;;               (string-append ";;;###autoload\n" all)))
-                                (with-output-to-file "test.sh"
-                                  (lambda _
-                                    (format #t "#!/usr/bin/env bash~%")
-                                    (format #t "export GIT_CONFIG_GLOBAL=~a/gitconfig~%" (getcwd))
-                                    (format #t "git config --global user.name \"FIRST_NAME LAST_NAME\"~%")
-                                    (format #t "git config --global user.email \"FIRST_NAME@example.com\"~%")
-                                    (format #t "./test-git-wip.sh~%")))
-                                (chmod "test.sh" #o755)
-                                (let ((el-files (find-files "./emacs" ".*\\.el$")))
-                                  (for-each (lambda (f)
-                                              (rename-file f (basename f)))
-                                            el-files))))
-                            (add-after 'install 'install-bin
-                              (lambda _
-                                (install-file "git-wip"
-                                              (string-append #$output
-                                                             "/bin"))
-                                (install-file "test-git-wip.sh"
-                                              (string-append #$output
-                                                             "/bin")))))))
+               (add-after 'unpack 'move-source-files
+                 (lambda* (#:key inputs outputs #:allow-other-keys)
+                   (with-output-to-file "test.sh"
+                     (lambda _
+                       (format #t "#!/usr/bin/env bash~%")
+                       (format #t "export GIT_CONFIG_GLOBAL=~a/gitconfig~%" (getcwd))
+                       (format #t "git config --global user.name \"FIRST_NAME LAST_NAME\"~%")
+                       (format #t "git config --global user.email \"FIRST_NAME@example.com\"~%")
+                       (format #t "./test-git-wip.sh~%")))
+                   (chmod "test.sh" #o755)))
+               (add-before 'install 'check
+                 (lambda _
+                   (invoke "./test.sh"))))))
     (synopsis "help track git Work In Progress branches.")
     (description "git-wip is a script that will manage Work In Progress (or WIP) branches. WIP
 branches are mostly throw away but identify points of development between
@@ -230,4 +221,34 @@ helps you return back to a previous state of development.")
     (home-page "https://github.com/bartman/git-wip.git")
     (license license:gpl3)))
 
+(define emacs-git-wip
+  (package
+    (inherit git-wip)
+    (name "emacs-git-wip")
+    (build-system emacs-build-system)
+    (inputs  (list git))
+    (arguments
+     (list #:tests? #false
+           #:phases
+           #~(modify-phases %standard-phases
+               (add-after 'unpack 'move-source-files
+                 (lambda* (#:key inputs outputs #:allow-other-keys)
+                   (let ((el-files (find-files "./emacs" ".*\\.el$")))
+                     (for-each (lambda (f)
+                                 (rename-file f (basename f)))
+                               el-files)))))))))
 
+(define vim-git-wip
+  (package
+    (inherit git-wip)
+    (name "vim-git-wip")
+    (build-system vim-build-system)
+    (arguments
+     (list #:plugin-name "git-web"
+           #:phases
+           #~(modify-phases %standard-phases
+               (add-after 'unpack 'move-source-files
+                 (lambda* (#:key inputs outputs #:allow-other-keys)
+                   ;; (delete-file "git-web")
+                   (delete-file-recursively "emacs")
+                   (delete-file-recursively "sublime"))))))))
