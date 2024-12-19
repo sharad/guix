@@ -802,7 +802,7 @@ If several repos are related, it helps to see their status together.")
 as many FUSE interfaces as possible.")
    (license license:expat)))
 
-(define git-wip
+(define-public git-wip
   (package
     (name "git-wip")
     (version "master")
