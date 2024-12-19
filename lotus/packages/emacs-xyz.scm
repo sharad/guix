@@ -181,7 +181,7 @@ buffer' directly with simple syntax.)")
 the {X}Emacs user.")
    (license license:gpl2+)))
 
-(define emacs-git-wip
+(define-public emacs-git-wip
   (package
     (inherit git-wip)
     (name "emacs-git-wip")
@@ -199,7 +199,7 @@ the {X}Emacs user.")
                                el-files)))))))
     (synopsis "help track git Work In Progress branches. emacs package.")))
 
-(define vim-git-wip
+(define-public vim-git-wip
   (package
     (inherit git-wip)
     (name "vim-git-wip")
@@ -214,4 +214,4 @@ the {X}Emacs user.")
                    ;; (delete-file "git-web")
                    (delete-file-recursively "emacs")
                    (delete-file-recursively "sublime"))))))
-    (synopsis "help track git Work In Progress branches. vim plugin.") ))
+    (synopsis "help track git Work In Progress branches.") ))
