@@ -27,6 +27,7 @@
   #:use-module ((guix  build-system copy) #:prefix copy:)
   #:use-module ((guix build-system trivial) #:prefix trivial:)
   #:use-module ((guix build-system cmake))
+  #:use-module ((guix build-system copy))
   #:use-module ((guix build-system meson))
   #:use-module ((guix build-system go))
   #:use-module ((guix licenses) #:prefix license:)
@@ -801,7 +802,46 @@ If several repos are related, it helps to see their status together.")
 as many FUSE interfaces as possible.")
    (license license:expat)))
 
-go-github-com-bbengfort-memfs
+(define git-wip
+  (package
+    (name "git-wip")
+    (version "master")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/sharad/git-wip.git")
+                    (commit version)))
+              (file-name (git-file-name name version))
+              (sha256 (base32 "1223y8pypgh0r7jzcssdb6syjah14l47qai6bznbbjl9qadp0dgx"))))
+    (build-system copy-build-system)
+    (inputs  (list git))
+    (arguments
+     (list #:tests? #true
+           ;; #:test-command #~(list "./test.sh")
+           #:install-plan #~`(("git-wip" "bin/git-wip"))
+           #:phases
+           #~(modify-phases %standard-phases
+               (add-after 'unpack 'move-source-files
+                 (lambda* (#:key inputs outputs #:allow-other-keys)
+                   (with-output-to-file "test.sh"
+                     (lambda _
+                       (format #t "#!/usr/bin/env bash~%")
+                       (format #t "export GIT_CONFIG_GLOBAL=~a/gitconfig~%" (getcwd))
+                       (format #t "git config --global user.name \"FIRST_NAME LAST_NAME\"~%")
+                       (format #t "git config --global user.email \"FIRST_NAME@example.com\"~%")
+                       (format #t "./test-git-wip.sh~%")))
+                   (chmod "test.sh" #o755)))
+               (add-before 'install 'check
+                 (lambda _
+                   (invoke "./test.sh"))))))
+    (synopsis "help track git Work In Progress branches.")
+    (description "git-wip is a script that will manage Work In Progress (or WIP) branches. WIP
+branches are mostly throw away but identify points of development between
+commits. The intent is to tie this script into your editor so that each time you
+save your file, the git-wip script captures that state in git. git-wip also
+helps you return back to a previous state of development.")
+    (home-page "https://github.com/bartman/git-wip.git")
+    (license license:gpl3)))
 
 
 

@@ -80,6 +80,7 @@
   #:use-module (gnu packages haskell-xyz)
   #:use-module (gnu packages wordnet)
   #:use-module (guix utils)
+  #:use-module (lotus packages utils)
   #:use-module (srfi srfi-1)
   #:use-module (ice-9 match))
 
@@ -180,53 +181,12 @@ buffer' directly with simple syntax.)")
 the {X}Emacs user.")
    (license license:gpl2+)))
 
-(define git-wip
-  (package
-    (name "git-wip")
-    (version "master")
-    (source (origin
-              (method git-fetch)
-              (uri (git-reference
-                    (url "https://github.com/sharad/git-wip.git")
-                    (commit version)))
-              (file-name (git-file-name name version))
-              (sha256 (base32 "1223y8pypgh0r7jzcssdb6syjah14l47qai6bznbbjl9qadp0dgx"))))
-    (build-system copy-build-system)
-    (inputs  (list git))
-    (arguments
-     (list #:tests? #true
-           ;; #:test-command #~(list "./test.sh")
-           #:install-plan #~`(("git-wip" "bin/git-wip"))
-           #:phases
-           #~(modify-phases %standard-phases
-               (add-after 'unpack 'move-source-files
-                 (lambda* (#:key inputs outputs #:allow-other-keys)
-                   (with-output-to-file "test.sh"
-                     (lambda _
-                       (format #t "#!/usr/bin/env bash~%")
-                       (format #t "export GIT_CONFIG_GLOBAL=~a/gitconfig~%" (getcwd))
-                       (format #t "git config --global user.name \"FIRST_NAME LAST_NAME\"~%")
-                       (format #t "git config --global user.email \"FIRST_NAME@example.com\"~%")
-                       (format #t "./test-git-wip.sh~%")))
-                   (chmod "test.sh" #o755)))
-               (add-before 'install 'check
-                 (lambda _
-                   (invoke "./test.sh"))))))
-    (synopsis "help track git Work In Progress branches.")
-    (description "git-wip is a script that will manage Work In Progress (or WIP) branches. WIP
-branches are mostly throw away but identify points of development between
-commits. The intent is to tie this script into your editor so that each time you
-save your file, the git-wip script captures that state in git. git-wip also
-helps you return back to a previous state of development.")
-    (home-page "https://github.com/bartman/git-wip.git")
-    (license license:gpl3)))
-
 (define emacs-git-wip
   (package
     (inherit git-wip)
     (name "emacs-git-wip")
     (build-system emacs-build-system)
-    (inputs  (list git))
+    (inputs  (list git git-wip))
     (arguments
      (list #:tests? #false
            #:phases
@@ -236,19 +196,22 @@ helps you return back to a previous state of development.")
                    (let ((el-files (find-files "./emacs" ".*\\.el$")))
                      (for-each (lambda (f)
                                  (rename-file f (basename f)))
-                               el-files)))))))))
+                               el-files)))))))
+    (synopsis "help track git Work In Progress branches. emacs package.")))
 
 (define vim-git-wip
   (package
     (inherit git-wip)
     (name "vim-git-wip")
     (build-system vim-build-system)
+    (inputs  (list git git-wip))
     (arguments
-     (list #:plugin-name "git-web"
+     (list #:plugin-name "git-wip"
            #:phases
            #~(modify-phases %standard-phases
                (add-after 'unpack 'move-source-files
                  (lambda* (#:key inputs outputs #:allow-other-keys)
                    ;; (delete-file "git-web")
                    (delete-file-recursively "emacs")
-                   (delete-file-recursively "sublime"))))))))
+                   (delete-file-recursively "sublime"))))))
+    (synopsis "help track git Work In Progress branches. vim plugin.") ))
