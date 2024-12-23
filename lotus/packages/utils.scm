@@ -860,3 +860,4 @@ helps you return back to a previous state of development.")
    (synopsis "help track git Work In Progress branches. vim plugin.")))
 
 
+git-wip
