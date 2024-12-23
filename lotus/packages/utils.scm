@@ -812,12 +812,11 @@ as many FUSE interfaces as possible.")
                     (url "https://github.com/sharad/git-wip.git")
                     (commit version)))
               (file-name (git-file-name name version))
-              (sha256 (base32 "1223y8pypgh0r7jzcssdb6syjah14l47qai6bznbbjl9qadp0dgx"))))
+              (sha256 (base32 "0allkwkpgrmvyb79zg1ih7x98splaqaygilad1wh2479fa6kcank"))))
     (build-system copy-build-system)
     (inputs  (list git))
     (arguments
      (list #:tests? #true
-           ;; #:test-command #~(list "./test.sh")
            #:install-plan #~`(("git-wip" "bin/git-wip"))
            #:phases
            #~(modify-phases %standard-phases
@@ -842,9 +841,3 @@ save your file, the git-wip script captures that state in git. git-wip also
 helps you return back to a previous state of development.")
     (home-page "https://github.com/bartman/git-wip.git")
     (license license:gpl3)))
-
-
-
-
-
-
