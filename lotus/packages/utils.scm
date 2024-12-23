@@ -48,6 +48,7 @@
   #:use-module (gnu packages c)
   #:use-module (gnu packages golang)
   #:use-module (gnu packages golang-build)
+  #:use-module (guix build-system vim)
   #:use-module (gnu packages elf)
   #:use-module (gnu packages fontutils)
   #:use-module (gnu packages readline)
@@ -812,7 +813,7 @@ as many FUSE interfaces as possible.")
                     (url "https://github.com/sharad/git-wip.git")
                     (commit version)))
               (file-name (git-file-name name version))
-              (sha256 (base32 "12lri8rmc5nagvkbsab6dd5504d1daipvgmdr685w19dnvfbcs0q"))))
+              (sha256 (base32 "1rh2ckj1xla9cqph49rldjr10kr748rvs5rj78gvm0l5gj568vzf"))))
     (build-system copy-build-system)
     (inputs  (list git))
     (arguments
@@ -841,3 +842,22 @@ save your file, the git-wip script captures that state in git. git-wip also
 helps you return back to a previous state of development.")
     (home-page "https://github.com/bartman/git-wip.git")
     (license license:gpl3)))
+
+(define-public vim-git-wip
+  (package
+   (inherit git-wip)
+   (name "vim-git-wip")
+   (build-system vim-build-system)
+   (inputs  (list git git-wip))
+   (arguments
+    (list #:plugin-name "git-wip"
+          #:phases
+          #~(modify-phases %standard-phases
+                           (add-after 'unpack 'move-source-files
+                                      (lambda* (#:key inputs outputs #:allow-other-keys)
+                                        (delete-file-recursively "emacs")
+                                        (delete-file-recursively "sublime"))))))
+   (synopsis "help track git Work In Progress branches. vim plugin.")))
+
+git-wip
+

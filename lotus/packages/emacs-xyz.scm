@@ -8,7 +8,6 @@
   #:use-module (guix hg-download)
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system copy)
-  #:use-module (guix build-system vim)
   #:use-module (guix build-system cmake)
   #:use-module (guix build-system emacs)
   #:use-module (guix build-system glib-or-gtk)
@@ -199,18 +198,7 @@ the {X}Emacs user.")
                                el-files)))))))
     (synopsis "help track git Work In Progress branches. emacs package.")))
 
-(define-public vim-git-wip
-  (package
-    (inherit git-wip)
-    (name "vim-git-wip")
-    (build-system vim-build-system)
-    (inputs  (list git git-wip))
-    (arguments
-     (list #:plugin-name "git-wip"
-           #:phases
-           #~(modify-phases %standard-phases
-               (add-after 'unpack 'move-source-files
-                 (lambda* (#:key inputs outputs #:allow-other-keys)
-                   (delete-file-recursively "emacs")
-                   (delete-file-recursively "sublime"))))))
-    (synopsis "help track git Work In Progress branches. vim plugin.") ))
+
+emacs-git-wip
+
+
