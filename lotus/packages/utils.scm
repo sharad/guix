@@ -843,7 +843,3 @@ helps you return back to a previous state of development.")
     (license license:gpl3)))
 
 
-git-wip
-
-
-

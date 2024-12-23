@@ -216,5 +216,3 @@ the {X}Emacs user.")
     (synopsis "help track git Work In Progress branches. vim plugin.") ))
 
 
-emacs-git-wip
-
