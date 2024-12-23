@@ -214,6 +214,3 @@ the {X}Emacs user.")
                    (delete-file-recursively "emacs")
                    (delete-file-recursively "sublime"))))))
     (synopsis "help track git Work In Progress branches. vim plugin.") ))
-
-
-emacs-git-wip

@@ -841,11 +841,3 @@ save your file, the git-wip script captures that state in git. git-wip also
 helps you return back to a previous state of development.")
     (home-page "https://github.com/bartman/git-wip.git")
     (license license:gpl3)))
-
-git-wip
-
-
-
-
-
-
