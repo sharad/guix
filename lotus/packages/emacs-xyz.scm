@@ -197,3 +197,4 @@ the {X}Emacs user.")
                                  (rename-file f (basename f)))
                                el-files)))))))
     (synopsis "help track git Work In Progress branches. emacs package.")))
+emacs-git-wip
