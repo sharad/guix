@@ -859,7 +859,5 @@ helps you return back to a previous state of development.")
                                         (delete-file-recursively "sublime"))))))
    (synopsis "help track git Work In Progress branches. vim plugin.")))
 
-
-
 vim-git-wip
 
