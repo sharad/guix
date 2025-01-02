@@ -813,7 +813,7 @@ as many FUSE interfaces as possible.")
                     (url "https://github.com/sharad/git-wip.git")
                     (commit version)))
               (file-name (git-file-name name version))
-              (sha256 (base32 "1ac77dz6vkskcxnklsfdb0dfl9wpg2h988w7v3kggk117281d7i6"))))
+              (sha256 (base32 "1aiym99ly55kbpbksd0kdwyd89xn6n16yvl6a4szhac1nkm36i6y"))))
     (build-system copy-build-system)
     (inputs  (list git))
     (arguments
@@ -858,4 +858,3 @@ helps you return back to a previous state of development.")
                                         (delete-file-recursively "emacs")
                                         (delete-file-recursively "sublime"))))))
    (synopsis "help track git Work In Progress branches. vim plugin.")))
-
