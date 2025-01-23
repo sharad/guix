@@ -813,7 +813,7 @@ as many FUSE interfaces as possible.")
                     (url "https://github.com/sharad/git-wip.git")
                     (commit version)))
               (file-name (git-file-name name version))
-              (sha256 (base32 "04cjv3785n2551v7s2xb616l0ijdsx3wjdl000i1v72jg8zpzhxy"))))
+              (sha256 (base32 "02nbs2yng3kzlxyv05snrixdr9qn3fnmk56jwc8zvm1z43h85s43"))))
     (build-system copy-build-system)
     (inputs  (list git))
     (arguments
