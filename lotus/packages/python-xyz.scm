@@ -279,8 +279,8 @@
                     (sha256 (base32 "1pqq7gqj5y76c1fwpx3hswva4j79h3gqqvkpgxni7rw3jix0a7ck"))))
     (arguments
      '(#:tests? #f))
-    ;; (build-system python-build-system)
-    (build-system pyproject-build-system)
+    (build-system python-build-system)
+    ;; (build-system pyproject-build-system)
     (inputs  (list python-rofi
                    python-tinydb
                    xprop
@@ -325,7 +325,8 @@
        (uri (pypi-uri "SpeechRecognition" version))
        (sha256
         (base32 "10lzmlmv4c6i3ldszdhvjwqf3a8jrv5cd8mr0q5f4dkqdf4331vi"))))
-    (build-system pyproject-build-system)
+    (build-system python-build-system)
+    ;; (build-system pyproject-build-system)
     (arguments
      '(#:tests? #f
        #:phases
@@ -368,7 +369,8 @@ APIs, online and offline.")
                  espeak))
    (arguments
     '(#:tests? #f))
-   (build-system pyproject-build-system)
+   (build-system python-build-system)
+   ;; (build-system pyproject-build-system)
    (synopsis "Offline Text To Speech (TTS) converter for Python ")
    (description "pyttsx3 is a text-to-speech conversion library in Python. Unlike alternative libraries, it works offline.")
    (license license:gpl3)))
