@@ -386,7 +386,7 @@ version 3.0 and 2.40 as well.")
                      (url "https://github.com/sharad/python-pkcs11-provider")
                      (commit version)))
               (file-name (git-file-name name version))
-              (sha256 (base32 "1lxshjj9p65wllh3l4rldrd2cxl489bgrmwdmgii4ypy66lvhi5k"))))
+              (sha256 (base32 "01k5p8wfj3bkcvbf4lrvc17yq9jhajj32yf1jhbgl5q13hc34d55"))))
     (build-system gnu:gnu-build-system)
     (inputs (list python-3
                   python-cython
