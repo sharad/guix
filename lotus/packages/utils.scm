@@ -910,33 +910,29 @@ helps you return back to a previous state of development.")
                               (string-append bin "/LightTable")))))
                (add-after 'install-entrypoint 'install-resources
                  (lambda _
-                   (let* ((icons
-                           (string-append #$output
-                                          "/share/icons/hicolor/512x512/apps"))
-                          (icon.png
-                           (string-append #$output
-                                          "/opt/resources/app/"
-                                          "core/img/lticon.png"))
+                   (let* ((icons (string-append #$output "/share/icons/hicolor/512x512/apps"))
+                          (icon.png (string-append #$output
+                                                   "/opt/resources/app/"
+                                                   "core/img/lticon.png"))
                           (apps (string-append #$output "/share/applications")))
                      (mkdir-p icons)
                      (symlink icon.png
                               (string-append icons "/lighttable.png"))
                      (mkdir-p apps)
-                     (make-desktop-entry-file
-                      (string-append apps "/" #$name ".desktop")
-                      #:name "LightTable"
-                      #:generic-name "IDE"
-                      #:exec (string-append #$output "/bin/lighttable --ozone-platform-hint=auto")
-                      #:icon "lighttable"
-                      #:type "Application"
-                      #:actions '("new-empty-window")
-                      #:keywords '("ide" "editor")
-                      #:categories '("Development" "IDE")
-                      #:startup-notify #t
-                      #:startup-w-m-class "LightTable"
-                      #:comment
-                      '(("en" "The next generation code editor.")
-                        (#f "The next generation code editor.")))))))))
+                     (make-desktop-entry-file (string-append apps "/" #$name ".desktop")
+                                              #:name "LightTable"
+                                              #:generic-name "IDE"
+                                              #:exec (string-append #$output "/bin/lighttable --ozone-platform-hint=auto")
+                                              #:icon "lighttable"
+                                              #:type "Application"
+                                              #:actions '("new-empty-window")
+                                              #:keywords '("ide" "editor")
+                                              #:categories '("Development" "IDE")
+                                              #:startup-notify #t
+                                              #:startup-w-m-class "LightTable"
+                                              #:comment
+                                              '(("en" "The next generation code editor.")
+                                                (#f "The next generation code editor.")))))))))
     (supported-systems '("armhf-linux" "aarch64-linux" "x86_64-linux"))
     (native-inputs
      (list tar))
