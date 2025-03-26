@@ -82,7 +82,9 @@
   #:use-module (gnu packages boost)
   #:use-module (guix build-system python)
   #:use-module (gnu packages check)
-  #:use-module (gnu packages ruby))
+  #:use-module (gnu packages ruby)
+  #:use-module (gnu packages documentation)
+  #:use-module (gnu packages xml))
 
 ;; https://issues.guix.gnu.org/issue/35619
 
@@ -861,9 +863,38 @@ helps you return back to a previous state of development.")
                                         (delete-file-recursively "sublime"))))))
    (synopsis "help track git Work In Progress branches. vim plugin.")))
 
+(define-public proxytunnel
+  (package
+   (name "proxytunnel")
+   (version "1.12.3")
+   (source (origin
+            (method url-fetch)
+            (uri (string-append "https://github.com/proxytunnel/proxytunnel/archive/refs/tags/v" version ".tar.gz"))
+            (sha256 (base32 "1yssijk84y4qdfvq27xajpf5min4lyj1474f2p5sq7x9mfkznv0h"))))
+   (build-system gnu:gnu-build-system)
+   (inputs (list openssl asciidoc xmlto))
+   (propagated-inputs (list))
+   (arguments
+    (list #:tests? #f
+          #:make-flags #~(list "CC=gcc" (string-append "prefix=" #$output))
+          #:phases #~(modify-phases %standard-phases
+                                    (add-after 'unpack 'amend-makefile
+                                     (lambda* (#:key inputs outputs #:allow-other-keys)
+                                       (substitute* "Makefile"
+                                                    (("\\$\\(MAKE\\) -C docs install")
+                                                     "echo"))))
+                                    (delete 'configure))))
+   (synopsis "Stealth tunneling through HTTP(S) proxies ")
+   (description "This is proxytunnel, a program that connects stdin and stdout to an origin
+server somewhere in the Internet through an industry standard HTTPS proxy. I
+originally wrote this program to be used as an extension to SSH, to be able to
+SSH to my box at home. In this file, I will describe the use with SSH. If you
+want to use it with some other application, feel free, and let me know!")
+   (home-page "http://proxytunnel.sf.net/")
+   (license license:gpl2)))
 
 
-
+proxytunnel
 
 ;; (define-public lighttable
 ;;   (package
