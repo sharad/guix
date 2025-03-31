@@ -26,7 +26,7 @@
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
   #:use-module ((guix  build-system copy) #:prefix copy:)
   #:use-module ((guix build-system trivial) #:prefix trivial:)
-  ;; #:use-module (nonguix build-system chromium-binary)
+  #:use-module (nonguix build-system chromium-binary)
   #:use-module (guix build-system cmake)
   #:use-module (guix build-system copy)
   #:use-module (guix build-system meson)
