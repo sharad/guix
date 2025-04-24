@@ -5,7 +5,7 @@
  (directory "src")
  (dependencies
   (channel
-   (name 'nonguix)
+   (name nonguix)
    (url "https://gitlab.com/nonguix/nonguix")
    ;; (introduction
    ;;  (channel-introduction
