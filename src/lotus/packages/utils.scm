@@ -20,7 +20,7 @@
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix git-download)
-  ;; #:use-module (nonguix build-system chromium-binary)
+  #:use-module (nonguix build-system chromium-binary)
   #:use-module ((guix build-system gnu) #:prefix gnu:)
   #:use-module ((guix build-system cmake) #:prefix cmake:)
   #:use-module ((lotus build-system deb) #:prefix deb:)
@@ -893,86 +893,86 @@ want to use it with some other application, feel free, and let me know!")
    (home-page "http://proxytunnel.sf.net/")
    (license license:gpl2)))
 
-;; (define-public lighttable
-;;   (package
-;;     (name "lighttable")
-;;     (version "0.8.1")
-;;     (source
-;;      (let ((arch (match (or (%current-target-system) (%current-system))
-;;                    ("aarch64-linux" "arm64")
-;;                    ("armhf-linux" "armhf")
-;;                    (_ "x64")))
-;;            (hash (match (or (%current-target-system) (%current-system))
-;;                    ("aarch64-linux"
-;;                     "0m5x9v577h8n16ypzb1y2066alc59v5bw7jiqp2xr7g20s9kb0vy")
-;;                    ("armhf-linux"
-;;                     "047gz12gx8pa5aglykd0785l6i9ivsn4kkgfhi5l0y4jh8hjys8c")
-;;                    (_
-;;                     "06fj725xfhf3fwrf7dya7ijmxq3v76kfmd4lr2067a92zhlwr5pv"))))
-;;        (origin
-;;         (method url-fetch)
-;;         (uri
-;;          (string-append
-;;           "https://github.com/LightTable/LightTable/releases/download/" version
-;;           "/lighttable-" version "-linux.tar.gz"))
-;;         (sha256
-;;          (base32 hash)))))
-;;     (build-system chromium-binary-build-system)
-;;     (arguments
-;;      (list #:validate-runpath? #f
-;;            #:substitutable? #f
-;;            #:wrapper-plan
-;;            #~'(("opt/lighttable/LightTable" (("out" "/opt/lighttable"))))
-;;            #:phases
-;;            #~(modify-phases %standard-phases
-;;                (replace 'unpack
-;;                  (lambda* (#:key source #:allow-other-keys)
-;;                    (mkdir-p "opt/lighttable")
-;;                    (invoke "tar" "-xvf" source "--strip-components=1" "-C" "opt/lighttable")))
-;;                (add-before 'install-wrapper 'install-entrypoint
-;;                  (lambda _
-;;                    (let* ((bin (string-append #$output "/bin")))
-;;                      (delete-file (string-append #$output "/environment-variables"))
-;;                      (mkdir-p bin)
-;;                      (symlink (string-append #$output "/opt/lighttable/LightTable")
-;;                               (string-append bin "/LightTable")))))
-;;                (add-after 'install-entrypoint 'install-resources
-;;                  (lambda _
-;;                    (let* ((icons (string-append #$output "/share/icons/hicolor/512x512/apps"))
-;;                           (icon.png (string-append #$output
-;;                                                    "/opt/resources/app/"
-;;                                                    "core/img/lticon.png"))
-;;                           (apps (string-append #$output "/share/applications")))
-;;                      (mkdir-p icons)
-;;                      (symlink icon.png
-;;                               (string-append icons "/lighttable.png"))
-;;                      (mkdir-p apps)
-;;                      (make-desktop-entry-file (string-append apps "/" #$name ".desktop")
-;;                                               #:name "LightTable"
-;;                                               #:generic-name "IDE"
-;;                                               #:exec (string-append #$output "/bin/lighttable --ozone-platform-hint=auto")
-;;                                               #:icon "lighttable"
-;;                                               #:type "Application"
-;;                                               #:actions '("new-empty-window")
-;;                                               #:keywords '("ide" "editor")
-;;                                               #:categories '("Development" "IDE")
-;;                                               #:startup-notify #t
-;;                                               #:startup-w-m-class "LightTable"
-;;                                               #:comment
-;;                                               '(("en" "The next generation code editor.")
-;;                                                 (#f "The next generation code editor.")))))))))
-;;     (supported-systems '("armhf-linux" "aarch64-linux" "x86_64-linux"))
-;;     (native-inputs
-;;      (list tar))
-;;     (inputs
-;;      (list gdk-pixbuf
-;;            gtk+-2
-;;            gconf
-;;            nss))
-;;     (home-page "https://lighttable.com/")
-;;     (synopsis "Next-generation code editor")
-;;     (description "LightTable is a next-generation code editor that connects you to your code with real-time feedback.")
-;;     (license license:gpl3)))
+(define-public lighttable
+  (package
+    (name "lighttable")
+    (version "0.8.1")
+    (source
+     (let ((arch (match (or (%current-target-system) (%current-system))
+                   ("aarch64-linux" "arm64")
+                   ("armhf-linux" "armhf")
+                   (_ "x64")))
+           (hash (match (or (%current-target-system) (%current-system))
+                   ("aarch64-linux"
+                    "0m5x9v577h8n16ypzb1y2066alc59v5bw7jiqp2xr7g20s9kb0vy")
+                   ("armhf-linux"
+                    "047gz12gx8pa5aglykd0785l6i9ivsn4kkgfhi5l0y4jh8hjys8c")
+                   (_
+                    "06fj725xfhf3fwrf7dya7ijmxq3v76kfmd4lr2067a92zhlwr5pv"))))
+       (origin
+        (method url-fetch)
+        (uri
+         (string-append
+          "https://github.com/LightTable/LightTable/releases/download/" version
+          "/lighttable-" version "-linux.tar.gz"))
+        (sha256
+         (base32 hash)))))
+    (build-system chromium-binary-build-system)
+    (arguments
+     (list #:validate-runpath? #f
+           #:substitutable? #f
+           #:wrapper-plan
+           #~'(("opt/lighttable/LightTable" (("out" "/opt/lighttable"))))
+           #:phases
+           #~(modify-phases %standard-phases
+               (replace 'unpack
+                 (lambda* (#:key source #:allow-other-keys)
+                   (mkdir-p "opt/lighttable")
+                   (invoke "tar" "-xvf" source "--strip-components=1" "-C" "opt/lighttable")))
+               (add-before 'install-wrapper 'install-entrypoint
+                 (lambda _
+                   (let* ((bin (string-append #$output "/bin")))
+                     (delete-file (string-append #$output "/environment-variables"))
+                     (mkdir-p bin)
+                     (symlink (string-append #$output "/opt/lighttable/LightTable")
+                              (string-append bin "/LightTable")))))
+               (add-after 'install-entrypoint 'install-resources
+                 (lambda _
+                   (let* ((icons (string-append #$output "/share/icons/hicolor/512x512/apps"))
+                          (icon.png (string-append #$output
+                                                   "/opt/resources/app/"
+                                                   "core/img/lticon.png"))
+                          (apps (string-append #$output "/share/applications")))
+                     (mkdir-p icons)
+                     (symlink icon.png
+                              (string-append icons "/lighttable.png"))
+                     (mkdir-p apps)
+                     (make-desktop-entry-file (string-append apps "/" #$name ".desktop")
+                                              #:name "LightTable"
+                                              #:generic-name "IDE"
+                                              #:exec (string-append #$output "/bin/lighttable --ozone-platform-hint=auto")
+                                              #:icon "lighttable"
+                                              #:type "Application"
+                                              #:actions '("new-empty-window")
+                                              #:keywords '("ide" "editor")
+                                              #:categories '("Development" "IDE")
+                                              #:startup-notify #t
+                                              #:startup-w-m-class "LightTable"
+                                              #:comment
+                                              '(("en" "The next generation code editor.")
+                                                (#f "The next generation code editor.")))))))))
+    (supported-systems '("armhf-linux" "aarch64-linux" "x86_64-linux"))
+    (native-inputs
+     (list tar))
+    (inputs
+     (list gdk-pixbuf
+           gtk+-2
+           gconf
+           nss))
+    (home-page "https://lighttable.com/")
+    (synopsis "Next-generation code editor")
+    (description "LightTable is a next-generation code editor that connects you to your code with real-time feedback.")
+    (license license:gpl3)))
 
 
 
