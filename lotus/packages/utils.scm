@@ -626,7 +626,7 @@ know, and we can add them to this list!")
                     (url "https://github.com/samyk/pwnat.git")
                     (commit version)))
               (file-name (git-file-name name version))
-              (sha256 (base32 "02ci0wmjcs3nck16wddjkm9689kmrf3kbg4mhkkmz3i0785p5vkn"))))
+              (sha256 (base32 "1w3kz8g1317hdcanzmnc76gzslzaqmffvj4n61f5cszhss1f7hdv"))))
     (build-system gnu:gnu-build-system)
     (inputs (list))
     (propagated-inputs (list))
@@ -976,3 +976,4 @@ want to use it with some other application, feel free, and let me know!")
 
 
 
+pwnat
