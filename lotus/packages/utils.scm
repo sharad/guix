@@ -977,3 +977,87 @@ want to use it with some other application, feel free, and let me know!")
 
 
 
+(define-public reor
+  (package
+    (name "reor")
+    (version "0.2.32")
+    (source
+     (let ((arch (match (or (%current-target-system) (%current-system))
+                   ("aarch64-linux" "arm64")
+                   ("armhf-linux" "armhf")
+                   (_ "x64")))
+           (hash (match (or (%current-target-system) (%current-system))
+                   ("aarch64-linux"
+                    "0m5x9v577h8n16ypzb1y2066alc59v5bw7jiqp2xr7g20s9kb0vy")
+                   ("armhf-linux"
+                    "047gz12gx8pa5aglykd0785l6i9ivsn4kkgfhi5l0y4jh8hjys8c")
+                   (_
+                    "0cngp0fnq64aq2hbp2ya6hdfdcf8sjv4bjcyc5ff5glmb6fvm34w"))))
+       (origin
+        (method url-fetch)
+        (uri
+         (string-append
+          "https://github.com/reorproject/reor/archive/refs/tags/v-" version ".tar.gz"))
+        (sha256
+         (base32 hash)))))
+    (build-system chromium-binary-build-system)
+    (arguments
+     (list #:validate-runpath? #f
+           #:substitutable? #f
+           ;; #:wrapper-plan
+           ;; #~'(("opt/reor/Reor" (("out" "/opt/reor"))))
+           #:phases
+           #~(modify-phases %standard-phases
+               (replace 'unpack
+                 (lambda* (#:key source #:allow-other-keys)
+                   (mkdir-p "opt/reor")
+                   (invoke "tar" "-xvf" source "--strip-components=1" "-C" "opt/reor")))
+               (add-before 'install-wrapper 'install-entrypoint
+                 (lambda _
+                   (let* ((bin (string-append #$output "/bin")))
+                     (delete-file (string-append #$output "/environment-variables"))
+                     (mkdir-p bin)
+                     (symlink (string-append #$output "/opt/reor/Reor")
+                              (string-append bin "/Reor")))))
+               ;; (add-after 'install-entrypoint 'install-resources
+               ;;   (lambda _
+               ;;     (let* ((icons (string-append #$output "/share/icons/hicolor/512x512/apps"))
+               ;;            (icon.png (string-append #$output
+               ;;                                     "/opt/resources/app/"
+               ;;                                     "core/img/lticon.png"))
+               ;;            (apps (string-append #$output "/share/applications")))
+               ;;       (mkdir-p icons)
+               ;;       (symlink icon.png
+               ;;                (string-append icons "/reor.png"))
+               ;;       (mkdir-p apps)
+               ;;       (make-desktop-entry-file (string-append apps "/" #$name ".desktop")
+               ;;                                #:name "Reor"
+               ;;                                #:generic-name "IDE"
+               ;;                                #:exec (string-append #$output "/bin/reor --ozone-platform-hint=auto")
+               ;;                                #:icon "reor"
+               ;;                                #:type "Application"
+               ;;                                #:actions '("new-empty-window")
+               ;;                                #:keywords '("ide" "editor")
+               ;;                                #:categories '("Development" "IDE")
+               ;;                                #:startup-notify #t
+               ;;                                #:startup-w-m-class "Reor"
+               ;;                                #:comment
+               ;;                                '(("en" "The next generation code editor.")
+               ;;                                  (#f "The next generation code editor."))))))
+               )))
+    (supported-systems '("armhf-linux" "aarch64-linux" "x86_64-linux"))
+    (native-inputs
+     (list tar))
+    (inputs
+     (list gdk-pixbuf
+           gtk+-2
+           gconf
+           nss))
+    (home-page "https://reor.com/")
+    (synopsis "Next-generation code editor")
+    (description "Reor is a next-generation code editor that connects you to your code with real-time feedback.")
+    (license license:gpl3)))
+
+
+
+reor
