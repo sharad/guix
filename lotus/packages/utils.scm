@@ -55,6 +55,7 @@
   #:use-module (gnu packages fontutils)
   #:use-module (gnu packages readline)
   #:use-module (gnu packages gettext)
+  #:use-module (gnu packages qt)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages gtk)
@@ -187,7 +188,7 @@ possible.")
     (name "zssh")
     (version "1.5c")
     (source (origin (method url-fetch)
-                    (uri (string-append "mirror://sourceforge/zssh/zssh/1.5/zssh-" version ".tgz"))
+                    (uri (string-append "mirror://sourceforge/zssh/zssh/" "1.5" "/zssh-" version ".tgz"))
                     (sha256 (base32 "06z73iq59lz8ibjrgs7d3xl39vh9yld1988yx8khssch4pw41s52"))))
     (build-system gnu:gnu-build-system)
     (inputs
@@ -974,9 +975,6 @@ want to use it with some other application, feel free, and let me know!")
     (description "LightTable is a next-generation code editor that connects you to your code with real-time feedback.")
     (license license:gpl3)))
 
-
-
-
 (define-public reor
   (package
     (name "reor")
@@ -1018,7 +1016,7 @@ want to use it with some other application, feel free, and let me know!")
                      (delete-file (string-append #$output "/environment-variables"))
                      (mkdir-p bin)
                      (symlink (string-append #$output "/opt/reor/Reor")
-                              (string-append bin "/Reor")))))
+                              (string-append bin "/Reor"))))))))
                ;; (add-after 'install-entrypoint 'install-resources
                ;;   (lambda _
                ;;     (let* ((icons (string-append #$output "/share/icons/hicolor/512x512/apps"))
@@ -1044,7 +1042,7 @@ want to use it with some other application, feel free, and let me know!")
                ;;                                #:comment
                ;;                                '(("en" "The next generation code editor.")
                ;;                                  (#f "The next generation code editor."))))))
-               )))
+
     (supported-systems '("armhf-linux" "aarch64-linux" "x86_64-linux"))
     (native-inputs
      (list tar))
@@ -1059,5 +1057,60 @@ want to use it with some other application, feel free, and let me know!")
     (license license:gpl3)))
 
 
+(define-public cdcat
+  (package
+    (name "cdcat")
+    (version "2.3.1")
+    (source (origin
+              (method url-fetch)
+              (uri (string-append "mirror://sourceforge.net/project/cdcat/cdcat/"
+                                  version
+                                  "/cdcat-" version ".tar.bz2"))
+              (sha256 (base32 "0000000000000000000000000000000000000000000000000000"))))
+    (build-system qmake-build-system)
+    (inputs ;; Qt base (qt5); if the package needs Qt4, change to qt4 packages (may not be available).
+     (list qtbase libx11 zlib))
+    (native-inputs ;; pkg-config, gettext, etc.
+     (list pkg-config))
+    (home-page "https://cdcat.sourceforge.net/")
+    (synopsis "Graphical CD / disk cataloger")
+    (description
+     "cdcat is a graphical (Qt based) cross-platform catalog program which scans
+      directories or removable media and stores a searchable catalog of their
+      contents. Useful for cataloging CDs, DVDs and other removable media.")
+    (license license:bsd-3)))
 
-reor
+
+
+(define-public hostctl
+  (package
+   (name "hostctl")
+   (version "1.1.2")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/guumaster/hostctl")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "1gkqv47mpfl2m5llc9qg2k7w8fw0bzq8j66bmsxhhm4bpi3kjcsl")))) ; update after verifying
+   (build-system go-build-system)
+   (arguments
+    (list #:import-path "github.com/guumaster/hostctl/cmd/hostctl"))
+   (home-page "https://github.com/guumaster/hostctl")
+   (synopsis "Command-line tool to manage hosts file profiles")
+   (description
+    "Hostctl lets you manage multiple profiles of host entries, merge them,
+and easily enable/disable them. It’s useful for developers switching between
+environments.")
+   (license expat)))
+
+
+
+cdcat
+
+;; zssh
+
+;; hostctl
+

@@ -21,7 +21,8 @@
   #:use-module (gnu packages python-xyz)
   #:use-module (gnu packages python-web)
   #:use-module (gnu packages python-build)
-  #:use-module (gnu packages python-crypto))
+  #:use-module (gnu packages python-crypto)
+  #:use-module (gnu packages protobuf))
 
 (define-public python-colorama-043
   (package (inherit python-colorama)
@@ -409,3 +410,114 @@ APIs, online and offline.")
 playing sounds.")
    (license license:expat)))
 
+
+
+;; (define-public python-google-ai-generativelanguage
+;;   (package
+;;     (name "python-google-ai-generativelanguage")
+;;     (version "0.6.15")
+;;     (source
+;;      (origin
+;;        (method url-fetch)
+;;        (uri (pypi-uri "google_ai_generativelanguage" version))
+;;        (sha256
+;;         (base32 "1hwy2lg85wqjzv7122rdpwz1i9ff38bjd418s3i5y1ibq729svcg"))))
+;;     (build-system pyproject-build-system)
+;;     (arguments
+;;      `(#:tests? #f
+;;        #:phases (modify-phases %standard-phases
+;;                                (delete 'check))))
+;;     (propagated-inputs (list python-google-api-core python-google-auth
+;;                              python-proto-plus python-protobuf))
+;;     (native-inputs (list python-setuptools python-wheel))
+;;     (home-page
+;;      "https://github.com/googleapis/google-cloud-python/tree/main/packages/google-ai-generativelanguage")
+;;     (synopsis "Google Ai Generativelanguage API client library")
+;;     (description "Google Ai Generativelanguage API client library.")
+;;     (license license:asl2.0)))
+
+
+;; (define-public python-google-ai-generativelanguage7
+;;   (package
+;;     (name "python-google-ai-generativelanguage")
+;;     (version "0.7.0")
+;;     (source
+;;      (origin
+;;        (method url-fetch)
+;;        (uri (pypi-uri "google_ai_generativelanguage" version))
+;;        (sha256
+;;         (base32 "15s2ppkgzpf377rg5a55vymjnpzas3i17mfbyycjx7lli4qfszr0"))))
+;;     (build-system pyproject-build-system)
+;;     (propagated-inputs (list python-google-api-core python-google-auth
+;;                              python-proto-plus python-protobuf))
+;;     (native-inputs (list python-setuptools python-wheel))
+;;     (home-page
+;;      "https://github.com/googleapis/google-cloud-python/tree/main/packages/google-ai-generativelanguage")
+;;     (synopsis "Google Ai Generativelanguage API client library")
+;;     (description "Google Ai Generativelanguage API client library.")
+;;     (license license:asl2.0)))
+
+;; (define-public python-google-api-python-client
+;;   (package
+;;     (name "python-google-api-python-client")
+;;     (version "2.181.0")
+;;     (source
+;;      (origin
+;;        (method url-fetch)
+;;        (uri (pypi-uri "google_api_python_client" version))
+;;        (sha256
+;;         (base32 "07166bfx3sl81c2ypa5wpw8zznr4jdbb3d4gdwn6m8bll9i0j1np"))))
+;;     (build-system pyproject-build-system)
+;;     (propagated-inputs (list python-google-api-core python-google-auth
+;;                              python-google-auth-httplib2 python-httplib2
+;;                              python-uritemplate))
+;;     (native-inputs (list python-setuptools python-wheel))
+;;     (home-page "https://github.com/googleapis/google-api-python-client/")
+;;     (synopsis "Google API Client Library for Python")
+;;     (description "Google API Client Library for Python.")
+;;     (license license:asl2.0)))
+
+;; (define-public python-google-generativeai
+;;   (package
+;;     (name "python-google-generativeai")
+;;     (version "0.8.5")
+;;     (source
+;;      (origin
+;;        ;; Upstream repo: using GitHub or similar
+;;        ;; If there is a tag "v0.8.5", use that; else pick a commit matching that release.
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;               (url "https://github.com/google/generative-ai-python.git")
+;;               (commit (string-append "v" version))))
+;;        (file-name (git-file-name name version))
+;;        (sha256 (base32 "0hzd0xbmjs5cx6yscb6ngvr9r7s8cgpabilflkg1pwrx4wjzkkf1"))))
+
+;;     (build-system pyproject-build-system)
+;;     (arguments
+;;      '(#:tests? #f))
+
+;;     ;; Runtime / propagated inputs: fill in dependencies based on upstream's pyproject.toml / setup
+;;     (propagated-inputs
+;;      (list
+;;        python-google-ai-generativelanguage
+;;        python-requests           ;; for HTTP requests
+;;        python-protobuf           ;; if they use protobuf
+;;        python-google-auth        ;; for authentication
+;;        python-google-api-core))    ;; core google api utilities
+;;        ;; etc: add others upstream requires
+
+;;     (native-inputs
+;;      (list python-setuptools
+;;            python-wheel
+;;            python-pip))  ;; possibly needed for building wheels / tests
+
+;;     (home-page "https://github.com/google/generative-ai-python")
+;;     (synopsis "Legacy Google Generative AI (Gemini) Python SDK (google.generativeai)")
+;;     (description
+;;      "python-google-generativeai is Google's legacy Python SDK for the Gemini API. \
+;; It provides utilities to call text / content generation, chat, etc, using the google.generativeai API. \
+;; Note: this package is deprecated in favor of `google-genai` in many places. Data / model compatibility may vary.")
+;;     (license license:asl2.0)))
+
+
+;; python-google-generativeai
