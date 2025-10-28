@@ -25,7 +25,8 @@
   #:use-module ((guix build-system cmake) #:prefix cmake:)
   #:use-module ((lotus build-system deb) #:prefix deb:)
   #:use-module ((lotus build-system patchelf) #:prefix patchelf:)
-  #:use-module ((guix  build-system copy) #:prefix copy:)
+  #:use-module ((guix build-system copy) #:prefix copy:)
+  #:use-module ((guix build-system qt))
   #:use-module ((guix build-system trivial) #:prefix trivial:)
   #:use-module (guix build-system cmake)
   #:use-module (guix build-system copy)
@@ -1063,13 +1064,32 @@ want to use it with some other application, feel free, and let me know!")
     (version "2.3.1")
     (source (origin
               (method url-fetch)
-              (uri (string-append "mirror://sourceforge.net/project/cdcat/cdcat/"
-                                  version
-                                  "/cdcat-" version ".tar.bz2"))
-              (sha256 (base32 "0000000000000000000000000000000000000000000000000000"))))
-    (build-system qmake-build-system)
+              (uri (string-append "mirror://sourceforge/cdcat/cdcat/cdcat-" version "/cdcat-" version ".tar.bz2"))
+              (sha256 (base32 "077hsnl167sph9r5gjibc4pchrh7a5gq79fdk8sr7bvgckbvpcbw"))))
+    (build-system gnu:gnu-build-system)
+    (arguments
+     '(#:phases
+       (modify-phases %standard-phases
+         (replace 'configure ;; 'qmake-configure
+           (lambda _
+             (chdir "src")
+             (substitute* "cdcat.pro"
+               (("QT += xml")
+                "QT += xml widgets gui core"))
+             (invoke "qmake" "cdcat.pro")
+             (system "ls")
+             (system "cat cdcat.pro")
+             #t))
+         (replace 'build
+           (lambda _
+             (invoke "make")
+             #t))
+         (replace 'install
+           (lambda _
+             (invoke "make" "install")
+             #t)))))
     (inputs ;; Qt base (qt5); if the package needs Qt4, change to qt4 packages (may not be available).
-     (list qtbase libx11 zlib))
+     (list qtbase libx11 zlib p7zip))
     (native-inputs ;; pkg-config, gettext, etc.
      (list pkg-config))
     (home-page "https://cdcat.sourceforge.net/")
@@ -1085,16 +1105,15 @@ want to use it with some other application, feel free, and let me know!")
 (define-public hostctl
   (package
    (name "hostctl")
-   (version "1.1.2")
+   (version "1.1.4")
    (source
     (origin
-     (method git-fetch)
-     (uri (git-reference
-           (url "https://github.com/guumaster/hostctl")
-           (commit (string-append "v" version))))
+      (method url-fetch)
+      (uri (string-append
+            "https://github.com/guumaster/hostctl/archive/refs/tags/v" version ".tar.gz"))
      (file-name (git-file-name name version))
      (sha256
-      (base32 "1gkqv47mpfl2m5llc9qg2k7w8fw0bzq8j66bmsxhhm4bpi3kjcsl")))) ; update after verifying
+      (base32 "0000000000000000000000000000000000000000000000000000")))) ; update after verifying
    (build-system go-build-system)
    (arguments
     (list #:import-path "github.com/guumaster/hostctl/cmd/hostctl"))
@@ -1104,7 +1123,7 @@ want to use it with some other application, feel free, and let me know!")
     "Hostctl lets you manage multiple profiles of host entries, merge them,
 and easily enable/disable them. It’s useful for developers switching between
 environments.")
-   (license expat)))
+   (license license:expat)))
 
 
 
