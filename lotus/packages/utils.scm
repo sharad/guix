@@ -86,7 +86,9 @@
   #:use-module (gnu packages check)
   #:use-module (gnu packages ruby)
   #:use-module (gnu packages documentation)
-  #:use-module (gnu packages xml))
+  #:use-module (gnu packages xml)
+  #:use-module (gnu packages golang-xyz)
+  #:use-module (gnu packages golang-check))
 
 ;; https://issues.guix.gnu.org/issue/35619
 
@@ -1057,6 +1059,111 @@ want to use it with some other application, feel free, and let me know!")
     (description "Reor is a next-generation code editor that connects you to your code with real-time feedback.")
     (license license:gpl3)))
 
+
+(define-public go-github-com-guumaster-tablewriter
+  (package
+    (name "go-github-com-guumaster-tablewriter")
+    (version "0.0.10")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/guumaster/tablewriter")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "019knrimn3cy4733zxwlal38wfaibr4h4v3anzan5j8lizr2f6gl"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:import-path "github.com/guumaster/tablewriter"))
+    (propagated-inputs (list go-github-com-mattn-go-runewidth))
+    (home-page "https://github.com/guumaster/tablewriter")
+    (synopsis "ASCII Table Writer")
+    (description "Create & Generate text based table.")
+    (license license:expat)))
+
+(define-public go-github-com-guumaster-cligger
+  (package
+    (name "go-github-com-guumaster-cligger")
+    (version "0.1.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+              (url "https://github.com/guumaster/cligger")
+              (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1qazndnj3yrhqspp1m4i66ylvs36nln0x5f0iva5z3h854k34jar"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:import-path "github.com/guumaster/cligger"))
+    (propagated-inputs (list go-github-com-stretchr-testify
+                             go-github-com-guumaster-logsymbols))
+    (home-page "https://github.com/guumaster/cligger")
+    (synopsis "cligger")
+    (description "nolint:goprintffuncname.")
+    (license license:expat)))
+
+;; (define-public go-github-com-gookit-color
+;;   (package
+;;     (name "go-github-com-gookit-color")
+;;     (version "1.6.0")
+;;     (source
+;;      (origin
+;;        (method git-fetch)
+;;        (uri (git-reference
+;;              (url "https://github.com/gookit/color")
+;;              (commit (string-append "v" version))))
+;;        (file-name (git-file-name name version))
+;;        (sha256
+;;         (base32 "0r2ww447fvzz7vc4a3l7ajvb1ch7yldcl1j8z45iva50gbxf9sva"))))
+;;     (build-system go-build-system)
+;;     (arguments
+;;      (list
+;;       #:import-path "github.com/gookit/color"))
+;;     (propagated-inputs (list go-golang-org-x-sys go-github-com-xo-terminfo
+;;                              go-github-com-gookit-assert))
+;;     (home-page "https://github.com/gookit/color")
+;;     (synopsis "CLI Color")
+;;     (description
+;;      "Package color is command line color library.  Support rich color rendering
+;; output, universal API method, compatible with Windows system.")
+;;     (license license:expat)))
+
+(define-public go-gopkg-in-gookit-color-v1 go-github-com-gookit-color)
+
+
+(define-public go-github-com-guumaster-logsymbols
+  (package
+    (name "go-github-com-guumaster-logsymbols")
+    (version "0.3.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/guumaster/logsymbols")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0j2w9grmgd785vkhj6bjkcn9liahr4q4zd54ms6y6w79c3sz5giy"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:import-path "github.com/guumaster/logsymbols"))
+    (propagated-inputs (list ;; go-github-com-gookit-color
+                             go-gopkg-in-gookit-color-v1
+                             go-github-com-stretchr-testify
+                             go-github-com-mattn-go-isatty))
+    (home-page "https://github.com/guumaster/logsymbols")
+    (synopsis "log symbols")
+    (description
+     "@@code{logsymbols} will autodetect if its not in TTY mode and remove all colors.
+ You can force color output with this example:.")
+    (license license:expat)))
+
 (define-public hostctl
   (package
    (name "hostctl")
@@ -1070,24 +1177,24 @@ want to use it with some other application, feel free, and let me know!")
      (sha256
       (base32 "00vhysa4xn2n0khmhk7v5pp2a9v5v8mzygsfy3g23xdh5dvn3py3")))) ; update after verifying
    (build-system go-build-system)
-   ;; (arguments
-   ;;  (list #:import-path "github.com/guumaster/hostctl/cmd/hostctl"))
-   ;; (arguments
-   ;;  '(#:import-path "github.com/guumaster/hostctl/cmd"))
-   ;; (arguments
-   ;;  '(#:import-path "github.com/guumaster/hostctl"))
-
+   (inputs
+    (list
+     go-github-com-spf13-cobra
+     go-github-com-spf13-afero
+     go-github-com-guumaster-tablewriter
+     go-github-com-guumaster-cligger
+     go-github-com-docker-docker
+     go-gopkg-in-yaml-v2))
    (arguments
-    '(#:import-path "github.com/guumaster/hostctl/cmd/hostctl"
+    `(#:import-path "github.com/guumaster/hostctl"
+      #:tests? #f
       #:phases
       (modify-phases %standard-phases
-        (add-after 'unpack 'fix-path
-          (lambda _
-            (use-modules (srfi srfi-1) (ice-9 ftw))
-            ;; Move nested directory up if needed
-            (when (file-exists? "cmd/hostctl/cmd/hostctl")
-              (rename-file "cmd/hostctl/cmd/hostctl" "cmd/hostctl"))
-            #t)))))
+        (replace 'build
+          (lambda* (#:key import-path #:allow-other-keys)
+            (let ((src (string-append "src/" import-path)))
+              (chdir src)
+              (invoke "go" "build" "-v" "-o" "bin/hostctl" "./cmd/hostctl")))))))
 
 
    (home-page "https://github.com/guumaster/hostctl")
