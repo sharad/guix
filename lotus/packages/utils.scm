@@ -1057,57 +1057,6 @@ want to use it with some other application, feel free, and let me know!")
     (description "Reor is a next-generation code editor that connects you to your code with real-time feedback.")
     (license license:gpl3)))
 
-
-;; (define-public cdcat
-;;   (package
-;;     (name "cdcat")
-;;     (version "2.3.1")
-;;     (source (origin
-;;               (method url-fetch)
-;;               (uri (string-append "mirror://sourceforge/cdcat/cdcat/cdcat-" version "/cdcat-" version ".tar.bz2"))
-;;               (sha256 (base32 "077hsnl167sph9r5gjibc4pchrh7a5gq79fdk8sr7bvgckbvpcbw"))))
-;;     (build-system gnu:gnu-build-system)
-;;     (arguments
-;;      '(#:phases
-;;        (modify-phases %standard-phases
-;;          (replace 'configure ;; 'qmake-configure
-;;            (lambda _
-;;              (chdir "src")
-;;              (substitute* "cdcat.pro"
-;;                (("QT \\+= xml")
-;;                 "QT += xml widgets gui core"))
-;;              (with-output-to-port (open-file "cdcat.pro" "a")
-;;                                   (lambda ()
-;;                                     (display "\nDEFINES += TRUE=1\n")
-;;                                     (display "\nDEFINES += FALSE=0\n")))
-;;              (sleep 1)
-;;              (system "cat cdcat.pro")
-;;              (invoke "qmake" "cdcat.pro")
-;;              (substitute* "config.h"
-;;                (("static bool \\*DEBUG_INFO_ENABLED;")
-;;                 ""))
-;;              ;; (system "ls")
-;;              #t))
-;;          (replace 'build
-;;            (lambda _
-;;              (invoke "make")
-;;              #t))
-;;          (replace 'install
-;;            (lambda _
-;;              (invoke "make" "install")
-;;              #t)))))
-;;     (inputs ;; Qt base (qt5); if the package needs Qt4, change to qt4 packages (may not be available).
-;;      (list qtbase libx11 zlib p7zip libtar libmediainfo))
-;;     (native-inputs ;; pkg-config, gettext, etc.
-;;      (list pkg-config))
-;;     (home-page "https://cdcat.sourceforge.net/")
-;;     (synopsis "Graphical CD / disk cataloger")
-;;     (description
-;;      "cdcat is a graphical (Qt based) cross-platform catalog program which scans
-;;       directories or removable media and stores a searchable catalog of their
-;;       contents. Useful for cataloging CDs, DVDs and other removable media.")
-;;     (license license:bsd-3)))
-
 (define-public hostctl
   (package
    (name "hostctl")
@@ -1119,7 +1068,7 @@ want to use it with some other application, feel free, and let me know!")
             "https://github.com/guumaster/hostctl/archive/refs/tags/v" version ".tar.gz"))
      (file-name (git-file-name name version))
      (sha256
-      (base32 "0000000000000000000000000000000000000000000000000000")))) ; update after verifying
+      (base32 "00vhysa4xn2n0khmhk7v5pp2a9v5v8mzygsfy3g23xdh5dvn3py3")))) ; update after verifying
    (build-system go-build-system)
    (arguments
     (list #:import-path "github.com/guumaster/hostctl/cmd/hostctl"))
@@ -1137,7 +1086,7 @@ environments.")
 
 ;; zssh
 
-;; hostctl
+hostctl
 
 
 
