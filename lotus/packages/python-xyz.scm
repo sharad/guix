@@ -9,6 +9,8 @@
   #:use-module (gnu packages)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages xdisorg)
+  #:use-module (gnu packages bash)
+  #:use-module (gnu packages readline)
   #:use-module (gnu packages check)
   #:use-module (gnu packages xml)
   #:use-module (gnu packages tmux)
@@ -521,3 +523,100 @@ playing sounds.")
 
 
 ;; python-google-generativeai
+
+
+
+(define-public python-types-docopt
+  (package
+    (name "python-types-docopt")
+    (version "0.6.11.20241107")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "types-docopt" version))
+       (sha256
+        (base32 "19zpxplvb54ycqaasxv7sz9n6ap51k45rfj0inzbb5a8mh1lvi31"))))
+    (build-system python-build-system)
+    (arguments
+     '(#:tests? #f))
+    (native-inputs (list python-setuptools python-wheel))
+    (home-page "https://github.com/python/typeshed")
+    (synopsis "Typing stubs for docopt")
+    (description "Typing stubs for docopt.")
+    (license #f)))
+
+(define-public python-pyfzf
+  (package
+    (name "python-pyfzf")
+    (version "0.3.1")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "pyfzf" version))
+       (sha256
+        (base32 "1lkbnhjf92063gg9snxskcx4n2yj7mck2qgrh8q9rjpyrws2x46x"))))
+    (build-system python-build-system)
+    (arguments
+     '(#:tests? #f))
+    (native-inputs (list python-setuptools python-wheel))
+    (home-page "https://github.com/nk412/pyfzf")
+    (synopsis "Python wrapper for junegunn's fuzzyfinder (fzf)")
+    (description "Python wrapper for junegunn's fuzzyfinder (fzf).")
+    (license license:expat)))
+
+;; (define-public python-gnureadline
+;;   (package
+;;     (name "python-gnureadline")
+;;     (version "8.2.13")
+;;     (source
+;;      (origin
+;;        (method url-fetch)
+;;        (uri (pypi-uri "gnureadline" version))
+;;        (sha256
+;;         (base32 "1lcvyk083ks1f34ppxavlrvlymwjwrn7s0hj1jshpa4rpbky3ff9"))))
+;;     (build-system python-build-system)
+;;     (home-page "http://github.com/ludwigschwardt/python-gnureadline")
+;;     (inputs (list readline))
+;;     (native-inputs (list bash))
+;;     (synopsis
+;;      "The standard Python readline extension statically linked against the GNU readline library.")
+;;     (description
+;;      "The standard Python readline extension statically linked against the GNU
+;; readline library.")
+;;     (license #f)))
+
+(define-public python-catcli
+  (package
+    (name "python-catcli")
+    (version "1.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (pypi-uri "catcli" version))
+       (sha256
+        (base32 "1rx524agzqy0q137m23lcsq8fdfkk9fd2vm091bn60z0bklk8f91"))))
+    (build-system python-build-system)
+    (arguments
+     '(#:tests? #f
+       #:phases (modify-phases %standard-phases
+                  (delete 'sanity-check))))
+    (propagated-inputs (list python-anytree
+                             python-cmd2
+                             python-docopt
+                             python-fusepy
+                             ;; python-gnureadline
+                             python-natsort
+                             python-pyfzf
+                             python-types-docopt))
+    (native-inputs (list python-check-manifest
+                         python-coverage
+                         python-pytest
+                         python-pytest-cov
+                         python-setuptools
+                         python-wheel))
+    (home-page "https://github.com/deadc0de6/catcli")
+    (synopsis "The command line catalog tool for your offline data")
+    (description "The command line catalog tool for your offline data.")
+    (license #f)))
+
+python-catcli
