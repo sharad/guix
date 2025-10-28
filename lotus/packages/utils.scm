@@ -1074,9 +1074,12 @@ want to use it with some other application, feel free, and let me know!")
            (lambda _
              (chdir "src")
              (substitute* "cdcat.pro"
-               (("QT += xml")
+               (("QT \\+= xml")
                 "QT += xml widgets gui core"))
              (invoke "qmake" "cdcat.pro")
+             (substitute* "config.h"
+               (("static bool \\*DEBUG_INFO_ENABLED;")
+                ""))
              (system "ls")
              (system "cat cdcat.pro")
              #t))
@@ -1089,7 +1092,7 @@ want to use it with some other application, feel free, and let me know!")
              (invoke "make" "install")
              #t)))))
     (inputs ;; Qt base (qt5); if the package needs Qt4, change to qt4 packages (may not be available).
-     (list qtbase libx11 zlib p7zip))
+     (list qtbase libx11 zlib p7zip libtar libmediainfo))
     (native-inputs ;; pkg-config, gettext, etc.
      (list pkg-config))
     (home-page "https://cdcat.sourceforge.net/")
