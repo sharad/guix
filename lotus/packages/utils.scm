@@ -1070,8 +1070,26 @@ want to use it with some other application, feel free, and let me know!")
      (sha256
       (base32 "00vhysa4xn2n0khmhk7v5pp2a9v5v8mzygsfy3g23xdh5dvn3py3")))) ; update after verifying
    (build-system go-build-system)
+   ;; (arguments
+   ;;  (list #:import-path "github.com/guumaster/hostctl/cmd/hostctl"))
+   ;; (arguments
+   ;;  '(#:import-path "github.com/guumaster/hostctl/cmd"))
+   ;; (arguments
+   ;;  '(#:import-path "github.com/guumaster/hostctl"))
+
    (arguments
-    (list #:import-path "github.com/guumaster/hostctl/cmd/hostctl"))
+    '(#:import-path "github.com/guumaster/hostctl/cmd/hostctl"
+      #:phases
+      (modify-phases %standard-phases
+        (add-after 'unpack 'fix-path
+          (lambda _
+            (use-modules (srfi srfi-1) (ice-9 ftw))
+            ;; Move nested directory up if needed
+            (when (file-exists? "cmd/hostctl/cmd/hostctl")
+              (rename-file "cmd/hostctl/cmd/hostctl" "cmd/hostctl"))
+            #t)))))
+
+
    (home-page "https://github.com/guumaster/hostctl")
    (synopsis "Command-line tool to manage hosts file profiles")
    (description
