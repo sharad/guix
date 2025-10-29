@@ -89,7 +89,10 @@
   #:use-module (gnu packages documentation)
   #:use-module (gnu packages xml)
   #:use-module (gnu packages golang-xyz)
-  #:use-module (gnu packages golang-check))
+  #:use-module (gnu packages golang-compression)
+  #:use-module (gnu packages golang-check)
+  #:use-module (gnu packages bash)
+  #:use-module (gnu packages shells))
 
 ;; https://issues.guix.gnu.org/issue/35619
 
@@ -1113,11 +1116,23 @@ want to use it with some other application, feel free, and let me know!")
   (package
    (inherit go-github-com-gookit-color)
    (name "go-gopkg-in-gookit-color-v1")
+   (version "1.5.4")
+   ;; (version "1.1.0")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/gookit/color")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "012naz084chvdqzrrzv9pklqfh259hi2jcp2f3n39fppvjwmzgkf"))))
    (arguments
     (substitute-keyword-arguments
         (package-arguments go-github-com-gookit-color)
-      ((#:import-path path) '"gopkg.in/gookit/color.v1")
-      ((#:tests? _ #f) #f)))))
+        ;; ((#:import-path path) '"gopkg.in/gookit/color.v1")
+        ((#:import-path path) "gopkg.in/gookit/color.v1")
+        ((#:tests? _ #f) #f)))))
 
 
 (define-public go-github-com-guumaster-logsymbols
@@ -1162,14 +1177,13 @@ want to use it with some other application, feel free, and let me know!")
       (base32 "00vhysa4xn2n0khmhk7v5pp2a9v5v8mzygsfy3g23xdh5dvn3py3")))) ; update after verifying
    (build-system go-build-system)
    (inputs
-    (list
-     go-github-com-spf13-cobra
-     go-github-com-spf13-afero
-     go-github-com-guumaster-tablewriter
-     go-github-com-guumaster-cligger
-     go-github-com-docker-docker
-     go-github-com-pkg-errors
-     go-gopkg-in-yaml-v2))
+    (list go-github-com-spf13-cobra
+          go-github-com-spf13-afero
+          go-github-com-guumaster-tablewriter
+          go-github-com-guumaster-cligger
+          go-github-com-docker-docker
+          go-github-com-pkg-errors
+          go-gopkg-in-yaml-v2))
    (arguments
     `(#:import-path "github.com/guumaster/hostctl"
       #:tests? #f
@@ -1177,23 +1191,16 @@ want to use it with some other application, feel free, and let me know!")
       (modify-phases %standard-phases
         ;; (delete 'install-license-files)
         (replace 'build
-          (lambda* (#:key import-path #:allow-other-keys)
-            (let ((src (string-append "src/" import-path)))
-              (chdir src)
-              (invoke "go" "build" "-v" "-o" "bin/hostctl" (string-append  "./cmd/hostctl"))
-              (chdir "../..")
-              ;; create fake path for later phase
-              (mkdir-p (string-append "src/" import-path)))))
-        (add-after 'install 'install-bin
           (lambda* (#:key import-path outputs #:allow-other-keys)
             (let* ((out (assoc-ref outputs "out"))
-                   (bin (string-append out "/bin")))
+                   (bin (string-append out "/bin"))
+                   (src (string-append "src/" import-path)))
               (mkdir-p bin)
-              (system "pwd")
-              (system (string-append "ls " out))
-              (system (string-append "ls " out "/src/" import-path "/bin"))
-              (install-file (string-append out "/src/" import-path "/bin/hostctl") bin)
-              #t))))))
+              (chdir src)
+              (invoke "go" "build" "-v" "-o" (string-append bin "/hostctl") "./cmd/hostctl")
+              (chdir "../..")
+              ;; create fake path for later phase
+              (mkdir-p (string-append "src/" import-path))))))))
 
    (home-page "https://github.com/guumaster/hostctl")
    (synopsis "Command-line tool to manage hosts file profiles")
@@ -1203,5 +1210,418 @@ and easily enable/disable them. It’s useful for developers switching between
 environments.")
    (license license:expat)))
 
+(define-public go-github-com-ktr0731-go-ansisgr
+  (package
+   (name "go-github-com-ktr0731-go-ansisgr")
+   (version "0.1.0")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/ktr0731/go-ansisgr")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "1hjn39kqglzhh4n595ngmsxcaxqlf3f3pp9y6hmj9s3fzkfljc1i"))))
+   (build-system go-build-system)
+   (arguments
+    (list
+     #:import-path "github.com/ktr0731/go-ansisgr"))
+   (home-page "https://github.com/ktr0731/go-ansisgr")
+   (synopsis "go-ansisgr")
+   (description
+    "go-ansisgr provides an SGR (Select Graphic Rendition, a part of ANSI Escape
+Sequence) parser.")
+   (license license:expat)))
+
+
+(define-public go-github-com-ktr0731-go-fuzzyfinder
+  (package
+    (name "go-github-com-ktr0731-go-fuzzyfinder")
+    (version "0.9.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/ktr0731/go-fuzzyfinder")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1m2f2fv647386r9k1i235cn6cj8rjjb76ny6s3407fy7hmjs9j46"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:tests? #f
+      #:import-path "github.com/ktr0731/go-fuzzyfinder"))
+    (propagated-inputs (list go-github-com-pkg-errors
+                             go-github-com-nsf-termbox-go
+                             go-github-com-mattn-go-runewidth
+                             go-github-com-ktr0731-go-ansisgr
+                             go-github-com-google-gofuzz
+                             go-github-com-google-go-cmp
+                             go-github-com-gdamore-tcell-v2))
+    (home-page "https://github.com/ktr0731/go-fuzzyfinder")
+    (synopsis "go-fuzzyfinder")
+    (description
+     "Package fuzzyfinder provides terminal user interfaces for fuzzy-finding.")
+    (license license:expat)))
+
+(define-public go-github-com-twin-go-color
+  (package
+   (name "go-github-com-twin-go-color")
+   (version "1.4.1")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/TwiN/go-color")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "05s8r74xm4kb40pxx1f1z72iwfgrbvhqzpgaikj1nqfdmd66pswv"))))
+   (build-system go-build-system)
+   (arguments
+    (list
+     #:import-path "github.com/TwiN/go-color"))
+   (home-page "https://github.com/TwiN/go-color")
+   (synopsis "go-color")
+   (description
+    "An extremely lightweight cross-platform package to colorize text in terminals.")
+   (license license:expat)))
+
+(define-public go-github-com-charmbracelet-lipgloss
+  (package
+    (name "go-github-com-charmbracelet-lipgloss")
+    (version "1.1.0")
+    ;; (version "2.0.0-beta.3")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/charmbracelet/lipgloss")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        ;; (base32 "193aarw2v37j7fxf3mms80kwbrnr60p3ggh9h3jspc7wx8v4dmwf")
+        (base32 "1iww4y37qsyzswsg0p8ws7wb2jl6i2z2n0kwayvfwwh73qjh8zmr"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:tests? #f
+      #:import-path "github.com/charmbracelet/lipgloss"))
+    (propagated-inputs (list go-github-com-muesli-termenv
+                             go-golang-org-x-sys
+                             go-github-com-rivo-uniseg
+                             go-github-com-muesli-cancelreader
+                             go-github-com-lucasb-eyer-go-colorful
+                             go-github-com-charmbracelet-x-term
+                             go-github-com-charmbracelet-x-exp-golden
+                             go-github-com-charmbracelet-x-cellbuf
+                             go-github-com-charmbracelet-x-ansi
+                             go-github-com-charmbracelet-colorprofile
+                             go-github-com-aymanbagabas-go-udiff))
+    (home-page "https://github.com/charmbracelet/lipgloss")
+    (synopsis "Lip Gloss")
+    (description
+     "Style definitions for nice terminal layouts.  Built with TUIs in mind.")
+    (license license:expat)))
+
+(define-public go-github-com-charmbracelet-lipgloss-v2
+  (package
+   (inherit go-github-com-charmbracelet-lipgloss)
+   (name "go-github-com-charmbracelet-lipgloss-v2")
+   (version "2.0.0-beta.3")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/charmbracelet/lipgloss")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "193aarw2v37j7fxf3mms80kwbrnr60p3ggh9h3jspc7wx8v4dmwf"))))
+   (arguments
+    (substitute-keyword-arguments
+     (package-arguments go-github-com-charmbracelet-lipgloss)
+     ((#:import-path path) "github.com/charmbracelet/lipgloss/v2")
+     ((#:tests? _ #f) #f)))))
+
+(define-public go-github-com-caarlos0-log
+  (package
+    (name "go-github-com-caarlos0-log")
+    (version "0.5.2")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/caarlos0/log")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "173x6pys68nsdcc79c1pk8fbv0whpvdvlzf5yps93pbcf3shgk57"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:import-path "github.com/caarlos0/log"))
+    (propagated-inputs (list go-github-com-charmbracelet-lipgloss-v2
+                             go-github-com-charmbracelet-colorprofile))
+    (home-page "https://github.com/caarlos0/log")
+    (synopsis "log")
+    (description
+     "Package log implements a simple and colorful CLI logger that can be used to
+pretty-print output without too much effort.")
+    (license license:expat)))
+
+
+(define-public go-github-com-starry-s-zip
+  (package
+   (name "go-github-com-starry-s-zip")
+   (version "0.2.3")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/STARRY-S/zip")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "1n3ynxx6dmwvgfwfv0il3s8m40wdssip400rp20rb23vq6kk4fsr"))))
+   (build-system go-build-system)
+   (arguments
+    (list
+     #:tests? #f
+     #:import-path "github.com/STARRY-S/zip"))
+   (home-page "https://github.com/STARRY-S/zip")
+   (synopsis "Go zip library")
+   (description
+    "Package zip provides support for reading and writing ZIP archives.")
+   (license license:bsd-3)))
+
+
+(define-public go-github-com-bodgit-plumbing
+  (package
+    (name "go-github-com-bodgit-plumbing")
+    (version "1.3.0")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/bodgit/plumbing")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0vbyc6pxirnkvcx5acqcxg57ii3h2fv1d9dx3mq6mcbn00jdsqly"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:import-path "github.com/bodgit/plumbing"))
+    (propagated-inputs (list go-github-com-stretchr-testify))
+    (home-page "https://github.com/bodgit/plumbing")
+    (synopsis "plumbing")
+    (description "Package plumbing is a collection of assorted I/O helpers.")
+    (license license:bsd-3)))
+
+(define-public go-github-com-bodgit-windows
+  (package
+    (name "go-github-com-bodgit-windows")
+    (version "1.0.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/bodgit/windows")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "1iklb2w7yj1icwfwyrimkbkj2dk43lqs9k00ww09x2r5p8cl0ahr"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:import-path "github.com/bodgit/windows"))
+    (home-page "https://github.com/bodgit/windows")
+    (synopsis "windows")
+    (description
+     "Package windows is a collection of types native to Windows platforms but are
+useful on non-Windows platforms.")
+    (license license:bsd-3)))
+
+(define-public go-github-com-bodgit-sevenzip
+  (package
+    (name "go-github-com-bodgit-sevenzip")
+    (version "1.6.1")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://github.com/bodgit/sevenzip")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0hjams64h6i3in3w35ip5d4n0diza5ara58k82y4cb59micv4qqd"))))
+    (build-system go-build-system)
+    (arguments
+     (list
+      #:tests? #f
+      #:import-path "github.com/bodgit/sevenzip"))
+    (propagated-inputs (list go-golang-org-x-text
+                             go-golang-org-x-sync
+                             go-go4-org
+                             go-github-com-ulikunitz-xz
+                             go-github-com-stretchr-testify
+                             go-github-com-spf13-afero
+                             go-github-com-pierrec-lz4-v4
+                             go-github-com-klauspost-compress
+                             go-github-com-hashicorp-golang-lru-v2
+                             go-github-com-bodgit-windows
+                             go-github-com-bodgit-plumbing
+                             go-github-com-andybalholm-brotli))
+    (home-page "https://github.com/bodgit/sevenzip")
+    (synopsis "sevenzip")
+    (description "Package sevenzip provides read access to 7-zip archives.")
+    (license license:bsd-3)))
+
+(define-public go-github-com-sorairolake-lzip-go
+  (package
+   (name "go-github-com-sorairolake-lzip-go")
+   (version "0.3.8")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/sorairolake/lzip-go")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "1d5lxwfg3diij77892bl07n2530263703kps6rirfyjx27z9dzcr"))))
+   (build-system go-build-system)
+   (arguments
+    (list
+     #:import-path "github.com/sorairolake/lzip-go"))
+   (propagated-inputs (list go-github-com-ulikunitz-xz
+                            go-github-com-google-go-cmdtest))
+   (home-page "https://github.com/sorairolake/lzip-go")
+   (synopsis "lzip-go")
+   (description
+    "Package lzip implements the
+@@url{https://www.nongnu.org/lzip/manual/lzip_manual.html#File-format,lzip
+compressed format}.")
+   (license (list license:asl2.0 license:expat))))
+
+(define-public go-github-com-therootcompany-xz
+  (package
+   (name "go-github-com-therootcompany-xz")
+   (version "1.0.1")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/therootcompany/xz")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "1kzzgifx0n6rln7mv9z8naqf2dxdb3j2lp992g59adj86hpyvs2a"))))
+   (build-system go-build-system)
+   (arguments
+    (list
+     #:import-path "github.com/therootcompany/xz"))
+   (home-page "https://github.com/therootcompany/xz")
+   (synopsis "Xz")
+   (description "Package xz implements XZ decompression natively in Go.")
+   (license license:cc0)))
+
+(define-public go-github-com-mholt-archiver-v4
+  (package
+   (inherit go-github-com-mholt-archiver-v3)
+   (name "go-github-com-mholt-archiver-v4")
+   (version "4.0.0-alpha.8")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/mholt/archiver")
+           (commit (string-append "v" version))))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "1glp5hbwym63d7kqqmygxlw65g1x9nrkl66sghs6q8qbchhplkky"))))
+   (propagated-inputs
+    (list go-github-com-andybalholm-brotli
+          go-github-com-dsnet-compress
+          go-github-com-golang-snappy
+          go-github-com-klauspost-compress
+          go-github-com-klauspost-pgzip
+          go-github-com-nwaples-rardecode
+          go-github-com-pierrec-lz4-v4
+          go-github-com-ulikunitz-xz
+          go-github-com-xi2-xz
+          go-github-com-starry-s-zip
+          go-github-com-bodgit-sevenzip
+          go-github-com-nwaples-rardecode-v2
+          go-github-com-sorairolake-lzip-go
+          go-github-com-therootcompany-xz))
+   (arguments
+    (substitute-keyword-arguments
+     (package-arguments go-github-com-mholt-archiver-v3)
+     ((#:import-path path) "github.com/mholt/archiver/v4")
+     ((#:tests? _ #f) #f)))))
+
+
+(define-public go-github-com-deadc0de6-gocatcli
+  (package
+   (name "gocatcli")
+   (version "1.1.2")
+   (source
+    (origin
+     (method url-fetch)
+     (uri (string-append
+           "https://github.com/deadc0de6/gocatcli/archive/refs/tags/v" version ".tar.gz"))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "0wj2gbzx7d97binclqcmvaj3igvvka88ifmn965i0kaigys86wa3"))))
+
+   (build-system go-build-system)
+   (inputs
+    (list go-github-com-spf13-cobra
+          go-github-com-spf13-viper
+          go-github-com-pterm-pterm
+          go-github-com-briandowns-spinner
+          go-github-com-ktr0731-go-fuzzyfinder
+          go-github-com-caarlos0-log
+          go-github-com-twin-go-color
+          go-github-com-anacrolix-fuse
+          go-github-com-rivo-tview
+          go-github-com-h2non-filetype
+          go-github-com-mholt-archiver-v4))
+   (native-inputs
+    (list bash fish zsh))
+   (arguments
+    `(#:import-path "gocatcli"
+      #:tests? #f
+      #:phases
+      (modify-phases %standard-phases
+                     (replace 'build
+                              (lambda* (#:key  outputs #:allow-other-keys)
+                                (let* ((out (assoc-ref outputs "out"))
+                                       (bin (string-append out "/bin")))
+                                  (mkdir-p bin)
+                                  (chdir "src/gocatcli")
+                                  (invoke "go" "build" "-v" "-o" (string-append bin "/gocatcli") "./cmd/gocatcli")
+                                  (chdir "../..")
+                                  #t)))
+                     (add-after 'install 'install-completions
+                                (lambda* (#:key native-inputs inputs outputs #:allow-other-keys)
+                                  (let*((out (assoc-ref outputs "out"))
+                                        (bin-dir (string-append out "/bin")))
+                                    (invoke (string-append bin-dir "/gocatcli") "completion" "bash")
+                                    (invoke (string-append bin-dir "/gocatcli") "completion" "zsh")
+                                    (invoke (string-append bin-dir "/gocatcli") "completion" "fish")))))))
+    (home-page "https://github.com/deadc0de6/gocatcli")
+    (synopsis "Command line catalog tool to index and search offline media.")
+    (description "gocatcli gives the ability to navigate, explore and find your files that are stored on external media when those are not connected.")
+    (license #f)))
+
+
+
+
+go-github-com-deadc0de6-gocatcli
 
 
