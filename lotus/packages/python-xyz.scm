@@ -564,27 +564,6 @@ playing sounds.")
     (description "Python wrapper for junegunn's fuzzyfinder (fzf).")
     (license license:expat)))
 
-;; (define-public python-gnureadline
-;;   (package
-;;     (name "python-gnureadline")
-;;     (version "8.2.13")
-;;     (source
-;;      (origin
-;;        (method url-fetch)
-;;        (uri (pypi-uri "gnureadline" version))
-;;        (sha256
-;;         (base32 "1lcvyk083ks1f34ppxavlrvlymwjwrn7s0hj1jshpa4rpbky3ff9"))))
-;;     (build-system python-build-system)
-;;     (home-page "http://github.com/ludwigschwardt/python-gnureadline")
-;;     (inputs (list readline))
-;;     (native-inputs (list bash))
-;;     (synopsis
-;;      "The standard Python readline extension statically linked against the GNU readline library.")
-;;     (description
-;;      "The standard Python readline extension statically linked against the GNU
-;; readline library.")
-;;     (license #f)))
-
 (define-public python-catcli
   (package
     (name "python-catcli")

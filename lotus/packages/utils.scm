@@ -1180,11 +1180,20 @@ want to use it with some other application, feel free, and let me know!")
           (lambda* (#:key import-path #:allow-other-keys)
             (let ((src (string-append "src/" import-path)))
               (chdir src)
-              (invoke "go" "build" "-v" "-o" "bin/hostctl" "./cmd/hostctl")
+              (invoke "go" "build" "-v" "-o" "bin/hostctl" (string-append  "./cmd/hostctl"))
               (chdir "../..")
               ;; create fake path for later phase
-              (mkdir-p (string-append "src/" import-path))))))))
-
+              (mkdir-p (string-append "src/" import-path)))))
+        (add-after 'install 'install-bin
+          (lambda* (#:key import-path outputs #:allow-other-keys)
+            (let* ((out (assoc-ref outputs "out"))
+                   (bin (string-append out "/bin")))
+              (mkdir-p bin)
+              (system "pwd")
+              (system (string-append "ls " out))
+              (system (string-append "ls " out "/src/" import-path "/bin"))
+              (install-file (string-append out "/src/" import-path "/bin/hostctl") bin)
+              #t))))))
 
    (home-page "https://github.com/guumaster/hostctl")
    (synopsis "Command-line tool to manage hosts file profiles")
@@ -1193,5 +1202,6 @@ want to use it with some other application, feel free, and let me know!")
 and easily enable/disable them. It’s useful for developers switching between
 environments.")
    (license license:expat)))
+
 
 
