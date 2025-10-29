@@ -1607,21 +1607,33 @@ compressed format}.")
                                   (invoke "go" "build" "-v" "-o" (string-append bin "/gocatcli") "./cmd/gocatcli")
                                   (chdir "../..")
                                   #t)))
+                     ;; (add-after 'install 'install-completions
+                     ;;            (lambda* (#:key native-inputs inputs outputs #:allow-other-keys)
+                     ;;              (let*((out (assoc-ref outputs "out"))
+                     ;;                    (bin-dir (string-append out "/bin")))
+                     ;;                (invoke (string-append bin-dir "/gocatcli") "completion" "bash")
+                     ;;                (invoke (string-append bin-dir "/gocatcli") "completion" "zsh")
+                     ;;                (invoke (string-append bin-dir "/gocatcli") "completion" "fish"))))
                      (add-after 'install 'install-completions
-                                (lambda* (#:key native-inputs inputs outputs #:allow-other-keys)
-                                  (let*((out (assoc-ref outputs "out"))
-                                        (bin-dir (string-append out "/bin")))
-                                    (invoke (string-append bin-dir "/gocatcli") "completion" "bash")
-                                    (invoke (string-append bin-dir "/gocatcli") "completion" "zsh")
-                                    (invoke (string-append bin-dir "/gocatcli") "completion" "fish")))))))
+                                (lambda* (#:key outputs #:allow-other-keys)
+                                  (let* ((out (assoc-ref outputs "out"))
+                                         (bin (string-append out "/bin/gocatcli"))
+                                         (bash-dir (string-append out "/etc/bash_completion.d"))
+                                         (zsh-dir  (string-append out "/share/zsh/site-functions"))
+                                         (fish-dir (string-append out "/share/fish/vendor_completions.d")))
+                                    (mkdir-p bash-dir)
+                                    (mkdir-p zsh-dir)
+                                    (mkdir-p fish-dir)
+                                    ;; Capture and write the output of each completion command
+                                    (with-output-to-file (string-append bash-dir "/gocatcli")
+                                      (lambda () (invoke bin "completion" "bash")))
+                                    (with-output-to-file (string-append zsh-dir "/_gocatcli")
+                                      (lambda () (invoke bin "completion" "zsh")))
+                                    (with-output-to-file (string-append fish-dir "/gocatcli.fish")
+                                      (lambda () (invoke bin "completion" "fish")))
+                                    #t))))))
     (home-page "https://github.com/deadc0de6/gocatcli")
     (synopsis "Command line catalog tool to index and search offline media.")
     (description "gocatcli gives the ability to navigate, explore and find your files that are stored on external media when those are not connected.")
     (license #f)))
-
-
-
-
 go-github-com-deadc0de6-gocatcli
-
-
