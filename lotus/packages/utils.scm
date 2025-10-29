@@ -1567,7 +1567,7 @@ compressed format}.")
 
 (define-public go-github-com-deadc0de6-gocatcli
   (package
-   (name "gocatcli")
+   (name "go-github-com-deadc0de6-gocatcli")
    (version "1.1.2")
    (source
     (origin
