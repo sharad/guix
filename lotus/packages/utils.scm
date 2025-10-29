@@ -1577,7 +1577,6 @@ compressed format}.")
      (file-name (git-file-name name version))
      (sha256
       (base32 "0wj2gbzx7d97binclqcmvaj3igvvka88ifmn965i0kaigys86wa3"))))
-
    (build-system go-build-system)
    (inputs
     (list go-github-com-spf13-cobra
@@ -1607,13 +1606,6 @@ compressed format}.")
                                   (invoke "go" "build" "-v" "-o" (string-append bin "/gocatcli") "./cmd/gocatcli")
                                   (chdir "../..")
                                   #t)))
-                     ;; (add-after 'install 'install-completions
-                     ;;            (lambda* (#:key native-inputs inputs outputs #:allow-other-keys)
-                     ;;              (let*((out (assoc-ref outputs "out"))
-                     ;;                    (bin-dir (string-append out "/bin")))
-                     ;;                (invoke (string-append bin-dir "/gocatcli") "completion" "bash")
-                     ;;                (invoke (string-append bin-dir "/gocatcli") "completion" "zsh")
-                     ;;                (invoke (string-append bin-dir "/gocatcli") "completion" "fish"))))
                      (add-after 'install 'install-completions
                                 (lambda* (#:key outputs #:allow-other-keys)
                                   (let* ((out (assoc-ref outputs "out"))
@@ -1636,4 +1628,4 @@ compressed format}.")
     (synopsis "Command line catalog tool to index and search offline media.")
     (description "gocatcli gives the ability to navigate, explore and find your files that are stored on external media when those are not connected.")
     (license #f)))
-go-github-com-deadc0de6-gocatcli
+
