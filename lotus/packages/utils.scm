@@ -34,6 +34,7 @@
   #:use-module (guix build-system go)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
+  #:use-module (guix utils)
   #:use-module (ice-9 match)
   #:use-module (gnu packages autotools)
   #:use-module (gnu packages base)
@@ -195,12 +196,9 @@ possible.")
                     (sha256 (base32 "06z73iq59lz8ibjrgs7d3xl39vh9yld1988yx8khssch4pw41s52"))))
     (build-system gnu:gnu-build-system)
     (inputs
-     `(("readline" ,readline)))
+     (list readline))
     (native-inputs
-     `(("autoconf" ,autoconf)
-       ("automake" ,automake)
-       ("libtool" ,libtool)
-       ("pkg-config" ,pkg-config)))
+     (list autoconf automake libtool pkg-config))
     (arguments
      '(#:tests? #f
        #:make-flags (let ((out  (assoc-ref %outputs "out")))
@@ -208,7 +206,10 @@ possible.")
        #:phases
        (modify-phases %standard-phases
          (add-after 'unpack 'bootstrap
-           (lambda _ (zero? (system* "autoreconf" "-vif"))))
+           (lambda _
+             (substitute* "openpty.c"
+               (("^#include \"zssh.h\"") "#include \"zssh.h\"\n#include <pty.h>\n"))
+             (zero? (system* "autoreconf" "-vif"))))
          (add-after 'build 'mkdirs
            (lambda _
              (let ((out  (assoc-ref %outputs "out")))
@@ -1076,6 +1077,7 @@ want to use it with some other application, feel free, and let me know!")
     (build-system go-build-system)
     (arguments
      (list
+      #:tests? #f
       #:import-path "github.com/guumaster/tablewriter"))
     (propagated-inputs (list go-github-com-mattn-go-runewidth))
     (home-page "https://github.com/guumaster/tablewriter")
@@ -1107,33 +1109,15 @@ want to use it with some other application, feel free, and let me know!")
     (description "nolint:goprintffuncname.")
     (license license:expat)))
 
-;; (define-public go-github-com-gookit-color
-;;   (package
-;;     (name "go-github-com-gookit-color")
-;;     (version "1.6.0")
-;;     (source
-;;      (origin
-;;        (method git-fetch)
-;;        (uri (git-reference
-;;              (url "https://github.com/gookit/color")
-;;              (commit (string-append "v" version))))
-;;        (file-name (git-file-name name version))
-;;        (sha256
-;;         (base32 "0r2ww447fvzz7vc4a3l7ajvb1ch7yldcl1j8z45iva50gbxf9sva"))))
-;;     (build-system go-build-system)
-;;     (arguments
-;;      (list
-;;       #:import-path "github.com/gookit/color"))
-;;     (propagated-inputs (list go-golang-org-x-sys go-github-com-xo-terminfo
-;;                              go-github-com-gookit-assert))
-;;     (home-page "https://github.com/gookit/color")
-;;     (synopsis "CLI Color")
-;;     (description
-;;      "Package color is command line color library.  Support rich color rendering
-;; output, universal API method, compatible with Windows system.")
-;;     (license license:expat)))
-
-(define-public go-gopkg-in-gookit-color-v1 go-github-com-gookit-color)
+(define-public go-gopkg-in-gookit-color-v1
+  (package
+   (inherit go-github-com-gookit-color)
+   (name "go-gopkg-in-gookit-color-v1")
+   (arguments
+    (substitute-keyword-arguments
+        (package-arguments go-github-com-gookit-color)
+      ((#:import-path path) '"gopkg.in/gookit/color.v1")
+      ((#:tests? _ #f) #f)))))
 
 
 (define-public go-github-com-guumaster-logsymbols
@@ -1164,9 +1148,9 @@ want to use it with some other application, feel free, and let me know!")
  You can force color output with this example:.")
     (license license:expat)))
 
-(define-public hostctl
+(define-public go-github-com-guumaster-hostctl
   (package
-   (name "hostctl")
+    (name "go-github-com-guumaster-hostctl")
    (version "1.1.4")
    (source
     (origin
@@ -1184,17 +1168,22 @@ want to use it with some other application, feel free, and let me know!")
      go-github-com-guumaster-tablewriter
      go-github-com-guumaster-cligger
      go-github-com-docker-docker
+     go-github-com-pkg-errors
      go-gopkg-in-yaml-v2))
    (arguments
     `(#:import-path "github.com/guumaster/hostctl"
       #:tests? #f
       #:phases
       (modify-phases %standard-phases
+        ;; (delete 'install-license-files)
         (replace 'build
           (lambda* (#:key import-path #:allow-other-keys)
             (let ((src (string-append "src/" import-path)))
               (chdir src)
-              (invoke "go" "build" "-v" "-o" "bin/hostctl" "./cmd/hostctl")))))))
+              (invoke "go" "build" "-v" "-o" "bin/hostctl" "./cmd/hostctl")
+              (chdir "../..")
+              ;; create fake path for later phase
+              (mkdir-p (string-append "src/" import-path))))))))
 
 
    (home-page "https://github.com/guumaster/hostctl")
@@ -1204,17 +1193,5 @@ want to use it with some other application, feel free, and let me know!")
 and easily enable/disable them. It’s useful for developers switching between
 environments.")
    (license license:expat)))
-
-
-
-;; cdcat
-
-;; zssh
-
-hostctl
-
-
-
-
 
 
