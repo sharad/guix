@@ -250,24 +250,24 @@
       "Quickly manages tmux sessions, windows and tmuxinator projects on Rofi")
     (license license:expat)))
 
-(define-public python-tinydb
-  (package
-   (name "python-tinydb")
-   (version "4.1.1")
-   (source
-    (origin
-     (method url-fetch)
-     (uri (pypi-uri "tinydb" version))
-     (sha256
-      (base32
-       "00m2cq2ra58ygdwd3f3sky9m6c01c8yg6sdfqs1dbrigp847738v"))))
-   (build-system python-build-system)
-   (home-page "https://github.com/msiemens/tinydb")
-   (synopsis
-    "TinyDB is a tiny, document oriented database optimized for your happiness :)")
-   (description
-    "TinyDB is a tiny, document oriented database optimized for your happiness :)")
-   (license license:expat)))
+;; (define-public python-tinydb
+;;   (package
+;;    (name "python-tinydb")
+;;    (version "4.1.1")
+;;    (source
+;;     (origin
+;;      (method url-fetch)
+;;      (uri (pypi-uri "tinydb" version))
+;;      (sha256
+;;       (base32
+;;        "00m2cq2ra58ygdwd3f3sky9m6c01c8yg6sdfqs1dbrigp847738v"))))
+;;    (build-system python-build-system)
+;;    (home-page "https://github.com/msiemens/tinydb")
+;;    (synopsis
+;;     "TinyDB is a tiny, document oriented database optimized for your happiness :)")
+;;    (description
+;;     "TinyDB is a tiny, document oriented database optimized for your happiness :)")
+;;    (license license:expat)))
 
 
 (define-public python-attnmgr
