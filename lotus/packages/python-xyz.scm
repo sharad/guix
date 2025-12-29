@@ -24,6 +24,7 @@
   #:use-module (gnu packages python-web)
   #:use-module (gnu packages python-build)
   #:use-module (gnu packages python-crypto)
+  #:use-module (gnu packages databases)
   #:use-module (gnu packages protobuf))
 
 (define-public python-colorama-043
