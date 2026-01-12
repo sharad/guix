@@ -43,6 +43,7 @@
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages dbm)
   #:use-module (gnu packages onc-rpc)
+  #:use-module (gnu packages cups)
   #:use-module (gnu packages perl)
   #:use-module (gnu packages)
   #:use-module (gnu packages bootstrap)
@@ -923,52 +924,7 @@ want to use it with some other application, feel free, and let me know!")
          (string-append
           "https://github.com/LightTable/LightTable/releases/download/" version
           "/lighttable-" version "-linux.tar.gz"))
-        (sha256
-         (base32 hash)))))
-    (build-system chromium-binary-build-system)
-    (arguments
-     (list #:validate-runpath? #f
-           #:substitutable? #f
-           #:wrapper-plan
-           #~'(("opt/lighttable/LightTable" (("out" "/opt/lighttable"))))
-           #:phases
-           #~(modify-phases %standard-phases
-               (replace 'unpack
-                 (lambda* (#:key source #:allow-other-keys)
-                   (mkdir-p "opt/lighttable")
-                   (invoke "tar" "-xvf" source "--strip-components=1" "-C" "opt/lighttable")))
-               (add-before 'install-wrapper 'install-entrypoint
-                 (lambda _
-                   (let* ((bin (string-append #$output "/bin")))
-                     (delete-file (string-append #$output "/environment-variables"))
-                     (mkdir-p bin)
-                     (symlink (string-append #$output "/opt/lighttable/LightTable")
-                              (string-append bin "/LightTable")))))
-               (add-after 'install-entrypoint 'install-resources
-                 (lambda _
-                   (let* ((icons (string-append #$output "/share/icons/hicolor/512x512/apps"))
-                          (icon.png (string-append #$output
-                                                   "/opt/resources/app/"
-                                                   "core/img/lticon.png"))
-                          (apps (string-append #$output "/share/applications")))
-                     (mkdir-p icons)
-                     (symlink icon.png
-                              (string-append icons "/lighttable.png"))
-                     (mkdir-p apps)
-                     (make-desktop-entry-file (string-append apps "/" #$name ".desktop")
-                                              #:name "LightTable"
-                                              #:generic-name "IDE"
-                                              #:exec (string-append #$output "/bin/lighttable --ozone-platform-hint=auto")
-                                              #:icon "lighttable"
-                                              #:type "Application"
-                                              #:actions '("new-empty-window")
-                                              #:keywords '("ide" "editor")
-                                              #:categories '("Development" "IDE")
-                                              #:startup-notify #t
-                                              #:startup-w-m-class "LightTable"
-                                              #:comment
-                                              '(("en" "The next generation code editor.")
-                                                (#f "The next generation code editor.")))))))))
+        (sha256 (base32 hash)))))
     (supported-systems '("armhf-linux" "aarch64-linux" "x86_64-linux"))
     (native-inputs
      (list tar))
@@ -976,7 +932,72 @@ want to use it with some other application, feel free, and let me know!")
      (list gdk-pixbuf
            gtk+-2
            gconf
-           nss))
+           nss
+           glibc
+           (list gcc "lib")
+           libxdamage
+           libxcomposite
+           libxcursor
+           cups-minimal
+           libxrandr
+           alsa-lib
+           dbus
+           eudev))
+    (build-system patchelf:patchelf-build-system)
+    (arguments `(#:input-lib-mapping '(("out" "lib" "")
+                                       ("nss" "lib/nss"))
+                #:phases            (modify-phases %standard-phases
+                                      ;; (add-after
+                                      ;;     'unpack 'changedir
+                                      ;;   (lambda* (#:key inputs outputs #:allow-other-keys)
+                                      ;;     (chdir "..")
+                                      ;;     (let ((cwd (getcwd)))
+                                      ;;       (begin
+                                      ;;         (let* ((parent (getcwd))
+                                      ;;                (source (string-append (getcwd) "/unpack"))
+                                      ;;                (files (directory-list-files parent)))
+                                      ;;           (for-each (lambda (entry)
+                                      ;;                       (let ((src (string-append parent "/" entry))
+                                      ;;                             (trg (string-append source "/" entry)))
+                                      ;;                         (mkdir-p (dirname trg))
+                                      ;;                         (rename-file src trg)))
+                                      ;;                     files)))
+                                      ;;       (begin
+                                      ;;         (delete-file (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
+                                      ;;         (if #f
+                                      ;;          (symlink "../../lib64/kde4/kcm_adobe_flash_player.so"
+                                      ;;                   (string-append cwd "/unpack/" "usr/lib/kde4/kcm_adobe_flash_player.so"))
+                                      ;;          (delete-file (string-append cwd "/unpack/" "usr/lib64/kde4/kcm_adobe_flash_player.so"))))
+                                      ;;       (begin
+                                      ;;         (begin
+                                      ;;           (delete-file (string-append cwd "/unpack/" "usr/bin/flash-player-properties"))
+                                      ;;           ;; (delete-file (string-append cwd "/unpack/" "usr/bin"))
+                                      ;;           (for-each (lambda (path)
+                                      ;;                       (if (access? (string-append cwd "/unpack/usr/" path) F_OK)
+                                      ;;                           (copy-recursively (string-append cwd "/unpack/usr/" path) (string-append cwd "/source/" path))
+                                      ;;                           (format #t "~a not exists.~%" (string-append cwd "/unpack/usr/" path))))
+                                      ;;                     (list "lib64"
+                                      ;;                           "share"
+                                      ;;                           ;; "bin"
+                                      ;;                           "lib")))
+                                      ;;         (begin
+                                      ;;           (mkdir-p (string-append cwd "/source/share/patchelf-adobe-flashplugin"))
+                                      ;;           (mkdir-p (string-append cwd "/source/lib/adobe-flashplugin"))
+                                      ;;           (copy-recursively (string-append cwd "/unpack/" "LGPL") (string-append cwd "/source/share/patchelf-adobe-flashplugin/LGPL"))
+                                      ;;           (copy-file (string-append cwd "/unpack/" "readme.txt")  (string-append cwd "/source/share/patchelf-adobe-flashplugin/readme.txt"))
+                                      ;;           (copy-file (string-append cwd "/unpack/" "license.pdf") (string-append cwd "/source/share/patchelf-adobe-flashplugin/license.pdf"))
+                                      ;;           (mkdir-p   (string-append cwd "/source/lib"))
+                                      ;;           (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/libflashplayer.so"))
+                                      ;;           (copy-file (string-append cwd "/unpack/" "libflashplayer.so") (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))
+                                      ;;         (begin
+                                      ;;           (for-each (lambda (path)
+                                      ;;                       (let* ((stat (lstat path)))
+                                      ;;                         (chmod path (logior #o111 (stat:perms stat)))))
+                                      ;;                     (list (string-append cwd "/source/lib/libflashplayer.so")
+                                      ;;                           (string-append cwd "/source/lib/adobe-flashplugin/libflashplayer.so")))))
+                                      ;;       (chdir (string-append cwd "/source"))
+                                      ;;       #t)))
+                                      )))
     (home-page "https://lighttable.com/")
     (synopsis "Next-generation code editor")
     (description "LightTable is a next-generation code editor that connects you to your code with real-time feedback.")
@@ -1629,3 +1650,4 @@ compressed format}.")
     (description "gocatcli gives the ability to navigate, explore and find your files that are stored on external media when those are not connected.")
     (license #f)))
 
+lighttable
