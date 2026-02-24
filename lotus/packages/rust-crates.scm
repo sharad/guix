@@ -25066,7 +25066,7 @@
 
 (define rust-wasm-bindgen-macro-support-0.2.111
   (crate-source "wasm-bindgen-macro-support" "0.2.111"
-                "0w8mc8yzs8kjlbmnjiyd3kfzz2sqy4pkkdwqgqpga3ynq9lykwna"))
+                "1bq2j60bajjf4ldsbflgsc0izwc8r5pyjmslyvah6k8ia047cr1c"))
 
 (define rust-wasm-bindgen-macro-support-0.2.100
   (crate-source "wasm-bindgen-macro-support" "0.2.100"
