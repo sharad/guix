@@ -24913,7 +24913,7 @@
 
 (define rust-wasm-bindgen-0.2.111
   (crate-source "wasm-bindgen" "0.2.111"
-                "1vjp6mhzfrfi3dbyyz3k68y75kvz7q5l1i5fh9wqpj2lwgyd1mq5"))
+                "1b6qxm8wps17izn08b9xhiz1swzx38mpj5zq4iw5nbv76laxy6pc"))
 
 (define rust-wasm-bindgen-0.2.100
   (crate-source "wasm-bindgen" "0.2.100"
