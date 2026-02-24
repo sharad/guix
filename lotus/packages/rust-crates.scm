@@ -27783,7 +27783,7 @@
 (define-cargo-inputs lookup-cargo-inputs
                      (xyz => (list rust-adler2-2.0.1
                               rust-aho-corasick-1.1.4
-                              rust-android_system_properties-0.1.5
+                              rust-android-system-properties-0.1.5
                               rust-anstream-0.6.21
                               rust-anstyle-1.0.13
                               rust-anstyle-parse-0.2.7
@@ -27928,6 +27928,6 @@
                               rust-windows_x86_64_gnullvm-0.53.1
                               rust-windows_x86_64_msvc-0.52.6
                               rust-windows_x86_64_msvc-0.53.1
-                              rust-zeroize-1.8.2)
-                      ))
+                              rust-zeroize-1.8.2)))
+                      
 

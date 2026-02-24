@@ -1680,8 +1680,8 @@ unavailable."
    (build-system cargo-build-system)
    (arguments
     (list ;; #:skip-build? #t
-          #:cargo-package-crates ''()
-          ;; #:cargo-build-flags '("--release" "--all-targets")
+          ;; #:cargo-package-crates ''()
+          #:cargo-build-flags '("--release")
           #:tests? #f))
    (inputs (lotus-cargo-inputs 'xyz))
    (home-page "https://github.com/sharad/rust-usrhttpd")
