@@ -25022,7 +25022,7 @@
 
 (define rust-wasm-bindgen-macro-0.2.111
   (crate-source "wasm-bindgen-macro" "0.2.111"
-                "03zc4705rxhwvra39jyzdnrg7cgl8gw1djvlnrsly7ljp9qrp0sm"))
+                "1cdk8sjmzzsvlzpz8pv9aj4m8l0l16ibklnlmriidch8ghqkirhr"))
 
 (define rust-wasm-bindgen-macro-0.2.100
   (crate-source "wasm-bindgen-macro" "0.2.100"
