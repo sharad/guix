@@ -25110,7 +25110,7 @@
 
 (define rust-wasm-bindgen-shared-0.2.111
   (crate-source "wasm-bindgen-shared" "0.2.111"
-                "0c3v3kknndnflykrkdss473sij6w7jak8mj90ya83sj6vzfg0q88"))
+                "0hfa42772ycq8b180w6k7ax8jn246r50pc4y6fiwyxv1w97wvvk0"))
 
 (define rust-wasm-bindgen-shared-0.2.100
   (crate-source "wasm-bindgen-shared" "0.2.100"
