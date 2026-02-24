@@ -1678,11 +1678,11 @@ unavailable."
      (sha256
       (base32 "0rkg6x9sanf7mvqx4q0m1hw860hxbyx29i88wci8j8rmm4yc0hzx"))))
    (build-system cargo-build-system)
-   (arguments
-    (list ;; #:skip-build? #t
-          ;; #:cargo-package-crates ''()
-          #:cargo-build-flags '("--release")
-          #:tests? #f))
+   ;; (arguments
+   ;;  (list ;; #:skip-build? #t
+   ;;        ;; #:cargo-package-crates ''()
+   ;;        #:cargo-build-flags '("--release")
+   ;;        #:tests? #f))
    (inputs (lotus-cargo-inputs 'xyz))
    (home-page "https://github.com/sharad/rust-usrhttpd")
    (synopsis "Small Rust .htaccess web server")
