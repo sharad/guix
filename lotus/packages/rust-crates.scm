@@ -24911,6 +24911,10 @@
   (crate-source "wasix" "0.12.21"
                 "0v9wb03ddbnas75005l2d63bdqy9mclds00b1qbw385wkgpv9yy1"))
 
+(define rust-wasm-bindgen-0.2.111
+  (crate-source "wasm-bindgen" "0.2.111"
+                "1vjp6mhzfrfi3dbyyz3k68y75kvz7q5l1i5fh9wqpj2lwgyd1mq5"))
+
 (define rust-wasm-bindgen-0.2.100
   (crate-source "wasm-bindgen" "0.2.100"
                 "1x8ymcm6yi3i1rwj78myl1agqv2m86i648myy3lc97s9swlqkp0y"))
@@ -25016,6 +25020,10 @@
   (crate-source "wasm-bindgen-futures" "0.4.58"
                 "0vqywn9df5i6mms3sw47v3kj7rzx8ryghqq0xb4jk05fs1zyg9kh"))
 
+(define rust-wasm-bindgen-macro-0.2.111
+  (crate-source "wasm-bindgen-macro" "0.2.111"
+                "03zc4705rxhwvra39jyzdnrg7cgl8gw1djvlnrsly7ljp9qrp0sm"))
+
 (define rust-wasm-bindgen-macro-0.2.100
   (crate-source "wasm-bindgen-macro" "0.2.100"
                 "01xls2dvzh38yj17jgrbiib1d3nyad7k2yw9s0mpklwys333zrkz"))
@@ -25056,6 +25064,10 @@
   (crate-source "wasm-bindgen-macro" "0.2.99"
                 "1znlcrk5bvisr3vscwlqkdby959n3sb367zgdzpjwjd7v4giiiic"))
 
+(define rust-wasm-bindgen-macro-support-0.2.111
+  (crate-source "wasm-bindgen-macro-support" "0.2.111"
+                "0w8mc8yzs8kjlbmnjiyd3kfzz2sqy4pkkdwqgqpga3ynq9lykwna"))
+
 (define rust-wasm-bindgen-macro-support-0.2.100
   (crate-source "wasm-bindgen-macro-support" "0.2.100"
                 "1plm8dh20jg2id0320pbmrlsv6cazfv6b6907z19ys4z1jj7xs4a"))
@@ -25095,6 +25107,10 @@
 (define rust-wasm-bindgen-macro-support-0.2.99
   (crate-source "wasm-bindgen-macro-support" "0.2.99"
                 "1hihsgyg0kf46kjhgfv8x5g9x0q1d0aizj6n7s84ag1xfrdskmrh"))
+
+(define rust-wasm-bindgen-shared-0.2.111
+  (crate-source "wasm-bindgen-shared" "0.2.111"
+                "0c3v3kknndnflykrkdss473sij6w7jak8mj90ya83sj6vzfg0q88"))
 
 (define rust-wasm-bindgen-shared-0.2.100
   (crate-source "wasm-bindgen-shared" "0.2.100"
