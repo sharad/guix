@@ -32,6 +32,7 @@
   #:use-module (guix build-system copy)
   #:use-module (guix build-system meson)
   #:use-module (guix build-system go)
+  #:use-module (guix build-system cargo)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (guix gexp)
   #:use-module (guix utils)
@@ -62,6 +63,7 @@
   #:use-module (gnu packages glib)
   #:use-module (gnu packages xorg)
   #:use-module (gnu packages gtk)
+  #:use-module (guix build-system cargo)
   #:use-module (gnu packages pulseaudio)
   #:use-module (gnu packages xiph)
   #:use-module (gnu packages libevent)
@@ -1651,4 +1653,32 @@ compressed format}.")
     (description "gocatcli gives the ability to navigate, explore and find your files that are stored on external media when those are not connected.")
     (license #f)))
 
-lighttable
+
+
+(define-public rust-usrhttpd
+  (package
+   (name "rust-usrhttpd")
+   (version "v0.1.0")
+   (source
+    (origin
+     (method git-fetch)
+     (uri (git-reference
+           (url "https://github.com/sharad/rust-usrhttpd")
+           (commit version)))
+     (file-name (git-file-name name version))
+     (sha256
+      (base32 "0076r381ywqhd4raibwlsvmv3lf8914gnbqkwrvxq8f4ims8lxlq"))))
+   (build-system cargo-build-system)
+   (arguments
+    `(#:cargo-build-flags '("--release" "--all-targets")
+      #:tests? #f
+      #:cargo-vendor? #t))
+   ;; (arguments
+   ;;  `(#:cargo-build-flags '("--release")))
+   (home-page "https://github.com/sharad/rust-usrhttpd")
+   (synopsis "Small Rust .htaccess web server")
+   (description
+    "Modular Rust HTTP server with .htaccess support, reverse proxy, TLS, and directory indexing.")
+   (license license:gpl3+)))
+
+rust-usrhttpd
