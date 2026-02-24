@@ -11654,6 +11654,10 @@
   (crate-source "js-sys" "0.3.85"
                 "1csmb42fxjmzjdgc790bgw77sf1cb9ydm5rdsnh5qj4miszjx54c"))
 
+(define rust-js-sys-0.3.88
+  (crate-source "js-sys" "0.3.88"
+                "01jm61x86psd4n3qi8y6d7i556g14dg2lgsi9id48453843cpspl"))
+
 (define rust-json-0.12.4
   (crate-source "json" "0.12.4"
                 "1z9vybaaz3xq95bwmyln2ijmn4dmzj61xlz06jsc9dnzmxg2i3h7"))
@@ -21948,6 +21952,10 @@
   (crate-source "syn" "2.0.116"
                 "1jv9pk48qmhn6yrdfl3lngy5i74wg7gcx13gfhvm4s8q0p3j9x1x"))
 
+(define rust-syn-2.0.117
+  (crate-source "syn" "2.0.117"
+                "16cv7c0wbn8amxc54n4w15kxlx5ypdmla8s0gxr2l7bv7s0bhrg6"))
+
 (define rust-syn-2.0.28
   (crate-source "syn" "2.0.28"
                 "0rqm6lnxdgg5blva19l2sjr7iwj2r5dwb3cx32r4iqzmndsijdh4"))
@@ -27853,28 +27861,28 @@
                                    rust-iana-time-zone-0.1.65
                                    rust-iana-time-zone-haiku-0.1.2
                                    rust-indexmap-2.13.0
-                                   rust-is_terminal_polyfill-1.70.2
+                                   rust-is-terminal-polyfill-1.70.2
                                    rust-itoa-1.0.17
                                    rust-js-sys-0.3.88
                                    rust-libc-0.2.182
-                                   rust-lock_api-0.4.14
+                                   rust-lock-api-0.4.14
                                    rust-log-0.4.29
                                    rust-memchr-2.8.0
                                    rust-mime-0.3.17
-                                   rust-mime_guess-2.0.5
-                                   rust-miniz_oxide-0.8.9
+                                   rust-mime-guess-2.0.5
+                                   rust-miniz-oxide-0.8.9
                                    rust-mio-1.1.1
                                    rust-num-traits-0.2.19
-                                   rust-once_cell-1.21.3
-                                   rust-once_cell_polyfill-1.70.2
-                                   rust-parking_lot-0.12.5
-                                   rust-parking_lot_core-0.9.12
+                                   rust-once-cell-1.21.3
+                                   rust-once-cell-polyfill-1.70.2
+                                   rust-parking-lot-0.12.5
+                                   rust-parking-lot-core-0.9.12
                                    rust-pin-project-lite-0.2.16
                                    rust-pin-utils-0.1.0
                                    rust-proc-macro2-1.0.106
                                    rust-pulldown-cmark-0.9.6
                                    rust-quote-1.0.44
-                                   rust-redox_syscall-0.5.18
+                                   rust-redox-syscall-0.5.18
                                    rust-regex-1.12.3
                                    rust-regex-automata-0.4.14
                                    rust-regex-syntax-0.8.9
@@ -27908,9 +27916,9 @@
                                    rust-unicode-ident-1.0.24
                                    rust-unicode-width-0.2.2
                                    rust-untrusted-0.9.0
-                                   rust-usrhttpd-0.1.0
+                                   ;; rust-usrhttpd-0.1.0
                                    rust-utf8parse-0.2.2
-                                   rust-version_check-0.9.5
+                                   rust-version-check-0.9.5
                                    rust-want-0.3.1
                                    rust-wasi-0.11.1+wasi-snapshot-preview1
                                    rust-wasm-bindgen-0.2.111
@@ -27928,22 +27936,22 @@
                                    rust-windows-sys-0.61.2
                                    rust-windows-targets-0.52.6
                                    rust-windows-targets-0.53.5
-                                   rust-windows_aarch64_gnullvm-0.52.6
-                                   rust-windows_aarch64_gnullvm-0.53.1
-                                   rust-windows_aarch64_msvc-0.52.6
-                                   rust-windows_aarch64_msvc-0.53.1
-                                   rust-windows_i686_gnu-0.52.6
-                                   rust-windows_i686_gnu-0.53.1
-                                   rust-windows_i686_gnullvm-0.52.6
-                                   rust-windows_i686_gnullvm-0.53.1
-                                   rust-windows_i686_msvc-0.52.6
-                                   rust-windows_i686_msvc-0.53.1
-                                   rust-windows_x86_64_gnu-0.52.6
-                                   rust-windows_x86_64_gnu-0.53.1
-                                   rust-windows_x86_64_gnullvm-0.52.6
-                                   rust-windows_x86_64_gnullvm-0.53.1
-                                   rust-windows_x86_64_msvc-0.52.6
-                                   rust-windows_x86_64_msvc-0.53.1
+                                   rust-windows-aarch64-gnullvm-0.52.6
+                                   rust-windows-aarch64-gnullvm-0.53.1
+                                   rust-windows-aarch64-msvc-0.52.6
+                                   rust-windows-aarch64-msvc-0.53.1
+                                   rust-windows-i686-gnu-0.52.6
+                                   rust-windows-i686-gnu-0.53.1
+                                   rust-windows-i686-gnullvm-0.52.6
+                                   rust-windows-i686-gnullvm-0.53.1
+                                   rust-windows-i686-msvc-0.52.6
+                                   rust-windows-i686-msvc-0.53.1
+                                   rust-windows-x86-64-gnu-0.52.6
+                                   rust-windows-x86-64-gnu-0.53.1
+                                   rust-windows-x86-64-gnullvm-0.52.6
+                                   rust-windows-x86-64-gnullvm-0.53.1
+                                   rust-windows-x86-64-msvc-0.52.6
+                                   rust-windows-x86-64-msvc-0.53.1
                                    rust-zeroize-1.8.2)))
 
 
