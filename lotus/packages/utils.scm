@@ -95,6 +95,7 @@
   #:use-module (gnu packages golang-compression)
   #:use-module (gnu packages golang-check)
   #:use-module (gnu packages bash)
+  #:use-module (gnu packages rust-crates)
   #:use-module (gnu packages shells))
 
 ;; https://issues.guix.gnu.org/issue/35619
@@ -1654,8 +1655,16 @@ compressed format}.")
     (license #f)))
 
 
+(define* (lotus-cargo-inputs name #:key (module '(lotus packages rust-crates)))
+  "Lookup Cargo inputs for NAME defined in MODULE, return an empty list if
+unavailable."
+  (let ((lookup (module-ref (resolve-interface module) 'lookup-cargo-inputs)))
+    (or (lookup name)
+        (begin
+          (warning (G_ "no Cargo inputs available for '~a'~%") name)
+          '()))))
 
-(define-public rust-usrhttpd
+(define-public rust-usrhttpd-v0.1.0
   (package
    (name "rust-usrhttpd")
    (version "v0.1.0")
@@ -1667,18 +1676,21 @@ compressed format}.")
            (commit version)))
      (file-name (git-file-name name version))
      (sha256
-      (base32 "0076r381ywqhd4raibwlsvmv3lf8914gnbqkwrvxq8f4ims8lxlq"))))
+      (base32 "0rkg6x9sanf7mvqx4q0m1hw860hxbyx29i88wci8j8rmm4yc0hzx"))))
    (build-system cargo-build-system)
    (arguments
-    `(#:cargo-build-flags '("--release" "--all-targets")
-      #:tests? #f
-      #:cargo-vendor? #t))
-   ;; (arguments
-   ;;  `(#:cargo-build-flags '("--release")))
+    (list ;; #:skip-build? #t
+          #:cargo-package-crates ''()
+          ;; #:cargo-build-flags '("--release" "--all-targets")
+          #:tests? #f))
+   (inputs (lotus-cargo-inputs 'xyz))
    (home-page "https://github.com/sharad/rust-usrhttpd")
    (synopsis "Small Rust .htaccess web server")
    (description
     "Modular Rust HTTP server with .htaccess support, reverse proxy, TLS, and directory indexing.")
    (license license:gpl3+)))
 
-rust-usrhttpd
+rust-usrhttpd-v0.1.0
+
+
+
