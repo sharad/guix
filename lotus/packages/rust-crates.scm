@@ -11656,7 +11656,7 @@
 
 (define rust-js-sys-0.3.88
   (crate-source "js-sys" "0.3.88"
-                "01jm61x86psd4n3qi8y6d7i556g14dg2lgsi9id48453843cpspl"))
+                "0gaizs0fw0win4pjdd685i11i6r8mw0zyfjvqbwnca6jwgrhkry7"))
 
 (define rust-json-0.12.4
   (crate-source "json" "0.12.4"
