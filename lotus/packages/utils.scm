@@ -1676,14 +1676,9 @@ unavailable."
            (commit version)))
      (file-name (git-file-name name version))
      (sha256
-      (base32 "0rkg6x9sanf7mvqx4q0m1hw860hxbyx29i88wci8j8rmm4yc0hzx"))))
+      (base32 "0076r381ywqhd4raibwlsvmv3lf8914gnbqkwrvxq8f4ims8lxlq"))))
    (build-system cargo-build-system)
-   ;; (arguments
-   ;;  (list ;; #:skip-build? #t
-   ;;        ;; #:cargo-package-crates ''()
-   ;;        #:cargo-build-flags '("--release")
-   ;;        #:tests? #f))
-   (inputs (lotus-cargo-inputs 'xyz))
+   (inputs (lotus-cargo-inputs 'rust-usrhttpd-v0.1.0))
    (home-page "https://github.com/sharad/rust-usrhttpd")
    (synopsis "Small Rust .htaccess web server")
    (description
