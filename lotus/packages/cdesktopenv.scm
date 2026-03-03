@@ -70,7 +70,7 @@
        ("libtool"  ,libtool)
        ("pkg-config" ,pkg-config)))
     (inputs
-     `(("gss"      ,gss)
+     `(;; ("gss"      ,gss)
        ("mit-krb5" ,mit-krb5)))
     (build-system gnu-build-system)))
 
