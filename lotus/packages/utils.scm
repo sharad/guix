@@ -1676,7 +1676,7 @@ unavailable."
            (commit version)))
      (file-name (git-file-name name version))
      (sha256
-      (base32 "1l8diakj2f53kv979s36zfmna7n77gymv4yxgw3wdkqlx01rn7kk"))))
+      (base32 "09m1szbjc0g887kydhk44dpa2dgmcfgad44wyph121fkzf2lbykr"))))
    (build-system cargo-build-system)
    (inputs (lotus-cargo-inputs 'rust-usrhttpd-v0.1.0))
    (home-page "https://github.com/sharad/rust-usrhttpd")
