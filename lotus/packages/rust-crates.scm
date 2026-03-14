@@ -27860,6 +27860,7 @@
                                  rust-futures-sink-0.3.32
                                  rust-futures-task-0.3.32
                                  rust-futures-util-0.3.32
+                                 rust-futures-macro-0.3.32
                                  rust-generic-array-0.14.7
                                  rust-getopts-0.2.24
                                  rust-getrandom-0.2.17
