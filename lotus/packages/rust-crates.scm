@@ -27927,6 +27927,7 @@
                                  rust-tower-service-0.3.3
                                  rust-tracing-0.1.44
                                  rust-tracing-core-0.1.36
+                                 rust-tracing-subscriber-0.3.22
                                  rust-try-lock-0.2.5
                                  rust-typenum-1.19.0
                                  rust-urlencoding-2.1.3

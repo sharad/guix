@@ -1677,7 +1677,8 @@ unavailable."
      (file-name (git-file-name name version))
      (sha256
       ;; (base32 "0000000000000000000000000000000000000000000000000000")
-      (base32 "0v84aplfj7yw4kax0gvl2aiaql7i0rz473pffya1fcqldykx215d"))))
+      (base32 "1fzh9vjqxffvnrlqpc4j7ihifpm6qvww0ww258zxjbs75mn533kl")
+      )))
    (build-system cargo-build-system)
    (inputs (append (lotus-cargo-inputs 'rust-usrhttpd-v0.1.0)
                    (list python-3)))
@@ -1686,11 +1687,5 @@ unavailable."
    (description
     "Modular Rust HTTP server with .htaccess support, reverse proxy, TLS, and directory indexing.")
    (license license:gpl3+)))
-
-
-
-
-
-rust-usrhttpd-v0.1.0
 
 
