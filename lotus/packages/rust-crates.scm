@@ -27928,6 +27928,7 @@
                                  rust-tracing-core-0.1.36
                                  rust-try-lock-0.2.5
                                  rust-typenum-1.19.0
+                                 rust-urlencoding-2.1.3
                                  rust-unicase-2.9.0
                                  rust-unicode-ident-1.0.24
                                  rust-unicode-width-0.2.2
