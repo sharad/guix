@@ -27922,6 +27922,7 @@
                                  rust-strsim-0.11.1
                                  rust-subtle-2.6.1
                                  rust-syn-2.0.117
+                                 rust-thread-local-1.1.9
                                  rust-tokio-1.49.0
                                  rust-tokio-macros-2.6.0
                                  rust-tokio-rustls-0.25.0
