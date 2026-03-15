@@ -27930,6 +27930,7 @@
                                  rust-tower-service-0.3.3
                                  rust-tracing-0.1.44
                                  rust-tracing-core-0.1.36
+                                 rust-tracing-log-0.2.0
                                  rust-tracing-attributes-0.1.31
                                  rust-tracing-subscriber-0.3.22
                                  rust-try-lock-0.2.5
