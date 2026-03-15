@@ -27942,6 +27942,7 @@
                                  rust-unicode-width-0.2.2
                                  rust-untrusted-0.9.0
                                  rust-utf8parse-0.2.2
+                                 rust-valuable-0.1.1
                                  rust-version-check-0.9.5
                                  rust-want-0.3.1
                                  rust-wasi-0.11.1+wasi-snapshot-preview1
