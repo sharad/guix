@@ -27889,6 +27889,7 @@
                                  rust-mime-guess-2.0.5
                                  rust-miniz-oxide-0.8.9
                                  rust-mio-1.1.1
+                                 rust-nu-ansi-term-0.50.3
                                  rust-num-traits-0.2.19
                                  rust-once-cell-1.21.3
                                  rust-once-cell-polyfill-1.70.2
