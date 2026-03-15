@@ -27881,6 +27881,7 @@
                                  rust-is-terminal-polyfill-1.70.2
                                  rust-itoa-1.0.17
                                  rust-js-sys-0.3.88
+                                 rust-lazy-static-1.5.0
                                  rust-libc-0.2.182
                                  rust-lock-api-0.4.14
                                  rust-log-0.4.29
