@@ -1688,4 +1688,4 @@ unavailable."
     "Modular Rust HTTP server with .htaccess support, reverse proxy, TLS, and directory indexing.")
    (license license:gpl3+)))
 
-
+rust-usrhttpd-v0.1.0

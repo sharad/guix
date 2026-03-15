@@ -27912,6 +27912,7 @@
                                  rust-rustversion-1.0.22
                                  rust-scopeguard-1.2.0
                                  rust-sha1-0.10.6
+                                 rust-sharded-slab-0.1.7
                                  rust-shlex-1.3.0
                                  rust-signal-hook-registry-1.4.8
                                  rust-simd-adler32-0.3.8
