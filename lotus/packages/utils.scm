@@ -1689,4 +1689,4 @@ unavailable."
    (license license:gpl3+)))
 
 
-rust-usrhttpd-v0.1.0
+
