@@ -27851,11 +27851,14 @@
                                  rust-crypto-common-0.1.7
                                  rust-digest-0.10.7
                                  rust-dirs-5.0.1
+                                 rust-dirs-sys-0.4.1
+                                 ;; rust-dirs-sys-0.5.0
                                  rust-equivalent-1.0.2
                                  rust-errno-0.3.14
                                  rust-find-msvc-tools-0.1.9
                                  rust-flate2-1.1.9
                                  rust-fnv-1.0.7
+                                 rust-form-urlencoded-1.2.2
                                  rust-futures-channel-0.3.32
                                  rust-futures-core-0.3.32
                                  rust-futures-sink-0.3.32
@@ -27878,12 +27881,16 @@
                                  rust-hyper-util-0.1.20
                                  rust-iana-time-zone-0.1.65
                                  rust-iana-time-zone-haiku-0.1.2
+                                 rust-idna-1.1.0
+                                 rust-idna-adapter-1.1.0
+                                 rust-idna-mapping-1.0.0
                                  rust-indexmap-2.13.0
                                  rust-is-terminal-polyfill-1.70.2
                                  rust-itoa-1.0.17
                                  rust-js-sys-0.3.88
                                  rust-lazy-static-1.5.0
                                  rust-libc-0.2.182
+                                 rust-libredox-0.1.9
                                  rust-lock-api-0.4.14
                                  rust-log-0.4.29
                                  rust-memchr-2.8.0
@@ -27895,14 +27902,18 @@
                                  rust-num-traits-0.2.19
                                  rust-once-cell-1.21.3
                                  rust-once-cell-polyfill-1.70.2
+                                 rust-option-ext-0.2.0
                                  rust-parking-lot-0.12.5
                                  rust-parking-lot-core-0.9.12
+                                 rust-percent-encoding-2.3.2
                                  rust-pin-project-lite-0.2.16
                                  rust-pin-utils-0.1.0
                                  rust-proc-macro2-1.0.106
                                  rust-pulldown-cmark-0.9.6
                                  rust-quote-1.0.44
                                  rust-redox-syscall-0.5.18
+                                 ;; rust-redox-users-0.5.2
+                                 rust-redox-users-0.4.6
                                  rust-regex-1.12.3
                                  rust-regex-automata-0.4.14
                                  rust-regex-syntax-0.8.9
@@ -27912,7 +27923,12 @@
                                  rust-rustls-pki-types-1.14.0
                                  rust-rustls-webpki-0.102.8
                                  rust-rustversion-1.0.22
+                                 rust-ryu-1.0.23
                                  rust-serde-1.0.228
+                                 rust-serde-core-1.0.228
+                                 rust-serde-derive-1.0.228
+                                 rust-serde-json-1.0.99
+                                 rust-serde-spanned-1.0.4
                                  rust-scopeguard-1.2.0
                                  rust-sha1-0.10.6
                                  rust-sharded-slab-0.1.7
@@ -27925,12 +27941,20 @@
                                  rust-strsim-0.11.1
                                  rust-subtle-2.6.1
                                  rust-syn-2.0.117
+                                 ;; rust-thiserror-2.0.17
+                                 rust-tinyvec-1.10.0
+                                 rust-tinyvec-macros-0.1.1
+                                 rust-thiserror-1.0.69
+                                 rust-thiserror-impl-1.0.69
                                  rust-thread-local-1.1.9
                                  rust-tokio-1.49.0
                                  rust-tokio-macros-2.6.0
                                  rust-tokio-rustls-0.25.0
                                  rust-tokio-util-0.7.18
                                  rust-toml-0.9.8
+                                 rust-toml-datetime-0.7.5+spec-1.1.0
+                                 rust-toml-parser-1.0.8+spec-1.1.0
+                                 rust-toml-writer-1.0.6+spec-1.1.0
                                  rust-tower-service-0.3.3
                                  rust-tracing-0.1.44
                                  rust-tracing-core-0.1.36
@@ -27941,9 +27965,13 @@
                                  rust-typenum-1.19.0
                                  rust-urlencoding-2.1.3
                                  rust-unicase-2.9.0
+                                 rust-unicode-bidi-0.3.18
                                  rust-unicode-ident-1.0.24
+                                 rust-unicode-joining-type-0.7.0
+                                 rust-unicode-normalization-0.1.25
                                  rust-unicode-width-0.2.2
                                  rust-untrusted-0.9.0
+                                 rust-url-2.5.8
                                  rust-utf8parse-0.2.2
                                  rust-valuable-0.1.1
                                  rust-version-check-0.9.5
@@ -27959,28 +27987,39 @@
                                  rust-windows-link-0.2.1
                                  rust-windows-result-0.4.1
                                  rust-windows-strings-0.5.1
+                                 rust-windows-sys-0.48.0
                                  rust-windows-sys-0.52.0
                                  rust-windows-sys-0.60.2
                                  rust-windows-sys-0.61.2
+                                 rust-windows-targets-0.48.1
                                  rust-windows-targets-0.52.6
                                  rust-windows-targets-0.53.5
+                                 rust-windows-aarch64-gnullvm-0.48.5
                                  rust-windows-aarch64-gnullvm-0.52.6
                                  rust-windows-aarch64-gnullvm-0.53.1
+                                 rust-windows-aarch64-msvc-0.48.5
                                  rust-windows-aarch64-msvc-0.52.6
                                  rust-windows-aarch64-msvc-0.53.1
+                                 rust-windows-i686-gnu-0.48.5
                                  rust-windows-i686-gnu-0.52.6
                                  rust-windows-i686-gnu-0.53.1
                                  rust-windows-i686-gnullvm-0.52.6
                                  rust-windows-i686-gnullvm-0.53.1
+                                 rust-windows-i686-msvc-0.48.5
                                  rust-windows-i686-msvc-0.52.6
                                  rust-windows-i686-msvc-0.53.1
+                                 rust-windows-x86-64-gnu-0.48.5
                                  rust-windows-x86-64-gnu-0.52.6
                                  rust-windows-x86-64-gnu-0.53.1
+                                 rust-windows-x86-64-gnullvm-0.48.5
                                  rust-windows-x86-64-gnullvm-0.52.6
                                  rust-windows-x86-64-gnullvm-0.53.1
+                                 rust-windows-x86-64-msvc-0.48.5
                                  rust-windows-x86-64-msvc-0.52.6
                                  rust-windows-x86-64-msvc-0.53.1
+                                 rust-winnow-0.7.13
                                  ;; rust-usrhttpd-0.1.0
+                                 rust-utf8-iter-1.0.4
                                  rust-zeroize-1.8.2)))
 
 

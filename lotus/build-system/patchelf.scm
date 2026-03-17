@@ -54,7 +54,7 @@
   ;; Build-side modules imported by default.
   `((lotus build patchelf-build-system)
     (lotus build patchelf-utils)
-    ,@%gnu-build-system-modules))
+    ,@%default-gnu-imported-modules))
 
 (define %default-modules
   ;; Modules in scope in the build-side environment.
@@ -184,7 +184,7 @@
                          (locale "en_US.utf8")
                          (system (%current-system))
                          (build (nix-system->gnu-triplet system))
-                         ;; (imported-modules %gnu-build-system-modules)
+                         ;; (imported-modules %default-gnu-imported-modules)
                          (imported-modules %patchelf-build-system-modules)
                          (modules %default-modules)
                          ;; (modules %patchelf-build-system-modules)
