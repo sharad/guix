@@ -27850,6 +27850,7 @@
                                  rust-crc32fast-1.5.0
                                  rust-crypto-common-0.1.7
                                  rust-digest-0.10.7
+                                 rust-dirs-5.0.1
                                  rust-equivalent-1.0.2
                                  rust-errno-0.3.14
                                  rust-find-msvc-tools-0.1.9
@@ -27911,6 +27912,7 @@
                                  rust-rustls-pki-types-1.14.0
                                  rust-rustls-webpki-0.102.8
                                  rust-rustversion-1.0.22
+                                 rust-serde-1.0.228
                                  rust-scopeguard-1.2.0
                                  rust-sha1-0.10.6
                                  rust-sharded-slab-0.1.7
@@ -27928,6 +27930,7 @@
                                  rust-tokio-macros-2.6.0
                                  rust-tokio-rustls-0.25.0
                                  rust-tokio-util-0.7.18
+                                 rust-toml-0.9.8
                                  rust-tower-service-0.3.3
                                  rust-tracing-0.1.44
                                  rust-tracing-core-0.1.36
