@@ -1676,8 +1676,7 @@ unavailable."
            (commit version)))
      (file-name (git-file-name name version))
      (sha256
-      ;; (base32 "0000000000000000000000000000000000000000000000000000")
-      (base32 "0cm5j26h1lk7xw5f1kc2x51lhkpzars3yas9szx75lpxpkbmm0dg")
+      (base32 "1pjbn01y97bpvgqsnxgkj4wq0p4321x3hdaj982hv7g5xxkavv5v")
       )))
    (build-system cargo-build-system)
    (inputs (append (lotus-cargo-inputs 'rust-usrhttpd-v0.1.0)
@@ -1688,4 +1687,4 @@ unavailable."
     "Modular Rust HTTP server with .htaccess support, reverse proxy, TLS, and directory indexing.")
    (license license:gpl3+)))
 
-rust-usrhttpd-v0.1.0
+
