@@ -3739,97 +3739,97 @@
 ;;; Aliases for codex workspace crates (see rust-sources.scm for workspace package)
 
 (define rust-codex-api-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-app-server-protocol-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-apply-patch-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-arg0-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-async-utils-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-client-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-common-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-core-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-execpolicy-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-experimental-api-macros-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-file-search-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-git-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-keyring-store-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-linux-sandbox-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-lmstudio-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-login-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-mcp-server-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-ollama-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-otel-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-protocol-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-rmcp-client-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-state-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-utils-absolute-path-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-utils-cache-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-utils-home-dir-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-utils-image-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-utils-json-to-toml-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-utils-pty-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-utils-readiness-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-utils-string-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codex-windows-sandbox-0.0.0.785c0c43
-  package:rust-codex-0.0.0.785c0c43)
+  package:rust-codex-0.120.0)
 
 (define rust-codspeed-2.10.0
   (crate-source "codspeed" "2.10.0"
