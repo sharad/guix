@@ -21083,7 +21083,7 @@
 
 (define rust-smithay-0.6.0.ede2707 package:rust-smithay-0.6.0.ede2707)
 
-(define rust-smithay-0.7.0.20d2dac package:rust-smithay-0.7.0.20d2dac)
+(define rust-smithay-0.7.0.ff5fa7d package:rust-smithay-0.7.0.ff5fa7d)
 
 (define rust-smithay-0.7.0.d743e1a
   ;; TODO REVIEW: Define standalone package if this is a workspace.
@@ -21098,7 +21098,7 @@
   (crate-source "smithay-client-toolkit" "0.18.1"
                 "0fpm2yfpsif7022w4xalxgn53y8w5dc8zkipcpbj1n1vmgpd6bwj"))
 
-(define rust-smithay-drm-extras-0.1.0.20d2dac package:rust-smithay-0.7.0.20d2dac)
+(define rust-smithay-drm-extras-0.1.0.ff5fa7d package:rust-smithay-0.7.0.ff5fa7d)
 
 (define rust-smithay-client-toolkit-0.15.4
   (crate-source "smithay-client-toolkit" "0.15.4"
