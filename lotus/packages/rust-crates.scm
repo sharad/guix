@@ -36,20 +36,6 @@
      (module-export! dst (list sym)))
    src))
 
-
-;;;
-;;; Cargo inputs.
-;;;
-
-;; TODO: Maintain this automatically too.
-(define-public mesa-cargo-inputs
-  `(("paste" ,rust-paste-1.0.15)
-    ("proc-macro2" ,rust-proc-macro2-1.0.94)
-    ("quote" ,rust-quote-1.0.40)
-    ("rustc-hash" ,rust-rustc-hash-2.1.1)
-    ("syn" ,rust-syn-2.0.100)
-    ("unicode-ident" ,rust-unicode-ident-1.0.18)))
-
 (define-cargo-inputs lookup-cargo-inputs
   (rust-usrhttpd-v0.1.0 => (list rust-adler2-2.0.1
                                  rust-aho-corasick-1.1.4
