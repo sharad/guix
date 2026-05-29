@@ -1676,7 +1676,7 @@ unavailable."
            (commit version)))
      (file-name (git-file-name name version))
      (sha256
-      (base32 "0jly2qz3y1s32p1c6gch470n1wczs4243hyfcs9h3xg1xxxvd3m5")
+      (base32 "0859sky9xqwfcisnjjl5cyaz61ih9gq57cn9y4y02a3cdjag2qpk")
       ;; (base32 "0000000000000000000000000000000000000000000000000000")
       )))
    (build-system cargo-build-system)
