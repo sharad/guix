@@ -128,8 +128,7 @@
                                  rust-pulldown-cmark-0.9.6
                                  rust-quote-1.0.44
                                  rust-redox-syscall-0.5.18
-                                 ;; rust-redox-users-0.5.2
-                                 rust-redox-users-0.4.6
+                                 rust-redox-users-0.5.2
                                  rust-regex-1.12.3
                                  rust-regex-automata-0.4.14
                                  rust-regex-syntax-0.8.9
@@ -159,12 +158,11 @@
                                  rust-strsim-0.11.1
                                  rust-subtle-2.6.1
                                  rust-syn-2.0.117
-                                 ;; rust-thiserror-2.0.17
+                                 rust-thiserror-2.0.17
+                                 rust-thiserror-impl-2.0.17
+                                 rust-thread-local-1.1.9
                                  rust-tinyvec-1.10.0
                                  rust-tinyvec-macros-0.1.1
-                                 rust-thiserror-1.0.69
-                                 rust-thiserror-impl-1.0.69
-                                 rust-thread-local-1.1.9
                                  rust-tokio-1.49.0
                                  rust-tokio-macros-2.6.0
                                  rust-tokio-rustls-0.25.0
